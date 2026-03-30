@@ -510,7 +510,6 @@ textarea.form-input{min-height:72px;resize:vertical;}
 <div class="toast" id="toast"></div>
 
 <script>
-window.addEventListener('load', function() {
 // ════════════════════════════════════════════════════
 //  FIREBASE CONFIG
 //  Paste your values from Firebase Console here:
@@ -526,14 +525,15 @@ const firebaseConfig = {
 };
 // ════════════════════════════════════════════════════
 
-// ── Firebase init — lazy so SDK scripts are guaranteed loaded first ──
+// ── Firebase init — fully lazy, runs only on first DB call ──
+let _app = null;
 let _fst = null;
 function _db() {
   if (_fst) return _fst;
+  if (!_app) _app = firebase.initializeApp(firebaseConfig);
   _fst = firebase.firestore();
   return _fst;
 }
-firebase.initializeApp(firebaseConfig);
 
 // ── Collection references — resolved lazily via _db() ──
 const COL = {
@@ -1167,7 +1167,6 @@ function showToast(msg){const t=document.getElementById('toast');t.textContent=m
 
 function buildStars(){const c=document.getElementById('loginStars');for(let i=0;i<80;i++){const s=document.createElement('div');s.className='star';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.animationDelay=Math.random()*4+'s';s.style.animationDuration=(2+Math.random()*3)+'s';s.style.width=s.style.height=(1+Math.random()*2)+'px';c.appendChild(s);}}
 buildStars();
-}); // end window.addEventListener('load')
 </script>
 </body>
 </html>
