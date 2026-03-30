@@ -510,6 +510,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
 <div class="toast" id="toast"></div>
 
 <script>
+window.addEventListener('load', function() {
 // ════════════════════════════════════════════════════
 //  FIREBASE CONFIG
 //  Paste your values from Firebase Console here:
@@ -803,7 +804,8 @@ async function handleRegister(){
   try{
     const snap=await COL.users().get();
     if(snap.docs.find(d=>d.data().name.toLowerCase()===name.toLowerCase())){showError('That name is already registered. Try signing in instead.');overlay(false);return;}
-    const userData={name,group,pin,isLeader:group==='Leader',ts:Date.now()};
+    const isPrivileged=group==='Leader'||group==='Adult';
+    const userData={name,group,pin,isLeader:isPrivileged,ts:Date.now()};
     const ref=await COL.users().add(userData);
     currentUser={id:ref.id,...userData};
     CACHE.users.push(currentUser);
@@ -1165,6 +1167,7 @@ function showToast(msg){const t=document.getElementById('toast');t.textContent=m
 
 function buildStars(){const c=document.getElementById('loginStars');for(let i=0;i<80;i++){const s=document.createElement('div');s.className='star';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.animationDelay=Math.random()*4+'s';s.style.animationDuration=(2+Math.random()*3)+'s';s.style.width=s.style.height=(1+Math.random()*2)+'px';c.appendChild(s);}}
 buildStars();
+}); // end window.addEventListener('load')
 </script>
 </body>
 </html>
