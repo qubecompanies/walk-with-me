@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Walk With Me — Level Creek Ward 2026</title>
+<!-- Firebase v10 compat SDK (no build tools needed) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sand:#e8dcc8;--sand-light:#f4ede0;--sand-dark:#c9b99a;
+  --navy:#1a3a5c;--navy-light:#2a5080;--navy-deep:#0f2540;
+  --teal:#2a7a6e;--teal-light:#3a9a8a;
+  --gold:#c8922a;--gold-light:#e8b050;--gold-pale:#f5e4c0;
+  --terracotta:#a84a2a;--sage:#6a8a5a;--sage-light:#8aaa7a;
+  --parchment:#f8f2e8;--ink:#1a1a0e;--ink-soft:#3a3a2e;
+  --spiritual:#2a5080;--physical:#5a7a2a;--intellectual:#7a4a20;--social:#6a2a6a;
+  --completed:#b0c4a0;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Crimson Pro',Georgia,serif;background:var(--sand-light);color:var(--ink);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 20% 80%,rgba(200,146,42,.07) 0%,transparent 50%),radial-gradient(ellipse at 80% 20%,rgba(42,122,110,.07) 0%,transparent 50%);pointer-events:none;z-index:0;}
+.screen{display:none;position:relative;z-index:1;min-height:100vh;}
+.screen.active{display:block;}
+/* LOGIN */
+#loginScreen{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:2rem;background:linear-gradient(160deg,#1a3a5c 0%,#0d2035 60%,#1a2a1a 100%);}
+#loginScreen.active{display:flex;}
+.login-stars{position:fixed;inset:0;pointer-events:none;overflow:hidden;}
+.star{position:absolute;background:white;border-radius:50%;animation:twinkle 3s ease-in-out infinite;}
+@keyframes twinkle{0%,100%{opacity:.3;transform:scale(1);}50%{opacity:1;transform:scale(1.5);}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.login-card{background:rgba(248,242,232,.97);border-radius:2px;padding:3rem 2.5rem;max-width:420px;width:100%;box-shadow:0 40px 80px rgba(0,0,0,.5),0 0 0 1px rgba(200,146,42,.3);text-align:center;position:relative;animation:fadeUp .6s ease both;}
+.login-card::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60px;height:3px;background:var(--gold);}
+.login-emblem{width:80px;height:80px;margin:0 auto 1.5rem;background:linear-gradient(135deg,var(--navy),var(--teal));border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(26,58,92,.3);}
+.login-emblem svg{width:44px;height:44px;}
+.login-title{font-family:'Cinzel',serif;font-size:1.6rem;color:var(--navy);letter-spacing:.05em;margin-bottom:.25rem;}
+.login-subtitle{font-size:.95rem;color:var(--ink-soft);font-style:italic;margin-bottom:2rem;opacity:.8;}
+.form-group{margin-bottom:1rem;text-align:left;}
+.form-label{display:block;font-family:'Inter',sans-serif;font-size:.7rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);margin-bottom:.4rem;}
+.form-input{width:100%;padding:.75rem 1rem;border:1.5px solid var(--sand-dark);border-radius:2px;background:white;font-family:'Crimson Pro',serif;font-size:1.1rem;color:var(--ink);transition:border-color .2s,box-shadow .2s;outline:none;}
+.form-input:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(26,58,92,.1);}
+select.form-input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M0 0l6 8 6-8z' fill='%231a3a5c'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:2.5rem;}
+textarea.form-input{min-height:72px;resize:vertical;}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.85rem 2rem;border:none;border-radius:2px;cursor:pointer;font-family:'Cinzel',serif;font-size:.85rem;letter-spacing:.08em;font-weight:600;transition:all .2s;}
+.btn-primary{background:linear-gradient(135deg,var(--navy),var(--navy-light));color:white;width:100%;box-shadow:0 4px 16px rgba(26,58,92,.3);}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(26,58,92,.4);}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold-light));color:white;}
+.btn-teal{background:linear-gradient(135deg,var(--teal),var(--teal-light));color:white;}
+.btn-ghost{background:transparent;color:var(--navy);border:1.5px solid var(--sand-dark);}
+.btn-ghost:hover{background:var(--sand);}
+.btn-danger{background:var(--terracotta);color:white;font-size:.75rem;padding:.4rem .8rem;}
+.btn-sm{padding:.5rem 1rem;font-size:.75rem;}
+.login-toggle{margin-top:1.5rem;font-size:.9rem;color:var(--ink-soft);}
+.login-toggle a{color:var(--teal);cursor:pointer;text-decoration:underline;}
+.error-msg{background:rgba(168,74,42,.1);border:1px solid rgba(168,74,42,.3);color:var(--terracotta);padding:.6rem 1rem;border-radius:2px;font-size:.9rem;margin-bottom:1rem;display:none;}
+.error-msg.show{display:block;}
+/* APP */
+#appScreen{display:none;}
+#appScreen.active{display:block;}
+.app-header{background:linear-gradient(135deg,var(--navy) 0%,#0f2540 100%);color:white;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.3);}
+.header-inner{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1.5rem;max-width:1100px;margin:0 auto;}
+.header-brand{font-family:'Cinzel',serif;font-size:1rem;letter-spacing:.08em;color:var(--gold-light);}
+.header-user{display:flex;align-items:center;gap:.75rem;}
+.user-badge{background:rgba(255,255,255,.1);border-radius:20px;padding:.3rem .8rem;font-family:'Inter',sans-serif;font-size:.75rem;}
+.leader-badge{background:rgba(200,146,42,.3);color:var(--gold-light);border-radius:20px;padding:.25rem .6rem;font-family:'Inter',sans-serif;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;}
+.btn-logout{background:rgba(255,255,255,.1);border:none;color:rgba(255,255,255,.7);cursor:pointer;font-size:.75rem;padding:.3rem .6rem;border-radius:2px;font-family:'Inter',sans-serif;transition:all .2s;}
+.btn-logout:hover{background:rgba(255,255,255,.2);color:white;}
+.nav-tabs{display:flex;background:rgba(0,0,0,.2);overflow-x:auto;scrollbar-width:none;}
+.nav-tabs::-webkit-scrollbar{display:none;}
+.nav-tab{flex:1;min-width:72px;padding:.6rem .4rem;text-align:center;cursor:pointer;font-family:'Inter',sans-serif;font-size:.62rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:rgba(255,255,255,.5);border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;}
+.nav-tab.active{color:var(--gold-light);border-bottom-color:var(--gold-light);}
+.nav-tab:hover{color:rgba(255,255,255,.8);}
+/* SYNC INDICATOR */
+.sync-dot{width:7px;height:7px;border-radius:50%;background:var(--sage-light);display:inline-block;margin-left:.4rem;transition:background .3s;}
+.sync-dot.syncing{background:var(--gold-light);animation:pulse .8s ease-in-out infinite;}
+.sync-dot.error{background:var(--terracotta);}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+.content{max-width:900px;margin:0 auto;padding:1.5rem 1rem;}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+.section-heading{font-family:'Cinzel',serif;font-size:1.3rem;color:var(--navy);margin-bottom:.25rem;letter-spacing:.04em;}
+.section-sub{font-size:.95rem;color:var(--ink-soft);font-style:italic;margin-bottom:1.5rem;}
+.card{background:var(--parchment);border:1px solid rgba(201,185,154,.5);border-radius:2px;padding:1.25rem;margin-bottom:1rem;box-shadow:0 2px 8px rgba(0,0,0,.06);position:relative;}
+.card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;border-radius:2px 0 0 2px;}
+.card.spiritual::before{background:var(--spiritual);}
+.card.physical::before{background:var(--physical);}
+.card.intellectual::before{background:var(--intellectual);}
+.card.social::before{background:var(--social);}
+.card.neutral::before{background:var(--gold);}
+.card.teal-accent::before{background:var(--teal);}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:.75rem;margin-bottom:1.5rem;}
+.stat-card{background:var(--parchment);border:1px solid rgba(201,185,154,.5);border-radius:2px;padding:1rem;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.stat-number{font-family:'Cinzel',serif;font-size:2rem;color:var(--navy);line-height:1;margin-bottom:.25rem;}
+.stat-label{font-family:'Inter',sans-serif;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);opacity:.7;}
+.progress-wrap{background:rgba(201,185,154,.3);border-radius:20px;height:10px;overflow:hidden;margin:.5rem 0;}
+.progress-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,var(--teal),var(--teal-light));transition:width .8s cubic-bezier(.4,0,.2,1);}
+.progress-gold .progress-fill{background:linear-gradient(90deg,var(--gold),var(--gold-light));}
+.tag{display:inline-block;padding:.2rem .6rem;border-radius:20px;font-family:'Inter',sans-serif;font-size:.62rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;}
+.tag-spiritual{background:rgba(42,80,128,.12);color:var(--spiritual);}
+.tag-physical{background:rgba(90,122,42,.12);color:var(--physical);}
+.tag-intellectual{background:rgba(122,74,32,.12);color:var(--intellectual);}
+.tag-social{background:rgba(106,42,106,.12);color:var(--social);}
+.tag-custom{background:rgba(200,146,42,.15);color:var(--gold);}
+.tag-leader{background:rgba(200,146,42,.2);color:var(--gold);}
+/* ACTIVITIES */
+.activity-item{display:flex;align-items:flex-start;gap:.75rem;padding:.75rem;border:1.5px solid rgba(201,185,154,.4);border-radius:2px;margin-bottom:.4rem;background:white;cursor:pointer;transition:all .15s;position:relative;}
+.activity-item:hover:not(.done){border-color:var(--navy);box-shadow:0 2px 12px rgba(26,58,92,.1);transform:translateX(2px);}
+.activity-item.done{background:#f5f5f2;border-color:var(--completed);cursor:not-allowed;opacity:.72;}
+.activity-item.done .activity-text{color:#999;text-decoration:line-through;}
+.done-stamp{position:absolute;top:6px;right:8px;font-family:'Cinzel',serif;font-size:.56rem;color:var(--completed);letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--completed);padding:.1rem .4rem;border-radius:2px;transform:rotate(-2deg);}
+.activity-miles{font-family:'Cinzel',serif;font-size:1.1rem;color:var(--navy);min-width:40px;text-align:center;flex-shrink:0;}
+.activity-miles span{display:block;font-family:'Inter',sans-serif;font-size:.52rem;letter-spacing:.08em;text-transform:uppercase;opacity:.6;margin-top:-2px;}
+.activity-text{font-size:.95rem;line-height:1.4;flex:1;}
+.category-filters{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem;}
+.filter-btn{padding:.35rem .9rem;border:1.5px solid var(--sand-dark);border-radius:20px;background:transparent;cursor:pointer;font-family:'Inter',sans-serif;font-size:.68rem;font-weight:500;letter-spacing:.06em;color:var(--ink-soft);transition:all .15s;}
+.filter-btn.active,.filter-btn:hover{border-color:var(--navy);background:var(--navy);color:white;}
+.accordion-header{display:flex;align-items:center;justify-content:space-between;padding:.75rem 0;cursor:pointer;border-bottom:1px solid rgba(201,185,154,.3);user-select:none;}
+.accordion-header h3{font-family:'Cinzel',serif;font-size:.95rem;color:var(--navy);display:flex;align-items:center;gap:.5rem;}
+.accordion-chevron{transition:transform .2s;color:var(--sand-dark);}
+.accordion.open .accordion-chevron{transform:rotate(180deg);}
+.accordion-body{display:none;padding:.75rem 0;}
+.accordion.open .accordion-body{display:block;}
+.cat-dot{width:10px;height:10px;border-radius:50%;display:inline-block;flex-shrink:0;}
+.dot-spiritual{background:var(--spiritual);}
+.dot-physical{background:var(--physical);}
+.dot-intellectual{background:var(--intellectual);}
+.dot-social{background:var(--social);}
+/* PLANNER */
+.planner-item{display:flex;align-items:flex-start;gap:.75rem;padding:.65rem .75rem;border:1.5px solid rgba(201,185,154,.4);border-radius:2px;margin-bottom:.4rem;background:white;cursor:pointer;transition:all .15s;}
+.planner-item.planned{border-color:var(--teal);background:rgba(42,122,110,.04);}
+.planner-item.planned-done{border-color:var(--sage);background:rgba(106,138,90,.06);opacity:.75;}
+.planner-check{width:20px;height:20px;border-radius:50%;border:2px solid var(--sand-dark);flex-shrink:0;margin-top:1px;transition:all .2s;display:flex;align-items:center;justify-content:center;}
+.planner-item.planned .planner-check{border-color:var(--teal);}
+.planner-item.planned-done .planner-check{border-color:var(--sage);background:var(--sage);}
+.planner-text{font-size:.9rem;line-height:1.35;flex:1;color:var(--ink);}
+.planner-item.planned-done .planner-text{text-decoration:line-through;color:#999;}
+.planner-miles-tag{font-family:'Cinzel',serif;font-size:.8rem;color:var(--navy);flex-shrink:0;}
+/* MAP */
+.journey-map{border-radius:4px;padding:1.75rem 1.5rem 1.5rem;position:relative;overflow:hidden;border:1px solid rgba(150,130,100,.4);box-shadow:0 4px 20px rgba(0,0,0,.12);margin-bottom:1.5rem;background:linear-gradient(160deg,#c8dde8 0%,#d8c8a0 60%,#c8b880 100%);}
+.map-canvas{position:absolute;inset:0;pointer-events:none;}
+.map-total{text-align:center;font-family:'Cinzel',serif;font-size:1.5rem;color:var(--navy);margin-bottom:.2rem;position:relative;z-index:2;}
+.map-sub{text-align:center;font-size:.85rem;color:var(--ink-soft);font-style:italic;margin-bottom:1.5rem;position:relative;z-index:2;}
+.waypoints{display:flex;justify-content:space-between;align-items:flex-end;position:relative;padding-bottom:2.5rem;z-index:2;}
+.waypoints::before{content:'';position:absolute;bottom:1.1rem;left:16px;right:16px;height:3px;background:rgba(26,58,92,.15);z-index:0;}
+.journey-line{position:absolute;bottom:1.1rem;left:16px;height:3px;background:linear-gradient(90deg,var(--terracotta),var(--gold));z-index:1;transition:width 1s cubic-bezier(.4,0,.2,1);border-radius:2px;}
+.waypoint{display:flex;flex-direction:column;align-items:center;position:relative;z-index:2;flex:0 0 auto;}
+.waypoint-dot{width:14px;height:14px;border-radius:50%;border:2px solid rgba(26,58,92,.3);background:rgba(255,255,255,.5);margin-bottom:.4rem;transition:all .3s;}
+.waypoint.reached .waypoint-dot{background:var(--gold);border-color:var(--gold);box-shadow:0 0 10px rgba(200,146,42,.5);}
+.waypoint-icon{font-size:1.2rem;margin-bottom:.2rem;display:none;}
+.waypoint.reached .waypoint-icon{display:block;}
+.waypoint-label{font-family:'Cinzel',serif;font-size:.58rem;color:var(--navy);text-align:center;opacity:.75;max-width:52px;line-height:1.2;}
+.waypoint-miles{font-family:'Inter',sans-serif;font-size:.52rem;color:var(--ink-soft);opacity:.6;margin-top:2px;}
+/* MINI MAP */
+.mini-map{border-radius:3px;padding:1rem 1rem .8rem;position:relative;overflow:hidden;border:1px solid rgba(150,130,100,.3);background:linear-gradient(160deg,#d8eef8 0%,#e8d8b0 60%,#d8c898 100%);margin-bottom:1rem;}
+.mini-waypoints{display:flex;justify-content:space-between;align-items:center;position:relative;padding-bottom:1.5rem;}
+.mini-waypoints::before{content:'';position:absolute;bottom:.6rem;left:8px;right:8px;height:2px;background:rgba(26,58,92,.15);}
+.mini-journey-line{position:absolute;bottom:.6rem;left:8px;height:2px;background:linear-gradient(90deg,var(--terracotta),var(--gold));border-radius:2px;transition:width .8s ease;}
+.mini-wp{display:flex;flex-direction:column;align-items:center;position:relative;z-index:2;}
+.mini-wp-dot{width:8px;height:8px;border-radius:50%;border:1.5px solid rgba(26,58,92,.3);background:rgba(255,255,255,.5);margin-bottom:.25rem;}
+.mini-wp.reached .mini-wp-dot{background:var(--gold);border-color:var(--gold);box-shadow:0 0 6px rgba(200,146,42,.4);}
+.mini-wp-label{font-family:'Cinzel',serif;font-size:.5rem;color:var(--navy);text-align:center;max-width:36px;line-height:1.1;opacity:.75;}
+.mini-map-label{font-family:'Cinzel',serif;font-size:.75rem;color:var(--navy);margin-bottom:.5rem;opacity:.8;}
+/* BADGES */
+.badges-row{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1.5rem;}
+.badge{display:flex;flex-direction:column;align-items:center;padding:.6rem .5rem;border-radius:4px;border:1.5px solid;min-width:68px;text-align:center;transition:all .2s;}
+.badge.earned{border-color:var(--gold);background:var(--gold-pale);box-shadow:0 2px 8px rgba(200,146,42,.2);}
+.badge.locked{border-color:var(--sand-dark);background:rgba(201,185,154,.15);opacity:.5;filter:grayscale(.8);}
+.badge-icon{font-size:1.5rem;margin-bottom:.25rem;}
+.badge-name{font-family:'Cinzel',serif;font-size:.55rem;color:var(--navy);letter-spacing:.04em;line-height:1.2;}
+.badge-miles{font-family:'Inter',sans-serif;font-size:.5rem;color:var(--ink-soft);opacity:.7;margin-top:2px;}
+/* STREAK */
+.streak-row{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1rem;}
+.streak-month{width:36px;height:36px;border-radius:50%;border:2px solid var(--sand-dark);display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:.55rem;font-weight:600;color:var(--sand-dark);transition:all .2s;}
+.streak-month.hit{border-color:var(--gold);background:var(--gold);color:white;}
+.streak-month.current{border-color:var(--teal);background:rgba(42,122,110,.1);color:var(--teal);}
+/* LEADERBOARD */
+.leaderboard-item{display:flex;align-items:center;gap:.9rem;padding:.75rem 1rem;border-bottom:1px solid rgba(201,185,154,.3);transition:background .15s;}
+.leaderboard-item:hover{background:rgba(201,185,154,.15);}
+.leaderboard-item:last-child{border-bottom:none;}
+.lb-rank{font-family:'Cinzel',serif;font-size:1.1rem;color:var(--sand-dark);min-width:28px;text-align:center;}
+.lb-rank.gold{color:var(--gold);}
+.lb-rank.silver{color:#999;}
+.lb-rank.bronze{color:var(--terracotta);}
+.lb-name{flex:1;font-size:1rem;font-weight:600;}
+.lb-name.me{color:var(--teal);}
+.lb-bar-wrap{width:80px;background:rgba(201,185,154,.3);border-radius:10px;height:6px;overflow:hidden;}
+.lb-bar{height:100%;background:linear-gradient(90deg,var(--teal),var(--teal-light));border-radius:10px;transition:width .8s ease;}
+.lb-bar.leader-bar{background:linear-gradient(90deg,var(--gold),var(--gold-light));}
+.lb-miles{font-family:'Cinzel',serif;font-size:1rem;color:var(--navy);}
+.lb-section-head{padding:.6rem 1rem;background:rgba(201,185,154,.2);font-family:'Cinzel',serif;font-size:.75rem;letter-spacing:.08em;color:var(--navy);text-transform:uppercase;}
+/* MONTH SELECTOR */
+.month-select-row{display:flex;gap:.4rem;flex-wrap:wrap;}
+.month-btn{padding:.3rem .65rem;border:1.5px solid var(--sand-dark);border-radius:2px;background:white;cursor:pointer;font-family:'Inter',sans-serif;font-size:.68rem;font-weight:500;color:var(--ink-soft);transition:all .15s;}
+.month-btn.active{background:var(--navy);border-color:var(--navy);color:white;}
+/* HISTORY */
+.history-entry{display:grid;grid-template-columns:1fr auto auto;gap:.5rem;align-items:start;padding:.75rem 0;border-bottom:1px solid rgba(201,185,154,.3);font-size:.9rem;}
+.history-entry:last-child{border-bottom:none;}
+.history-meta{font-family:'Inter',sans-serif;font-size:.68rem;color:var(--ink-soft);opacity:.65;margin-top:.2rem;}
+.history-miles{font-family:'Cinzel',serif;color:var(--navy);font-size:1rem;white-space:nowrap;}
+.month-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.75rem;margin-bottom:1.5rem;}
+.month-card{background:white;border:1px solid rgba(201,185,154,.4);border-radius:2px;padding:1rem;}
+.month-name{font-family:'Cinzel',serif;font-size:.9rem;color:var(--navy);margin-bottom:.5rem;}
+.month-miles{font-size:1.5rem;font-family:'Cinzel',serif;color:var(--ink);}
+.month-miles.on-track{color:var(--teal);}
+.month-miles.behind{color:var(--terracotta);}
+/* SHOUTOUTS */
+.shoutout{padding:.9rem 1rem;border-bottom:1px solid rgba(201,185,154,.25);}
+.shoutout:last-child{border-bottom:none;}
+.shoutout-header{display:flex;align-items:baseline;gap:.5rem;margin-bottom:.3rem;}
+.shoutout-from{font-family:'Cinzel',serif;font-size:.75rem;color:var(--gold);letter-spacing:.04em;}
+.shoutout-time{font-family:'Inter',sans-serif;font-size:.62rem;color:var(--ink-soft);opacity:.6;}
+.shoutout-text{font-size:.95rem;line-height:1.4;color:var(--ink-soft);font-style:italic;}
+/* ADMIN */
+.inline-form{display:flex;gap:.5rem;align-items:flex-end;flex-wrap:wrap;}
+.inline-form .form-group{margin-bottom:0;flex:1;min-width:110px;}
+.admin-user-row{display:flex;align-items:center;gap:1rem;padding:.7rem;border-bottom:1px solid rgba(201,185,154,.3);}
+.admin-user-name{flex:1;font-weight:600;}
+.admin-user-miles{font-family:'Cinzel',serif;color:var(--navy);}
+.leader-stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.75rem;margin-bottom:1.5rem;}
+.cat-bar-row{display:flex;align-items:center;gap:.75rem;margin-bottom:.6rem;}
+.cat-bar-label{font-family:'Inter',sans-serif;font-size:.7rem;width:80px;flex-shrink:0;color:var(--ink-soft);}
+.cat-bar-wrap{flex:1;background:rgba(201,185,154,.3);border-radius:10px;height:8px;overflow:hidden;}
+.cat-bar-fill{height:100%;border-radius:10px;transition:width .8s ease;}
+.cat-bar-miles{font-family:'Cinzel',serif;font-size:.8rem;color:var(--navy);min-width:36px;text-align:right;}
+/* PRINT */
+@media print{.app-header,.nav-tabs,.btn,.no-print{display:none!important;}body{background:white;}.print-only{display:block!important;}.card,.stat-card{box-shadow:none;border:1px solid #ccc;}.content{max-width:100%;padding:.5rem;}}
+.print-only{display:none;}
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--navy);color:white;padding:.75rem 1.5rem;border-radius:2px;font-family:'Inter',sans-serif;font-size:.85rem;opacity:0;transition:all .3s;z-index:1000;box-shadow:0 8px 24px rgba(0,0,0,.3);white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+/* LOADING OVERLAY */
+#loadingOverlay{position:fixed;inset:0;background:rgba(26,58,92,.8);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:9999;gap:1rem;}
+.spinner{width:44px;height:44px;border:3px solid rgba(232,176,80,.3);border-top-color:var(--gold-light);border-radius:50%;animation:spin .8s linear infinite;}
+.loading-text{font-family:'Cinzel',serif;color:var(--gold-light);font-size:1rem;letter-spacing:.12em;}
+@media(max-width:600px){.header-brand{font-size:.78rem;}.waypoint-label{font-size:.5rem;max-width:40px;}.lb-bar-wrap{display:none;}.content{padding:1rem .75rem;}.stats-row{grid-template-columns:repeat(2,1fr);}}
+</style>
+</head>
+<body>
+
+<!-- LOADING OVERLAY -->
+<div id="loadingOverlay">
+  <div class="loading-text">✦ Syncing…</div>
+  <div class="spinner"></div>
+</div>
+
+<!-- LOGIN -->
+<div id="loginScreen" class="screen active">
+  <div class="login-stars" id="loginStars"></div>
+  <div class="login-card">
+    <div class="login-emblem">
+      <svg viewBox="0 0 44 44" fill="none">
+        <path d="M22 4L38 36H6Z" fill="rgba(255,255,255,.15)" stroke="rgba(255,255,255,.6)" stroke-width="1.5"/>
+        <circle cx="22" cy="12" r="5" fill="rgba(200,146,42,.9)"/>
+        <path d="M14 30Q18 24 22 28Q26 32 30 26" stroke="rgba(255,255,255,.7)" stroke-width="1.5" fill="none"/>
+        <circle cx="16" cy="32" r="2" fill="rgba(255,255,255,.6)"/>
+        <circle cx="28" cy="32" r="2" fill="rgba(255,255,255,.6)"/>
+      </svg>
+    </div>
+    <div class="login-title">Walk With Me</div>
+    <div class="login-subtitle">Level Creek Ward · Walk to Jerusalem 2026</div>
+    <div id="loginError" class="error-msg"></div>
+    <div id="loginForm">
+      <div class="form-group"><label class="form-label">Your Name</label><input type="text" id="loginName" class="form-input" placeholder="First Last" autocomplete="name"></div>
+      <div class="form-group"><label class="form-label">PIN (4 digits)</label><input type="password" id="loginPin" class="form-input" placeholder="••••" maxlength="4" inputmode="numeric"></div>
+      <button class="btn btn-primary" onclick="handleLogin()">Begin the Journey →</button>
+      <div class="login-toggle">New here? <a onclick="showRegister()">Create your account</a></div>
+    </div>
+    <div id="registerForm" style="display:none">
+      <div class="form-group"><label class="form-label">Full Name</label><input type="text" id="regName" class="form-input" placeholder="First Last" autocomplete="name"></div>
+      <div class="form-group"><label class="form-label">Group</label>
+        <select id="regGroup" class="form-input"><option value="Young Men">Young Men</option><option value="Young Women">Young Women</option><option value="Leader">Leader</option></select>
+      </div>
+      <div class="form-group"><label class="form-label">Choose a PIN (4 digits)</label><input type="password" id="regPin" class="form-input" placeholder="••••" maxlength="4" inputmode="numeric"></div>
+      <div class="form-group"><label class="form-label">Confirm PIN</label><input type="password" id="regPin2" class="form-input" placeholder="••••" maxlength="4" inputmode="numeric"></div>
+      <button class="btn btn-primary" onclick="handleRegister()">Join the Journey →</button>
+      <div class="login-toggle">Already joined? <a onclick="showLogin()">Sign in</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="appScreen" class="screen">
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="header-brand">✦ Walk to Jerusalem 2026</div>
+      <div class="header-user">
+        <span class="user-badge" id="headerName">—</span>
+        <span class="sync-dot" id="syncDot" title="Data sync status"></span>
+        <span class="leader-badge" id="leaderBadge" style="display:none">Leader</span>
+        <button class="btn-logout" onclick="logout()">Sign out</button>
+      </div>
+    </div>
+    <nav class="nav-tabs">
+      <div class="nav-tab active" onclick="switchTab('dashboard')">Dashboard</div>
+      <div class="nav-tab" onclick="switchTab('planner')">Planner</div>
+      <div class="nav-tab" onclick="switchTab('log')">Log Miles</div>
+      <div class="nav-tab" onclick="switchTab('history')">History</div>
+      <div class="nav-tab" onclick="switchTab('group')">Group Map</div>
+      <div class="nav-tab" onclick="switchTab('leaderboard')">Leaderboard</div>
+      <div class="nav-tab" id="adminTab" style="display:none" onclick="switchTab('admin')">⚙ Admin</div>
+    </nav>
+  </header>
+  <div class="content">
+
+    <!-- DASHBOARD -->
+    <div id="tab-dashboard" class="tab-content active">
+      <div class="section-heading" id="dashGreeting">My Journey</div>
+      <div class="section-sub">Keep walking — Jerusalem awaits.</div>
+      <div class="stats-row">
+        <div class="stat-card"><div class="stat-number" id="dashTotal">0</div><div class="stat-label">Total Miles</div></div>
+        <div class="stat-card"><div class="stat-number" id="dashMonthMiles">0</div><div class="stat-label">This Month</div></div>
+        <div class="stat-card"><div class="stat-number" id="dashStreak">0</div><div class="stat-label">Month Streak 🔥</div></div>
+        <div class="stat-card"><div class="stat-number" id="dashPct">0%</div><div class="stat-label">Journey Complete</div></div>
+      </div>
+      <div class="mini-map" id="personalMiniMap">
+        <div class="mini-map-label">Your Personal Journey</div>
+        <div class="mini-waypoints" id="miniWaypoints">
+          <div class="mini-journey-line" id="miniJourneyLine" style="width:0"></div>
+        </div>
+      </div>
+      <div class="card neutral">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.5rem;">
+          <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);">Journey to Jerusalem</strong>
+          <span style="font-size:.8rem;color:var(--ink-soft);"><span id="dashTotalDisp">0</span> / 600 mi</span>
+        </div>
+        <div class="progress-wrap progress-gold"><div class="progress-fill" id="dashJourneyBar" style="width:0%"></div></div>
+      </div>
+      <div class="card neutral">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.5rem;">
+          <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);">This Month's Progress</strong>
+          <span style="font-size:.8rem;color:var(--ink-soft);"><span id="dashMonthDisp">0</span> / 60 mi</span>
+        </div>
+        <div class="progress-wrap"><div class="progress-fill" id="dashMonthBar" style="width:0%"></div></div>
+      </div>
+      <div style="font-family:'Cinzel',serif;font-size:.9rem;color:var(--navy);margin-bottom:.75rem;margin-top:.25rem;">✦ Milestone Badges</div>
+      <div class="badges-row" id="badgesRow"></div>
+      <div style="font-family:'Cinzel',serif;font-size:.9rem;color:var(--navy);margin-bottom:.75rem;">🔥 Monthly Streak</div>
+      <div class="streak-row" id="streakRow"></div>
+      <div style="font-size:.8rem;color:var(--ink-soft);font-style:italic;margin-bottom:1.5rem;" id="streakMsg"></div>
+      <div style="font-family:'Cinzel',serif;font-size:.9rem;color:var(--navy);margin-bottom:.75rem;">Miles by Category</div>
+      <div id="catBarsContainer" style="margin-bottom:1.5rem;"></div>
+      <div style="font-family:'Cinzel',serif;font-size:.9rem;color:var(--navy);margin-bottom:.5rem;">Recent Activity</div>
+      <div id="recentActivity"></div>
+      <button class="btn btn-ghost btn-sm no-print" onclick="printSummary()" style="margin-top:1rem;">🖨 Print Progress Summary</button>
+    </div>
+
+    <!-- PLANNER -->
+    <div id="tab-planner" class="tab-content">
+      <div class="section-heading">Monthly Goal Planner</div>
+      <div class="section-sub">Pick activities you plan to complete this month, then check them off as you log them.</div>
+      <div class="card neutral" style="margin-bottom:1.5rem;">
+        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">Planning for:</strong>
+        <div class="month-select-row" id="plannerMonthSelector"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;">
+        <div style="font-family:'Cinzel',serif;font-size:.9rem;color:var(--navy);">Planned Activities <span id="plannerCount" style="font-size:.75rem;opacity:.6;"></span></div>
+        <div style="font-size:.8rem;color:var(--ink-soft);font-style:italic;" id="plannerMilesPreview"></div>
+      </div>
+      <div id="plannerPlanned" style="margin-bottom:1.5rem;"></div>
+      <div class="category-filters">
+        <button class="filter-btn active" onclick="filterPlannerActs('all',this)">All</button>
+        <button class="filter-btn" onclick="filterPlannerActs('spiritual',this)">Spiritual</button>
+        <button class="filter-btn" onclick="filterPlannerActs('physical',this)">Physical</button>
+        <button class="filter-btn" onclick="filterPlannerActs('intellectual',this)">Intellectual</button>
+        <button class="filter-btn" onclick="filterPlannerActs('social',this)">Social</button>
+      </div>
+      <div style="font-size:.85rem;color:var(--ink-soft);font-style:italic;margin-bottom:.75rem;">Tap any activity below to add it to your plan.</div>
+      <div id="plannerActivityList"></div>
+    </div>
+
+    <!-- LOG MILES -->
+    <div id="tab-log" class="tab-content">
+      <div class="section-heading">Log Miles</div>
+      <div class="section-sub">Select a completed activity to record your miles.</div>
+      <div class="card neutral" style="margin-bottom:1.5rem;">
+        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">Select Month</strong>
+        <div class="month-select-row" id="monthSelector"></div>
+      </div>
+      <div class="card neutral" style="margin-bottom:1.5rem;">
+        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">✦ Log Custom / Personal Goal</strong>
+        <div class="form-group"><label class="form-label">Category</label>
+          <select id="customCat" class="form-input"><option value="spiritual">Spiritual</option><option value="physical">Physical</option><option value="intellectual">Intellectual</option><option value="social">Social</option></select>
+        </div>
+        <div class="form-group"><label class="form-label">Goal Description</label><textarea id="customDesc" class="form-input" placeholder="Describe your personal goal…"></textarea></div>
+        <div class="form-group"><label class="form-label">Miles (leader-approved)</label><input type="number" id="customMiles" class="form-input" placeholder="e.g. 30" min="1" max="200"></div>
+        <button class="btn btn-gold btn-sm" onclick="logCustomGoal()">Log Custom Goal</button>
+      </div>
+      <div class="category-filters">
+        <button class="filter-btn active" onclick="filterActivities('all',this)">All</button>
+        <button class="filter-btn" onclick="filterActivities('spiritual',this)">Spiritual</button>
+        <button class="filter-btn" onclick="filterActivities('physical',this)">Physical</button>
+        <button class="filter-btn" onclick="filterActivities('intellectual',this)">Intellectual</button>
+        <button class="filter-btn" onclick="filterActivities('social',this)">Social</button>
+      </div>
+      <div id="activityList"></div>
+    </div>
+
+    <!-- HISTORY -->
+    <div id="tab-history" class="tab-content">
+      <div class="section-heading">My Mile Log</div>
+      <div class="section-sub">Complete record of your journey</div>
+      <div class="month-grid" id="monthlyGrid"></div>
+      <div class="card neutral">
+        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">All Entries</strong>
+        <div id="historyList"></div>
+      </div>
+    </div>
+
+    <!-- GROUP MAP -->
+    <div id="tab-group" class="tab-content">
+      <div class="section-heading">Group Journey</div>
+      <div class="section-sub">Level Creek Ward — walking together to Jerusalem</div>
+      <div class="journey-map" id="groupJourneyMap">
+        <canvas class="map-canvas" id="mapCanvas"></canvas>
+        <div class="map-total" id="groupTotalDisp">0 miles</div>
+        <div class="map-sub" id="groupMapSub">The journey has begun</div>
+        <div class="waypoints" id="waypointsContainer">
+          <div class="journey-line" id="journeyLine" style="width:0%"></div>
+        </div>
+      </div>
+      <div class="card neutral">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.5rem;">
+          <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);">Combined miles toward Jerusalem</strong>
+          <span style="font-size:.8rem;color:var(--ink-soft);"><span id="groupMilesDisp">0</span> / 600 mi</span>
+        </div>
+        <div class="progress-wrap progress-gold"><div class="progress-fill" id="groupProgressBar" style="width:0%"></div></div>
+      </div>
+      <div class="stats-row">
+        <div class="stat-card"><div class="stat-number" id="groupParticipants">0</div><div class="stat-label">Participating</div></div>
+        <div class="stat-card"><div class="stat-number" id="groupCompletions">0</div><div class="stat-label">Completions</div></div>
+        <div class="stat-card"><div class="stat-number" id="groupPct70">0%</div><div class="stat-label">Toward 70% Goal</div></div>
+        <div class="stat-card"><div class="stat-number" id="groupPct">0%</div><div class="stat-label">Miles Progress</div></div>
+      </div>
+      <div class="card teal-accent">
+        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">📣 Leader Shoutouts</strong>
+        <div id="shoutoutFeed"><p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);">No shoutouts yet — check back soon!</p></div>
+      </div>
+    </div>
+
+    <!-- LEADERBOARD -->
+    <div id="tab-leaderboard" class="tab-content">
+      <div class="section-heading">Leaderboard</div>
+      <div class="section-sub">Honoring every pilgrim on the journey</div>
+      <div class="card neutral" style="padding:0;overflow:hidden;">
+        <div class="lb-section-head">Youth</div>
+        <div id="leaderboardYouth"></div>
+        <div class="lb-section-head" id="leaderLBHead" style="display:none">Leaders</div>
+        <div id="leaderboardLeaders"></div>
+      </div>
+    </div>
+
+    <!-- ADMIN -->
+    <div id="tab-admin" class="tab-content">
+      <div class="section-heading">Leader Dashboard</div>
+      <div class="section-sub">Ward overview, group miles, shoutouts, and entry management</div>
+      <div class="card neutral">
+        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">📊 Ward Overview</strong>
+        <div class="leader-stat-grid" id="leaderStatGrid"></div>
+        <div style="margin-top:1rem;">
+          <div style="font-family:'Inter',sans-serif;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--navy);margin-bottom:.6rem;">Miles by Category (all youth)</div>
+          <div id="leaderCatBars"></div>
+        </div>
+      </div>
+      <div class="card neutral">
+        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">This Month Status</strong>
+        <div id="leaderMonthStatus"></div>
+      </div>
+      <div class="card neutral">
+        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">Add Group Miles (Monthly Activity)</strong>
+        <div class="inline-form">
+          <div class="form-group"><label class="form-label">Month</label>
+            <select id="adminMonth" class="form-input"><option>February</option><option>March</option><option>April</option><option>May</option><option>June</option><option>July</option><option>August</option><option>September</option><option>October</option><option>November</option></select>
+          </div>
+          <div class="form-group"><label class="form-label">Miles</label><input type="number" id="adminGroupMiles" class="form-input" placeholder="e.g. 60" min="1"></div>
+          <div class="form-group"><label class="form-label">Description</label><input type="text" id="adminGroupDesc" class="form-input" placeholder="Activity name"></div>
+          <button class="btn btn-teal btn-sm" onclick="addGroupMiles()" style="align-self:flex-end;white-space:nowrap;">Add Miles</button>
+        </div>
+      </div>
+      <div class="card neutral">
+        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">📣 Post a Shoutout</strong>
+        <div class="form-group"><label class="form-label">Message</label><textarea id="shoutoutText" class="form-input" placeholder="Great job this month! Special shoutout to…"></textarea></div>
+        <button class="btn btn-gold btn-sm" onclick="postShoutout()">Post Shoutout</button>
+      </div>
+      <div class="card neutral">
+        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">📤 Export Data</strong>
+        <button class="btn btn-ghost btn-sm" onclick="exportCSV()">Download All Entries as CSV</button>
+      </div>
+      <div class="card neutral">
+        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">Youth Roster</strong>
+        <div id="adminRoster"></div>
+      </div>
+      <div class="card neutral">
+        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">All Entries (Edit / Remove)</strong>
+        <div id="adminEntries"></div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <!-- PRINT -->
+  <div id="printSummary" class="print-only" style="padding:2rem;max-width:700px;margin:0 auto;">
+    <h1 style="font-family:'Cinzel',serif;color:#1a3a5c;font-size:1.6rem;margin-bottom:.25rem;">Walk With Me — Progress Summary</h1>
+    <p style="font-style:italic;color:#666;margin-bottom:1.5rem;">Level Creek Ward · Walk to Jerusalem 2026</p>
+    <div id="printContent"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ════════════════════════════════════════════════════
+//  FIREBASE CONFIG
+//  Paste your values from Firebase Console here:
+//  Console → Project Settings → Your Apps → Config
+// ════════════════════════════════════════════════════
+const firebaseConfig = {
+  apiKey: "AIzaSyBcD-XeWl8abG6hG9kWvxUacc08fTkpHIw",
+  authDomain: "walk-with-me-2026.firebaseapp.com",
+  projectId: "walk-with-me-2026",
+  storageBucket: "walk-with-me-2026.firebasestorage.app",
+  messagingSenderId: "553072808091",
+  appId: "1:553072808091:web:63d31dd0623d35948bf63e"
+};
+// ════════════════════════════════════════════════════
+
+// ── Firebase init — lazy so SDK scripts are guaranteed loaded first ──
+let _fst = null;
+function _db() {
+  if (_fst) return _fst;
+  _fst = firebase.firestore();
+  return _fst;
+}
+firebase.initializeApp(firebaseConfig);
+
+// ── Collection references — resolved lazily via _db() ──
+const COL = {
+  users:      () => _db().collection('users'),
+  entries:    () => _db().collection('entries'),
+  groupMiles: () => _db().collection('groupMiles'),
+  shoutouts:  () => _db().collection('shoutouts'),
+};
+
+// ── In-memory cache (refreshed on login + each tab switch) ──
+let CACHE = { users:[], entries:[], groupMiles:[], shoutouts:[] };
+
+function db() { return CACHE; }  // all rendering functions call db() — unchanged
+
+async function loadAll() {
+  setSyncState('syncing');
+  try {
+    const [u,e,g,s] = await Promise.all([
+      COL.users().get(),
+      COL.entries().get(),
+      COL.groupMiles().get(),
+      COL.shoutouts().get(),
+    ]);
+    CACHE.users      = u.docs.map(d=>({id:d.id,...d.data()}));
+    CACHE.entries    = e.docs.map(d=>({id:d.id,...d.data()}));
+    CACHE.groupMiles = g.docs.map(d=>({id:d.id,...d.data()}));
+    CACHE.shoutouts  = s.docs.map(d=>({id:d.id,...d.data()}));
+    setSyncState('ok');
+  } catch(err) {
+    setSyncState('error');
+    throw err;
+  }
+}
+
+async function refreshData() {
+  setSyncState('syncing');
+  try {
+    const [e,g,s] = await Promise.all([
+      COL.entries().get(),
+      COL.groupMiles().get(),
+      COL.shoutouts().get(),
+    ]);
+    CACHE.entries    = e.docs.map(d=>({id:d.id,...d.data()}));
+    CACHE.groupMiles = g.docs.map(d=>({id:d.id,...d.data()}));
+    CACHE.shoutouts  = s.docs.map(d=>({id:d.id,...d.data()}));
+    setSyncState('ok');
+  } catch(err) { setSyncState('error'); }
+}
+
+async function fbAdd(colName, data) {
+  const ref = await COL[colName]().add(data);
+  const doc = { id: ref.id, ...data };
+  CACHE[colName].push(doc);
+  return doc;
+}
+
+async function fbDelete(colName, id) {
+  await COL[colName]().doc(id).delete();
+  CACHE[colName] = CACHE[colName].filter(d => d.id !== id);
+}
+
+function setSyncState(state) {
+  const dot = document.getElementById('syncDot');
+  if (!dot) return;
+  dot.className = 'sync-dot' + (state === 'syncing' ? ' syncing' : state === 'error' ? ' error' : '');
+  dot.title = state === 'ok' ? 'Data synced ✓' : state === 'syncing' ? 'Syncing…' : 'Sync error';
+}
+
+function overlay(on) {
+  document.getElementById('loadingOverlay').style.display = on ? 'flex' : 'none';
+}
+
+// Planner + badge prev-miles stay in localStorage (personal device pref)
+function getPlannerKey(){return 'planner_'+currentUser.id+'_'+currentPlanMonth;}
+function getPlanner(){try{return JSON.parse(localStorage.getItem(getPlannerKey())||'[]');}catch{return[];}}
+function savePlanner(arr){localStorage.setItem(getPlannerKey(),JSON.stringify(arr));}
+function getBadgePrev(){return parseInt(localStorage.getItem('badges_'+currentUser.id)||'0');}
+function setBadgePrev(n){localStorage.setItem('badges_'+currentUser.id,String(n));}
+
+// ════════════════════════════════════════════════════
+//  ACTIVITIES
+// ════════════════════════════════════════════════════
+const ACTIVITIES={
+  spiritual:[
+    {text:"Identify one of your spiritual gifts and work on strengthening it for two weeks. Pray for help.",miles:40},
+    {text:"Share your testimony on fast Sunday.",miles:30},
+    {text:"Study the Young Women's or Young Men's theme; journal about your insights.",miles:15},
+    {text:"Prepare 10 names to take to the temple.",miles:20},
+    {text:"Pray morning and night for two weeks.",miles:30},
+    {text:"Read the For the Strength of Youth booklet. Choose one way to improve and implement it for one month.",miles:40},
+    {text:"Memorize 2 scriptures (longer than 'Jesus wept.') and recite them to someone.",miles:20},
+    {text:"Lead your family in studying Come Follow Me. Do this five times.",miles:30},
+    {text:"Teach a lesson with the Missionaries.",miles:40},
+    {text:"Teach a lesson at church.",miles:40},
+    {text:"Attend the Temple.",miles:30},
+    {text:"Create a vision board for 2026. Post it where you will see it daily.",miles:30},
+    {text:"Write in your journal each day for two weeks (at least 3 sentences). Focus on gratitude and spiritual blessings.",miles:30},
+    {text:"Participate in a special musical number at church.",miles:20},
+    {text:"Read the entire Book of Mormon.",miles:120},
+    {text:"Prepare to receive your patriarchal blessing, or study it if you have received it already.",miles:30},
+    {text:"Memorize the Sacrament Prayers.",miles:30},
+    {text:"Memorize the Restoration Proclamation.",miles:60},
+    {text:"Teach a lesson to your family for Home Evening.",miles:30},
+    {text:"Memorize the Living Christ.",miles:60},
+    {text:"Memorize the Family Proclamation.",miles:60},
+    {text:"Learn to apologize. Act on an opportunity to practice three times.",miles:15},
+    {text:"Write your testimony in a Book of Mormon and give it to the missionaries to give away.",miles:30},
+    {text:"Begin attending ward choir and perform once.",miles:15},
+    {text:"Give your mom and dad a smile and a hug every day for two weeks. Say 'I love you' and 'Thank you.'",miles:20},
+    {text:"Make the Sabbath a delight. Think of two things you can do differently and try them for three weeks.",miles:20},
+    {text:"Read 10 past conference talks by President Oaks. Pray to receive confirmation that he is the prophet.",miles:30},
+    {text:"Pray for your assigned ministering families/sisters. Introduce yourself, listen for promptings to serve them.",miles:30},
+    {text:"Write your testimony in a Book of Mormon and gift it to a friend.",miles:15},
+    {text:"Pray every morning for one week asking who needs you that day. Act when promptings come.",miles:40},
+    {text:"Learn to forgive. Act on an opportunity to practice three times.",miles:20},
+    {text:"Improve your fasting. Abstain for two meals with a specific purpose. Begin and end with prayer. Contribute to fast offering.",miles:30},
+    {text:"Improve your family prayers. Help your family say prayers twice a day for two weeks.",miles:15},
+    {text:"Read 10 chapters of the Book of Mormon.",miles:20},
+    {text:"Read 10 chapters of the Old Testament.",miles:15},
+    {text:"Submit all your mission papers and accept your call to serve! (age 18+)",miles:90},
+    {text:"Memorize the names of all the apostles.",miles:20}
+  ],
+  physical:[
+    {text:"Set an earlier bedtime. Stick to it for two weeks.",miles:45},
+    {text:"Go without sugar for one week.",miles:45},
+    {text:"Plan and go on a 2-mile hike. Take along a friend or family member.",miles:20},
+    {text:"Research home workouts and try one three times.",miles:30},
+    {text:"Go for a ten-minute walk outside at least ten times.",miles:20},
+    {text:"Plan, shop, and cook a meal for your family including vegetables.",miles:40},
+    {text:"Play a 'new to you' sport (badminton, pickleball, ping pong, volleyball, etc.).",miles:20},
+    {text:"Run a 5k. Follow a Couch to 5k program and find a local race or run at home.",miles:60},
+    {text:"Learn to take care of your hair. Brush and clean it regularly for four weeks.",miles:20},
+    {text:"Try a new hairstyle product with tutorials to achieve the look.",miles:15},
+    {text:"Pick one habit that would make you healthier. Implement it for two weeks.",miles:30},
+    {text:"Help your team WIN a youth basketball game.",miles:20},
+    {text:"Go on a bike ride with family or friends for at least 5 miles.",miles:20},
+    {text:"Improve your physical strength with daily workouts. Pick 5 baseline measurements and measure weekly for four weeks.",miles:45},
+    {text:"Complete a 30-day fitness challenge (plank, yoga, etc.) to build strength gradually.",miles:90},
+    {text:"Learn to take care of children. Take a babysitting course.",miles:30},
+    {text:"Learn the basics of shaving. Practice good shaving techniques for four weeks.",miles:15},
+    {text:"Evaluate your body odor needs. Find a signature scent and use it daily.",miles:20},
+    {text:"Be physically active for one hour every day for two weeks.",miles:30},
+    {text:"Learn to grow your own food. Plant something and tend it.",miles:20},
+    {text:"Learn first aid and outdoor safety. Take a class and make a personal first aid kit.",miles:20},
+    {text:"Encourage your family to develop an emergency plan. Pack 72-hour kits or car kits.",miles:40},
+    {text:"Hold a surprise family fire drill. Have an assigned meeting place and emergency contact.",miles:45},
+    {text:"Learn about edible plants in Georgia. Find and identify three of them.",miles:20},
+    {text:"Pick a stress management skill and practice it every day for one week. Evaluate if it helped.",miles:20},
+    {text:"Brush and floss your teeth daily for a month.",miles:20},
+    {text:"Take special care of your skin for two weeks. Wash your face and find nourishing products.",miles:30},
+    {text:"Learn to trim, file, and groom your nails. Give yourself a home manicure for four weeks.",miles:30}
+  ],
+  intellectual:[
+    {text:"Read a book for fun.",miles:30},
+    {text:"Read a challenging book (250+ pages).",miles:60},
+    {text:"Read three poems and then write your own.",miles:20},
+    {text:"Visit a museum near you. Share one thing you learned with a family member or friend.",miles:15},
+    {text:"Create 5 different works of art using different mediums.",miles:30},
+    {text:"Spend 2 hours doing needlework (crochet, knit, cross-stitch, embroidery). Display or gift it.",miles:30},
+    {text:"Learn to make three different origami animals. Practice until you can do it without instructions.",miles:20},
+    {text:"Choose one school class to improve in. Choose 2 ways to improve and implement for one month.",miles:60},
+    {text:"Read a biography of someone you admire.",miles:30},
+    {text:"Memorize a poem.",miles:20},
+    {text:"Read the seminary assigned chapters for the semester.",miles:20},
+    {text:"Pick a gospel topic essay to read in depth. Discuss what you learn with your parents.",miles:20},
+    {text:"Interview someone you admire and ask how they developed a desired attribute. Try one suggestion for a week.",miles:45},
+    {text:"Learn a cleaning or organizing skill and practice it at home for two weeks.",miles:30},
+    {text:"Research educational requirements for two interesting jobs you might want in the future.",miles:15},
+    {text:"Learn how to take care of your clothing properly. Wash, dry, iron, and put away your own clothes for a month.",miles:30},
+    {text:"Learn how to mend or alter clothing. Pick one article needing attention and fix it yourself.",miles:20},
+    {text:"Make a personal resume.",miles:20},
+    {text:"Memorize two favorite hymns, learn the conducting pattern, and lead them at home or church.",miles:20},
+    {text:"Study a foreign language every day for two weeks (Duolingo).",miles:30},
+    {text:"Teach someone something about a subject you are interested in or a hobby you enjoy.",miles:20},
+    {text:"Learn about bread baking. Make two loaves and share them with friends or family.",miles:20},
+    {text:"Listen and memorize three songs from the 2026 Youth theme album 'Walk With Me.'",miles:15},
+    {text:"Practice a musical instrument at least 5 days a week for two weeks.",miles:30},
+    {text:"Get a new job outside your home to practice money and time management skills.",miles:40},
+    {text:"Memorize a scripture in a different language.",miles:15},
+    {text:"Create a personal budget and stick to it for four weeks. Pay tithing.",miles:40},
+    {text:"Manage your time by creating a doable morning or evening routine. Try it for 2 weeks.",miles:30},
+    {text:"Learn about banking and credit cards. Open a student bank account (age 16+).",miles:20},
+    {text:"Join a school or community club. Attend at least 4 club meetings.",miles:40},
+    {text:"Plan your family's menu for the week. Make the shopping list, total the food cost, and help make at least 3 meals.",miles:30},
+    {text:"Evaluate the media you consume daily. Make and follow an improvement plan for 2 weeks.",miles:40},
+    {text:"Read D&C 89. Write in your journal about the connection between physical health and wisdom.",miles:15}
+  ],
+  social:[
+    {text:"Set up a game night or fun get-together with your friends.",miles:15},
+    {text:"Put your phone away two hours before bed for two weeks. Spend that time with family.",miles:45},
+    {text:"Interview an elderly family member or friend. Choose a way to record what you learn.",miles:30},
+    {text:"Read and study about three etiquette rules, practice them and evaluate if they helped.",miles:15},
+    {text:"Write and send five thank you notes.",miles:20},
+    {text:"Attend a play or musical to support a friend.",miles:20},
+    {text:"Choose a family member and strengthen your relationship. Implement one thing for one week. Write a paragraph about how it changed.",miles:30},
+    {text:"Notice someone who needs help and act on it.",miles:20},
+    {text:"Plan and execute a date night if you are 16+.",miles:45},
+    {text:"Make a treat or small gift and give it to someone in need.",miles:20},
+    {text:"Attend a church dance if you are 14+.",miles:30},
+    {text:"Stop checking your phone during church and seminary for one month.",miles:60},
+    {text:"Practice listening more than you talk during five conversations.",miles:30},
+    {text:"Invite a friend to church or activity night.",miles:20},
+    {text:"Attend Basketball Practice and Games.",miles:15},
+    {text:"Attend a sporting event to support a friend.",miles:15},
+    {text:"Perform at school, in the community, or at church.",miles:20},
+    {text:"Sit by someone new at lunch.",miles:15},
+    {text:"Volunteer at a community event.",miles:20},
+    {text:"Learn to play chess (or another strategic game) and play three games with another person.",miles:20},
+    {text:"Make care bags with a snack and water bottle and give them out to people in need.",miles:30},
+    {text:"Listen to someone else's music in the car.",miles:15},
+    {text:"Be present with others. Stop checking your phone during four events.",miles:45},
+    {text:"Be positive in everything you say for five days. Don't complain or make negative comments.",miles:20},
+    {text:"Include someone new in your friend group.",miles:20},
+    {text:"Watch one of your parent's favorite movies with them. Have snacks and popcorn.",miles:15},
+    {text:"Read a book with a friend and discuss it when done. Learn from each other.",miles:60},
+    {text:"Play a new board game with someone.",miles:15},
+    {text:"Visit with older relatives on a family trip. Ask about their life when they were your age.",miles:20},
+    {text:"Avoid gossip. If you hear it, change the subject.",miles:20},
+    {text:"Spend three hours giving service outside your family.",miles:30},
+    {text:"Give a Talk in Sacrament Meeting.",miles:30},
+    {text:"Pick a family member you can help. Serve them for one month.",miles:45},
+    {text:"Compliment three people every day for one week.",miles:20},
+    {text:"Lead a service project to care for the poor. Come up with a plan and find friends to help.",miles:45},
+    {text:"Encourage your family to share mealtimes. Bring conversation questions. Do this for 5 meals.",miles:30},
+    {text:"Participate in a service project to care for the poor.",miles:20}
+  ]
+};
+
+const MONTHS=["February","March","April","May","June","July","August","September","October","November"];
+const WAYPOINTS=[{label:"Egypt",miles:0,icon:"🏺"},{label:"Red Sea",miles:60,icon:"🌊"},{label:"Mt. Sinai",miles:180,icon:"⛰️"},{label:"Wilderness\nof Paran",miles:300,icon:"🌵"},{label:"Jordan\nRiver",miles:480,icon:"🏞️"},{label:"Jerusalem",miles:600,icon:"✨"}];
+const BADGES=[{id:"egypt",name:"Egypt",sub:"Departed",miles:1,icon:"🏺"},{id:"redsea",name:"Red Sea",sub:"60 miles",miles:60,icon:"🌊"},{id:"sinai",name:"Mt. Sinai",sub:"180 miles",miles:180,icon:"⛰️"},{id:"paran",name:"Paran",sub:"300 miles",miles:300,icon:"🌵"},{id:"jordan",name:"Jordan",sub:"480 miles",miles:480,icon:"🏞️"},{id:"jerusalem",name:"Jerusalem",sub:"600 miles",miles:600,icon:"✨"}];
+
+let currentUser=null;
+let currentLogMonth=getCurrentMonth();
+let currentPlanMonth=getCurrentMonth();
+
+function getCurrentMonth(){const m=new Date().getMonth();const idx=m-1;return(idx>=0&&idx<MONTHS.length)?MONTHS[idx]:MONTHS[0];}
+
+// ════════════════════════════════════════════════════
+//  AUTH
+// ════════════════════════════════════════════════════
+function showRegister(){document.getElementById('loginForm').style.display='none';document.getElementById('registerForm').style.display='block';document.getElementById('loginError').classList.remove('show');}
+function showLogin(){document.getElementById('registerForm').style.display='none';document.getElementById('loginForm').style.display='block';document.getElementById('loginError').classList.remove('show');}
+function showError(msg){const el=document.getElementById('loginError');el.textContent=msg;el.classList.add('show');}
+
+async function handleLogin(){
+  const name=document.getElementById('loginName').value.trim();
+  const pin=document.getElementById('loginPin').value.trim();
+  if(!name||!pin){showError('Please enter your name and PIN.');return;}
+  overlay(true);
+  try{
+    await loadAll();
+    const user=CACHE.users.find(u=>u.name.toLowerCase()===name.toLowerCase()&&u.pin===pin);
+    if(!user){showError('Name or PIN not found. Check your details or create an account.');overlay(false);return;}
+    currentUser=user;enterApp();
+  }catch(err){showError('Connection error: '+err.message);overlay(false);}
+}
+
+async function handleRegister(){
+  const name=document.getElementById('regName').value.trim();
+  const group=document.getElementById('regGroup').value;
+  const pin=document.getElementById('regPin').value.trim();
+  const pin2=document.getElementById('regPin2').value.trim();
+  if(!name||!pin){showError('Please fill in all fields.');return;}
+  if(pin!==pin2){showError('PINs do not match.');return;}
+  if(!/^\d{4}$/.test(pin)){showError('PIN must be exactly 4 digits.');return;}
+  overlay(true);
+  try{
+    const snap=await COL.users().get();
+    if(snap.docs.find(d=>d.data().name.toLowerCase()===name.toLowerCase())){showError('That name is already registered. Try signing in instead.');overlay(false);return;}
+    const userData={name,group,pin,isLeader:group==='Leader',ts:Date.now()};
+    const ref=await COL.users().add(userData);
+    currentUser={id:ref.id,...userData};
+    CACHE.users.push(currentUser);
+    await loadAll();
+    enterApp();
+  }catch(err){showError('Registration error: '+err.message);overlay(false);}
+}
+
+function enterApp(){
+  overlay(false);
+  document.getElementById('loginScreen').classList.remove('active');
+  document.getElementById('appScreen').classList.add('active');
+  document.getElementById('headerName').textContent=currentUser.name;
+  if(currentUser.isLeader){document.getElementById('leaderBadge').style.display='inline';document.getElementById('adminTab').style.display='block';}
+  buildMonthSelector();buildPlannerMonthSelector();buildActivityList();buildPlannerActivityList();buildGroupWaypoints();buildMiniMap();
+  renderDashboard();switchTab('dashboard');
+}
+
+function logout(){
+  currentUser=null;CACHE={users:[],entries:[],groupMiles:[],shoutouts:[]};
+  document.getElementById('appScreen').classList.remove('active');
+  document.getElementById('loginScreen').classList.add('active');
+  document.getElementById('loginName').value='';document.getElementById('loginPin').value='';
+  document.getElementById('loginError').classList.remove('show');
+  document.getElementById('leaderBadge').style.display='none';document.getElementById('adminTab').style.display='none';
+}
+
+// ════════════════════════════════════════════════════
+//  NAV — refreshes from Firestore on every tab switch
+// ════════════════════════════════════════════════════
+async function switchTab(tab){
+  document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(el=>el.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(el=>{
+    const t=el.textContent.toLowerCase();
+    if((tab==='dashboard'&&t.includes('dash'))||(tab==='planner'&&t.includes('plan'))||(tab==='log'&&t.includes('log'))||(tab==='history'&&t.includes('hist'))||(tab==='group'&&t.includes('group'))||(tab==='leaderboard'&&t.includes('leader'))||(tab==='admin'&&t.includes('admin')))el.classList.add('active');
+  });
+  try{await refreshData();}catch(e){/* show cached */}
+  if(tab==='dashboard'){renderDashboard();refreshActivityDoneStates();}
+  if(tab==='planner')renderPlanner();
+  if(tab==='history')renderHistory();
+  if(tab==='group')renderGroup();
+  if(tab==='leaderboard')renderLeaderboard();
+  if(tab==='admin')renderAdmin();
+}
+
+// ════════════════════════════════════════════════════
+//  COMPLETED ACTIVITIES
+// ════════════════════════════════════════════════════
+function getCompletedIds(){return new Set(CACHE.entries.filter(e=>e.userId===currentUser.id&&e.actId!==undefined).map(e=>e.actId));}
+function makeActId(cat,idx){return cat+'_'+idx;}
+
+// ════════════════════════════════════════════════════
+//  LOG MILES
+// ════════════════════════════════════════════════════
+function buildMonthSelector(){
+  const c=document.getElementById('monthSelector');c.innerHTML='';
+  MONTHS.forEach(m=>{const btn=document.createElement('button');btn.className='month-btn'+(m===currentLogMonth?' active':'');btn.textContent=m.slice(0,3);btn.onclick=()=>{currentLogMonth=m;document.querySelectorAll('#monthSelector .month-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');};c.appendChild(btn);});
+}
+
+function buildActivityList(){
+  const container=document.getElementById('activityList');container.innerHTML='';
+  ['spiritual','physical','intellectual','social'].forEach(cat=>{
+    const section=document.createElement('div');section.className='accordion';section.dataset.cat=cat;
+    section.innerHTML=`<div class="accordion-header" onclick="toggleAccordion(this.parentElement)"><h3><span class="cat-dot dot-${cat}"></span> ${cap(cat)}</h3><svg class="accordion-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="accordion-body" id="actBody-${cat}"></div>`;
+    container.appendChild(section);
+    const body=section.querySelector('.accordion-body');
+    ACTIVITIES[cat].forEach((act,i)=>{
+      const id=makeActId(cat,i);const item=document.createElement('div');item.className='activity-item';item.id='logAct-'+id;
+      item.innerHTML=`<div class="activity-miles">${act.miles}<span>miles</span></div><div class="activity-text">${act.text}</div>`;
+      item.onclick=()=>logActivity(cat,act,i,item);body.appendChild(item);
+    });
+  });
+  refreshActivityDoneStates();
+}
+
+function refreshActivityDoneStates(){
+  const done=getCompletedIds();
+  done.forEach(id=>{const el=document.getElementById('logAct-'+id);if(el){el.classList.add('done');if(!el.querySelector('.done-stamp')){const s=document.createElement('div');s.className='done-stamp';s.textContent='Completed';el.appendChild(s);}}});
+}
+
+function toggleAccordion(el){el.classList.toggle('open');}
+function filterActivities(cat,btn){
+  document.querySelectorAll('#tab-log .filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
+  document.querySelectorAll('#activityList .accordion').forEach(acc=>{if(cat==='all'||acc.dataset.cat===cat){acc.style.display='block';if(cat!=='all')acc.classList.add('open');}else acc.style.display='none';});
+}
+
+async function logActivity(cat,act,idx,el){
+  const id=makeActId(cat,idx);
+  if(getCompletedIds().has(id)){showToast("You've already completed this activity!");return;}
+  el.style.opacity='.5';el.style.pointerEvents='none';
+  try{
+    await fbAdd('entries',{userId:currentUser.id,userName:currentUser.name,cat,desc:act.text,miles:act.miles,month:currentLogMonth,ts:Date.now(),custom:false,actId:id});
+    el.classList.add('done');if(!el.querySelector('.done-stamp')){const s=document.createElement('div');s.className='done-stamp';s.textContent='Completed';el.appendChild(s);}
+    el.style.opacity='';el.style.pointerEvents='';
+    markPlannerDone(id);showToast('✓ Logged '+act.miles+' miles for '+cap(cat)+'!');checkBadges();renderDashboard();
+  }catch(err){showToast('Error: '+err.message);el.style.opacity='';el.style.pointerEvents='';}
+}
+
+async function logCustomGoal(){
+  const cat=document.getElementById('customCat').value;
+  const desc=document.getElementById('customDesc').value.trim();
+  const miles=parseInt(document.getElementById('customMiles').value);
+  if(!desc){showToast('Please describe your goal.');return;}
+  if(!miles||miles<1){showToast('Please enter a valid mile value.');return;}
+  try{
+    await fbAdd('entries',{userId:currentUser.id,userName:currentUser.name,cat,desc,miles,month:currentLogMonth,ts:Date.now(),custom:true});
+    document.getElementById('customDesc').value='';document.getElementById('customMiles').value='';
+    showToast('✓ Custom goal logged: '+miles+' miles!');checkBadges();renderDashboard();
+  }catch(err){showToast('Error: '+err.message);}
+}
+
+// ════════════════════════════════════════════════════
+//  PLANNER
+// ════════════════════════════════════════════════════
+function buildPlannerMonthSelector(){
+  const c=document.getElementById('plannerMonthSelector');c.innerHTML='';
+  MONTHS.forEach(m=>{const btn=document.createElement('button');btn.className='month-btn'+(m===currentPlanMonth?' active':'');btn.textContent=m.slice(0,3);btn.onclick=()=>{currentPlanMonth=m;document.querySelectorAll('#plannerMonthSelector .month-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderPlanner();};c.appendChild(btn);});
+}
+
+function buildPlannerActivityList(){
+  const container=document.getElementById('plannerActivityList');container.innerHTML='';
+  ['spiritual','physical','intellectual','social'].forEach(cat=>{
+    const section=document.createElement('div');section.className='accordion';section.dataset.cat=cat;
+    section.innerHTML=`<div class="accordion-header" onclick="this.parentElement.classList.toggle('open')"><h3><span class="cat-dot dot-${cat}"></span> ${cap(cat)}</h3><svg class="accordion-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="accordion-body" id="planBody-${cat}"></div>`;
+    container.appendChild(section);
+    const body=section.querySelector('.accordion-body');
+    ACTIVITIES[cat].forEach((act,i)=>{
+      const id=makeActId(cat,i);const item=document.createElement('div');item.className='planner-item';item.id='planAct-'+id;
+      item.innerHTML=`<div class="planner-check" id="planCheck-${id}"></div><div class="planner-text">${act.text}</div><div class="planner-miles-tag">${act.miles}mi</div>`;
+      item.onclick=()=>togglePlanned(id,act,cat);body.appendChild(item);
+    });
+  });
+}
+
+function filterPlannerActs(cat,btn){
+  document.querySelectorAll('#tab-planner .filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
+  document.querySelectorAll('#plannerActivityList .accordion').forEach(acc=>{if(cat==='all'||acc.dataset.cat===cat){acc.style.display='block';if(cat!=='all')acc.classList.add('open');}else acc.style.display='none';});
+}
+
+function togglePlanned(id,act,cat){
+  if(getCompletedIds().has(id)){showToast("Already completed — it's logged!");return;}
+  let plan=getPlanner();const exists=plan.find(p=>p.id===id);
+  if(exists)plan=plan.filter(p=>p.id!==id);else plan.push({id,text:act.text,miles:act.miles,cat});
+  savePlanner(plan);renderPlanner();refreshPlannerActStyles();
+}
+
+function markPlannerDone(actId){
+  MONTHS.forEach(m=>{const key='planner_'+currentUser.id+'_'+m;try{const plan=JSON.parse(localStorage.getItem(key)||'[]');let changed=false;plan.forEach(p=>{if(p.id===actId){p.done=true;changed=true;}});if(changed)localStorage.setItem(key,JSON.stringify(plan));}catch{}});
+}
+
+function renderPlanner(){
+  const plan=getPlanner();const done=getCompletedIds();
+  const totalPlanned=plan.reduce((s,p)=>s+p.miles,0);
+  document.getElementById('plannerCount').textContent=plan.length?`(${plan.length} selected)`:'';
+  document.getElementById('plannerMilesPreview').textContent=plan.length?`${totalPlanned} miles planned — ${totalPlanned>=60?'✓ on track!':'need '+(60-totalPlanned)+' more'}`:'';
+  const planned=document.getElementById('plannerPlanned');
+  if(!plan.length){planned.innerHTML='<p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);padding:.5rem 0;">No activities planned yet — tap activities below to add them.</p>';return;}
+  planned.innerHTML=plan.map(p=>{const isDone=done.has(p.id)||p.done;return`<div class="planner-item ${isDone?'planned-done':'planned'}"><div class="planner-check">${isDone?'<svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>':''}</div><div><span class="tag tag-${p.cat}" style="margin-bottom:.25rem;display:inline-block;">${cap(p.cat)}</span><div class="planner-text">${p.text}</div></div><div class="planner-miles-tag">${p.miles}mi</div></div>`;}).join('');
+  refreshPlannerActStyles();
+}
+
+function refreshPlannerActStyles(){
+  const plan=getPlanner();const planIds=new Set(plan.map(p=>p.id));const done=getCompletedIds();
+  document.querySelectorAll('[id^="planAct-"]').forEach(el=>{
+    const id=el.id.replace('planAct-','');el.classList.remove('planned','planned-done');
+    const chk=document.getElementById('planCheck-'+id);
+    if(done.has(id)){el.classList.add('planned-done');if(chk)chk.innerHTML='<svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>';}
+    else if(planIds.has(id)){el.classList.add('planned');if(chk)chk.style.borderColor='var(--teal)';}
+    else{if(chk){chk.innerHTML='';chk.style.borderColor='';}}
+  });
+}
+
+// ════════════════════════════════════════════════════
+//  DASHBOARD
+// ════════════════════════════════════════════════════
+function renderDashboard(){
+  const d=db();const my=d.entries.filter(e=>e.userId===currentUser.id);
+  const total=my.reduce((s,e)=>s+e.miles,0);const thisMonth=getCurrentMonth();
+  const monthMiles=my.filter(e=>e.month===thisMonth).reduce((s,e)=>s+e.miles,0);
+  const pct=Math.min(100,Math.round(total/600*100));const mPct=Math.min(100,Math.round(monthMiles/60*100));
+  document.getElementById('dashGreeting').textContent=greeting()+', '+currentUser.name;
+  document.getElementById('dashTotal').textContent=total;document.getElementById('dashTotalDisp').textContent=total;
+  document.getElementById('dashMonthMiles').textContent=monthMiles;document.getElementById('dashMonthDisp').textContent=monthMiles;
+  document.getElementById('dashPct').textContent=pct+'%';
+  document.getElementById('dashJourneyBar').style.width=pct+'%';document.getElementById('dashMonthBar').style.width=mPct+'%';
+  document.getElementById('dashStreak').textContent=calcStreak(my);
+  renderStreakRow(my);renderBadges(total);updateMiniMap(total);
+  const catColors={spiritual:'var(--spiritual)',physical:'var(--physical)',intellectual:'var(--intellectual)',social:'var(--social)'};
+  const catMiles={spiritual:0,physical:0,intellectual:0,social:0};
+  my.forEach(e=>{if(catMiles[e.cat]!==undefined)catMiles[e.cat]+=e.miles;});
+  const cb=document.getElementById('catBarsContainer');cb.innerHTML='';
+  Object.entries(catMiles).forEach(([cat,miles])=>{const p=Math.min(100,Math.round(miles/150*100));cb.innerHTML+=`<div style="margin-bottom:.6rem;"><div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.25rem;"><span class="tag tag-${cat}">${cap(cat)}</span><span style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);">${miles} mi</span></div><div class="progress-wrap" style="height:6px;"><div class="progress-fill" style="width:${p}%;background:${catColors[cat]};"></div></div></div>`;});
+  const recent=[...my].sort((a,b)=>b.ts-a.ts).slice(0,5);
+  const rEl=document.getElementById('recentActivity');
+  if(!recent.length){rEl.innerHTML='<p style="font-style:italic;color:var(--ink-soft);font-size:.9rem;">No entries yet — log your first miles!</p>';return;}
+  rEl.innerHTML=recent.map(e=>`<div class="history-entry"><div><div>${e.desc.length>70?e.desc.slice(0,70)+'…':e.desc}</div><div class="history-meta">${e.month} · <span class="tag tag-${e.cat}">${cap(e.cat)}</span>${e.custom?' · custom':''}</div></div><div class="history-miles">${e.miles}</div><div style="font-size:.7rem;color:var(--sand-dark);font-family:'Inter',sans-serif;">mi</div></div>`).join('');
+}
+
+function calcStreak(entries){let s=0;for(let i=0;i<MONTHS.length;i++){const miles=entries.filter(e=>e.month===MONTHS[i]).reduce((t,e)=>t+e.miles,0);if(miles>=60)s++;else if(MONTHS[i]!==getCurrentMonth())break;}return s;}
+
+function renderStreakRow(entries){
+  const cur=getCurrentMonth();
+  document.getElementById('streakRow').innerHTML=MONTHS.map(m=>{const miles=entries.filter(e=>e.month===m).reduce((s,e)=>s+e.miles,0);const isCur=m===cur;const hit=miles>=60;return`<div class="streak-month ${hit?'hit':isCur?'current':''}" title="${m}: ${miles} mi">${m.slice(0,1)}</div>`;}).join('');
+  const s=calcStreak(entries);document.getElementById('streakMsg').textContent=s===0?'Hit 60 miles this month to start your streak!':s===MONTHS.length?'🏆 Perfect journey — all 10 months on track!':s+' month'+(s>1?'s':'')+' on track — keep it going!';
+}
+
+function renderBadges(total){document.getElementById('badgesRow').innerHTML=BADGES.map(b=>`<div class="badge ${total>=b.miles?'earned':'locked'}"><div class="badge-icon">${b.icon}</div><div class="badge-name">${b.name}</div><div class="badge-miles">${b.sub}</div></div>`).join('');}
+
+function checkBadges(){const my=CACHE.entries.filter(e=>e.userId===currentUser.id);const total=my.reduce((s,e)=>s+e.miles,0);const prev=getBadgePrev();setBadgePrev(total);BADGES.forEach(b=>{if(b.miles>0&&total>=b.miles&&prev<b.miles)showToast('🏅 Badge Earned: '+b.name+'!');});}
+
+// ════════════════════════════════════════════════════
+//  MINI MAP
+// ════════════════════════════════════════════════════
+function buildMiniMap(){
+  const container=document.getElementById('miniWaypoints');const line=document.getElementById('miniJourneyLine');
+  WAYPOINTS.forEach((wp,i)=>{const div=document.createElement('div');div.className='mini-wp';div.id='mini-wp-'+i;div.innerHTML=`<div class="mini-wp-dot"></div><div class="mini-wp-label">${wp.label.replace('\n','<br>')}</div>`;container.appendChild(div);});
+  container.appendChild(line);
+}
+
+function updateMiniMap(total){
+  WAYPOINTS.forEach((wp,i)=>{const el=document.getElementById('mini-wp-'+i);if(el){if(total>=wp.miles)el.classList.add('reached');else el.classList.remove('reached');}});
+  const line=document.getElementById('miniJourneyLine');const container=document.getElementById('miniWaypoints');
+  line.style.width=(Math.min(100,total/600*100)/100*(container.offsetWidth-16))+'px';
+}
+
+// ════════════════════════════════════════════════════
+//  GROUP MAP
+// ════════════════════════════════════════════════════
+function buildGroupWaypoints(){
+  const container=document.getElementById('waypointsContainer');const line=document.getElementById('journeyLine');
+  WAYPOINTS.forEach((wp,i)=>{const div=document.createElement('div');div.className='waypoint';div.id='grp-wp-'+i;div.innerHTML=`<div class="waypoint-icon">${wp.icon}</div><div class="waypoint-dot"></div><div class="waypoint-label">${wp.label.replace('\n','<br>')}</div><div class="waypoint-miles">${wp.miles>0?wp.miles+' mi':'Start'}</div>`;container.appendChild(div);});
+  container.appendChild(line);setTimeout(drawMapCanvas,150);
+}
+
+function drawMapCanvas(){
+  const canvas=document.getElementById('mapCanvas');if(!canvas)return;
+  const map=document.getElementById('groupJourneyMap');canvas.width=map.offsetWidth;canvas.height=map.offsetHeight;
+  const ctx=canvas.getContext('2d');ctx.strokeStyle='rgba(26,58,92,0.08)';ctx.lineWidth=1;
+  for(let y=20;y<canvas.height;y+=28){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(canvas.width,y);ctx.stroke();}
+  for(let x=30;x<canvas.width;x+=36){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,canvas.height);ctx.stroke();}
+  const cx=canvas.width-44,cy=canvas.height-44,r=22;ctx.strokeStyle='rgba(26,58,92,0.18)';ctx.lineWidth=1.2;
+  [[0,-r],[0,r],[r,0],[-r,0],[r*.7,-r*.7],[r*.7,r*.7],[-r*.7,-r*.7],[-r*.7,r*.7]].forEach(([dx,dy])=>{ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+dx*.35,cy+dy*.35);ctx.stroke();ctx.beginPath();ctx.moveTo(cx+dx*.45,cy+dy*.45);ctx.lineTo(cx+dx,cy+dy);ctx.stroke();});
+  ctx.fillStyle='rgba(26,58,92,0.25)';ctx.font='bold 8px serif';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('N',cx,cy-r-6);ctx.fillText('S',cx,cy+r+6);ctx.fillText('E',cx+r+6,cy);ctx.fillText('W',cx-r-6,cy);
+  ctx.beginPath();ctx.arc(cx,cy,3,0,Math.PI*2);ctx.fill();
+}
+
+function renderGroup(){
+  const d=db();const youth=d.users.filter(u=>!u.isLeader);
+  const yMiles=d.entries.filter(e=>youth.find(u=>u.id===e.userId)).reduce((s,e)=>s+e.miles,0);
+  const gMiles=d.groupMiles.reduce((s,e)=>s+e.miles,0);const total=yMiles+gMiles;
+  const score=u=>d.entries.filter(e=>e.userId===u.id).reduce((s,e)=>s+e.miles,0);
+  const completions=youth.filter(u=>score(u)>=600).length;
+  const participating=youth.filter(u=>d.entries.some(e=>e.userId===u.id)).length;
+  const pct=Math.min(100,Math.round(total/600*100));
+  const pct70=Math.min(100,Math.round(completions/(youth.length*.7||1)*100));
+  document.getElementById('groupTotalDisp').textContent=total+' miles';document.getElementById('groupMilesDisp').textContent=total;
+  document.getElementById('groupProgressBar').style.width=pct+'%';document.getElementById('groupParticipants').textContent=participating;
+  document.getElementById('groupCompletions').textContent=completions;document.getElementById('groupPct').textContent=pct+'%';document.getElementById('groupPct70').textContent=pct70+'%';
+  WAYPOINTS.forEach((wp,i)=>{const el=document.getElementById('grp-wp-'+i);if(el){if(total>=wp.miles)el.classList.add('reached');else el.classList.remove('reached');}});
+  const line=document.getElementById('journeyLine');const container=document.getElementById('waypointsContainer');
+  line.style.width=(Math.min(100,total/600*100)/100*(container.offsetWidth-32))+'px';
+  const cur=[...WAYPOINTS].reverse().find(wp=>total>=wp.miles);const nxt=WAYPOINTS.find(wp=>total<wp.miles);
+  document.getElementById('groupMapSub').textContent=total>=600?'🎉 We have arrived in Jerusalem!':cur&&nxt?'Passed '+cur.label.replace('\n',' ')+' — heading toward '+nxt.label.replace('\n',' '):'The journey has begun from Egypt';
+  const feed=document.getElementById('shoutoutFeed');const shouts=[...d.shoutouts].sort((a,b)=>b.ts-a.ts);
+  feed.innerHTML=shouts.length?shouts.map(s=>`<div class="shoutout"><div class="shoutout-header"><span class="shoutout-from">${s.from}</span><span class="shoutout-time">${timeAgo(s.ts)}</span></div><div class="shoutout-text">"${s.text}"</div></div>`).join(''):'<p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);">No shoutouts yet — check back soon!</p>';
+}
+
+// ════════════════════════════════════════════════════
+//  LEADERBOARD
+// ════════════════════════════════════════════════════
+function renderLeaderboard(){
+  const d=db();const score=u=>d.entries.filter(e=>e.userId===u.id).reduce((s,e)=>s+e.miles,0);
+  const yRanked=d.users.filter(u=>!u.isLeader).map(u=>({...u,miles:score(u)})).sort((a,b)=>b.miles-a.miles);
+  const lRanked=d.users.filter(u=>u.isLeader).map(u=>({...u,miles:score(u)})).sort((a,b)=>b.miles-a.miles);
+  const maxY=yRanked[0]?.miles||1;const maxL=lRanked[0]?.miles||1;
+  function rows(arr,max,isLeader){
+    if(!arr.length)return'<p style="padding:1rem;font-style:italic;font-size:.9rem;color:var(--ink-soft);">None yet.</p>';
+    return arr.map((u,i)=>{const rc=isLeader?'':i===0?'gold':i===1?'silver':i===2?'bronze':'';const isMe=u.id===currentUser.id;const bp=Math.round(u.miles/max*100);
+    return`<div class="leaderboard-item"><div class="lb-rank ${rc}">${isLeader?'★':i+1}</div><div class="lb-name ${isMe?'me':''}">${u.name}${isMe?' (you)':''}</div><div style="font-size:.72rem;color:var(--ink-soft);font-family:'Inter',sans-serif;opacity:.65;">${u.group}</div><div class="lb-bar-wrap"><div class="lb-bar ${isLeader?'leader-bar':''}" style="width:${bp}%"></div></div><div class="lb-miles">${u.miles}</div><div style="font-size:.68rem;color:var(--sand-dark);font-family:'Inter',sans-serif;">mi</div></div>`;}).join('');
+  }
+  document.getElementById('leaderboardYouth').innerHTML=rows(yRanked,maxY,false);
+  const lHead=document.getElementById('leaderLBHead');const lEl=document.getElementById('leaderboardLeaders');
+  if(lRanked.length){lHead.style.display='block';lEl.innerHTML=rows(lRanked,maxL,true);}else{lHead.style.display='none';lEl.innerHTML='';}
+}
+
+// ════════════════════════════════════════════════════
+//  HISTORY
+// ════════════════════════════════════════════════════
+function renderHistory(){
+  const d=db();const my=d.entries.filter(e=>e.userId===currentUser.id);
+  const grid=document.getElementById('monthlyGrid');grid.innerHTML='';
+  MONTHS.forEach(m=>{const miles=my.filter(e=>e.month===m).reduce((s,e)=>s+e.miles,0);const cls=miles>=60?'on-track':miles>0?'behind':'';grid.innerHTML+=`<div class="month-card"><div class="month-name">${m}</div><div class="month-miles ${cls}">${miles} <span style="font-family:'Crimson Pro',serif;font-size:1rem;font-weight:300;">mi</span></div><div class="progress-wrap" style="margin-top:.5rem;height:5px;"><div class="progress-fill" style="width:${Math.min(100,miles/60*100)}%;"></div></div></div>`;});
+  const list=document.getElementById('historyList');const sorted=[...my].sort((a,b)=>b.ts-a.ts);
+  if(!sorted.length){list.innerHTML='<p style="font-style:italic;color:var(--ink-soft);font-size:.9rem;text-align:center;padding:1rem;">No entries yet.</p>';return;}
+  list.innerHTML=sorted.map(e=>`<div class="history-entry"><div><div>${e.desc}</div><div class="history-meta">${e.month} · <span class="tag tag-${e.cat}">${cap(e.cat)}</span>${e.custom?' · personal goal':''}</div></div><div class="history-miles">${e.miles}</div><div style="font-size:.68rem;color:var(--sand-dark);font-family:'Inter',sans-serif;">mi</div></div>`).join('');
+}
+
+// ════════════════════════════════════════════════════
+//  ADMIN
+// ════════════════════════════════════════════════════
+function renderAdmin(){
+  const d=db();const youth=d.users.filter(u=>!u.isLeader);const score=u=>d.entries.filter(e=>e.userId===u.id).reduce((s,e)=>s+e.miles,0);
+  const totalYouth=youth.length;const participating=youth.filter(u=>d.entries.some(e=>e.userId===u.id)).length;
+  const onTrack=youth.filter(u=>d.entries.filter(e=>e.userId===u.id&&e.month===getCurrentMonth()).reduce((s,e)=>s+e.miles,0)>=60).length;
+  const completions=youth.filter(u=>score(u)>=600).length;const allMiles=d.entries.filter(e=>youth.find(u=>u.id===e.userId)).reduce((s,e)=>s+e.miles,0);
+  document.getElementById('leaderStatGrid').innerHTML=`<div class="stat-card"><div class="stat-number">${totalYouth}</div><div class="stat-label">Total Youth</div></div><div class="stat-card"><div class="stat-number">${participating}</div><div class="stat-label">Participating</div></div><div class="stat-card"><div class="stat-number">${onTrack}</div><div class="stat-label">On Track This Month</div></div><div class="stat-card"><div class="stat-number">${completions}</div><div class="stat-label">Completions</div></div><div class="stat-card"><div class="stat-number">${allMiles}</div><div class="stat-label">Total Ward Miles</div></div><div class="stat-card"><div class="stat-number">${Math.round(allMiles/(totalYouth||1))}</div><div class="stat-label">Avg Miles/Youth</div></div>`;
+  const catMiles={spiritual:0,physical:0,intellectual:0,social:0};d.entries.filter(e=>youth.find(u=>u.id===e.userId)).forEach(e=>{if(catMiles[e.cat]!==undefined)catMiles[e.cat]+=e.miles;});
+  const maxCat=Math.max(...Object.values(catMiles),1);const catColors={spiritual:'var(--spiritual)',physical:'var(--physical)',intellectual:'var(--intellectual)',social:'var(--social)'};
+  document.getElementById('leaderCatBars').innerHTML=Object.entries(catMiles).map(([cat,m])=>`<div class="cat-bar-row"><div class="cat-bar-label">${cap(cat)}</div><div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:${Math.round(m/maxCat*100)}%;background:${catColors[cat]};"></div></div><div class="cat-bar-miles">${m}</div></div>`).join('');
+  const cur=getCurrentMonth();
+  document.getElementById('leaderMonthStatus').innerHTML=!youth.length?'<p style="font-size:.9rem;font-style:italic;color:var(--ink-soft);">No youth registered yet.</p>':youth.map(u=>{const m=d.entries.filter(e=>e.userId===u.id&&e.month===cur).reduce((s,e)=>s+e.miles,0);const p=Math.min(100,Math.round(m/60*100));const color=m>=60?'var(--teal)':m>0?'var(--gold)':'var(--sand-dark)';return`<div class="admin-user-row"><div class="admin-user-name">${u.name}</div><div style="flex:1;padding:0 .75rem;"><div class="progress-wrap" style="height:5px;margin:0;"><div class="progress-fill" style="width:${p}%;background:${color};"></div></div></div><div style="font-size:.85rem;font-family:'Cinzel',serif;color:${color};min-width:60px;text-align:right;">${m} mi ${m>=60?'✓':'…'}</div></div>`;}).join('');
+  document.getElementById('adminRoster').innerHTML=youth.length?youth.map(u=>`<div class="admin-user-row"><div class="admin-user-name">${u.name}</div><div style="font-size:.75rem;color:var(--ink-soft);">${u.group}</div><div class="admin-user-miles">${score(u)} mi</div></div>`).join(''):'<p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);">No youth registered yet.</p>';
+  const all=[...d.entries].sort((a,b)=>b.ts-a.ts);
+  document.getElementById('adminEntries').innerHTML=all.length?all.map(e=>`<div class="history-entry" style="grid-template-columns:1fr auto auto auto;"><div><div style="font-size:.85rem;">${e.userName} — ${e.desc.length>55?e.desc.slice(0,55)+'…':e.desc}</div><div class="history-meta">${e.month} · <span class="tag tag-${e.cat}">${cap(e.cat)}</span>${e.custom?' · custom':''}</div></div><div class="history-miles">${e.miles} mi</div><button class="btn btn-danger" onclick="deleteEntry('${e.id}')">Remove</button></div>`).join(''):'<p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);">No entries yet.</p>';
+}
+
+async function addGroupMiles(){
+  const month=document.getElementById('adminMonth').value;const miles=parseInt(document.getElementById('adminGroupMiles').value);const desc=document.getElementById('adminGroupDesc').value.trim();
+  if(!miles||miles<1){showToast('Enter a valid mile amount.');return;}if(!desc){showToast('Enter a description.');return;}
+  try{await fbAdd('groupMiles',{month,miles,desc,ts:Date.now()});showToast('✓ Added '+miles+' group miles for '+month+'!');renderAdmin();}catch(err){showToast('Error: '+err.message);}
+}
+
+async function postShoutout(){
+  const text=document.getElementById('shoutoutText').value.trim();if(!text){showToast('Please write a message.');return;}
+  try{await fbAdd('shoutouts',{from:currentUser.name,text,ts:Date.now()});document.getElementById('shoutoutText').value='';showToast('📣 Shoutout posted!');}catch(err){showToast('Error: '+err.message);}
+}
+
+async function deleteEntry(id){
+  if(!confirm('Remove this entry?'))return;
+  try{await fbDelete('entries',id);renderAdmin();showToast('Entry removed.');}catch(err){showToast('Error: '+err.message);}
+}
+
+function exportCSV(){
+  const d=db();const headers=['Name','Group','Category','Description','Miles','Month','Date','Custom'];
+  const rows=d.entries.map(e=>{const u=d.users.find(u=>u.id===e.userId)||{};return[u.name||e.userName,u.group||'',e.cat,'"'+e.desc.replace(/"/g,'""')+'"',e.miles,e.month,new Date(e.ts).toLocaleDateString(),e.custom?'Yes':'No'].join(',');});
+  const csv=[headers.join(','),...rows].join('\n');const blob=new Blob([csv],{type:'text/csv'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='walkwithme2026_entries.csv';a.click();URL.revokeObjectURL(url);showToast('CSV downloaded!');
+}
+
+// ════════════════════════════════════════════════════
+//  PRINT
+// ════════════════════════════════════════════════════
+function printSummary(){
+  const d=db();const my=d.entries.filter(e=>e.userId===currentUser.id);const total=my.reduce((s,e)=>s+e.miles,0);
+  const catMiles={spiritual:0,physical:0,intellectual:0,social:0};my.forEach(e=>{if(catMiles[e.cat]!==undefined)catMiles[e.cat]+=e.miles;});
+  document.getElementById('printContent').innerHTML=`<h2 style="font-family:'Cinzel',serif;color:#1a3a5c;">${currentUser.name}</h2><p style="color:#666;margin-bottom:1.5rem;">${currentUser.group} · Printed ${new Date().toLocaleDateString()}</p><table style="width:100%;border-collapse:collapse;margin-bottom:1.5rem;"><tr style="background:#f4ede0;"><th style="padding:.5rem;text-align:left;font-size:.8rem;">Month</th><th style="padding:.5rem;text-align:right;font-size:.8rem;">Miles</th><th style="padding:.5rem;text-align:right;font-size:.8rem;">Status</th></tr>${MONTHS.map(m=>{const miles=my.filter(e=>e.month===m).reduce((s,e)=>s+e.miles,0);return`<tr style="border-bottom:1px solid #e8dcc8;"><td style="padding:.5rem;">${m}</td><td style="padding:.5rem;text-align:right;">${miles}</td><td style="padding:.5rem;text-align:right;">${miles>=60?'✓ On Track':'—'}</td></tr>`;}).join('')}<tr style="background:#f4ede0;font-weight:bold;"><td style="padding:.5rem;">Total</td><td style="padding:.5rem;text-align:right;">${total}</td><td style="padding:.5rem;text-align:right;">${total>=600?'🎉 Complete!':Math.round(total/600*100)+'%'}</td></tr></table><h3 style="font-family:'Cinzel',serif;color:#1a3a5c;margin-bottom:.75rem;">Miles by Category</h3>${Object.entries(catMiles).map(([cat,m])=>`<div style="margin-bottom:.4rem;">${cap(cat)}: ${m} miles</div>`).join('')}<p style="margin-top:1.5rem;font-style:italic;color:#888;font-size:.85rem;">Walk With Me · Level Creek Ward 2026</p>`;
+  window.print();
+}
+
+// ════════════════════════════════════════════════════
+//  UTILS
+// ════════════════════════════════════════════════════
+function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
+function greeting(){const h=new Date().getHours();return h<12?'Good morning':h<17?'Good afternoon':'Good evening';}
+function timeAgo(ts){const s=Math.floor((Date.now()-ts)/1000);if(s<60)return'just now';if(s<3600)return Math.floor(s/60)+'m ago';if(s<86400)return Math.floor(s/3600)+'h ago';return Math.floor(s/86400)+'d ago';}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
+
+function buildStars(){const c=document.getElementById('loginStars');for(let i=0;i<80;i++){const s=document.createElement('div');s.className='star';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.animationDelay=Math.random()*4+'s';s.style.animationDuration=(2+Math.random()*3)+'s';s.style.width=s.style.height=(1+Math.random()*2)+'px';c.appendChild(s);}}
+buildStars();
+</script>
+</body>
+</html>
