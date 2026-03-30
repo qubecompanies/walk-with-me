@@ -235,9 +235,6 @@ textarea.form-input{min-height:72px;resize:vertical;}
 .spinner{width:44px;height:44px;border:3px solid rgba(232,176,80,.3);border-top-color:var(--gold-light);border-radius:50%;animation:spin .8s linear infinite;}
 .loading-text{font-family:'Cinzel',serif;color:var(--gold-light);font-size:1rem;letter-spacing:.12em;}
 @media(max-width:600px){.header-brand{font-size:.78rem;}.waypoint-label{font-size:.5rem;max-width:40px;}.lb-bar-wrap{display:none;}.content{padding:1rem .75rem;}.stats-row{grid-template-columns:repeat(2,1fr);}}
-
-/* ── ROLE SELECT ── */
-.role-select{font-family:'Inter',sans-serif;font-size:.75rem;border:1px solid var(--sand-dark);border-radius:2px;padding:.2rem .4rem;background:white;color:var(--ink);}
 </style>
 </head>
 <body>
@@ -273,7 +270,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
     <div id="registerForm" style="display:none">
       <div class="form-group"><label class="form-label">Full Name</label><input type="text" id="regName" class="form-input" placeholder="First Last" autocomplete="name"></div>
       <div class="form-group"><label class="form-label">Group</label>
-        <select id="regGroup" class="form-input"><option value="Young Men">Young Men</option><option value="Young Women">Young Women</option><option value="Adult">Adult</option><option value="Leader">Leader</option></select>
+        <select id="regGroup" class="form-input"><option value="Young Men">Young Men</option><option value="Young Women">Young Women</option><option value="Leader">Leader</option></select>
       </div>
       <div class="form-group"><label class="form-label">Choose a PIN (4 digits)</label><input type="password" id="regPin" class="form-input" placeholder="••••" maxlength="4" inputmode="numeric"></div>
       <div class="form-group"><label class="form-label">Confirm PIN</label><input type="password" id="regPin2" class="form-input" placeholder="••••" maxlength="4" inputmode="numeric"></div>
@@ -449,7 +446,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
       <div class="card neutral" style="padding:0;overflow:hidden;">
         <div class="lb-section-head">Youth</div>
         <div id="leaderboardYouth"></div>
-        <div class="lb-section-head" id="leaderLBHead" style="display:none">Leaders &amp; Adults</div>
+        <div class="lb-section-head" id="leaderLBHead" style="display:none">Leaders</div>
         <div id="leaderboardLeaders"></div>
       </div>
     </div>
@@ -467,7 +464,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
         </div>
       </div>
       <div class="card neutral">
-        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">This Month Status (Youth)</strong>
+        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">This Month Status</strong>
         <div id="leaderMonthStatus"></div>
       </div>
       <div class="card neutral">
@@ -491,10 +488,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
         <button class="btn btn-ghost btn-sm" onclick="exportCSV()">Download All Entries as CSV</button>
       </div>
       <div class="card neutral">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;">
-          <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);">Full Roster</strong>
-          <button class="btn btn-ghost btn-sm no-print" onclick="printRoster()">🖨 Print Roster</button>
-        </div>
+        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">Youth Roster</strong>
         <div id="adminRoster"></div>
       </div>
       <div class="card neutral">
@@ -538,7 +532,7 @@ function _db() {
   _fst = firebase.firestore();
   return _fst;
 }
-firebase.initializeApp(FIREBASE_CONFIG);
+firebase.initializeApp(firebaseConfig);
 
 // ── Collection references — resolved lazily via _db() ──
 const COL = {
@@ -809,8 +803,7 @@ async function handleRegister(){
   try{
     const snap=await COL.users().get();
     if(snap.docs.find(d=>d.data().name.toLowerCase()===name.toLowerCase())){showError('That name is already registered. Try signing in instead.');overlay(false);return;}
-    const isPrivileged=group==='Leader'||group==='Adult';
-    const userData={name,group,pin,isLeader:isPrivileged,ts:Date.now()};
+    const userData={name,group,pin,isLeader:group==='Leader',ts:Date.now()};
     const ref=await COL.users().add(userData);
     currentUser={id:ref.id,...userData};
     CACHE.users.push(currentUser);
@@ -824,12 +817,7 @@ function enterApp(){
   document.getElementById('loginScreen').classList.remove('active');
   document.getElementById('appScreen').classList.add('active');
   document.getElementById('headerName').textContent=currentUser.name;
-  if(currentUser.isLeader){
-    const badge=document.getElementById('leaderBadge');
-    badge.textContent=currentUser.group==='Adult'?'Adult':currentUser.group==='Leader'?'Leader':'Leader';
-    badge.style.display='inline';
-    document.getElementById('adminTab').style.display='block';
-  }
+  if(currentUser.isLeader){document.getElementById('leaderBadge').style.display='inline';document.getElementById('adminTab').style.display='block';}
   buildMonthSelector();buildPlannerMonthSelector();buildActivityList();buildPlannerActivityList();buildGroupWaypoints();buildMiniMap();
   renderDashboard();switchTab('dashboard');
 }
@@ -1094,16 +1082,10 @@ function renderLeaderboard(){
   const yRanked=d.users.filter(u=>!u.isLeader).map(u=>({...u,miles:score(u)})).sort((a,b)=>b.miles-a.miles);
   const lRanked=d.users.filter(u=>u.isLeader).map(u=>({...u,miles:score(u)})).sort((a,b)=>b.miles-a.miles);
   const maxY=yRanked[0]?.miles||1;const maxL=lRanked[0]?.miles||1;
-  function rows(arr,max,isAdultRow){
+  function rows(arr,max,isLeader){
     if(!arr.length)return'<p style="padding:1rem;font-style:italic;font-size:.9rem;color:var(--ink-soft);">None yet.</p>';
-    return arr.map((u,i)=>{
-      const rc=isAdultRow?'':i===0?'gold':i===1?'silver':i===2?'bronze':'';
-      const isMe=u.id===currentUser.id;const bp=Math.round(u.miles/max*100);
-      const flame=isRecentlyActive(u.id)?'<span class="lb-flame" title="Active this week">🔥</span>':'';
-      const jerusalem=u.miles>=600?'<span style="font-size:.8rem;" title="Arrived in Jerusalem!">✨</span>':'';
-      const rankSymbol=isAdultRow?(u.group==='Adult'?'A':'★'):i+1;
-      return`<div class="leaderboard-item"><div class="lb-rank ${rc}">${rankSymbol}</div><div class="lb-name ${isMe?'me':''}">${u.name}${isMe?' (you)':''}${flame}${jerusalem}</div><div style="font-size:.72rem;color:var(--ink-soft);font-family:'Inter',sans-serif;opacity:.65;">${u.group}</div><div class="lb-bar-wrap"><div class="lb-bar ${isAdultRow?'leader-bar':''}" style="width:${bp}%"></div></div><div class="lb-miles">${u.miles}</div><div style="font-size:.68rem;color:var(--sand-dark);font-family:'Inter',sans-serif;">mi</div></div>`;
-    }).join('');
+    return arr.map((u,i)=>{const rc=isLeader?'':i===0?'gold':i===1?'silver':i===2?'bronze':'';const isMe=u.id===currentUser.id;const bp=Math.round(u.miles/max*100);
+    return`<div class="leaderboard-item"><div class="lb-rank ${rc}">${isLeader?'★':i+1}</div><div class="lb-name ${isMe?'me':''}">${u.name}${isMe?' (you)':''}</div><div style="font-size:.72rem;color:var(--ink-soft);font-family:'Inter',sans-serif;opacity:.65;">${u.group}</div><div class="lb-bar-wrap"><div class="lb-bar ${isLeader?'leader-bar':''}" style="width:${bp}%"></div></div><div class="lb-miles">${u.miles}</div><div style="font-size:.68rem;color:var(--sand-dark);font-family:'Inter',sans-serif;">mi</div></div>`;}).join('');
   }
   document.getElementById('leaderboardYouth').innerHTML=rows(yRanked,maxY,false);
   const lHead=document.getElementById('leaderLBHead');const lEl=document.getElementById('leaderboardLeaders');
@@ -1136,19 +1118,7 @@ function renderAdmin(){
   document.getElementById('leaderCatBars').innerHTML=Object.entries(catMiles).map(([cat,m])=>`<div class="cat-bar-row"><div class="cat-bar-label">${cap(cat)}</div><div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:${Math.round(m/maxCat*100)}%;background:${catColors[cat]};"></div></div><div class="cat-bar-miles">${m}</div></div>`).join('');
   const cur=getCurrentMonth();
   document.getElementById('leaderMonthStatus').innerHTML=!youth.length?'<p style="font-size:.9rem;font-style:italic;color:var(--ink-soft);">No youth registered yet.</p>':youth.map(u=>{const m=d.entries.filter(e=>e.userId===u.id&&e.month===cur).reduce((s,e)=>s+e.miles,0);const p=Math.min(100,Math.round(m/60*100));const color=m>=60?'var(--teal)':m>0?'var(--gold)':'var(--sand-dark)';return`<div class="admin-user-row"><div class="admin-user-name">${u.name}</div><div style="flex:1;padding:0 .75rem;"><div class="progress-wrap" style="height:5px;margin:0;"><div class="progress-fill" style="width:${p}%;background:${color};"></div></div></div><div style="font-size:.85rem;font-family:'Cinzel',serif;color:${color};min-width:60px;text-align:right;">${m} mi ${m>=60?'✓':'…'}</div></div>`;}).join('');
-  // Roster with role editing — all users including Adults/Leaders
-  const allUsersSorted=[...d.users].sort((a,b)=>a.name.localeCompare(b.name));
-  document.getElementById('adminRoster').innerHTML=allUsersSorted.length?allUsersSorted.map(u=>`
-    <div class="admin-user-row">
-      <div class="admin-user-name">${u.name}</div>
-      <select class="role-select" onchange="updateUserRole('${u.id}',this.value)">
-        <option value="Young Men" ${u.group==='Young Men'?'selected':''}>Young Men</option>
-        <option value="Young Women" ${u.group==='Young Women'?'selected':''}>Young Women</option>
-        <option value="Adult" ${u.group==='Adult'?'selected':''}>Adult</option>
-        <option value="Leader" ${u.group==='Leader'?'selected':''}>Leader</option>
-      </select>
-      <div class="admin-user-miles" style="min-width:50px;text-align:right;">${score(u)} mi</div>
-    </div>`).join(''):'<p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);">No users registered yet.</p>';
+  document.getElementById('adminRoster').innerHTML=youth.length?youth.map(u=>`<div class="admin-user-row"><div class="admin-user-name">${u.name}</div><div style="font-size:.75rem;color:var(--ink-soft);">${u.group}</div><div class="admin-user-miles">${score(u)} mi</div></div>`).join(''):'<p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);">No youth registered yet.</p>';
   const all=[...d.entries].sort((a,b)=>b.ts-a.ts);
   document.getElementById('adminEntries').innerHTML=all.length?all.map(e=>`<div class="history-entry" style="grid-template-columns:1fr auto auto auto;"><div><div style="font-size:.85rem;">${e.userName} — ${e.desc.length>55?e.desc.slice(0,55)+'…':e.desc}</div><div class="history-meta">${e.month} · <span class="tag tag-${e.cat}">${cap(e.cat)}</span>${e.custom?' · custom':''}</div></div><div class="history-miles">${e.miles} mi</div><button class="btn btn-danger" onclick="deleteEntry('${e.id}')">Remove</button></div>`).join(''):'<p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);">No entries yet.</p>';
 }
@@ -1169,47 +1139,6 @@ async function deleteEntry(id){
   try{await fbDelete('entries',id);renderAdmin();showToast('Entry removed.');}catch(err){showToast('Error: '+err.message);}
 }
 
-
-// ── USER ROLE EDIT ──
-async function updateUserRole(userId, newGroup){
-  const isPrivileged=newGroup==='Leader'||newGroup==='Adult';
-  try{
-    await COL.users().doc(userId).update({group:newGroup,isLeader:isPrivileged});
-    const u=CACHE.users.find(u=>u.id===userId);
-    if(u){u.group=newGroup;u.isLeader=isPrivileged;}
-    showToast('Role updated to '+newGroup);
-    renderAdmin();
-  }catch(err){showToast('Error: '+err.message);}
-}
-
-// ── ROSTER PRINT ──
-function printRoster(){
-  const d=db();
-  const youth=d.users.filter(u=>!u.isLeader).sort((a,b)=>a.name.localeCompare(b.name));
-  const adults=d.users.filter(u=>u.isLeader).sort((a,b)=>a.name.localeCompare(b.name));
-  const score=u=>d.entries.filter(e=>e.userId===u.id).reduce((s,e)=>s+e.miles,0);
-  const cur=getCurrentMonth();
-  const win=window.open('','_blank');
-  win.document.write(`<!DOCTYPE html><html><head><title>Level Creek Ward Roster</title>
-  <style>body{font-family:Georgia,serif;padding:2rem;max-width:700px;margin:0 auto;}
-  h1{font-size:1.4rem;color:#1a3a5c;margin-bottom:.25rem;}
-  h2{font-size:1rem;color:#1a3a5c;margin:1.5rem 0 .5rem;border-bottom:1px solid #e8dcc8;padding-bottom:.25rem;}
-  p{color:#666;font-size:.85rem;margin-bottom:1.5rem;}
-  table{width:100%;border-collapse:collapse;margin-bottom:.5rem;}
-  th{background:#f4ede0;padding:.5rem;text-align:left;font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;}
-  td{padding:.55rem .5rem;border-bottom:1px solid #e8dcc8;font-size:.9rem;}
-  .on-track{color:#2a7a6e;font-weight:600;}.behind{color:#c8922a;}
-  </style></head><body>
-  <h1>Walk With Me — Level Creek Ward 2026</h1>
-  <p>Printed ${new Date().toLocaleDateString()} &nbsp;·&nbsp; ${youth.length} youth &nbsp;·&nbsp; ${adults.length} adults/leaders</p>
-  <h2>Youth</h2>
-  <table><tr><th>#</th><th>Name</th><th>Group</th><th>Total Mi</th><th>${cur} Mi</th><th>Status</th></tr>
-  ${youth.map((u,i)=>{const tot=score(u);const mm=d.entries.filter(e=>e.userId===u.id&&e.month===cur).reduce((s,e)=>s+e.miles,0);const cls=mm>=60?'on-track':mm>0?'behind':'';const st=tot>=600?'✨ Done':mm>=60?'✓ On Track':'…';return`<tr><td>${i+1}</td><td>${u.name}</td><td>${u.group}</td><td>${tot}</td><td class="${cls}">${mm}</td><td>${st}</td></tr>`;}).join('')}
-  </table>
-  ${adults.length?`<h2>Adults &amp; Leaders</h2><table><tr><th>#</th><th>Name</th><th>Group</th><th>Total Mi</th></tr>${adults.map((u,i)=>`<tr><td>${i+1}</td><td>${u.name}</td><td>${u.group}</td><td>${score(u)}</td></tr>`).join('')}</table>`:''}
-  </body></html>`);
-  win.document.close();win.print();
-}
 function exportCSV(){
   const d=db();const headers=['Name','Group','Category','Description','Miles','Month','Date','Custom'];
   const rows=d.entries.map(e=>{const u=d.users.find(u=>u.id===e.userId)||{};return[u.name||e.userName,u.group||'',e.cat,'"'+e.desc.replace(/"/g,'""')+'"',e.miles,e.month,new Date(e.ts).toLocaleDateString(),e.custom?'Yes':'No'].join(',');});
