@@ -235,6 +235,46 @@ textarea.form-input{min-height:72px;resize:vertical;}
 .spinner{width:44px;height:44px;border:3px solid rgba(232,176,80,.3);border-top-color:var(--gold-light);border-radius:50%;animation:spin .8s linear infinite;}
 .loading-text{font-family:'Cinzel',serif;color:var(--gold-light);font-size:1rem;letter-spacing:.12em;}
 @media(max-width:600px){.header-brand{font-size:.78rem;}.waypoint-label{font-size:.5rem;max-width:40px;}.lb-bar-wrap{display:none;}.content{padding:1rem .75rem;}.stats-row{grid-template-columns:repeat(2,1fr);}}
+
+/* ── ROLE SELECT ── */
+.role-select{font-family:'Inter',sans-serif;font-size:.75rem;border:1px solid var(--sand-dark);border-radius:2px;padding:.25rem .5rem;background:white;color:var(--ink);cursor:pointer;}
+/* ── GROUP MILES LIST ── */
+.group-mile-row{display:grid;grid-template-columns:1fr auto auto auto;gap:.5rem;align-items:center;padding:.6rem 0;border-bottom:1px solid rgba(201,185,154,.3);font-size:.9rem;}
+.group-mile-row:last-child{border-bottom:none;}
+/* ── FEATURED CHALLENGE ── */
+.featured-challenge{background:linear-gradient(135deg,rgba(200,146,42,.12),rgba(200,146,42,.06));border:1.5px solid var(--gold);border-radius:2px;padding:1rem;margin-bottom:1rem;position:relative;}
+.featured-badge{position:absolute;top:-10px;left:12px;background:var(--gold);color:white;font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.1em;padding:.2rem .6rem;border-radius:10px;}
+/* ── FLAME ── */
+.lb-flame{font-size:.85rem;margin-left:.2rem;}
+/* ── CELEBRATION ── */
+#celebrationOverlay{position:fixed;inset:0;background:linear-gradient(160deg,#0d2035 0%,#1a3a5c 60%,#0d2820 100%);z-index:9998;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;}
+#celebrationOverlay.show{display:flex;}
+.celeb-title{font-family:'Cinzel',serif;font-size:2.2rem;color:var(--gold-light);letter-spacing:.08em;margin-bottom:.5rem;animation:glowPulse 2s ease-in-out infinite;}
+.celeb-sub{font-family:'Crimson Pro',serif;font-size:1.2rem;color:rgba(255,255,255,.85);font-style:italic;margin-bottom:2rem;}
+.celeb-badge{font-size:5rem;margin-bottom:1.5rem;animation:badgeBounce .6s ease both;}
+@keyframes glowPulse{0%,100%{text-shadow:0 0 20px rgba(232,176,80,.4);}50%{text-shadow:0 0 50px rgba(232,176,80,.9),0 0 80px rgba(232,176,80,.4);}}
+@keyframes badgeBounce{0%{transform:scale(0) rotate(-20deg);}70%{transform:scale(1.2) rotate(5deg);}100%{transform:scale(1) rotate(0deg);}}
+#fireworkCanvas{position:absolute;inset:0;pointer-events:none;}
+/* ── CERTIFICATE ── */
+#certOverlay{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:9999;display:none;align-items:center;justify-content:center;padding:1rem;}
+#certOverlay.show{display:flex;}
+.cert-card{background:var(--parchment);max-width:560px;width:100%;border:3px solid var(--gold);box-shadow:0 0 0 8px rgba(200,146,42,.15),0 20px 60px rgba(0,0,0,.5);padding:2.5rem;text-align:center;position:relative;border-radius:2px;}
+.cert-card::before,.cert-card::after{content:'✦';position:absolute;font-size:1.2rem;color:var(--gold);opacity:.6;}
+.cert-card::before{top:.75rem;left:.75rem;}
+.cert-card::after{bottom:.75rem;right:.75rem;}
+.cert-ward{font-family:'Inter',sans-serif;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);margin-bottom:.75rem;}
+.cert-title{font-family:'Cinzel',serif;font-size:1.8rem;color:var(--navy);letter-spacing:.06em;margin-bottom:.25rem;}
+.cert-sub{font-family:'Crimson Pro',serif;font-style:italic;font-size:1rem;color:var(--ink-soft);margin-bottom:1.5rem;}
+.cert-name{font-family:'Cinzel',serif;font-size:2rem;color:var(--gold);margin-bottom:.5rem;border-bottom:1px solid var(--gold-pale);padding-bottom:.5rem;}
+.cert-body{font-family:'Crimson Pro',serif;font-size:1rem;color:var(--ink-soft);line-height:1.6;margin-bottom:1.5rem;}
+.cert-seal{font-size:3rem;margin-bottom:.75rem;}
+.cert-date{font-family:'Inter',sans-serif;font-size:.7rem;color:var(--ink-soft);opacity:.6;letter-spacing:.08em;}
+/* ── HOME SCREEN PROMPT ── */
+#homeScreenPrompt{position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);background:var(--navy);color:white;border-radius:4px;padding:.75rem 1.25rem;display:none;align-items:center;gap:.75rem;box-shadow:0 8px 24px rgba(0,0,0,.4);z-index:500;max-width:340px;width:calc(100% - 2rem);}
+#homeScreenPrompt.show{display:flex;}
+.hsp-text{font-family:'Inter',sans-serif;font-size:.8rem;line-height:1.4;flex:1;}
+.hsp-close{background:none;border:none;color:rgba(255,255,255,.6);cursor:pointer;font-size:1.1rem;padding:.2rem;}
+@media print{.app-header,.nav-tabs,.btn,.no-print{display:none!important;}body{background:white;}.content{max-width:100%;padding:.5rem;}}
 </style>
 </head>
 <body>
@@ -270,7 +310,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
     <div id="registerForm" style="display:none">
       <div class="form-group"><label class="form-label">Full Name</label><input type="text" id="regName" class="form-input" placeholder="First Last" autocomplete="name"></div>
       <div class="form-group"><label class="form-label">Group</label>
-        <select id="regGroup" class="form-input"><option value="Young Men">Young Men</option><option value="Young Women">Young Women</option><option value="Leader">Leader</option></select>
+        <select id="regGroup" class="form-input"><option value="Young Men">Young Men</option><option value="Young Women">Young Women</option><option value="Adult">Adult</option><option value="Leader">Leader</option></select>
       </div>
       <div class="form-group"><label class="form-label">Choose a PIN (4 digits)</label><input type="password" id="regPin" class="form-input" placeholder="••••" maxlength="4" inputmode="numeric"></div>
       <div class="form-group"><label class="form-label">Confirm PIN</label><input type="password" id="regPin2" class="form-input" placeholder="••••" maxlength="4" inputmode="numeric"></div>
@@ -433,6 +473,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
         <div class="stat-card"><div class="stat-number" id="groupPct70">0%</div><div class="stat-label">Toward 70% Goal</div></div>
         <div class="stat-card"><div class="stat-number" id="groupPct">0%</div><div class="stat-label">Miles Progress</div></div>
       </div>
+      <div id="featuredChallengeCard" style="display:none;margin-bottom:1rem;"></div>
       <div class="card teal-accent">
         <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">📣 Leader Shoutouts</strong>
         <div id="shoutoutFeed"><p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);">No shoutouts yet — check back soon!</p></div>
@@ -446,7 +487,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
       <div class="card neutral" style="padding:0;overflow:hidden;">
         <div class="lb-section-head">Youth</div>
         <div id="leaderboardYouth"></div>
-        <div class="lb-section-head" id="leaderLBHead" style="display:none">Leaders</div>
+        <div class="lb-section-head" id="leaderLBHead" style="display:none">Leaders &amp; Adults</div>
         <div id="leaderboardLeaders"></div>
       </div>
     </div>
@@ -464,7 +505,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
         </div>
       </div>
       <div class="card neutral">
-        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">This Month Status</strong>
+        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">This Month Status (Youth)</strong>
         <div id="leaderMonthStatus"></div>
       </div>
       <div class="card neutral">
@@ -487,8 +528,40 @@ textarea.form-input{min-height:72px;resize:vertical;}
         <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">📤 Export Data</strong>
         <button class="btn btn-ghost btn-sm" onclick="exportCSV()">Download All Entries as CSV</button>
       </div>
+      <!-- GROUP DIVISOR -->
       <div class="card neutral">
-        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">Youth Roster</strong>
+        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.5rem;">⚙ Group Map Scaling</strong>
+        <p style="font-size:.85rem;color:var(--ink-soft);margin-bottom:.75rem;">Individual miles ÷ this number = group map miles. At 25, roughly 70% of 35 youth completing = 600 group miles.</p>
+        <div style="display:flex;gap:.5rem;align-items:flex-end;flex-wrap:wrap;">
+          <div style="flex:0 0 auto;"><label class="form-label">Divisor (default 25)</label><input type="number" id="divisorInput" class="form-input" placeholder="25" min="1" max="200" style="width:100px;"></div>
+          <button class="btn btn-teal btn-sm" onclick="saveDivisor()" style="align-self:flex-end;">Save</button>
+          <span id="divisorStatus" style="align-self:flex-end;font-size:.8rem;color:var(--teal);font-style:italic;"></span>
+        </div>
+      </div>
+      <!-- FEATURED MONTHLY CHALLENGE -->
+      <div class="card neutral">
+        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">🎯 Featured Monthly Challenge</strong>
+        <div class="form-group"><label class="form-label">Challenge Description</label><input type="text" id="featDesc" class="form-input" placeholder="e.g. Read 10 chapters of the Book of Mormon"></div>
+        <div style="display:flex;gap:.5rem;align-items:flex-end;flex-wrap:wrap;">
+          <div class="form-group" style="margin-bottom:0;flex:1;min-width:110px;"><label class="form-label">Month</label>
+            <select id="featMonth" class="form-input"><option>February</option><option>March</option><option>April</option><option>May</option><option>June</option><option>July</option><option>August</option><option>September</option><option>October</option><option>November</option></select>
+          </div>
+          <div class="form-group" style="margin-bottom:0;"><label class="form-label">Bonus Miles</label><input type="number" id="featBonus" class="form-input" placeholder="30" min="1" style="width:90px;"></div>
+          <button class="btn btn-gold btn-sm" onclick="saveFeaturedChallenge()" style="align-self:flex-end;white-space:nowrap;">Publish</button>
+        </div>
+        <div id="featCurrent" style="margin-top:.75rem;font-size:.85rem;color:var(--ink-soft);font-style:italic;"></div>
+      </div>
+      <!-- GROUP MILES LOG -->
+      <div class="card neutral">
+        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">Group Miles Log</strong>
+        <div id="adminGroupMilesList"></div>
+      </div>
+      <!-- FULL ROSTER -->
+      <div class="card neutral">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;">
+          <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);">Full Roster</strong>
+          <button class="btn btn-ghost btn-sm no-print" onclick="printRoster()">🖨 Print Roster</button>
+        </div>
         <div id="adminRoster"></div>
       </div>
       <div class="card neutral">
@@ -505,6 +578,39 @@ textarea.form-input{min-height:72px;resize:vertical;}
     <p style="font-style:italic;color:#666;margin-bottom:1.5rem;">Level Creek Ward · Walk to Jerusalem 2026</p>
     <div id="printContent"></div>
   </div>
+</div>
+
+
+<!-- CELEBRATION OVERLAY -->
+<div id="celebrationOverlay">
+  <canvas id="fireworkCanvas"></canvas>
+  <div class="celeb-badge">✨</div>
+  <div class="celeb-title">You've Arrived!</div>
+  <div class="celeb-sub">Jerusalem — 600 miles completed</div>
+  <button class="btn btn-gold" onclick="showCertificate()" style="margin-bottom:1rem;">View Your Certificate →</button>
+  <button class="btn" onclick="document.getElementById('celebrationOverlay').classList.remove('show');" style="color:rgba(255,255,255,.7);border:1.5px solid rgba(255,255,255,.3);background:transparent;">Continue to App</button>
+</div>
+<!-- CERTIFICATE OVERLAY -->
+<div id="certOverlay">
+  <div class="cert-card">
+    <div class="cert-ward">Level Creek Ward · 2026</div>
+    <div class="cert-seal">🕊️</div>
+    <div class="cert-title">Certificate of Completion</div>
+    <div class="cert-sub">Walk With Me · Walk to Jerusalem</div>
+    <div class="cert-name" id="certName">—</div>
+    <div class="cert-body">has faithfully completed the personal journey of<br><strong>600 miles</strong> — walking the path from Egypt to Jerusalem,<br>embodying the 2026 Youth Theme:<br><em>"Walk With Me"</em></div>
+    <div class="cert-date" id="certDate">—</div>
+    <div style="margin-top:1.5rem;display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;">
+      <button class="btn btn-primary" style="width:auto;" onclick="window.print()">🖨 Print Certificate</button>
+      <button class="btn btn-ghost btn-sm" onclick="document.getElementById('certOverlay').classList.remove('show')">Close</button>
+    </div>
+  </div>
+</div>
+<!-- HOME SCREEN PROMPT -->
+<div id="homeScreenPrompt">
+  <div style="font-size:1.5rem;">📱</div>
+  <div class="hsp-text"><strong>Add to Home Screen</strong><br>Tap <strong>Share → Add to Home Screen</strong> (iOS) or <strong>⋮ → Install App</strong> (Android) for quick access.</div>
+  <button class="hsp-close" onclick="dismissHomePrompt()">✕</button>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -551,16 +657,18 @@ function db() { return CACHE; }  // all rendering functions call db() — unchan
 async function loadAll() {
   setSyncState('syncing');
   try {
-    const [u,e,g,s] = await Promise.all([
+    const [u,e,g,s,fc] = await Promise.all([
       COL.users().get(),
       COL.entries().get(),
       COL.groupMiles().get(),
       COL.shoutouts().get(),
+      _db().collection('featuredChallenges').get(),
     ]);
-    CACHE.users      = u.docs.map(d=>({id:d.id,...d.data()}));
-    CACHE.entries    = e.docs.map(d=>({id:d.id,...d.data()}));
-    CACHE.groupMiles = g.docs.map(d=>({id:d.id,...d.data()}));
-    CACHE.shoutouts  = s.docs.map(d=>({id:d.id,...d.data()}));
+    CACHE.users              = u.docs.map(d=>({id:d.id,...d.data()}));
+    CACHE.entries            = e.docs.map(d=>({id:d.id,...d.data()}));
+    CACHE.groupMiles         = g.docs.map(d=>({id:d.id,...d.data()}));
+    CACHE.shoutouts          = s.docs.map(d=>({id:d.id,...d.data()}));
+    CACHE.featuredChallenges = fc.docs.map(d=>({id:d.id,...d.data()}));
     setSyncState('ok');
   } catch(err) {
     setSyncState('error');
@@ -571,21 +679,25 @@ async function loadAll() {
 async function refreshData() {
   setSyncState('syncing');
   try {
-    const [e,g,s] = await Promise.all([
+    const [e,g,s,fc] = await Promise.all([
       COL.entries().get(),
       COL.groupMiles().get(),
       COL.shoutouts().get(),
+      _db().collection('featuredChallenges').get(),
     ]);
-    CACHE.entries    = e.docs.map(d=>({id:d.id,...d.data()}));
-    CACHE.groupMiles = g.docs.map(d=>({id:d.id,...d.data()}));
-    CACHE.shoutouts  = s.docs.map(d=>({id:d.id,...d.data()}));
+    CACHE.entries            = e.docs.map(d=>({id:d.id,...d.data()}));
+    CACHE.groupMiles         = g.docs.map(d=>({id:d.id,...d.data()}));
+    CACHE.shoutouts          = s.docs.map(d=>({id:d.id,...d.data()}));
+    CACHE.featuredChallenges = fc.docs.map(d=>({id:d.id,...d.data()}));
     setSyncState('ok');
   } catch(err) { setSyncState('error'); }
 }
 
 async function fbAdd(colName, data) {
-  const ref = await COL[colName]().add(data);
+  const colRef = COL[colName] ? COL[colName]() : _db().collection(colName);
+  const ref = await colRef.add(data);
   const doc = { id: ref.id, ...data };
+  if(!CACHE[colName]) CACHE[colName]=[];
   CACHE[colName].push(doc);
   return doc;
 }
@@ -819,9 +931,15 @@ function enterApp(){
   document.getElementById('loginScreen').classList.remove('active');
   document.getElementById('appScreen').classList.add('active');
   document.getElementById('headerName').textContent=currentUser.name;
-  if(currentUser.isLeader){document.getElementById('leaderBadge').style.display='inline';document.getElementById('adminTab').style.display='block';}
+  if(currentUser.isLeader){
+    const badge=document.getElementById('leaderBadge');
+    badge.textContent=currentUser.group==='Adult'?'Adult':'Leader';
+    badge.style.display='inline';
+    document.getElementById('adminTab').style.display='block';
+  }
   buildMonthSelector();buildPlannerMonthSelector();buildActivityList();buildPlannerActivityList();buildGroupWaypoints();buildMiniMap();
   renderDashboard();switchTab('dashboard');
+  initHomeScreenPrompt();
 }
 
 function logout(){
@@ -1016,7 +1134,7 @@ function renderStreakRow(entries){
 
 function renderBadges(total){document.getElementById('badgesRow').innerHTML=BADGES.map(b=>`<div class="badge ${total>=b.miles?'earned':'locked'}"><div class="badge-icon">${b.icon}</div><div class="badge-name">${b.name}</div><div class="badge-miles">${b.sub}</div></div>`).join('');}
 
-function checkBadges(){const my=CACHE.entries.filter(e=>e.userId===currentUser.id);const total=my.reduce((s,e)=>s+e.miles,0);const prev=getBadgePrev();setBadgePrev(total);BADGES.forEach(b=>{if(b.miles>0&&total>=b.miles&&prev<b.miles)showToast('🏅 Badge Earned: '+b.name+'!');});}
+function checkBadges(){const my=CACHE.entries.filter(e=>e.userId===currentUser.id);const total=my.reduce((s,e)=>s+e.miles,0);const prev=getBadgePrev();setBadgePrev(total);BADGES.forEach(b=>{if(b.miles>0&&total>=b.miles&&prev<b.miles)showToast('🏅 Badge Earned: '+b.name+'!');});checkJerusalemArrival(total);}
 
 // ════════════════════════════════════════════════════
 //  MINI MAP
@@ -1055,10 +1173,15 @@ function drawMapCanvas(){
   ctx.beginPath();ctx.arc(cx,cy,3,0,Math.PI*2);ctx.fill();
 }
 
+function getDivisor(){return parseInt(localStorage.getItem('groupDivisor')||'25');}
+
 function renderGroup(){
   const d=db();const youth=d.users.filter(u=>!u.isLeader);
-  const yMiles=d.entries.filter(e=>youth.find(u=>u.id===e.userId)).reduce((s,e)=>s+e.miles,0);
-  const gMiles=d.groupMiles.reduce((s,e)=>s+e.miles,0);const total=yMiles+gMiles;
+  const divisor=getDivisor();
+  const rawYouthMiles=d.entries.filter(e=>youth.find(u=>u.id===e.userId)).reduce((s,e)=>s+e.miles,0);
+  const scaledYouthMiles=rawYouthMiles/divisor;
+  const gMiles=d.groupMiles.reduce((s,e)=>s+e.miles,0);
+  const total=Math.round(scaledYouthMiles+gMiles);
   const score=u=>d.entries.filter(e=>e.userId===u.id).reduce((s,e)=>s+e.miles,0);
   const completions=youth.filter(u=>score(u)>=600).length;
   const participating=youth.filter(u=>d.entries.some(e=>e.userId===u.id)).length;
@@ -1074,20 +1197,37 @@ function renderGroup(){
   document.getElementById('groupMapSub').textContent=total>=600?'🎉 We have arrived in Jerusalem!':cur&&nxt?'Passed '+cur.label.replace('\n',' ')+' — heading toward '+nxt.label.replace('\n',' '):'The journey has begun from Egypt';
   const feed=document.getElementById('shoutoutFeed');const shouts=[...d.shoutouts].sort((a,b)=>b.ts-a.ts);
   feed.innerHTML=shouts.length?shouts.map(s=>`<div class="shoutout"><div class="shoutout-header"><span class="shoutout-from">${s.from}</span><span class="shoutout-time">${timeAgo(s.ts)}</span></div><div class="shoutout-text">"${s.text}"</div></div>`).join(''):'<p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);">No shoutouts yet — check back soon!</p>';
+  // Featured challenge
+  const fcs=d.featuredChallenges||[];
+  const fc=[...fcs].filter(c=>c.month===getCurrentMonth()).sort((a,b)=>b.ts-a.ts)[0]||null;
+  const fcCard=document.getElementById('featuredChallengeCard');
+  if(fc&&fcCard){fcCard.style.display='block';fcCard.innerHTML=`<div class="featured-challenge"><div class="featured-badge">🎯 This Month's Challenge</div><div style="font-family:'Cinzel',serif;font-size:.95rem;color:var(--navy);margin-top:.5rem;">${fc.desc}</div><div style="color:var(--gold);font-family:'Cinzel',serif;font-size:.85rem;margin-top:.25rem;">+${fc.bonus} bonus miles · ${fc.month}</div></div>`;}
+  else if(fcCard){fcCard.style.display='none';}
 }
 
 // ════════════════════════════════════════════════════
 //  LEADERBOARD
 // ════════════════════════════════════════════════════
+function isRecentlyActive(userId){
+  const cutoff=Date.now()-7*24*60*60*1000;
+  return CACHE.entries.some(e=>e.userId===userId&&e.ts>cutoff);
+}
+
 function renderLeaderboard(){
   const d=db();const score=u=>d.entries.filter(e=>e.userId===u.id).reduce((s,e)=>s+e.miles,0);
   const yRanked=d.users.filter(u=>!u.isLeader).map(u=>({...u,miles:score(u)})).sort((a,b)=>b.miles-a.miles);
   const lRanked=d.users.filter(u=>u.isLeader).map(u=>({...u,miles:score(u)})).sort((a,b)=>b.miles-a.miles);
   const maxY=yRanked[0]?.miles||1;const maxL=lRanked[0]?.miles||1;
-  function rows(arr,max,isLeader){
+  function rows(arr,max,isAdultRow){
     if(!arr.length)return'<p style="padding:1rem;font-style:italic;font-size:.9rem;color:var(--ink-soft);">None yet.</p>';
-    return arr.map((u,i)=>{const rc=isLeader?'':i===0?'gold':i===1?'silver':i===2?'bronze':'';const isMe=u.id===currentUser.id;const bp=Math.round(u.miles/max*100);
-    return`<div class="leaderboard-item"><div class="lb-rank ${rc}">${isLeader?'★':i+1}</div><div class="lb-name ${isMe?'me':''}">${u.name}${isMe?' (you)':''}</div><div style="font-size:.72rem;color:var(--ink-soft);font-family:'Inter',sans-serif;opacity:.65;">${u.group}</div><div class="lb-bar-wrap"><div class="lb-bar ${isLeader?'leader-bar':''}" style="width:${bp}%"></div></div><div class="lb-miles">${u.miles}</div><div style="font-size:.68rem;color:var(--sand-dark);font-family:'Inter',sans-serif;">mi</div></div>`;}).join('');
+    return arr.map((u,i)=>{
+      const rc=isAdultRow?'':i===0?'gold':i===1?'silver':i===2?'bronze':'';
+      const isMe=u.id===currentUser.id;const bp=Math.round(u.miles/max*100);
+      const flame=isRecentlyActive(u.id)?'<span class="lb-flame" title="Active this week">🔥</span>':'';
+      const jerusalem=u.miles>=600?'<span style="font-size:.8rem;" title="Arrived in Jerusalem!">✨</span>':'';
+      const rankSym=isAdultRow?(u.group==='Adult'?'A':'★'):i+1;
+      return`<div class="leaderboard-item"><div class="lb-rank ${rc}">${rankSym}</div><div class="lb-name ${isMe?'me':''}">${u.name}${isMe?' (you)':''}${flame}${jerusalem}</div><div style="font-size:.72rem;color:var(--ink-soft);font-family:'Inter',sans-serif;opacity:.65;">${u.group}</div><div class="lb-bar-wrap"><div class="lb-bar ${isAdultRow?'leader-bar':''}" style="width:${bp}%"></div></div><div class="lb-miles">${u.miles}</div><div style="font-size:.68rem;color:var(--sand-dark);font-family:'Inter',sans-serif;">mi</div></div>`;
+    }).join('');
   }
   document.getElementById('leaderboardYouth').innerHTML=rows(yRanked,maxY,false);
   const lHead=document.getElementById('leaderLBHead');const lEl=document.getElementById('leaderboardLeaders');
@@ -1120,7 +1260,27 @@ function renderAdmin(){
   document.getElementById('leaderCatBars').innerHTML=Object.entries(catMiles).map(([cat,m])=>`<div class="cat-bar-row"><div class="cat-bar-label">${cap(cat)}</div><div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:${Math.round(m/maxCat*100)}%;background:${catColors[cat]};"></div></div><div class="cat-bar-miles">${m}</div></div>`).join('');
   const cur=getCurrentMonth();
   document.getElementById('leaderMonthStatus').innerHTML=!youth.length?'<p style="font-size:.9rem;font-style:italic;color:var(--ink-soft);">No youth registered yet.</p>':youth.map(u=>{const m=d.entries.filter(e=>e.userId===u.id&&e.month===cur).reduce((s,e)=>s+e.miles,0);const p=Math.min(100,Math.round(m/60*100));const color=m>=60?'var(--teal)':m>0?'var(--gold)':'var(--sand-dark)';return`<div class="admin-user-row"><div class="admin-user-name">${u.name}</div><div style="flex:1;padding:0 .75rem;"><div class="progress-wrap" style="height:5px;margin:0;"><div class="progress-fill" style="width:${p}%;background:${color};"></div></div></div><div style="font-size:.85rem;font-family:'Cinzel',serif;color:${color};min-width:60px;text-align:right;">${m} mi ${m>=60?'✓':'…'}</div></div>`;}).join('');
-  document.getElementById('adminRoster').innerHTML=youth.length?youth.map(u=>`<div class="admin-user-row"><div class="admin-user-name">${u.name}</div><div style="font-size:.75rem;color:var(--ink-soft);">${u.group}</div><div class="admin-user-miles">${score(u)} mi</div></div>`).join(''):'<p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);">No youth registered yet.</p>';
+  // Full roster with role editing
+  const allSorted=[...d.users].sort((a,b)=>a.name.localeCompare(b.name));
+  document.getElementById('adminRoster').innerHTML=allSorted.length?allSorted.map(u=>`
+    <div class="admin-user-row">
+      <div class="admin-user-name">${u.name}</div>
+      <select class="role-select" onchange="updateUserRole('${u.id}',this.value)">
+        <option value="Young Men" ${u.group==='Young Men'?'selected':''}>Young Men</option>
+        <option value="Young Women" ${u.group==='Young Women'?'selected':''}>Young Women</option>
+        <option value="Adult" ${u.group==='Adult'?'selected':''}>Adult</option>
+        <option value="Leader" ${u.group==='Leader'?'selected':''}>Leader</option>
+      </select>
+      <div class="admin-user-miles" style="min-width:50px;text-align:right;">${score(u)} mi</div>
+    </div>`).join(''):'<p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);">No users yet.</p>';
+  // Group miles log with edit/delete
+  const gmLog=document.getElementById('adminGroupMilesList');
+  if(gmLog){const gmSorted=[...d.groupMiles].sort((a,b)=>b.ts-a.ts);gmLog.innerHTML=gmSorted.length?gmSorted.map(g=>`<div class="group-mile-row"><div><div style="font-size:.9rem;">${g.desc}</div><div class="history-meta">${g.month}</div></div><div class="history-miles">${g.miles} mi</div><button class="btn btn-ghost btn-sm" style="padding:.3rem .6rem;font-size:.7rem;" onclick="editGroupMiles('${g.id}','${(g.desc||'').replace(/'/g,"\'")}',${g.miles},'${g.month}')">Edit</button><button class="btn btn-danger" onclick="deleteGroupMiles('${g.id}')">✕</button></div>`).join(''):'<p style="font-size:.85rem;font-style:italic;color:var(--ink-soft);">No group miles added yet.</p>';}
+  // Divisor display
+  const divEl=document.getElementById('divisorInput');if(divEl&&!divEl.value)divEl.placeholder=getDivisor();
+  // Featured challenge current
+  const fcs=d.featuredChallenges||[];const fc=[...fcs].sort((a,b)=>b.ts-a.ts)[0]||null;
+  const fcEl=document.getElementById('featCurrent');if(fcEl)fcEl.textContent=fc?'Current: '+fc.month+' — '+fc.desc+' (+'+fc.bonus+' mi)':'None published yet.';
   const all=[...d.entries].sort((a,b)=>b.ts-a.ts);
   document.getElementById('adminEntries').innerHTML=all.length?all.map(e=>`<div class="history-entry" style="grid-template-columns:1fr auto auto auto;"><div><div style="font-size:.85rem;">${e.userName} — ${e.desc.length>55?e.desc.slice(0,55)+'…':e.desc}</div><div class="history-meta">${e.month} · <span class="tag tag-${e.cat}">${cap(e.cat)}</span>${e.custom?' · custom':''}</div></div><div class="history-miles">${e.miles} mi</div><button class="btn btn-danger" onclick="deleteEntry('${e.id}')">Remove</button></div>`).join(''):'<p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);">No entries yet.</p>';
 }
@@ -1139,6 +1299,140 @@ async function postShoutout(){
 async function deleteEntry(id){
   if(!confirm('Remove this entry?'))return;
   try{await fbDelete('entries',id);renderAdmin();showToast('Entry removed.');}catch(err){showToast('Error: '+err.message);}
+}
+
+
+// ── GROUP DIVISOR ──
+function saveDivisor(){
+  const v=parseInt(document.getElementById('divisorInput').value);
+  if(!v||v<1){showToast('Enter a valid divisor.');return;}
+  localStorage.setItem('groupDivisor',v);
+  const s=document.getElementById('divisorStatus');if(s){s.textContent='Saved! (÷'+v+')';setTimeout(()=>{if(s)s.textContent='';},3000);}
+  showToast('Group divisor set to ÷'+v);
+}
+
+// ── USER ROLE EDIT ──
+async function updateUserRole(userId,newGroup){
+  const isPrivileged=newGroup==='Leader'||newGroup==='Adult';
+  try{
+    await _db().collection('users').doc(userId).update({group:newGroup,isLeader:isPrivileged});
+    const u=CACHE.users.find(u=>u.id===userId);
+    if(u){u.group=newGroup;u.isLeader=isPrivileged;}
+    showToast('Role updated to '+newGroup);
+    renderAdmin();
+  }catch(err){showToast('Error: '+err.message);}
+}
+
+// ── GROUP MILES EDIT/DELETE ──
+async function deleteGroupMiles(id){
+  if(!confirm('Remove this group miles entry?'))return;
+  try{
+    await _db().collection('groupMiles').doc(id).delete();
+    CACHE.groupMiles=CACHE.groupMiles.filter(g=>g.id!==id);
+    renderAdmin();showToast('Entry removed.');
+  }catch(err){showToast('Error: '+err.message);}
+}
+
+function editGroupMiles(id,desc,miles,month){
+  const newDesc=prompt('Description:',desc);if(newDesc===null)return;
+  const newMiles=parseInt(prompt('Miles:',miles));if(!newMiles||newMiles<1){showToast('Invalid miles.');return;}
+  const mList=['February','March','April','May','June','July','August','September','October','November'];
+  const mIdx=mList.indexOf(month);
+  const pick=prompt('Month (enter 1-10):\n'+mList.map((m,i)=>(i+1)+'. '+m).join('\n'),mIdx+1);
+  if(!pick)return;
+  const newMonth=mList[parseInt(pick)-1]||month;
+  _db().collection('groupMiles').doc(id).update({desc:newDesc,miles:newMiles,month:newMonth})
+    .then(()=>{const g=CACHE.groupMiles.find(g=>g.id===id);if(g){g.desc=newDesc;g.miles=newMiles;g.month=newMonth;}renderAdmin();showToast('Entry updated.');})
+    .catch(err=>showToast('Error: '+err.message));
+}
+
+// ── FEATURED CHALLENGE ──
+async function saveFeaturedChallenge(){
+  const desc=document.getElementById('featDesc').value.trim();
+  const month=document.getElementById('featMonth').value;
+  const bonus=parseInt(document.getElementById('featBonus').value);
+  if(!desc){showToast('Enter a challenge description.');return;}
+  if(!bonus||bonus<1){showToast('Enter valid bonus miles.');return;}
+  try{
+    await fbAdd('featuredChallenges',{desc,month,bonus,ts:Date.now(),postedBy:currentUser.name});
+    document.getElementById('featDesc').value='';document.getElementById('featBonus').value='';
+    showToast('🎯 Featured challenge published for '+month+'!');renderAdmin();
+  }catch(err){showToast('Error: '+err.message);}
+}
+
+// ── PRINT ROSTER ──
+function printRoster(){
+  const d=db();
+  const youth=d.users.filter(u=>!u.isLeader).sort((a,b)=>a.name.localeCompare(b.name));
+  const adults=d.users.filter(u=>u.isLeader).sort((a,b)=>a.name.localeCompare(b.name));
+  const score=u=>d.entries.filter(e=>e.userId===u.id).reduce((s,e)=>s+e.miles,0);
+  const cur=getCurrentMonth();
+  const win=window.open('','_blank');
+  win.document.write(`<!DOCTYPE html><html><head><title>Level Creek Ward Roster</title>
+  <style>body{font-family:Georgia,serif;padding:2rem;max-width:700px;margin:0 auto;}
+  h1{font-size:1.4rem;color:#1a3a5c;margin-bottom:.25rem;}
+  h2{font-size:1rem;color:#1a3a5c;margin:1.5rem 0 .5rem;border-bottom:1px solid #e8dcc8;padding-bottom:.25rem;}
+  p{color:#666;font-size:.85rem;margin-bottom:1.5rem;}
+  table{width:100%;border-collapse:collapse;margin-bottom:.5rem;}
+  th{background:#f4ede0;padding:.5rem;text-align:left;font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;}
+  td{padding:.55rem .5rem;border-bottom:1px solid #e8dcc8;font-size:.9rem;}
+  .on-track{color:#2a7a6e;font-weight:600;}.behind{color:#c8922a;}
+  </style></head><body>
+  <h1>Walk With Me — Level Creek Ward 2026</h1>
+  <p>Printed ${new Date().toLocaleDateString()} &nbsp;·&nbsp; ${youth.length} youth &nbsp;·&nbsp; ${adults.length} adults/leaders</p>
+  <h2>Youth</h2>
+  <table><tr><th>#</th><th>Name</th><th>Group</th><th>Total Mi</th><th>${cur} Mi</th><th>Status</th></tr>
+  ${youth.map((u,i)=>{const tot=score(u);const mm=d.entries.filter(e=>e.userId===u.id&&e.month===cur).reduce((s,e)=>s+e.miles,0);const cls=mm>=60?'on-track':mm>0?'behind':'';const st=tot>=600?'✨ Done':mm>=60?'✓ On Track':'…';return`<tr><td>${i+1}</td><td>${u.name}</td><td>${u.group}</td><td>${tot}</td><td class="${cls}">${mm}</td><td>${st}</td></tr>`;}).join('')}
+  </table>
+  ${adults.length?`<h2>Adults &amp; Leaders</h2><table><tr><th>#</th><th>Name</th><th>Group</th><th>Total Mi</th></tr>${adults.map((u,i)=>`<tr><td>${i+1}</td><td>${u.name}</td><td>${u.group}</td><td>${score(u)}</td></tr>`).join('')}</table>`:''}
+  </body></html>`);
+  win.document.close();win.print();
+}
+
+// ── JERUSALEM CELEBRATION ──
+function checkJerusalemArrival(total){
+  if(total>=600){
+    const key='jerusShown_'+currentUser.id;
+    if(!localStorage.getItem(key)){localStorage.setItem(key,'1');setTimeout(()=>showCelebration(),600);}
+  }
+}
+function showCelebration(){
+  document.getElementById('celebrationOverlay').classList.add('show');
+  startFireworks();
+}
+function showCertificate(){
+  document.getElementById('celebrationOverlay').classList.remove('show');
+  document.getElementById('certName').textContent=currentUser.name;
+  document.getElementById('certDate').textContent='Completed '+new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+  document.getElementById('certOverlay').classList.add('show');
+}
+function startFireworks(){
+  const canvas=document.getElementById('fireworkCanvas');if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+  const particles=[];const colors=['#e8b050','#2a7a6e','#c8922a','#ffffff','#3a9a8a','#f5e4c0'];
+  function burst(x,y){for(let i=0;i<60;i++){const a=Math.random()*Math.PI*2,sp=2+Math.random()*5;particles.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,alpha:1,color:colors[Math.floor(Math.random()*colors.length)],size:2+Math.random()*3});}}
+  let frame=0;
+  function animate(){
+    if(!document.getElementById('celebrationOverlay').classList.contains('show'))return;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    if(frame%40===0)burst(Math.random()*canvas.width,Math.random()*canvas.height*.6);
+    for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.x+=p.vx;p.y+=p.vy;p.vy+=.12;p.alpha-=.018;if(p.alpha<=0){particles.splice(i,1);continue;}ctx.globalAlpha=p.alpha;ctx.fillStyle=p.color;ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fill();}
+    ctx.globalAlpha=1;frame++;requestAnimationFrame(animate);
+  }
+  animate();
+}
+
+// ── HOME SCREEN PROMPT ──
+function initHomeScreenPrompt(){
+  if(localStorage.getItem('hspDismissed'))return;
+  const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent)&&!window.navigator.standalone;
+  const isAndroid=/android/i.test(navigator.userAgent)&&!window.matchMedia('(display-mode: standalone)').matches;
+  if(isIOS||isAndroid){setTimeout(()=>{const el=document.getElementById('homeScreenPrompt');if(el)el.classList.add('show');},4000);}
+}
+function dismissHomePrompt(){
+  localStorage.setItem('hspDismissed','1');
+  const el=document.getElementById('homeScreenPrompt');if(el)el.classList.remove('show');
 }
 
 function exportCSV(){
