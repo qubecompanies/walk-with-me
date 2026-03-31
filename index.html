@@ -2928,6 +2928,11 @@ function openTutorialModal(){
   document.getElementById('tutorialModal').classList.add('open');
   document.body.style.overflow='hidden';
 }
+// Auto-open tutorial modal if URL contains #tutorial
+if(window.location.hash === '#tutorial'){
+  // Wait for DOM to be ready before opening
+  setTimeout(openTutorialModal, 400);
+}
 function closeTutorialModal(){
   document.getElementById('tutorialModal').classList.remove('open');
   document.body.style.overflow='';
