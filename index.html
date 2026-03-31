@@ -235,10 +235,291 @@ textarea.form-input{min-height:72px;resize:vertical;}
 .spinner{width:44px;height:44px;border:3px solid rgba(232,176,80,.3);border-top-color:var(--gold-light);border-radius:50%;animation:spin .8s linear infinite;}
 .loading-text{font-family:'Cinzel',serif;color:var(--gold-light);font-size:1rem;letter-spacing:.12em;}
 @media(max-width:600px){.header-brand{font-size:.78rem;}.waypoint-label{font-size:.5rem;max-width:40px;}.lb-bar-wrap{display:none;}.content{padding:1rem .75rem;}.stats-row{grid-template-columns:repeat(2,1fr);}}
+
+/* ── ROLE SELECT ── */
+.role-select{font-family:'Inter',sans-serif;font-size:.75rem;border:1px solid var(--sand-dark);border-radius:2px;padding:.25rem .5rem;background:white;color:var(--ink);cursor:pointer;}
+/* ── GROUP MILES LIST ── */
+.group-mile-row{display:grid;grid-template-columns:1fr auto auto auto;gap:.5rem;align-items:center;padding:.6rem 0;border-bottom:1px solid rgba(201,185,154,.3);font-size:.9rem;}
+.group-mile-row:last-child{border-bottom:none;}
+/* ── FEATURED CHALLENGE ── */
+.featured-challenge{background:linear-gradient(135deg,rgba(200,146,42,.12),rgba(200,146,42,.06));border:1.5px solid var(--gold);border-radius:2px;padding:1rem;margin-bottom:1rem;position:relative;}
+.featured-badge{position:absolute;top:-10px;left:12px;background:var(--gold);color:white;font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.1em;padding:.2rem .6rem;border-radius:10px;}
+/* ── FLAME ── */
+.lb-flame{font-size:.85rem;margin-left:.2rem;}
+/* ── CELEBRATION ── */
+#celebrationOverlay{position:fixed;inset:0;background:linear-gradient(160deg,#0d2035 0%,#1a3a5c 60%,#0d2820 100%);z-index:9998;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;}
+#celebrationOverlay.show{display:flex;}
+.celeb-title{font-family:'Cinzel',serif;font-size:2.2rem;color:var(--gold-light);letter-spacing:.08em;margin-bottom:.5rem;animation:glowPulse 2s ease-in-out infinite;}
+.celeb-sub{font-family:'Crimson Pro',serif;font-size:1.2rem;color:rgba(255,255,255,.85);font-style:italic;margin-bottom:2rem;}
+.celeb-badge{font-size:5rem;margin-bottom:1.5rem;animation:badgeBounce .6s ease both;}
+@keyframes glowPulse{0%,100%{text-shadow:0 0 20px rgba(232,176,80,.4);}50%{text-shadow:0 0 50px rgba(232,176,80,.9),0 0 80px rgba(232,176,80,.4);}}
+@keyframes badgeBounce{0%{transform:scale(0) rotate(-20deg);}70%{transform:scale(1.2) rotate(5deg);}100%{transform:scale(1) rotate(0deg);}}
+#fireworkCanvas{position:absolute;inset:0;pointer-events:none;}
+/* ── CERTIFICATE ── */
+#certOverlay{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:9999;display:none;align-items:center;justify-content:center;padding:1rem;}
+#certOverlay.show{display:flex;}
+.cert-card{background:var(--parchment);max-width:560px;width:100%;border:3px solid var(--gold);box-shadow:0 0 0 8px rgba(200,146,42,.15),0 20px 60px rgba(0,0,0,.5);padding:2.5rem;text-align:center;position:relative;border-radius:2px;}
+.cert-card::before,.cert-card::after{content:'✦';position:absolute;font-size:1.2rem;color:var(--gold);opacity:.6;}
+.cert-card::before{top:.75rem;left:.75rem;}
+.cert-card::after{bottom:.75rem;right:.75rem;}
+.cert-ward{font-family:'Inter',sans-serif;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);margin-bottom:.75rem;}
+.cert-title{font-family:'Cinzel',serif;font-size:1.8rem;color:var(--navy);letter-spacing:.06em;margin-bottom:.25rem;}
+.cert-sub{font-family:'Crimson Pro',serif;font-style:italic;font-size:1rem;color:var(--ink-soft);margin-bottom:1.5rem;}
+.cert-name{font-family:'Cinzel',serif;font-size:2rem;color:var(--gold);margin-bottom:.5rem;border-bottom:1px solid var(--gold-pale);padding-bottom:.5rem;}
+.cert-body{font-family:'Crimson Pro',serif;font-size:1rem;color:var(--ink-soft);line-height:1.6;margin-bottom:1.5rem;}
+.cert-seal{font-size:3rem;margin-bottom:.75rem;}
+.cert-date{font-family:'Inter',sans-serif;font-size:.7rem;color:var(--ink-soft);opacity:.6;letter-spacing:.08em;}
+/* ── HOME SCREEN PROMPT ── */
+#homeScreenPrompt{position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);background:var(--navy);color:white;border-radius:4px;padding:.75rem 1.25rem;display:none;align-items:center;gap:.75rem;box-shadow:0 8px 24px rgba(0,0,0,.4);z-index:500;max-width:340px;width:calc(100% - 2rem);}
+#homeScreenPrompt.show{display:flex;}
+.hsp-text{font-family:'Inter',sans-serif;font-size:.8rem;line-height:1.4;flex:1;}
+.hsp-close{background:none;border:none;color:rgba(255,255,255,.6);cursor:pointer;font-size:1.1rem;padding:.2rem;}
+@media print{.app-header,.nav-tabs,.btn,.no-print{display:none!important;}body{background:white;}.content{max-width:100%;padding:.5rem;}}
+
+/* ── MONTHLY CHALLENGE BADGES ── */
+.monthly-badges-row{display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:1.5rem;}
+.monthly-badge{display:flex;flex-direction:column;align-items:center;padding:.6rem .5rem;border-radius:4px;border:1.5px solid;min-width:72px;text-align:center;transition:all .2s;position:relative;}
+.monthly-badge.earned{border-color:var(--teal);background:rgba(42,122,110,.08);box-shadow:0 2px 8px rgba(42,122,110,.2);}
+.monthly-badge.locked{border-color:var(--sand-dark);background:rgba(201,185,154,.1);opacity:.5;filter:grayscale(.7);}
+.monthly-badge.champion-badge.earned{border-color:var(--gold);background:var(--gold-pale);box-shadow:0 2px 12px rgba(200,146,42,.3);}
+.monthly-badge-icon{font-size:1.6rem;margin-bottom:.2rem;}
+.monthly-badge-name{font-family:'Cinzel',serif;font-size:.55rem;color:var(--navy);letter-spacing:.04em;line-height:1.2;}
+.monthly-badge-sub{font-family:'Inter',sans-serif;font-size:.5rem;color:var(--ink-soft);opacity:.7;margin-top:2px;}
+.champion-crown{position:absolute;top:-8px;right:-4px;font-size:.75rem;}
+
+/* ── FEATURED CHALLENGE IN LOG MILES ── */
+.featured-log-card{background:linear-gradient(135deg,rgba(200,146,42,.15),rgba(200,146,42,.06));border:2px solid var(--gold);border-radius:4px;padding:1rem 1.25rem;margin-bottom:1.25rem;position:relative;cursor:pointer;transition:all .2s;}
+.featured-log-card:hover{transform:translateX(3px);box-shadow:0 4px 16px rgba(200,146,42,.2);}
+.featured-log-card.done-featured{opacity:.6;cursor:not-allowed;filter:grayscale(.5);}
+.featured-log-badge{position:absolute;top:-10px;left:14px;background:var(--gold);color:white;font-family:'Cinzel',serif;font-size:.6rem;letter-spacing:.1em;padding:.15rem .6rem;border-radius:10px;}
+.featured-log-title{font-family:'Cinzel',serif;font-size:1rem;color:var(--navy);margin-bottom:.3rem;margin-top:.3rem;}
+.featured-log-desc{font-size:.88rem;color:var(--ink-soft);line-height:1.45;margin-bottom:.5rem;}
+.featured-log-footer{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;}
+.featured-log-miles{font-family:'Cinzel',serif;font-size:1.1rem;color:var(--gold);font-weight:700;}
+.featured-log-scripture{font-size:.8rem;color:var(--teal);font-style:italic;}
+/* ── TROPHY BADGE ── */
+.trophy-badge{display:flex;flex-direction:column;align-items:center;padding:.5rem .4rem;border-radius:4px;border:2px solid;min-width:64px;text-align:center;position:relative;}
+.trophy-badge.earned{box-shadow:0 2px 10px rgba(0,0,0,.15);}
+.trophy-badge.locked{opacity:.4;filter:grayscale(.8);}
+.trophy-svg{width:48px;height:52px;}
+/* ── BADGE ANNOUNCEMENT ── */
+.badge-announce{padding:.75rem 1rem;border-bottom:1px solid rgba(201,185,154,.25);display:flex;align-items:flex-start;gap:.75rem;}
+.badge-announce:last-child{border-bottom:none;}
+.badge-announce-icon{font-size:1.4rem;flex-shrink:0;}
+.badge-announce-body{flex:1;}
+.badge-announce-who{font-family:'Cinzel',serif;font-size:.8rem;color:var(--gold);}
+.badge-announce-text{font-size:.9rem;color:var(--ink-soft);}
+.badge-announce-time{font-family:'Inter',sans-serif;font-size:.65rem;color:var(--ink-soft);opacity:.6;}
+/* ── COUNTDOWN ── */
+.countdown-row{display:flex;gap:.75rem;justify-content:center;margin:1rem 0;}
+.countdown-unit{text-align:center;background:var(--navy);border-radius:4px;padding:.75rem .9rem;min-width:64px;}
+.countdown-num{font-family:'Cinzel',serif;font-size:1.8rem;color:var(--gold-light);line-height:1;}
+.countdown-label{font-family:'Inter',sans-serif;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-top:.2rem;}
+/* ── NUDGE TOOL ── */
+.nudge-preview{background:var(--parchment);border:1px solid var(--sand-dark);border-radius:2px;padding:.85rem 1rem;font-size:.88rem;color:var(--ink-soft);font-style:italic;line-height:1.5;margin-bottom:.75rem;white-space:pre-wrap;}
+/* ── ADMIN FILTER BAR ── */
+.admin-filter-bar{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.75rem;align-items:flex-end;}
+.admin-filter-bar select,.admin-filter-bar input{padding:.35rem .6rem;border:1.5px solid var(--sand-dark);border-radius:2px;font-family:'Inter',sans-serif;font-size:.75rem;background:white;color:var(--ink);}
+/* ── MINI CONFETTI ── */
+@keyframes confettiFall{0%{transform:translateY(-10px) rotate(0deg);opacity:1;}100%{transform:translateY(80px) rotate(720deg);opacity:0;}}
+.confetti-piece{position:fixed;width:8px;height:8px;border-radius:2px;pointer-events:none;z-index:9999;animation:confettiFall .9s ease-in forwards;}
+
+/* ══ SHOUTOUT BANNER ══ */
+#shoutoutBanner{position:fixed;top:0;left:0;right:0;z-index:9990;transform:translateY(-100%);transition:transform .4s cubic-bezier(.4,0,.2,1);background:linear-gradient(135deg,var(--navy),var(--navy-deep));color:white;padding:.85rem 1.5rem;display:flex;align-items:center;gap:1rem;box-shadow:0 4px 20px rgba(0,0,0,.4);}
+#shoutoutBanner.show{transform:translateY(0);}
+.banner-icon{font-size:1.4rem;flex-shrink:0;}
+.banner-body{flex:1;}
+.banner-from{font-family:'Cinzel',serif;font-size:.75rem;color:var(--gold-light);letter-spacing:.06em;}
+.banner-text{font-size:.9rem;color:rgba(255,255,255,.9);line-height:1.3;}
+.banner-close{background:none;border:none;color:rgba(255,255,255,.5);cursor:pointer;font-size:1.1rem;padding:.2rem .4rem;flex-shrink:0;}
+/* notification dot */
+.notif-dot{display:inline-block;width:8px;height:8px;background:var(--terracotta);border-radius:50%;margin-left:4px;vertical-align:middle;animation:pulse .9s ease-in-out infinite;}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.4);opacity:.7;}}
+
+/* ══ REACTIONS ══ */
+.reaction-bar{display:flex;gap:.3rem;margin-top:.5rem;flex-wrap:wrap;}
+.reaction-btn{background:rgba(201,185,154,.2);border:1px solid rgba(201,185,154,.4);border-radius:20px;padding:.15rem .55rem;cursor:pointer;font-size:.82rem;transition:all .15s;display:flex;align-items:center;gap:.2rem;}
+.reaction-btn:hover{background:rgba(201,185,154,.4);transform:scale(1.1);}
+.reaction-btn.reacted{background:var(--gold-pale);border-color:var(--gold);font-weight:600;}
+.reaction-count{font-family:'Inter',sans-serif;font-size:.68rem;color:var(--ink-soft);}
+
+/* ══ LEADERBOARD MEDALS + CARDS ══ */
+.lb-card{display:flex;align-items:center;gap:.9rem;padding:.85rem 1rem;border-bottom:1px solid rgba(201,185,154,.2);transition:background .15s;position:relative;}
+.lb-card:last-child{border-bottom:none;}
+.lb-card.rank-1{background:linear-gradient(90deg,rgba(200,146,42,.12),rgba(200,146,42,.04));}
+.lb-card.rank-2{background:linear-gradient(90deg,rgba(160,160,160,.1),rgba(160,160,160,.03));}
+.lb-card.rank-3{background:linear-gradient(90deg,rgba(168,74,42,.1),rgba(168,74,42,.03));}
+.lb-card:hover{background:rgba(201,185,154,.15);}
+.medal-badge{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;animation:medalPop .5s cubic-bezier(.34,1.56,.64,1) both;}
+@keyframes medalPop{from{transform:scale(0) rotate(-30deg);opacity:0;}to{transform:scale(1) rotate(0);opacity:1;}}
+.medal-gold{background:linear-gradient(135deg,#f5e4a0,#c8922a);box-shadow:0 2px 8px rgba(200,146,42,.4);}
+.medal-silver{background:linear-gradient(135deg,#e8e8e8,#a0a0a0);box-shadow:0 2px 8px rgba(160,160,160,.4);}
+.medal-bronze{background:linear-gradient(135deg,#e8c8b0,#a84a2a);box-shadow:0 2px 8px rgba(168,74,42,.4);}
+.lb-rank-num{font-family:'Cinzel',serif;font-size:1rem;color:var(--sand-dark);min-width:34px;text-align:center;}
+.lb-info{flex:1;}
+.lb-card-name{font-family:'Crimson Pro',serif;font-size:1rem;font-weight:600;color:var(--ink);}
+.lb-card-name.me{color:var(--teal);}
+.lb-card-group{font-family:'Inter',sans-serif;font-size:.65rem;color:var(--ink-soft);opacity:.65;}
+.lb-card-miles{font-family:'Cinzel',serif;font-size:1.1rem;color:var(--navy);min-width:50px;text-align:right;}
+.lb-prog-wrap{width:80px;background:rgba(201,185,154,.25);border-radius:10px;height:5px;overflow:hidden;}
+.lb-prog-fill{height:100%;border-radius:10px;background:linear-gradient(90deg,var(--teal),var(--teal-light));}
+.lb-prog-fill.leader-fill{background:linear-gradient(90deg,var(--gold),var(--gold-light));}
+.lb-section-divider{padding:.5rem 1rem .3rem;background:rgba(201,185,154,.15);border-bottom:1px solid rgba(201,185,154,.2);}
+.lb-section-divider-label{font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.1em;color:var(--navy);text-transform:uppercase;}
+
+/* ══ PLANNER VISUAL UPGRADE ══ */
+.planner-category-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem;margin-bottom:1.5rem;}
+.planner-cat-card{border-radius:4px;padding:1rem;cursor:pointer;border:2px solid transparent;transition:all .2s;position:relative;overflow:hidden;}
+.planner-cat-card.selected{border-color:currentColor;box-shadow:0 4px 16px rgba(0,0,0,.12);}
+.planner-cat-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1);}
+.planner-cat-icon{font-size:1.8rem;margin-bottom:.4rem;}
+.planner-cat-name{font-family:'Cinzel',serif;font-size:.9rem;margin-bottom:.2rem;}
+.planner-cat-count{font-family:'Inter',sans-serif;font-size:.7rem;opacity:.75;}
+.progress-ring{transform:rotate(-90deg);}
+.progress-ring-bg{fill:none;stroke-width:4;}
+.progress-ring-fill{fill:none;stroke-width:4;stroke-linecap:round;transition:stroke-dashoffset .6s ease;}
+.planner-ring-wrap{position:absolute;top:.6rem;right:.6rem;}
+
+/* ══ LOG MILES ICON TABS ══ */
+.cat-icon-tabs{display:flex;gap:.5rem;margin-bottom:1.25rem;flex-wrap:wrap;}
+.cat-icon-tab{flex:1;min-width:72px;background:white;border:1.5px solid var(--sand-dark);border-radius:6px;padding:.6rem .4rem;text-align:center;cursor:pointer;transition:all .15s;}
+.cat-icon-tab:hover{border-color:var(--navy);background:var(--sand-light);}
+.cat-icon-tab.active{border-color:transparent;color:white;}
+.cat-icon-tab.active.spiritual{background:var(--spiritual);}
+.cat-icon-tab.active.physical{background:var(--physical);}
+.cat-icon-tab.active.intellectual{background:var(--intellectual);}
+.cat-icon-tab.active.social{background:var(--social);}
+.cat-icon-tab.active.all{background:var(--navy);}
+.cat-tab-icon{font-size:1.3rem;display:block;margin-bottom:.2rem;}
+.cat-tab-label{font-family:'Inter',sans-serif;font-size:.62rem;font-weight:500;letter-spacing:.04em;text-transform:uppercase;}
+.diff-stars{font-size:.6rem;color:var(--gold);letter-spacing:1px;margin-top:.15rem;}
+
+/* ══ GROUP MAP PARCHMENT + WAYPOINTS ══ */
+.journey-map{background:linear-gradient(160deg,#d4c9a8 0%,#c8bc96 40%,#bfb082 100%) !important;border:2px solid #a09060 !important;}
+.journey-map::after{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");pointer-events:none;border-radius:4px;}
+.waypoint-icon-svg{font-size:1.4rem;margin-bottom:.15rem;display:none;filter:drop-shadow(0 1px 2px rgba(0,0,0,.3));}
+.waypoint.reached .waypoint-icon-svg{display:block;}
+.waypoint.reached .waypoint-dot{display:none;}
+.waypoint:not(.reached) .waypoint-dot{background:rgba(255,255,255,.4);border-color:rgba(100,80,40,.4);}
+.map-total{color:#3a2800 !important;}
+.map-sub{color:#5a4020 !important;}
+.waypoint-label{color:#3a2800 !important;font-weight:600;}
+.waypoint-miles{color:#5a4020 !important;}
+
+/* ══ LEADERBOARD SUB-TABS ══ */
+.lb-sub-tab{padding:.4rem .9rem;border:1.5px solid var(--sand-dark);border-radius:20px;background:white;cursor:pointer;font-family:'Inter',sans-serif;font-size:.7rem;font-weight:500;color:var(--ink-soft);transition:all .15s;white-space:nowrap;}
+.lb-sub-tab:hover{border-color:var(--navy);background:var(--sand-light);}
+.lb-sub-tab.active{background:var(--navy);border-color:var(--navy);color:white;}
+
+/* ══ VERSUS BOARD ══ */
+.versus-wrap{margin-bottom:1rem;}
+.versus-header{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:.75rem;padding:1.25rem 1rem;background:var(--navy);border-radius:4px 4px 0 0;}
+.versus-team-name{font-family:'Cinzel',serif;font-size:1rem;color:white;text-align:center;}
+.versus-vs{font-family:'Cinzel',serif;font-size:1.1rem;color:var(--gold-light);text-align:center;}
+.versus-stat-row{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:.5rem;padding:.6rem 1rem;border-bottom:1px solid rgba(201,185,154,.2);}
+.versus-stat-row:last-child{border-bottom:none;}
+.versus-stat-val{font-family:'Cinzel',serif;font-size:1.1rem;text-align:center;}
+.versus-stat-label{font-family:'Inter',sans-serif;font-size:.68rem;color:var(--ink-soft);text-align:center;letter-spacing:.04em;}
+.versus-bar-row{display:grid;grid-template-columns:1fr 60px 1fr;align-items:center;gap:.5rem;padding:.5rem 1rem;}
+.versus-bar-left{height:10px;border-radius:10px 0 0 10px;background:linear-gradient(270deg,var(--spiritual),rgba(42,80,128,.5));transition:width .8s ease;min-width:4px;}
+.versus-bar-right{height:10px;border-radius:0 10px 10px 0;background:linear-gradient(90deg,var(--social),rgba(106,42,106,.5));transition:width .8s ease;min-width:4px;}
+.versus-bar-center{font-family:'Inter',sans-serif;font-size:.6rem;color:var(--ink-soft);text-align:center;letter-spacing:.04em;}
+.versus-winner{font-family:'Cinzel',serif;font-size:.75rem;color:var(--gold);text-align:center;padding:.4rem;background:var(--gold-pale);border-radius:0 0 4px 4px;}
+.versus-category-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem;padding:.75rem 1rem;}
+.versus-cat-cell{text-align:center;padding:.5rem;border-radius:4px;background:var(--parchment);}
+.versus-cat-label{font-family:'Inter',sans-serif;font-size:.62rem;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em;}
+.versus-cat-val{font-family:'Cinzel',serif;font-size:.95rem;color:var(--navy);}
+.monthly-lb-note{font-family:'Inter',sans-serif;font-size:.72rem;color:var(--ink-soft);padding:.5rem 1rem;font-style:italic;}
+
+/* ══ CHALLENGE TIMELINE CARDS ══ */
+.challenge-timeline{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.25rem;}
+.challenge-card{border-radius:6px;position:relative;transition:all .2s;overflow:hidden;}
+/* ACTIVE */
+.challenge-card.active{border:2px solid var(--gold);cursor:pointer;box-shadow:0 4px 16px rgba(200,146,42,.18);}
+.challenge-card.active:hover{transform:translateX(3px);box-shadow:0 6px 20px rgba(200,146,42,.25);}
+/* PREVIEW — last 7 days of prior month */
+.challenge-card.preview{border:2px solid var(--teal);opacity:.92;}
+/* LOCKED */
+.challenge-card.locked{border:1.5px solid var(--sand-dark);opacity:.65;cursor:default;}
+/* DONE */
+.challenge-card.done{border:2px solid var(--completed);opacity:.7;cursor:default;}
+/* CHAMPION card */
+.challenge-card.champion-info{border:2px solid var(--gold);background:linear-gradient(135deg,var(--gold-pale),rgba(248,242,232,.9));cursor:default;}
+.challenge-card-inner{padding:.9rem 1rem 1rem;}
+.challenge-card-badge{position:absolute;top:-1px;left:14px;font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.1em;padding:.18rem .65rem;border-radius:0 0 8px 8px;color:white;}
+.badge-active{background:var(--gold);}
+.badge-preview{background:var(--teal);}
+.badge-locked{background:var(--sand-dark);color:var(--ink-soft);}
+.badge-done{background:var(--completed);color:white;}
+.badge-champion{background:var(--gold);}
+.challenge-card-top{display:flex;align-items:flex-start;gap:.75rem;margin-top:.6rem;}
+.challenge-card-icon{font-size:1.5rem;flex-shrink:0;margin-top:.1rem;}
+.challenge-card-title{font-family:'Cinzel',serif;font-size:.95rem;color:var(--navy);margin-bottom:.2rem;}
+.challenge-card-cat{display:inline-block;padding:.1rem .5rem;border-radius:10px;font-family:'Inter',sans-serif;font-size:.6rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;margin-bottom:.35rem;}
+.challenge-card-desc{font-size:.88rem;color:var(--ink-soft);line-height:1.45;}
+.challenge-card-footer{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;margin-top:.6rem;}
+.challenge-card-miles{font-family:'Cinzel',serif;font-size:1rem;color:var(--gold);}
+.challenge-card-scripture{font-size:.75rem;color:var(--teal);font-style:italic;flex:1;}
+.challenge-card-cta{font-family:'Inter',sans-serif;font-size:.72rem;font-weight:600;color:var(--navy);background:var(--gold-pale);border:1px solid var(--gold);border-radius:20px;padding:.2rem .7rem;white-space:nowrap;}
+.countdown-chip{display:inline-flex;align-items:center;gap:.3rem;background:rgba(42,122,110,.12);border:1px solid var(--teal);border-radius:20px;padding:.15rem .6rem;font-family:'Inter',sans-serif;font-size:.68rem;color:var(--teal);font-weight:600;}
+.locked-chip{display:inline-flex;align-items:center;gap:.3rem;background:rgba(201,185,154,.2);border:1px solid var(--sand-dark);border-radius:20px;padding:.15rem .6rem;font-family:'Inter',sans-serif;font-size:.68rem;color:var(--ink-soft);}
+.hidden-desc{font-family:'Cinzel',serif;font-size:.85rem;color:var(--sand-dark);letter-spacing:.15em;}
+
+/* ══ DASHBOARD HYPE CARD ══ */
+.dash-hype-card{background:linear-gradient(135deg,var(--navy) 0%,#0f2540 70%,#1a3a2a 100%);border-radius:6px;padding:1.1rem 1.25rem;margin-bottom:1rem;position:relative;overflow:hidden;cursor:pointer;border:none;transition:all .2s;}
+.dash-hype-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(26,58,92,.3);}
+.dash-hype-card::before{content:'';position:absolute;top:-30px;right:-30px;width:120px;height:120px;background:radial-gradient(circle,rgba(200,146,42,.15) 0%,transparent 70%);pointer-events:none;}
+.dash-hype-eyebrow{font-family:'Inter',sans-serif;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-light);margin-bottom:.3rem;display:flex;align-items:center;gap:.4rem;}
+.dash-hype-eyebrow::before{content:'';display:inline-block;width:20px;height:1px;background:var(--gold-light);}
+.dash-hype-title{font-family:'Cinzel',serif;font-size:1.05rem;color:white;margin-bottom:.3rem;}
+.dash-hype-preview{font-size:.82rem;color:rgba(255,255,255,.72);line-height:1.4;margin-bottom:.6rem;}
+.dash-hype-footer{display:flex;align-items:center;justify-content:space-between;}
+.dash-hype-miles{font-family:'Cinzel',serif;font-size:.9rem;color:var(--gold-light);}
+.dash-hype-cta{font-family:'Inter',sans-serif;font-size:.7rem;font-weight:600;background:var(--gold);color:white;border-radius:20px;padding:.25rem .8rem;white-space:nowrap;}
+.dash-hype-done{font-family:'Cinzel',serif;font-size:.8rem;color:var(--teal-light);}
+.dash-hype-preview-state{font-size:.8rem;color:rgba(255,255,255,.65);}
+
+/* ── TUTORIAL MODAL ── */
+#tutorialModal{position:fixed;inset:0;z-index:9995;display:flex;align-items:flex-end;justify-content:center;padding:1rem;pointer-events:none;opacity:0;transition:opacity .25s;}
+#tutorialModal.open{opacity:1;pointer-events:all;}
+#tutorialModal::before{content:'';position:absolute;inset:0;background:rgba(10,20,35,.7);backdrop-filter:blur(3px);}
+.tut-modal-card{position:relative;background:var(--parchment);border-radius:12px 12px 8px 8px;max-width:480px;width:100%;max-height:82vh;overflow-y:auto;box-shadow:0 -8px 40px rgba(0,0,0,.4);transform:translateY(40px);transition:transform .3s cubic-bezier(.4,0,.2,1);}
+#tutorialModal.open .tut-modal-card{transform:translateY(0);}
+.tut-modal-handle{width:40px;height:4px;background:var(--sand-dark);border-radius:2px;margin:.75rem auto .5rem;}
+.tut-modal-header{background:linear-gradient(135deg,var(--navy),#0f2540);padding:1.25rem 1.25rem 1rem;border-radius:8px 8px 0 0;}
+.tut-modal-close{position:absolute;top:.75rem;right:.75rem;background:rgba(255,255,255,.15);border:none;color:white;border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;transition:background .15s;}
+.tut-modal-close:hover{background:rgba(255,255,255,.25);}
+.tut-modal-eyebrow{font-family:'Inter',sans-serif;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-light);margin-bottom:.3rem;}
+.tut-modal-title{font-family:'Cinzel',serif;font-size:1.1rem;color:white;margin-bottom:.2rem;}
+.tut-modal-sub{font-family:'Crimson Pro',serif;font-size:.85rem;color:rgba(255,255,255,.65);font-style:italic;}
+.tut-modal-body{padding:1rem 1.25rem 1.5rem;}
+.tut-step{display:flex;gap:.85rem;padding:.7rem 0;border-bottom:1px solid rgba(201,185,154,.25);align-items:flex-start;}
+.tut-step:last-of-type{border-bottom:none;}
+.tut-step-icon{width:36px;height:36px;border-radius:50%;background:var(--sand);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;border:1.5px solid var(--sand-dark);}
+.tut-step-body{}
+.tut-step-title{font-family:'Cinzel',serif;font-size:.82rem;color:var(--navy);margin-bottom:.15rem;}
+.tut-step-desc{font-family:'Crimson Pro',serif;font-size:.88rem;color:var(--ink-soft);line-height:1.45;}
+.tut-modal-footer{padding:.75rem 1.25rem 1rem;border-top:1px solid var(--sand-dark);display:flex;gap:.75rem;align-items:center;flex-wrap:wrap;}
+.tut-full-btn{flex:1;display:block;background:linear-gradient(135deg,var(--navy),#2a5080);color:white;font-family:'Cinzel',serif;font-size:.8rem;letter-spacing:.06em;text-decoration:none;padding:.65rem 1rem;border-radius:30px;text-align:center;transition:opacity .15s;}
+.tut-full-btn:hover{opacity:.9;}
+.tut-dismiss-btn{background:none;border:none;font-family:'Inter',sans-serif;font-size:.75rem;color:var(--ink-soft);cursor:pointer;white-space:nowrap;padding:.5rem;}
+/* How it works link */
+.how-it-works-link{display:block;text-align:center;margin-top:1rem;font-family:'Inter',sans-serif;font-size:.75rem;color:var(--ink-soft);cursor:pointer;opacity:.7;transition:opacity .15s;}
+.how-it-works-link:hover{opacity:1;color:var(--teal);}
+.how-it-works-link span{text-decoration:underline;text-underline-offset:2px;}
 </style>
 </head>
 <body>
 
+<!-- SHOUTOUT BANNER -->
+<div id="shoutoutBanner">
+  <div class="banner-icon">📣</div>
+  <div class="banner-body">
+    <div class="banner-from" id="bannerFrom">Leader</div>
+    <div class="banner-text" id="bannerText"></div>
+  </div>
+  <button class="banner-close" onclick="dismissBanner()">✕</button>
+</div>
 <!-- LOADING OVERLAY -->
 <div id="loadingOverlay">
   <div class="loading-text">✦ Syncing…</div>
@@ -266,16 +547,22 @@ textarea.form-input{min-height:72px;resize:vertical;}
       <div class="form-group"><label class="form-label">PIN (4 digits)</label><input type="password" id="loginPin" class="form-input" placeholder="••••" maxlength="4" inputmode="numeric"></div>
       <button class="btn btn-primary" onclick="handleLogin()">Begin the Journey →</button>
       <div class="login-toggle">New here? <a onclick="showRegister()">Create your account</a></div>
+      <div class="how-it-works-link" onclick="openTutorialModal()">
+        <span>? How it works</span>
+      </div>
     </div>
     <div id="registerForm" style="display:none">
       <div class="form-group"><label class="form-label">Full Name</label><input type="text" id="regName" class="form-input" placeholder="First Last" autocomplete="name"></div>
       <div class="form-group"><label class="form-label">Group</label>
-        <select id="regGroup" class="form-input"><option value="Young Men">Young Men</option><option value="Young Women">Young Women</option><option value="Leader">Leader</option></select>
+        <select id="regGroup" class="form-input"><option value="Young Men">Young Men</option><option value="Young Women">Young Women</option><option value="Adult">Adult</option><option value="Leader">Leader</option></select>
       </div>
       <div class="form-group"><label class="form-label">Choose a PIN (4 digits)</label><input type="password" id="regPin" class="form-input" placeholder="••••" maxlength="4" inputmode="numeric"></div>
       <div class="form-group"><label class="form-label">Confirm PIN</label><input type="password" id="regPin2" class="form-input" placeholder="••••" maxlength="4" inputmode="numeric"></div>
       <button class="btn btn-primary" onclick="handleRegister()">Join the Journey →</button>
       <div class="login-toggle">Already joined? <a onclick="showLogin()">Sign in</a></div>
+      <div class="how-it-works-link" onclick="openTutorialModal()">
+        <span>? How it works</span>
+      </div>
     </div>
   </div>
 </div>
@@ -297,7 +584,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
       <div class="nav-tab" onclick="switchTab('planner')">Planner</div>
       <div class="nav-tab" onclick="switchTab('log')">Log Miles</div>
       <div class="nav-tab" onclick="switchTab('history')">History</div>
-      <div class="nav-tab" onclick="switchTab('group')">Group Map</div>
+      <div class="nav-tab" onclick="switchTab('group')">Group Map<span class="notif-dot" id="groupNotifDot" style="display:none"></span></div>
       <div class="nav-tab" onclick="switchTab('leaderboard')">Leaderboard</div>
       <div class="nav-tab" id="adminTab" style="display:none" onclick="switchTab('admin')">⚙ Admin</div>
     </nav>
@@ -308,6 +595,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
     <div id="tab-dashboard" class="tab-content active">
       <div class="section-heading" id="dashGreeting">My Journey</div>
       <div class="section-sub">Keep walking — Jerusalem awaits.</div>
+      <div id="dashHypeCard"></div>
       <div class="stats-row">
         <div class="stat-card"><div class="stat-number" id="dashTotal">0</div><div class="stat-label">Total Miles</div></div>
         <div class="stat-card"><div class="stat-number" id="dashMonthMiles">0</div><div class="stat-label">This Month</div></div>
@@ -336,6 +624,10 @@ textarea.form-input{min-height:72px;resize:vertical;}
       </div>
       <div style="font-family:'Cinzel',serif;font-size:.9rem;color:var(--navy);margin-bottom:.75rem;margin-top:.25rem;">✦ Milestone Badges</div>
       <div class="badges-row" id="badgesRow"></div>
+      <div style="font-family:'Cinzel',serif;font-size:.9rem;color:var(--navy);margin-bottom:.75rem;margin-top:.25rem;">🗓️ Monthly Challenge Badges</div>
+      <div class="monthly-badges-row" id="monthlyBadgesRow"></div>
+      <div style="font-family:'Cinzel',serif;font-size:.9rem;color:var(--navy);margin-bottom:.75rem;margin-top:.25rem;">🏆 Monthly Top Miles Trophies</div>
+      <div class="monthly-badges-row" id="monthlyTrophyRow"></div>
       <div style="font-family:'Cinzel',serif;font-size:.9rem;color:var(--navy);margin-bottom:.75rem;">🔥 Monthly Streak</div>
       <div class="streak-row" id="streakRow"></div>
       <div style="font-size:.8rem;color:var(--ink-soft);font-style:italic;margin-bottom:1.5rem;" id="streakMsg"></div>
@@ -359,14 +651,8 @@ textarea.form-input{min-height:72px;resize:vertical;}
         <div style="font-size:.8rem;color:var(--ink-soft);font-style:italic;" id="plannerMilesPreview"></div>
       </div>
       <div id="plannerPlanned" style="margin-bottom:1.5rem;"></div>
-      <div class="category-filters">
-        <button class="filter-btn active" onclick="filterPlannerActs('all',this)">All</button>
-        <button class="filter-btn" onclick="filterPlannerActs('spiritual',this)">Spiritual</button>
-        <button class="filter-btn" onclick="filterPlannerActs('physical',this)">Physical</button>
-        <button class="filter-btn" onclick="filterPlannerActs('intellectual',this)">Intellectual</button>
-        <button class="filter-btn" onclick="filterPlannerActs('social',this)">Social</button>
-      </div>
-      <div style="font-size:.85rem;color:var(--ink-soft);font-style:italic;margin-bottom:.75rem;">Tap any activity below to add it to your plan.</div>
+      <div class="planner-category-grid" id="plannerCatGrid"></div>
+      <div style="font-size:.85rem;color:var(--ink-soft);font-style:italic;margin-bottom:.75rem;">Tap a category above to filter, then tap any activity below to add it to your plan.</div>
       <div id="plannerActivityList"></div>
     </div>
 
@@ -374,42 +660,28 @@ textarea.form-input{min-height:72px;resize:vertical;}
     <div id="tab-log" class="tab-content">
       <div class="section-heading">Log Miles</div>
       <div class="section-sub">Select a completed activity to record your miles.</div>
-
-      <!-- 1. CURRENT MONTH ACTIVE CHALLENGE — rendered by renderFeaturedLogSection -->
-      <div id="activeChallengePinned" style="margin-bottom:1rem;"></div>
-
-      <!-- 2. MONTH SELECTOR + tucked Custom Goal -->
       <div class="card neutral" style="margin-bottom:1.5rem;">
         <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">Select Month</strong>
         <div class="month-select-row" id="monthSelector"></div>
-        <div style="margin-top:.75rem;border-top:1px solid var(--sand-dark);padding-top:.75rem;">
-          <div onclick="document.getElementById('customGoalBody').style.display=document.getElementById('customGoalBody').style.display==='none'||document.getElementById('customGoalBody').style.display===''?'block':'none';this.querySelector('span.cgchev').style.transform=document.getElementById('customGoalBody').style.display==='block'?'rotate(180deg)':'rotate(0deg)';" style="display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none;">
-            <span style="font-family:'Cinzel',serif;font-size:.8rem;color:var(--navy);">✦ Log Custom / Personal Goal</span>
-            <span class="cgchev" style="font-size:.75rem;color:var(--ink-soft);transition:transform .2s;display:inline-block;">▼</span>
-          </div>
-          <div id="customGoalBody" style="display:none;margin-top:.75rem;">
-            <div class="form-group"><label class="form-label">Category</label>
-              <select id="customCat" class="form-input"><option value="spiritual">Spiritual</option><option value="physical">Physical</option><option value="intellectual">Intellectual</option><option value="social">Social</option></select>
-            </div>
-            <div class="form-group"><label class="form-label">Goal Description</label><textarea id="customDesc" class="form-input" placeholder="Describe your personal goal…"></textarea></div>
-            <div class="form-group"><label class="form-label">Miles (leader-approved)</label><input type="number" id="customMiles" class="form-input" placeholder="e.g. 30" min="1" max="200"></div>
-            <button class="btn btn-gold btn-sm" onclick="logCustomGoal()">Log Custom Goal</button>
-          </div>
-        </div>
       </div>
-
-      <!-- 3. CATEGORY FILTERS + ACTIVITY LIST -->
-      <div class="category-filters">
-        <button class="filter-btn active" onclick="filterActivities('all',this)">All</button>
-        <button class="filter-btn" onclick="filterActivities('spiritual',this)">Spiritual</button>
-        <button class="filter-btn" onclick="filterActivities('physical',this)">Physical</button>
-        <button class="filter-btn" onclick="filterActivities('intellectual',this)">Intellectual</button>
-        <button class="filter-btn" onclick="filterActivities('social',this)">Social</button>
+      <div class="card neutral" style="margin-bottom:1.5rem;">
+        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">✦ Log Custom / Personal Goal</strong>
+        <div class="form-group"><label class="form-label">Category</label>
+          <select id="customCat" class="form-input"><option value="spiritual">Spiritual</option><option value="physical">Physical</option><option value="intellectual">Intellectual</option><option value="social">Social</option></select>
+        </div>
+        <div class="form-group"><label class="form-label">Goal Description</label><textarea id="customDesc" class="form-input" placeholder="Describe your personal goal…"></textarea></div>
+        <div class="form-group"><label class="form-label">Miles (leader-approved)</label><input type="number" id="customMiles" class="form-input" placeholder="e.g. 30" min="1" max="200"></div>
+        <button class="btn btn-gold btn-sm" onclick="logCustomGoal()">Log Custom Goal</button>
+      </div>
+      <div id="featuredLogSection" style="margin-bottom:1rem;"></div>
+      <div class="cat-icon-tabs" id="catIconTabs">
+        <div class="cat-icon-tab all active" onclick="filterActivitiesIcon('all',this)"><span class="cat-tab-icon">✦</span><span class="cat-tab-label">All</span></div>
+        <div class="cat-icon-tab spiritual" onclick="filterActivitiesIcon('spiritual',this)"><span class="cat-tab-icon">🙏</span><span class="cat-tab-label">Spiritual</span></div>
+        <div class="cat-icon-tab physical" onclick="filterActivitiesIcon('physical',this)"><span class="cat-tab-icon">💪</span><span class="cat-tab-label">Physical</span></div>
+        <div class="cat-icon-tab intellectual" onclick="filterActivitiesIcon('intellectual',this)"><span class="cat-tab-icon">📚</span><span class="cat-tab-label">Mind</span></div>
+        <div class="cat-icon-tab social" onclick="filterActivitiesIcon('social',this)"><span class="cat-tab-icon">🤝</span><span class="cat-tab-label">Social</span></div>
       </div>
       <div id="activityList"></div>
-
-      <!-- 4. FULL MONTHLY CHALLENGES TIMELINE — rendered by JS if present -->
-      <div id="featuredLogSection" style="margin-top:1.5rem;"></div>
     </div>
 
     <!-- HISTORY -->
@@ -448,9 +720,20 @@ textarea.form-input{min-height:72px;resize:vertical;}
         <div class="stat-card"><div class="stat-number" id="groupPct70">0%</div><div class="stat-label">Toward 70% Goal</div></div>
         <div class="stat-card"><div class="stat-number" id="groupPct">0%</div><div class="stat-label">Miles Progress</div></div>
       </div>
+      <div id="featuredChallengeCard" style="display:none;margin-bottom:1rem;"></div>
       <div class="card teal-accent">
         <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">📣 Leader Shoutouts</strong>
         <div id="shoutoutFeed"><p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);">No shoutouts yet — check back soon!</p></div>
+      </div>
+      <div class="card neutral" style="margin-top:.75rem;">
+        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">🏅 Badge Celebrations</strong>
+        <div id="badgeAnnounceFeed"><p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);">No badge announcements yet.</p></div>
+      </div>
+      <!-- COUNTDOWN -->
+      <div class="card neutral" style="margin-top:.75rem;">
+        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.5rem;">🎉 Journey to Jerusalem — Countdown</strong>
+        <div id="partyCountdown" class="countdown-row"></div>
+        <p style="font-size:.85rem;color:var(--ink-soft);font-style:italic;text-align:center;" id="partyMsg">The celebration awaits in Jerusalem!</p>
       </div>
     </div>
 
@@ -458,11 +741,52 @@ textarea.form-input{min-height:72px;resize:vertical;}
     <div id="tab-leaderboard" class="tab-content">
       <div class="section-heading">Leaderboard</div>
       <div class="section-sub">Honoring every pilgrim on the journey</div>
-      <div class="card neutral" style="padding:0;overflow:hidden;">
-        <div class="lb-section-head">Youth</div>
-        <div id="leaderboardYouth"></div>
-        <div class="lb-section-head" id="leaderLBHead" style="display:none">Leaders</div>
-        <div id="leaderboardLeaders"></div>
+
+      <!-- Sub-tab nav -->
+      <div style="display:flex;gap:.4rem;margin-bottom:1.25rem;flex-wrap:wrap;" id="lbSubTabs">
+        <button class="lb-sub-tab active" onclick="switchLBTab('youth',this)">🏃 Youth</button>
+        <button class="lb-sub-tab" onclick="switchLBTab('adults',this)">★ Leaders</button>
+        <button class="lb-sub-tab" onclick="switchLBTab('ymvsyw',this)">⚡ vs 🌸</button>
+        <button class="lb-sub-tab" onclick="switchLBTab('youthvsleader',this)">Youth vs Adults</button>
+        <button class="lb-sub-tab" onclick="switchLBTab('monthly',this)">📅 This Month</button>
+      </div>
+
+      <!-- YOUTH BOARD -->
+      <div id="lb-pane-youth" class="lb-pane">
+        <div class="card neutral" style="padding:0;overflow:hidden;margin-bottom:.75rem;">
+          <div class="lb-section-divider"><span class="lb-section-divider-label">⚡ Young Men</span><span id="ymTotal" style="float:right;font-family:'Cinzel',serif;font-size:.68rem;color:var(--ink-soft);"></span></div>
+          <div id="leaderboardYM"></div>
+        </div>
+        <div class="card neutral" style="padding:0;overflow:hidden;">
+          <div class="lb-section-divider"><span class="lb-section-divider-label">🌸 Young Women</span><span id="ywTotal" style="float:right;font-family:'Cinzel',serif;font-size:.68rem;color:var(--ink-soft);"></span></div>
+          <div id="leaderboardYW"></div>
+        </div>
+      </div>
+
+      <!-- ADULTS BOARD -->
+      <div id="lb-pane-adults" class="lb-pane" style="display:none;">
+        <div class="card neutral" style="padding:0;overflow:hidden;" id="leaderLBCard">
+          <div class="lb-section-divider"><span class="lb-section-divider-label">★ Leaders &amp; Adults</span></div>
+          <div id="leaderboardLeaders"></div>
+        </div>
+      </div>
+
+      <!-- YM vs YW VERSUS BOARD -->
+      <div id="lb-pane-ymvsyw" class="lb-pane" style="display:none;">
+        <div id="lbVersusYMYW"></div>
+      </div>
+
+      <!-- YOUTH vs LEADER VERSUS BOARD -->
+      <div id="lb-pane-youthvsleader" class="lb-pane" style="display:none;">
+        <div id="lbVersusYouthLeader"></div>
+      </div>
+
+      <!-- THIS MONTH BOARD -->
+      <div id="lb-pane-monthly" class="lb-pane" style="display:none;">
+        <div class="card neutral" style="padding:0;overflow:hidden;">
+          <div class="lb-section-divider"><span class="lb-section-divider-label">📅 <span id="lbMonthLabel">This Month</span> — All Youth</span></div>
+          <div id="leaderboardMonthly"></div>
+        </div>
       </div>
     </div>
 
@@ -479,7 +803,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
         </div>
       </div>
       <div class="card neutral">
-        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">This Month Status</strong>
+        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">This Month Status (Youth)</strong>
         <div id="leaderMonthStatus"></div>
       </div>
       <div class="card neutral">
@@ -499,15 +823,80 @@ textarea.form-input{min-height:72px;resize:vertical;}
         <button class="btn btn-gold btn-sm" onclick="postShoutout()">Post Shoutout</button>
       </div>
       <div class="card neutral">
+        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">🔔 Leader Nudge Tool</strong>
+        <div class="form-group"><label class="form-label">Message Type</label>
+          <select id="nudgeType" class="form-input" onchange="updateNudgePreview()">
+            <option value="general">General monthly reminder</option>
+            <option value="challenge">Featured challenge reminder</option>
+            <option value="streak">Streak encouragement</option>
+            <option value="group">Group map progress update</option>
+            <option value="jerusalem">Jerusalem — almost there!</option>
+          </select>
+        </div>
+        <div class="nudge-preview" id="nudgePreview"></div>
+        <button class="btn btn-teal btn-sm" onclick="copyNudge()">📋 Copy Message</button>
+      </div>
+      <div class="card neutral">
         <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">📤 Export Data</strong>
         <button class="btn btn-ghost btn-sm" onclick="exportCSV()">Download All Entries as CSV</button>
       </div>
+      <!-- GROUP DIVISOR -->
       <div class="card neutral">
-        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">Youth Roster</strong>
+        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.5rem;">⚙ Group Map Scaling</strong>
+        <p style="font-size:.85rem;color:var(--ink-soft);margin-bottom:.75rem;">Individual miles ÷ this number = group map miles. At 25, roughly 70% of 35 youth completing = 600 group miles.</p>
+        <div style="display:flex;gap:.5rem;align-items:flex-end;flex-wrap:wrap;">
+          <div style="flex:0 0 auto;"><label class="form-label">Divisor (default 25)</label><input type="number" id="divisorInput" class="form-input" placeholder="25" min="1" max="200" style="width:100px;"></div>
+          <button class="btn btn-teal btn-sm" onclick="saveDivisor()" style="align-self:flex-end;">Save</button>
+          <span id="divisorStatus" style="align-self:flex-end;font-size:.8rem;color:var(--teal);font-style:italic;"></span>
+        </div>
+      </div>
+      <!-- FEATURED MONTHLY CHALLENGE -->
+      <div class="card neutral">
+        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">🎯 Featured Monthly Challenge</strong>
+        <div class="form-group"><label class="form-label">Challenge Description</label><input type="text" id="featDesc" class="form-input" placeholder="e.g. Read 10 chapters of the Book of Mormon"></div>
+        <div style="display:flex;gap:.5rem;align-items:flex-end;flex-wrap:wrap;">
+          <div class="form-group" style="margin-bottom:0;flex:1;min-width:110px;"><label class="form-label">Month</label>
+            <select id="featMonth" class="form-input"><option>February</option><option>March</option><option>April</option><option>May</option><option>June</option><option>July</option><option>August</option><option>September</option><option>October</option><option>November</option></select>
+          </div>
+          <div class="form-group" style="margin-bottom:0;"><label class="form-label">Bonus Miles</label><input type="number" id="featBonus" class="form-input" placeholder="30" min="1" style="width:90px;"></div>
+          <button class="btn btn-gold btn-sm" onclick="saveFeaturedChallenge()" style="align-self:flex-end;white-space:nowrap;">Publish</button>
+        </div>
+        <div id="featCurrent" style="margin-top:.75rem;font-size:.85rem;color:var(--ink-soft);font-style:italic;"></div>
+      </div>
+      <!-- GROUP MILES LOG -->
+      <div class="card neutral">
+        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">Group Miles Log</strong>
+        <div id="adminGroupMilesList"></div>
+      </div>
+      <!-- FULL ROSTER -->
+      <div class="card neutral">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;">
+          <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);">Full Roster</strong>
+          <button class="btn btn-ghost btn-sm no-print" onclick="printRoster()">🖨 Print Roster</button>
+        </div>
         <div id="adminRoster"></div>
       </div>
       <div class="card neutral">
         <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">All Entries (Edit / Remove)</strong>
+        <div class="admin-filter-bar">
+          <div><label class="form-label" style="font-size:.62rem;">Search name</label><input type="text" id="filterName" class="form-input" placeholder="Type a name…" oninput="renderAdmin()" style="width:140px;"></div>
+          <div><label class="form-label" style="font-size:.62rem;">Month</label>
+            <select id="filterMonth" class="form-input" onchange="renderAdmin()">
+              <option value="">All months</option>
+              <option>February</option><option>March</option><option>April</option><option>May</option>
+              <option>June</option><option>July</option><option>August</option>
+              <option>September</option><option>October</option><option>November</option>
+            </select>
+          </div>
+          <div><label class="form-label" style="font-size:.62rem;">Category</label>
+            <select id="filterCat" class="form-input" onchange="renderAdmin()">
+              <option value="">All categories</option>
+              <option value="spiritual">Spiritual</option><option value="physical">Physical</option>
+              <option value="intellectual">Intellectual</option><option value="social">Social</option>
+            </select>
+          </div>
+          <button class="btn btn-ghost btn-sm" onclick="clearAdminFilters()">Clear</button>
+        </div>
         <div id="adminEntries"></div>
       </div>
     </div>
@@ -522,10 +911,42 @@ textarea.form-input{min-height:72px;resize:vertical;}
   </div>
 </div>
 
+
+<!-- CELEBRATION OVERLAY -->
+<div id="celebrationOverlay">
+  <canvas id="fireworkCanvas"></canvas>
+  <div class="celeb-badge">✨</div>
+  <div class="celeb-title">You've Arrived!</div>
+  <div class="celeb-sub">Jerusalem — 600 miles completed</div>
+  <button class="btn btn-gold" onclick="showCertificate()" style="margin-bottom:1rem;">View Your Certificate →</button>
+  <button class="btn" onclick="document.getElementById('celebrationOverlay').classList.remove('show');" style="color:rgba(255,255,255,.7);border:1.5px solid rgba(255,255,255,.3);background:transparent;">Continue to App</button>
+</div>
+<!-- CERTIFICATE OVERLAY -->
+<div id="certOverlay">
+  <div class="cert-card">
+    <div class="cert-ward">Level Creek Ward · 2026</div>
+    <div class="cert-seal">🕊️</div>
+    <div class="cert-title">Certificate of Completion</div>
+    <div class="cert-sub">Walk With Me · Walk to Jerusalem</div>
+    <div class="cert-name" id="certName">—</div>
+    <div class="cert-body">has faithfully completed the personal journey of<br><strong>600 miles</strong> — walking the path from Egypt to Jerusalem,<br>embodying the 2026 Youth Theme:<br><em>"Walk With Me"</em></div>
+    <div class="cert-date" id="certDate">—</div>
+    <div style="margin-top:1.5rem;display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;">
+      <button class="btn btn-primary" style="width:auto;" onclick="window.print()">🖨 Print Certificate</button>
+      <button class="btn btn-ghost btn-sm" onclick="document.getElementById('certOverlay').classList.remove('show')">Close</button>
+    </div>
+  </div>
+</div>
+<!-- HOME SCREEN PROMPT -->
+<div id="homeScreenPrompt">
+  <div style="font-size:1.5rem;">📱</div>
+  <div class="hsp-text"><strong>Add to Home Screen</strong><br>Tap <strong>Share → Add to Home Screen</strong> (iOS) or <strong>⋮ → Install App</strong> (Android) for quick access.</div>
+  <button class="hsp-close" onclick="dismissHomePrompt()">✕</button>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
-window.addEventListener('load', function() {
 // ════════════════════════════════════════════════════
 //  FIREBASE CONFIG
 //  Paste your values from Firebase Console here:
@@ -541,14 +962,15 @@ const firebaseConfig = {
 };
 // ════════════════════════════════════════════════════
 
-// ── Firebase init — lazy so SDK scripts are guaranteed loaded first ──
+// ── Firebase init — fully lazy, runs only on first DB call ──
+let _app = null;
 let _fst = null;
 function _db() {
   if (_fst) return _fst;
+  if (!_app) _app = firebase.initializeApp(firebaseConfig);
   _fst = firebase.firestore();
   return _fst;
 }
-firebase.initializeApp(firebaseConfig);
 
 // ── Collection references — resolved lazily via _db() ──
 const COL = {
@@ -566,16 +988,20 @@ function db() { return CACHE; }  // all rendering functions call db() — unchan
 async function loadAll() {
   setSyncState('syncing');
   try {
-    const [u,e,g,s] = await Promise.all([
+    const [u,e,g,s,fc,ba] = await Promise.all([
       COL.users().get(),
       COL.entries().get(),
       COL.groupMiles().get(),
       COL.shoutouts().get(),
+      _db().collection('featuredChallenges').get(),
+      _db().collection('badgeAnnouncements').get(),
     ]);
-    CACHE.users      = u.docs.map(d=>({id:d.id,...d.data()}));
-    CACHE.entries    = e.docs.map(d=>({id:d.id,...d.data()}));
-    CACHE.groupMiles = g.docs.map(d=>({id:d.id,...d.data()}));
-    CACHE.shoutouts  = s.docs.map(d=>({id:d.id,...d.data()}));
+    CACHE.users              = u.docs.map(d=>({id:d.id,...d.data()}));
+    CACHE.entries            = e.docs.map(d=>({id:d.id,...d.data()}));
+    CACHE.groupMiles         = g.docs.map(d=>({id:d.id,...d.data()}));
+    CACHE.shoutouts          = s.docs.map(d=>({id:d.id,...d.data()}));
+    CACHE.featuredChallenges = fc.docs.map(d=>({id:d.id,...d.data()}));
+    CACHE.badgeAnnouncements = ba.docs.map(d=>({id:d.id,...d.data()}));
     setSyncState('ok');
   } catch(err) {
     setSyncState('error');
@@ -586,21 +1012,27 @@ async function loadAll() {
 async function refreshData() {
   setSyncState('syncing');
   try {
-    const [e,g,s] = await Promise.all([
+    const [e,g,s,fc,ba] = await Promise.all([
       COL.entries().get(),
       COL.groupMiles().get(),
       COL.shoutouts().get(),
+      _db().collection('featuredChallenges').get(),
+      _db().collection('badgeAnnouncements').get(),
     ]);
-    CACHE.entries    = e.docs.map(d=>({id:d.id,...d.data()}));
-    CACHE.groupMiles = g.docs.map(d=>({id:d.id,...d.data()}));
-    CACHE.shoutouts  = s.docs.map(d=>({id:d.id,...d.data()}));
+    CACHE.entries            = e.docs.map(d=>({id:d.id,...d.data()}));
+    CACHE.groupMiles         = g.docs.map(d=>({id:d.id,...d.data()}));
+    CACHE.shoutouts          = s.docs.map(d=>({id:d.id,...d.data()}));
+    CACHE.featuredChallenges = fc.docs.map(d=>({id:d.id,...d.data()}));
+    CACHE.badgeAnnouncements = ba.docs.map(d=>({id:d.id,...d.data()}));
     setSyncState('ok');
   } catch(err) { setSyncState('error'); }
 }
 
 async function fbAdd(colName, data) {
-  const ref = await COL[colName]().add(data);
+  const colRef = (COL[colName]) ? COL[colName]() : _db().collection(colName);
+  const ref = await colRef.add(data);
   const doc = { id: ref.id, ...data };
+  if(!CACHE[colName]) CACHE[colName]=[];
   CACHE[colName].push(doc);
   return doc;
 }
@@ -778,6 +1210,77 @@ const ACTIVITIES={
 };
 
 const MONTHS=["February","March","April","May","June","July","August","September","October","November"];
+
+// Monthly featured challenges — April through November
+// Categories cycle: Physical → Intellectual → Spiritual → Social → Physical → Intellectual → Spiritual → Social
+const MONTHLY_CHALLENGES = {
+  "April": {
+    cat:"physical", miles:30,
+    title:"Nature Photography Walk",
+    desc:"Go outside 3 separate times this month. Each time, photograph at least 5 different plants, animals, or landscapes. Create a simple photo collection (phone album, printed photos, or shared folder) to share with your family.",
+    scripture:'"The heavens declare the glory of God; and the firmament sheweth his handywork." — Psalm 19:1',
+    badge:{icon:"📷", name:"Nature Lens", color:"#2a7a6e"}
+  },
+  "May": {
+    cat:"intellectual", miles:30,
+    title:"30-Day Reading Sprint",
+    desc:"Read at least 15 minutes every day for 30 days. Choose any book — fiction, biography, scripture, or something that stretches you. Keep a simple log of what you read each day (a notes app works great).",
+    scripture:'"Seek ye out of the best books words of wisdom; seek learning, even by study and also by faith." — D&C 88:118',
+    badge:{icon:"📚", name:"Word Scout", color:"#7a4a20"}
+  },
+  "June": {
+    cat:"spiritual", miles:30,
+    title:"Gratitude Prayer Journal",
+    desc:"Each day for 3 weeks, write down 3 specific things you are grateful for after your morning or evening prayer. Be specific — not just family but WHY you are grateful. Share one entry with someone you love.",
+    scripture:'"Pray always, and I will pour out my Spirit upon you, and great shall be your blessing." — D&C 19:38',
+    badge:{icon:"🙏", name:"Prayer Keeper", color:"#2a5080"}
+  },
+  "July": {
+    cat:"social", miles:30,
+    title:"Community Service Blitz",
+    desc:"Organize or participate in a service project that benefits someone outside your immediate family. Minimum 2 hours of actual service. Bring at least one friend or sibling. Document with a photo and one sentence about who you helped.",
+    scripture:'"When ye are in the service of your fellow beings ye are only in the service of your God." — Mosiah 2:17',
+    badge:{icon:"🤝", name:"Servant Heart", color:"#6a2a6a"}
+  },
+  "August": {
+    cat:"physical", miles:30,
+    title:"Week of Adventure",
+    desc:"Complete 5 different outdoor physical activities in August — each one must be different (hiking, swimming, biking, kayaking, sports, climbing, etc.). Each activity must be at least 30 minutes. No repeats count.",
+    scripture:'"The spirit and the body are the soul of man." — D&C 88:15',
+    badge:{icon:"⛺", name:"Adventurer", color:"#5a7a2a"}
+  },
+  "September": {
+    cat:"intellectual", miles:30,
+    title:"Learn Something New",
+    desc:"Spend September learning a skill you have never tried before — cooking a new cuisine, basic coding, a musical instrument, drawing, photography editing, or anything that genuinely stretches your abilities. Complete at least 4 dedicated practice sessions and show your new skill to someone.",
+    scripture:'"Whatever principle of intelligence we attain unto in this life, it will rise with us in the resurrection." — D&C 130:18',
+    badge:{icon:"🧠", name:"Skill Builder", color:"#7a4a20"}
+  },
+  "October": {
+    cat:"spiritual", miles:30,
+    title:"General Conference Deep Dive",
+    desc:"Watch or listen to at least 4 full sessions of General Conference. Take notes on at least 3 talks — write down one thing you felt prompted to change or do differently. Share your favorite talk with your family.",
+    scripture:'"We believe all that God has revealed, all that He does now reveal." — Articles of Faith 1:9',
+    badge:{icon:"✝️", name:"Conference", color:"#2a5080"}
+  },
+  "November": {
+    cat:"social", miles:30,
+    title:"Gratitude Outreach",
+    desc:"Write and personally deliver 5 handwritten thank-you notes to people who have influenced your life — teachers, coaches, neighbors, leaders, or friends. Each note must be specific about what that person means to you.",
+    scripture:'"And in nothing doth man offend God, or against none is his wrath kindled, save those who confess not his hand in all things." — D&C 59:21',
+    badge:{icon:"💌", name:"Gratitude", color:"#6a2a6a"}
+  }
+};
+
+const MONTH_TROPHY_COLORS = {
+  "February":"#5a8a9a","March":"#3a8a3a","April":"#2a7a6e",
+  "May":"#7a6a2a","June":"#2a5080","July":"#6a2a6a",
+  "August":"#5a7a2a","September":"#7a4a20","October":"#8a3a20",
+  "November":"#4a5a8a"
+};
+
+const CHAMPION_BADGE = {icon:"🏆", name:"Monthly Champion", color:"var(--gold)"};
+const OVERALL_CHAMPION_BADGE = {icon:"👑", name:"Journey Champion", color:"var(--gold)"};
 const WAYPOINTS=[{label:"Egypt",miles:0,icon:"🏺"},{label:"Red Sea",miles:60,icon:"🌊"},{label:"Mt. Sinai",miles:180,icon:"⛰️"},{label:"Wilderness\nof Paran",miles:300,icon:"🌵"},{label:"Jordan\nRiver",miles:480,icon:"🏞️"},{label:"Jerusalem",miles:600,icon:"✨"}];
 const BADGES=[{id:"egypt",name:"Egypt",sub:"Departed",miles:1,icon:"🏺"},{id:"redsea",name:"Red Sea",sub:"60 miles",miles:60,icon:"🌊"},{id:"sinai",name:"Mt. Sinai",sub:"180 miles",miles:180,icon:"⛰️"},{id:"paran",name:"Paran",sub:"300 miles",miles:300,icon:"🌵"},{id:"jordan",name:"Jordan",sub:"480 miles",miles:480,icon:"🏞️"},{id:"jerusalem",name:"Jerusalem",sub:"600 miles",miles:600,icon:"✨"}];
 
@@ -834,9 +1337,19 @@ function enterApp(){
   document.getElementById('loginScreen').classList.remove('active');
   document.getElementById('appScreen').classList.add('active');
   document.getElementById('headerName').textContent=currentUser.name;
-  if(currentUser.isLeader){document.getElementById('leaderBadge').style.display='inline';document.getElementById('adminTab').style.display='block';}
+  if(currentUser.isLeader){
+    const badge=document.getElementById('leaderBadge');
+    badge.textContent=currentUser.group==='Adult'?'Adult':'Leader';
+    badge.style.display='inline';
+    document.getElementById('adminTab').style.display='block';
+  }
   buildMonthSelector();buildPlannerMonthSelector();buildActivityList();buildPlannerActivityList();buildGroupWaypoints();buildMiniMap();
   renderDashboard();switchTab('dashboard');
+  initHomeScreenPrompt();
+  // Poll for new shoutouts every 30 seconds while app is open
+  setInterval(async()=>{
+    try{await refreshData();checkForNewShoutouts();}catch(e){}
+  },30000);
 }
 
 function logout(){
@@ -861,9 +1374,10 @@ async function switchTab(tab){
   });
   try{await refreshData();}catch(e){/* show cached */}
   if(tab==='dashboard'){renderDashboard();refreshActivityDoneStates();}
+  if(tab==='log'){renderFeaturedLogSection();}
   if(tab==='planner')renderPlanner();
   if(tab==='history')renderHistory();
-  if(tab==='group')renderGroup();
+  if(tab==='group'){renderGroup();checkForNewShoutouts();}
   if(tab==='leaderboard')renderLeaderboard();
   if(tab==='admin')renderAdmin();
 }
@@ -974,6 +1488,7 @@ function markPlannerDone(actId){
 }
 
 function renderPlanner(){
+  buildPlannerCatGrid();
   const plan=getPlanner();const done=getCompletedIds();
   const totalPlanned=plan.reduce((s,p)=>s+p.miles,0);
   document.getElementById('plannerCount').textContent=plan.length?`(${plan.length} selected)`:'';
@@ -985,6 +1500,7 @@ function renderPlanner(){
 }
 
 function refreshPlannerActStyles(){
+  buildPlannerCatGrid();
   const plan=getPlanner();const planIds=new Set(plan.map(p=>p.id));const done=getCompletedIds();
   document.querySelectorAll('[id^="planAct-"]').forEach(el=>{
     const id=el.id.replace('planAct-','');el.classList.remove('planned','planned-done');
@@ -1009,7 +1525,7 @@ function renderDashboard(){
   document.getElementById('dashPct').textContent=pct+'%';
   document.getElementById('dashJourneyBar').style.width=pct+'%';document.getElementById('dashMonthBar').style.width=mPct+'%';
   document.getElementById('dashStreak').textContent=calcStreak(my);
-  renderStreakRow(my);renderBadges(total);updateMiniMap(total);
+  renderStreakRow(my);renderBadges(total);renderMonthlyBadges();renderMonthlyTrophyRow();updateMiniMap(total);checkAndAwardMonthlyTrophies();renderDashHypeCard();
   const catColors={spiritual:'var(--spiritual)',physical:'var(--physical)',intellectual:'var(--intellectual)',social:'var(--social)'};
   const catMiles={spiritual:0,physical:0,intellectual:0,social:0};
   my.forEach(e=>{if(catMiles[e.cat]!==undefined)catMiles[e.cat]+=e.miles;});
@@ -1031,7 +1547,92 @@ function renderStreakRow(entries){
 
 function renderBadges(total){document.getElementById('badgesRow').innerHTML=BADGES.map(b=>`<div class="badge ${total>=b.miles?'earned':'locked'}"><div class="badge-icon">${b.icon}</div><div class="badge-name">${b.name}</div><div class="badge-miles">${b.sub}</div></div>`).join('');}
 
-function checkBadges(){const my=CACHE.entries.filter(e=>e.userId===currentUser.id);const total=my.reduce((s,e)=>s+e.miles,0);const prev=getBadgePrev();setBadgePrev(total);BADGES.forEach(b=>{if(b.miles>0&&total>=b.miles&&prev<b.miles)showToast('🏅 Badge Earned: '+b.name+'!');});}
+function checkBadges(){
+  const my=CACHE.entries.filter(e=>e.userId===currentUser.id);
+  const total=my.reduce((s,e)=>s+e.miles,0);
+  const prev=getBadgePrev();setBadgePrev(total);
+  BADGES.forEach(b=>{if(b.miles>0&&total>=b.miles&&prev<b.miles){showToast('🏅 Badge Earned: '+b.name+'!');fireConfetti();announceAchievement(currentUser.name,'🏅',currentUser.name+' just earned the '+b.name+' milestone badge!');}  });
+  checkJerusalemArrival(total);
+  checkMonthlyChallengeBadges();
+}
+
+function getEarnedMonthlyBadges(){
+  const key='monthlyBadges_'+currentUser.id;
+  try{return JSON.parse(localStorage.getItem(key)||'[]');}catch{return[];}
+}
+
+function earnMonthlyBadge(month){
+  const key='monthlyBadges_'+currentUser.id;
+  const earned=getEarnedMonthlyBadges();
+  if(!earned.includes(month)){
+    earned.push(month);
+    localStorage.setItem(key,JSON.stringify(earned));
+    return true;
+  }
+  return false;
+}
+
+function checkMonthlyChallengeBadges(){
+  const d=db();
+  const my=d.entries.filter(e=>e.userId===currentUser.id);
+  Object.entries(MONTHLY_CHALLENGES).forEach(([month,challenge])=>{
+    // Check if this month's featured challenge was logged as custom or matched
+    const monthMiles=my.filter(e=>e.month===month&&e.cat===challenge.cat).reduce((s,e)=>s+e.miles,0);
+    // Also check if there's a custom entry with matching keywords
+    // Check for direct featured challenge log OR sufficient category miles
+    const hasChallenge = my.some(e=>
+      e.month===month && e.isFeaturedChallenge
+    ) || monthMiles >= challenge.miles;
+    if(hasChallenge){
+      const isNew=earnMonthlyBadge(month);
+      if(isNew){showToast('🗓️ Monthly Challenge Badge Earned: '+month+'!');fireConfetti();announceAchievement(currentUser.name,'🗓️',currentUser.name+' completed the '+month+' Monthly Challenge and earned a badge!');}
+    }
+  });
+  // Champion badge: earned all available monthly challenges
+  const earned=getEarnedMonthlyBadges();
+  const available=Object.keys(MONTHLY_CHALLENGES);
+  const allEarned=available.length>0&&available.every(m=>earned.includes(m));
+  if(allEarned){
+    const champKey='champBadge_'+currentUser.id;
+    if(!localStorage.getItem(champKey)){
+      localStorage.setItem(champKey,'1');
+      showToast('🏆 Monthly Champion Badge Earned!');fireConfetti();
+      announceAchievement(currentUser.name,'🏆',currentUser.name+' earned the MONTHLY CHAMPION badge — all challenges complete! +100 bonus miles coming!');
+      // Award +100 bonus miles
+      fbAdd('entries',{userId:currentUser.id,userName:currentUser.name,cat:'spiritual',desc:'Monthly Champion Bonus — all 8 monthly challenges completed!',miles:100,month:getCurrentMonth(),ts:Date.now(),custom:true,isChampionBonus:true});
+    }
+  }
+}
+
+function renderMonthlyBadges(){
+  const earned=getEarnedMonthlyBadges();
+  const champKey='champBadge_'+currentUser.id;
+  const hasChamp=!!localStorage.getItem(champKey);
+  const row=document.getElementById('monthlyBadgesRow');
+  if(!row)return;
+  let html='';
+  // One badge per month that has a challenge defined
+  MONTHS.forEach(month=>{
+    const challenge=MONTHLY_CHALLENGES[month];
+    if(!challenge)return;
+    const isEarned=earned.includes(month);
+    const b=challenge.badge;
+    html+=`<div class="monthly-badge ${isEarned?'earned':'locked'}" title="${month}: ${challenge.desc.slice(0,80)}...">
+      <div class="monthly-badge-icon">${b.icon}</div>
+      <div class="monthly-badge-name">${month}</div>
+      <div class="monthly-badge-sub">${isEarned?'Earned':'Locked'}</div>
+    </div>`;
+  });
+  // Champion badge
+  const champClass=hasChamp?'earned champion-badge':'locked champion-badge';
+  html+=`<div class="monthly-badge ${champClass}" title="Earn all monthly challenge badges">
+    ${hasChamp?'<div class="champion-crown">👑</div>':''}
+    <div class="monthly-badge-icon">${CHAMPION_BADGE.icon}</div>
+    <div class="monthly-badge-name">Monthly<br>Champion</div>
+    <div class="monthly-badge-sub">${hasChamp?'Earned!':'All months'}</div>
+  </div>`;
+  row.innerHTML=html;
+}
 
 // ════════════════════════════════════════════════════
 //  MINI MAP
@@ -1070,10 +1671,15 @@ function drawMapCanvas(){
   ctx.beginPath();ctx.arc(cx,cy,3,0,Math.PI*2);ctx.fill();
 }
 
+function getDivisor(){return parseInt(localStorage.getItem('groupDivisor')||'25');}
+
 function renderGroup(){
   const d=db();const youth=d.users.filter(u=>!u.isLeader);
-  const yMiles=d.entries.filter(e=>youth.find(u=>u.id===e.userId)).reduce((s,e)=>s+e.miles,0);
-  const gMiles=d.groupMiles.reduce((s,e)=>s+e.miles,0);const total=yMiles+gMiles;
+  const divisor=getDivisor();
+  const rawYouthMiles=d.entries.filter(e=>youth.find(u=>u.id===e.userId)).reduce((s,e)=>s+e.miles,0);
+  const scaledYouthMiles=rawYouthMiles/divisor;
+  const gMiles=d.groupMiles.reduce((s,e)=>s+e.miles,0);
+  const total=Math.round(scaledYouthMiles+gMiles);
   const score=u=>d.entries.filter(e=>e.userId===u.id).reduce((s,e)=>s+e.miles,0);
   const completions=youth.filter(u=>score(u)>=600).length;
   const participating=youth.filter(u=>d.entries.some(e=>e.userId===u.id)).length;
@@ -1087,27 +1693,21 @@ function renderGroup(){
   line.style.width=(Math.min(100,total/600*100)/100*(container.offsetWidth-32))+'px';
   const cur=[...WAYPOINTS].reverse().find(wp=>total>=wp.miles);const nxt=WAYPOINTS.find(wp=>total<wp.miles);
   document.getElementById('groupMapSub').textContent=total>=600?'🎉 We have arrived in Jerusalem!':cur&&nxt?'Passed '+cur.label.replace('\n',' ')+' — heading toward '+nxt.label.replace('\n',' '):'The journey has begun from Egypt';
-  const feed=document.getElementById('shoutoutFeed');const shouts=[...d.shoutouts].sort((a,b)=>b.ts-a.ts);
-  feed.innerHTML=shouts.length?shouts.map(s=>`<div class="shoutout"><div class="shoutout-header"><span class="shoutout-from">${s.from}</span><span class="shoutout-time">${timeAgo(s.ts)}</span></div><div class="shoutout-text">"${s.text}"</div></div>`).join(''):'<p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);">No shoutouts yet — check back soon!</p>';
+  renderShoutouts();renderBadgeAnnouncements();renderCountdown();
+  if(!window._countdownInterval)window._countdownInterval=setInterval(renderCountdown,1000);
+  // Featured challenge
+  const fcs=d.featuredChallenges||[];
+  const fc=[...fcs].filter(c=>c.month===getCurrentMonth()).sort((a,b)=>b.ts-a.ts)[0]||null;
+  const fcCard=document.getElementById('featuredChallengeCard');
+  if(fc&&fcCard){fcCard.style.display='block';fcCard.innerHTML=`<div class="featured-challenge"><div class="featured-badge">🎯 This Month's Challenge</div><div style="font-family:'Cinzel',serif;font-size:.95rem;color:var(--navy);margin-top:.5rem;">${fc.desc}</div><div style="color:var(--gold);font-family:'Cinzel',serif;font-size:.85rem;margin-top:.25rem;">+${fc.bonus} bonus miles · ${fc.month}</div></div>`;}
+  else if(fcCard){fcCard.style.display='none';}
 }
 
 // ════════════════════════════════════════════════════
 //  LEADERBOARD
 // ════════════════════════════════════════════════════
-function renderLeaderboard(){
-  const d=db();const score=u=>d.entries.filter(e=>e.userId===u.id).reduce((s,e)=>s+e.miles,0);
-  const yRanked=d.users.filter(u=>!u.isLeader).map(u=>({...u,miles:score(u)})).sort((a,b)=>b.miles-a.miles);
-  const lRanked=d.users.filter(u=>u.isLeader).map(u=>({...u,miles:score(u)})).sort((a,b)=>b.miles-a.miles);
-  const maxY=yRanked[0]?.miles||1;const maxL=lRanked[0]?.miles||1;
-  function rows(arr,max,isLeader){
-    if(!arr.length)return'<p style="padding:1rem;font-style:italic;font-size:.9rem;color:var(--ink-soft);">None yet.</p>';
-    return arr.map((u,i)=>{const rc=isLeader?'':i===0?'gold':i===1?'silver':i===2?'bronze':'';const isMe=u.id===currentUser.id;const bp=Math.round(u.miles/max*100);
-    return`<div class="leaderboard-item"><div class="lb-rank ${rc}">${isLeader?'★':i+1}</div><div class="lb-name ${isMe?'me':''}">${u.name}${isMe?' (you)':''}</div><div style="font-size:.72rem;color:var(--ink-soft);font-family:'Inter',sans-serif;opacity:.65;">${u.group}</div><div class="lb-bar-wrap"><div class="lb-bar ${isLeader?'leader-bar':''}" style="width:${bp}%"></div></div><div class="lb-miles">${u.miles}</div><div style="font-size:.68rem;color:var(--sand-dark);font-family:'Inter',sans-serif;">mi</div></div>`;}).join('');
-  }
-  document.getElementById('leaderboardYouth').innerHTML=rows(yRanked,maxY,false);
-  const lHead=document.getElementById('leaderLBHead');const lEl=document.getElementById('leaderboardLeaders');
-  if(lRanked.length){lHead.style.display='block';lEl.innerHTML=rows(lRanked,maxL,true);}else{lHead.style.display='none';lEl.innerHTML='';}
-}
+// isRecentlyActive + renderLeaderboard — defined above with medal/card upgrade
+
 
 // ════════════════════════════════════════════════════
 //  HISTORY
@@ -1125,6 +1725,7 @@ function renderHistory(){
 //  ADMIN
 // ════════════════════════════════════════════════════
 function renderAdmin(){
+  updateNudgePreview();
   const d=db();const youth=d.users.filter(u=>!u.isLeader);const score=u=>d.entries.filter(e=>e.userId===u.id).reduce((s,e)=>s+e.miles,0);
   const totalYouth=youth.length;const participating=youth.filter(u=>d.entries.some(e=>e.userId===u.id)).length;
   const onTrack=youth.filter(u=>d.entries.filter(e=>e.userId===u.id&&e.month===getCurrentMonth()).reduce((s,e)=>s+e.miles,0)>=60).length;
@@ -1135,8 +1736,47 @@ function renderAdmin(){
   document.getElementById('leaderCatBars').innerHTML=Object.entries(catMiles).map(([cat,m])=>`<div class="cat-bar-row"><div class="cat-bar-label">${cap(cat)}</div><div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:${Math.round(m/maxCat*100)}%;background:${catColors[cat]};"></div></div><div class="cat-bar-miles">${m}</div></div>`).join('');
   const cur=getCurrentMonth();
   document.getElementById('leaderMonthStatus').innerHTML=!youth.length?'<p style="font-size:.9rem;font-style:italic;color:var(--ink-soft);">No youth registered yet.</p>':youth.map(u=>{const m=d.entries.filter(e=>e.userId===u.id&&e.month===cur).reduce((s,e)=>s+e.miles,0);const p=Math.min(100,Math.round(m/60*100));const color=m>=60?'var(--teal)':m>0?'var(--gold)':'var(--sand-dark)';return`<div class="admin-user-row"><div class="admin-user-name">${u.name}</div><div style="flex:1;padding:0 .75rem;"><div class="progress-wrap" style="height:5px;margin:0;"><div class="progress-fill" style="width:${p}%;background:${color};"></div></div></div><div style="font-size:.85rem;font-family:'Cinzel',serif;color:${color};min-width:60px;text-align:right;">${m} mi ${m>=60?'✓':'…'}</div></div>`;}).join('');
-  document.getElementById('adminRoster').innerHTML=youth.length?youth.map(u=>`<div class="admin-user-row"><div class="admin-user-name">${u.name}</div><div style="font-size:.75rem;color:var(--ink-soft);">${u.group}</div><div class="admin-user-miles">${score(u)} mi</div></div>`).join(''):'<p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);">No youth registered yet.</p>';
-  const all=[...d.entries].sort((a,b)=>b.ts-a.ts);
+  // Full roster with role editing
+  const allSorted=[...d.users].sort((a,b)=>a.name.localeCompare(b.name));
+  document.getElementById('adminRoster').innerHTML=allSorted.length?allSorted.map(u=>`
+    <div class="admin-user-row">
+      <div class="admin-user-name">${u.name}</div>
+      <select class="role-select" onchange="updateUserRole('${u.id}',this.value)">
+        <option value="Young Men" ${u.group==='Young Men'?'selected':''}>Young Men</option>
+        <option value="Young Women" ${u.group==='Young Women'?'selected':''}>Young Women</option>
+        <option value="Adult" ${u.group==='Adult'?'selected':''}>Adult</option>
+        <option value="Leader" ${u.group==='Leader'?'selected':''}>Leader</option>
+      </select>
+      <div class="admin-user-miles" style="min-width:50px;text-align:right;">${score(u)} mi</div>
+    </div>`).join(''):'<p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);">No users yet.</p>';
+  // Group miles log with edit/delete
+  const gmLog=document.getElementById('adminGroupMilesList');
+  if(gmLog){const gmSorted=[...d.groupMiles].sort((a,b)=>b.ts-a.ts);gmLog.innerHTML=gmSorted.length?gmSorted.map(g=>`<div class="group-mile-row"><div><div style="font-size:.9rem;">${g.desc}</div><div class="history-meta">${g.month}</div></div><div class="history-miles">${g.miles} mi</div><button class="btn btn-ghost btn-sm" style="padding:.3rem .6rem;font-size:.7rem;" onclick="editGroupMiles('${g.id}','${(g.desc||'').replace(/'/g,"\'")}',${g.miles},'${g.month}')">Edit</button><button class="btn btn-danger" onclick="deleteGroupMiles('${g.id}')">✕</button></div>`).join(''):'<p style="font-size:.85rem;font-style:italic;color:var(--ink-soft);">No group miles added yet.</p>';}
+  // Divisor display
+  const divEl=document.getElementById('divisorInput');if(divEl&&!divEl.value)divEl.placeholder=getDivisor();
+  // Featured challenge current
+  const fcs=d.featuredChallenges||[];const fc=[...fcs].sort((a,b)=>b.ts-a.ts)[0]||null;
+  const fcEl=document.getElementById('featCurrent');
+  if(fcEl){
+    if(fc){fcEl.textContent='Current: '+fc.month+' — '+fc.desc.slice(0,60)+'… (+'+fc.bonus+' mi)';}
+    else{
+      // Show the pre-built April challenge as a hint
+      const apr=MONTHLY_CHALLENGES['April'];
+      if(apr)fcEl.innerHTML='<span style="color:var(--teal)">Pre-built: April → '+apr.desc.slice(0,60)+'… ('+apr.miles+' mi) — use the form above to publish it.</span>';
+      else fcEl.textContent='None published yet.';
+    }
+  }
+  const nameF=(document.getElementById('filterName')||{}).value||'';
+  const monthF=(document.getElementById('filterMonth')||{}).value||'';
+  const catF=(document.getElementById('filterCat')||{}).value||'';
+  const all=[...d.entries].sort((a,b)=>b.ts-a.ts).filter(e=>{
+    const u=d.users.find(u=>u.id===e.userId)||{};
+    const n=(u.name||e.userName||'').toLowerCase();
+    if(nameF&&!n.includes(nameF.toLowerCase()))return false;
+    if(monthF&&e.month!==monthF)return false;
+    if(catF&&e.cat!==catF)return false;
+    return true;
+  });
   document.getElementById('adminEntries').innerHTML=all.length?all.map(e=>`<div class="history-entry" style="grid-template-columns:1fr auto auto auto;"><div><div style="font-size:.85rem;">${e.userName} — ${e.desc.length>55?e.desc.slice(0,55)+'…':e.desc}</div><div class="history-meta">${e.month} · <span class="tag tag-${e.cat}">${cap(e.cat)}</span>${e.custom?' · custom':''}</div></div><div class="history-miles">${e.miles} mi</div><button class="btn btn-danger" onclick="deleteEntry('${e.id}')">Remove</button></div>`).join(''):'<p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);">No entries yet.</p>';
 }
 
@@ -1156,6 +1796,1154 @@ async function deleteEntry(id){
   try{await fbDelete('entries',id);renderAdmin();showToast('Entry removed.');}catch(err){showToast('Error: '+err.message);}
 }
 
+
+// ── GROUP DIVISOR ──
+function saveDivisor(){
+  const v=parseInt(document.getElementById('divisorInput').value);
+  if(!v||v<1){showToast('Enter a valid divisor.');return;}
+  localStorage.setItem('groupDivisor',v);
+  const s=document.getElementById('divisorStatus');if(s){s.textContent='Saved! (÷'+v+')';setTimeout(()=>{if(s)s.textContent='';},3000);}
+  showToast('Group divisor set to ÷'+v);
+}
+
+// ── USER ROLE EDIT ──
+async function updateUserRole(userId,newGroup){
+  const isPrivileged=newGroup==='Leader'||newGroup==='Adult';
+  try{
+    await _db().collection('users').doc(userId).update({group:newGroup,isLeader:isPrivileged});
+    const u=CACHE.users.find(u=>u.id===userId);
+    if(u){u.group=newGroup;u.isLeader=isPrivileged;}
+    showToast('Role updated to '+newGroup);
+    renderAdmin();
+  }catch(err){showToast('Error: '+err.message);}
+}
+
+// ── GROUP MILES EDIT/DELETE ──
+async function deleteGroupMiles(id){
+  if(!confirm('Remove this group miles entry?'))return;
+  try{
+    await _db().collection('groupMiles').doc(id).delete();
+    CACHE.groupMiles=CACHE.groupMiles.filter(g=>g.id!==id);
+    renderAdmin();showToast('Entry removed.');
+  }catch(err){showToast('Error: '+err.message);}
+}
+
+function editGroupMiles(id,desc,miles,month){
+  const newDesc=prompt('Description:',desc);if(newDesc===null)return;
+  const newMiles=parseInt(prompt('Miles:',miles));if(!newMiles||newMiles<1){showToast('Invalid miles.');return;}
+  const mList=['February','March','April','May','June','July','August','September','October','November'];
+  const mIdx=mList.indexOf(month);
+  const pick=prompt('Month (enter 1-10):\n'+mList.map((m,i)=>(i+1)+'. '+m).join('\n'),mIdx+1);
+  if(!pick)return;
+  const newMonth=mList[parseInt(pick)-1]||month;
+  _db().collection('groupMiles').doc(id).update({desc:newDesc,miles:newMiles,month:newMonth})
+    .then(()=>{const g=CACHE.groupMiles.find(g=>g.id===id);if(g){g.desc=newDesc;g.miles=newMiles;g.month=newMonth;}renderAdmin();showToast('Entry updated.');})
+    .catch(err=>showToast('Error: '+err.message));
+}
+
+// ── FEATURED CHALLENGE ──
+async function saveFeaturedChallenge(){
+  const desc=document.getElementById('featDesc').value.trim();
+  const month=document.getElementById('featMonth').value;
+  const bonus=parseInt(document.getElementById('featBonus').value);
+  if(!desc){showToast('Enter a challenge description.');return;}
+  if(!bonus||bonus<1){showToast('Enter valid bonus miles.');return;}
+  try{
+    await fbAdd('featuredChallenges',{desc,month,bonus,ts:Date.now(),postedBy:currentUser.name});
+    document.getElementById('featDesc').value='';document.getElementById('featBonus').value='';
+    showToast('🎯 Featured challenge published for '+month+'!');renderAdmin();
+  }catch(err){showToast('Error: '+err.message);}
+}
+
+// ── PRINT ROSTER ──
+function printRoster(){
+  const d=db();
+  const youth=d.users.filter(u=>!u.isLeader).sort((a,b)=>a.name.localeCompare(b.name));
+  const adults=d.users.filter(u=>u.isLeader).sort((a,b)=>a.name.localeCompare(b.name));
+  const score=u=>d.entries.filter(e=>e.userId===u.id).reduce((s,e)=>s+e.miles,0);
+  const cur=getCurrentMonth();
+  const win=window.open('','_blank');
+  win.document.write(`<!DOCTYPE html><html><head><title>Level Creek Ward Roster</title>
+  <style>body{font-family:Georgia,serif;padding:2rem;max-width:700px;margin:0 auto;}
+  h1{font-size:1.4rem;color:#1a3a5c;margin-bottom:.25rem;}
+  h2{font-size:1rem;color:#1a3a5c;margin:1.5rem 0 .5rem;border-bottom:1px solid #e8dcc8;padding-bottom:.25rem;}
+  p{color:#666;font-size:.85rem;margin-bottom:1.5rem;}
+  table{width:100%;border-collapse:collapse;margin-bottom:.5rem;}
+  th{background:#f4ede0;padding:.5rem;text-align:left;font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;}
+  td{padding:.55rem .5rem;border-bottom:1px solid #e8dcc8;font-size:.9rem;}
+  .on-track{color:#2a7a6e;font-weight:600;}.behind{color:#c8922a;}
+  </style></head><body>
+  <h1>Walk With Me — Level Creek Ward 2026</h1>
+  <p>Printed ${new Date().toLocaleDateString()} &nbsp;·&nbsp; ${youth.length} youth &nbsp;·&nbsp; ${adults.length} adults/leaders</p>
+  <h2>Youth</h2>
+  <table><tr><th>#</th><th>Name</th><th>Group</th><th>Total Mi</th><th>${cur} Mi</th><th>Status</th></tr>
+  ${youth.map((u,i)=>{const tot=score(u);const mm=d.entries.filter(e=>e.userId===u.id&&e.month===cur).reduce((s,e)=>s+e.miles,0);const cls=mm>=60?'on-track':mm>0?'behind':'';const st=tot>=600?'✨ Done':mm>=60?'✓ On Track':'…';return`<tr><td>${i+1}</td><td>${u.name}</td><td>${u.group}</td><td>${tot}</td><td class="${cls}">${mm}</td><td>${st}</td></tr>`;}).join('')}
+  </table>
+  ${adults.length?`<h2>Adults &amp; Leaders</h2><table><tr><th>#</th><th>Name</th><th>Group</th><th>Total Mi</th></tr>${adults.map((u,i)=>`<tr><td>${i+1}</td><td>${u.name}</td><td>${u.group}</td><td>${score(u)}</td></tr>`).join('')}</table>`:''}
+  
+
+
+</body></html>`);
+  win.document.close();win.print();
+}
+
+// ── JERUSALEM CELEBRATION ──
+function checkJerusalemArrival(total){
+  if(total>=600){
+    const key='jerusShown_'+currentUser.id;
+    if(!localStorage.getItem(key)){localStorage.setItem(key,'1');setTimeout(()=>showCelebration(),600);}
+  }
+}
+function showCelebration(){
+  document.getElementById('celebrationOverlay').classList.add('show');
+  startFireworks();
+}
+function showCertificate(){
+  document.getElementById('celebrationOverlay').classList.remove('show');
+  document.getElementById('certName').textContent=currentUser.name;
+  document.getElementById('certDate').textContent='Completed '+new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+  document.getElementById('certOverlay').classList.add('show');
+}
+function startFireworks(){
+  const canvas=document.getElementById('fireworkCanvas');if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+  const particles=[];const colors=['#e8b050','#2a7a6e','#c8922a','#ffffff','#3a9a8a','#f5e4c0'];
+  function burst(x,y){for(let i=0;i<60;i++){const a=Math.random()*Math.PI*2,sp=2+Math.random()*5;particles.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,alpha:1,color:colors[Math.floor(Math.random()*colors.length)],size:2+Math.random()*3});}}
+  let frame=0;
+  function animate(){
+    if(!document.getElementById('celebrationOverlay').classList.contains('show'))return;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    if(frame%40===0)burst(Math.random()*canvas.width,Math.random()*canvas.height*.6);
+    for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.x+=p.vx;p.y+=p.vy;p.vy+=.12;p.alpha-=.018;if(p.alpha<=0){particles.splice(i,1);continue;}ctx.globalAlpha=p.alpha;ctx.fillStyle=p.color;ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fill();}
+    ctx.globalAlpha=1;frame++;requestAnimationFrame(animate);
+  }
+  animate();
+}
+
+// ── HOME SCREEN PROMPT ──
+function initHomeScreenPrompt(){
+  if(localStorage.getItem('hspDismissed'))return;
+  const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent)&&!window.navigator.standalone;
+  const isAndroid=/android/i.test(navigator.userAgent)&&!window.matchMedia('(display-mode: standalone)').matches;
+  if(isIOS||isAndroid){setTimeout(()=>{const el=document.getElementById('homeScreenPrompt');if(el)el.classList.add('show');},4000);}
+}
+function dismissHomePrompt(){
+  localStorage.setItem('hspDismissed','1');
+  const el=document.getElementById('homeScreenPrompt');if(el)el.classList.remove('show');
+}
+
+
+// ══════════════════════════════════════════════════
+//  FEATURED CHALLENGE IN LOG MILES
+// ══════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
+//  CHALLENGE STATE HELPERS
+// ══════════════════════════════════════════════════
+function getChallengeState(month) {
+  // Returns: 'active' | 'preview' | 'locked' | 'done' | 'past'
+  const now = new Date();
+  const year = 2026;
+  const monthIdx = ["January","February","March","April","May","June",
+                    "July","August","September","October","November","December"]
+                    .indexOf(month);
+  if(monthIdx < 0) return 'locked';
+
+  const monthStart = new Date(year, monthIdx, 1);
+  const monthEnd   = new Date(year, monthIdx+1, 0, 23, 59, 59);
+  const previewStart = new Date(year, monthIdx-1, 24); // last 7 days of prior month
+
+  if(now > monthEnd) return 'past';
+  if(now >= monthStart && now <= monthEnd) {
+    // Check if user already logged it
+    const done = CACHE.entries.some(e =>
+      e.userId === currentUser.id && e.month === month && e.isFeaturedChallenge
+    );
+    return done ? 'done' : 'active';
+  }
+  if(now >= previewStart) return 'preview';
+  return 'locked';
+}
+
+function daysUntil(month) {
+  const year = 2026;
+  const monthIdx = ["January","February","March","April","May","June",
+                    "July","August","September","October","November","December"]
+                    .indexOf(month);
+  const target = new Date(year, monthIdx, 1);
+  const diff = Math.ceil((target - new Date()) / 86400000);
+  return Math.max(0, diff);
+}
+
+function daysUntilPreview(month) {
+  const year = 2026;
+  const monthIdx = ["January","February","March","April","May","June",
+                    "July","August","September","October","November","December"]
+                    .indexOf(month);
+  const target = new Date(year, monthIdx-1, 24);
+  const diff = Math.ceil((target - new Date()) / 86400000);
+  return Math.max(0, diff);
+}
+
+// ══════════════════════════════════════════════════
+//  CHALLENGE CARD HTML BUILDER
+// ══════════════════════════════════════════════════
+const CAT_COLORS = {
+  spiritual:   {bg:'rgba(42,80,128,.1)',  text:'var(--spiritual)'},
+  physical:    {bg:'rgba(90,122,42,.1)',  text:'var(--physical)'},
+  intellectual:{bg:'rgba(122,74,32,.1)', text:'var(--intellectual)'},
+  social:      {bg:'rgba(106,42,106,.1)',text:'var(--social)'}
+};
+
+function buildChallengeCard(month, challenge, state) {
+  const cc = CAT_COLORS[challenge.cat] || {bg:'rgba(201,185,154,.15)',text:'var(--navy)'};
+  const days = daysUntil(month);
+  const previewDays = daysUntilPreview(month);
+
+  let badgeLabel='', badgeClass='', cardClass='', inner='';
+
+  if(state === 'active') {
+    badgeLabel = '🎯 ' + month + ' — Active Now';
+    badgeClass = 'badge-active';
+    cardClass  = 'active';
+    inner = `
+      <div class="challenge-card-top">
+        <div class="challenge-card-icon">${challenge.badge?.icon||'🎯'}</div>
+        <div>
+          <div class="challenge-card-cat" style="background:${cc.bg};color:${cc.text};">${cap(challenge.cat)}</div>
+          <div class="challenge-card-title">${challenge.title}</div>
+          <div class="challenge-card-desc">${challenge.desc}</div>
+        </div>
+      </div>
+      <div class="challenge-card-footer">
+        <span class="challenge-card-miles">+${challenge.miles} miles</span>
+        ${challenge.scripture?`<span class="challenge-card-scripture">${challenge.scripture.slice(0,90)}…</span>`:''}
+        <span class="challenge-card-cta">Tap to log →</span>
+      </div>`;
+  } else if(state === 'preview') {
+    badgeLabel = '👀 Preview — Opens ' + month + ' 1';
+    badgeClass = 'badge-preview';
+    cardClass  = 'preview';
+    inner = `
+      <div class="challenge-card-top">
+        <div class="challenge-card-icon">${challenge.badge?.icon||'🎯'}</div>
+        <div>
+          <div class="challenge-card-cat" style="background:${cc.bg};color:${cc.text};">${cap(challenge.cat)}</div>
+          <div class="challenge-card-title">${challenge.title}</div>
+          <div class="challenge-card-desc">${challenge.desc}</div>
+        </div>
+      </div>
+      <div class="challenge-card-footer">
+        <span class="challenge-card-miles">+${challenge.miles} miles</span>
+        <span class="countdown-chip">⏳ Opens in ${days} day${days!==1?'s':''}</span>
+        ${challenge.scripture?`<span class="challenge-card-scripture">${challenge.scripture.slice(0,70)}…</span>`:''}
+      </div>`;
+  } else if(state === 'done') {
+    badgeLabel = '✓ Completed!';
+    badgeClass = 'badge-done';
+    cardClass  = 'done';
+    inner = `
+      <div class="challenge-card-top">
+        <div class="challenge-card-icon">${challenge.badge?.icon||'✓'}</div>
+        <div>
+          <div class="challenge-card-cat" style="background:${cc.bg};color:${cc.text};">${cap(challenge.cat)}</div>
+          <div class="challenge-card-title">${challenge.title}</div>
+          <div class="challenge-card-desc" style="text-decoration:line-through;opacity:.6;">${challenge.desc}</div>
+        </div>
+      </div>
+      <div class="challenge-card-footer">
+        <span class="challenge-card-miles" style="color:var(--completed);">+${challenge.miles} miles logged</span>
+        <span style="font-family:'Cinzel',serif;font-size:.8rem;color:var(--teal);">✨ Badge earned!</span>
+      </div>`;
+  } else if(state === 'locked') {
+    badgeLabel = '🔒 ' + month;
+    badgeClass = 'badge-locked';
+    cardClass  = 'locked';
+    const showPreviewDays = previewDays > 0;
+    inner = `
+      <div class="challenge-card-top">
+        <div class="challenge-card-icon" style="opacity:.4;">${challenge.badge?.icon||'🔒'}</div>
+        <div>
+          <div class="challenge-card-cat" style="background:${cc.bg};color:${cc.text};opacity:.6;">${cap(challenge.cat)}</div>
+          <div class="challenge-card-title" style="opacity:.6;">${challenge.title}</div>
+          <div class="hidden-desc">· · · · · · · · · · · · · ·</div>
+        </div>
+      </div>
+      <div class="challenge-card-footer">
+        <span class="locked-chip">🔒 +30 miles</span>
+        ${showPreviewDays
+          ? `<span class="locked-chip">👀 Preview in ${previewDays} day${previewDays!==1?'s':''}</span>`
+          : `<span class="locked-chip">📅 Unlocks ${month} 1</span>`}
+      </div>`;
+  }
+
+  const onclick = state==='active' ? 'onclick="logFeaturedChallenge(\''+month+'\')"' : '';
+  return `<div class="challenge-card ${cardClass}" ${onclick}>
+    <div class="challenge-card-badge ${badgeClass}">${badgeLabel}</div>
+    <div class="challenge-card-inner">${inner}</div>
+  </div>`;
+}
+
+// ══════════════════════════════════════════════════
+//  CHAMPION CARD (always visible, non-clickable)
+// ══════════════════════════════════════════════════
+function buildChampionCard() {
+  const earned = getEarnedMonthlyBadges();
+  const available = Object.keys(MONTHLY_CHALLENGES);
+  const completedCount = available.filter(m => earned.includes(m)).length;
+  const champKey = 'champBadge_'+currentUser.id;
+  const isEarned = !!localStorage.getItem(champKey);
+  return `<div class="challenge-card champion-info" style="margin-top:.25rem;">
+    <div class="challenge-card-badge badge-champion">🏆 Monthly Champion Award</div>
+    <div class="challenge-card-inner" style="margin-top:.4rem;">
+      <div class="challenge-card-top">
+        <div class="challenge-card-icon">${isEarned?'👑':'🏆'}</div>
+        <div>
+          <div class="challenge-card-title" style="color:var(--gold);">${isEarned?'Monthly Champion — Earned!':'Monthly Champion Badge'}</div>
+          <div class="challenge-card-desc">Complete <strong>all 8 monthly challenges</strong> (April through November) to earn the Monthly Champion badge and <strong>+100 bonus miles</strong> added automatically to your total. This award is triggered by completing all individual monthly challenges — it cannot be logged manually.</div>
+        </div>
+      </div>
+      <div class="challenge-card-footer" style="margin-top:.5rem;">
+        <span class="challenge-card-miles" style="color:var(--gold);">+100 bonus miles</span>
+        <span style="font-family:'Inter',sans-serif;font-size:.72rem;color:var(--ink-soft);">${completedCount} of ${available.length} challenges completed</span>
+        ${isEarned?'<span style="font-family:\'Cinzel\',serif;font-size:.8rem;color:var(--gold);">👑 Champion!</span>':'<span class="locked-chip">Auto-awarded on completion</span>'}
+      </div>
+    </div>
+  </div>`;
+}
+
+// ══════════════════════════════════════════════════
+//  MAIN RENDER — CHALLENGE TIMELINE ON LOG MILES
+// ══════════════════════════════════════════════════
+function renderFeaturedLogSection(){
+  const el = document.getElementById('featuredLogSection');
+  if(!el) return;
+
+  // Only show current+future months (skip past months)
+  const challengeMonths = Object.keys(MONTHLY_CHALLENGES);
+  const cards = [];
+
+  challengeMonths.forEach(month => {
+    const challenge = MONTHLY_CHALLENGES[month];
+    const state = getChallengeState(month);
+    if(state === 'past') return; // hide completed past months to keep it clean
+    cards.push(buildChallengeCard(month, challenge, state));
+  });
+
+  // Champion card always at bottom
+  cards.push(buildChampionCard());
+
+  el.innerHTML = cards.length
+    ? `<div style="font-family:'Cinzel',serif;font-size:.9rem;color:var(--navy);margin-bottom:.75rem;">🎯 Monthly Challenges</div>
+       <div class="challenge-timeline">${cards.join('')}</div>`
+    : '';
+}
+
+// ══════════════════════════════════════════════════
+//  DASHBOARD HYPE CARD
+// ══════════════════════════════════════════════════
+function renderDashHypeCard(){
+  const el = document.getElementById('dashHypeCard');
+  if(!el) return;
+
+  const curMonth = getCurrentMonth();
+  const challenge = MONTHLY_CHALLENGES[curMonth];
+  const state = getChallengeState(curMonth);
+
+  // Also check preview month
+  const months = Object.keys(MONTHLY_CHALLENGES);
+  let displayChallenge = challenge;
+  let displayState = state;
+  let displayMonth = curMonth;
+
+  if(!challenge || state === 'past') {
+    // Check if next month is in preview
+    const allMonths = ["February","March","April","May","June","July","August","September","October","November"];
+    const curIdx = allMonths.indexOf(curMonth);
+    if(curIdx >= 0 && curIdx < allMonths.length-1) {
+      const nextMonth = allMonths[curIdx+1];
+      const nextChallenge = MONTHLY_CHALLENGES[nextMonth];
+      const nextState = getChallengeState(nextMonth);
+      if(nextChallenge && nextState === 'preview') {
+        displayChallenge = nextChallenge;
+        displayState = 'preview';
+        displayMonth = nextMonth;
+      }
+    }
+    if(!displayChallenge) { el.innerHTML=''; return; }
+  }
+
+  const days = daysUntil(displayMonth);
+
+  if(displayState === 'active') {
+    const isDone = CACHE.entries.some(e =>
+      e.userId===currentUser.id && e.month===displayMonth && e.isFeaturedChallenge
+    );
+    el.innerHTML = `<div class="dash-hype-card" onclick="${isDone?'':'logFeaturedChallenge(\''+displayMonth+'\')'}" style="${isDone?'cursor:default;':''}">
+      <div class="dash-hype-eyebrow">🎯 ${displayMonth} Featured Challenge — 30 miles</div>
+      <div class="dash-hype-title">${displayChallenge.title}</div>
+      <div class="dash-hype-preview">${displayChallenge.desc.slice(0,100)}…</div>
+      <div class="dash-hype-footer">
+        <span class="dash-hype-miles">${displayChallenge.badge?.icon||''} ${displayChallenge.miles} miles · ${cap(displayChallenge.cat)}</span>
+        ${isDone
+          ? '<span class="dash-hype-done">✓ Completed this month!</span>'
+          : '<span class="dash-hype-cta">Log it now →</span>'}
+      </div>
+    </div>`;
+  } else if(displayState === 'preview') {
+    el.innerHTML = `<div class="dash-hype-card" style="cursor:default;opacity:.9;">
+      <div class="dash-hype-eyebrow">👀 Coming Up — ${displayMonth} Challenge</div>
+      <div class="dash-hype-title">${displayChallenge.title}</div>
+      <div class="dash-hype-preview">${displayChallenge.desc.slice(0,100)}… <em>Get ready!</em></div>
+      <div class="dash-hype-footer">
+        <span class="dash-hype-miles">${displayChallenge.badge?.icon||''} ${displayChallenge.miles} miles · ${cap(displayChallenge.cat)}</span>
+        <span class="countdown-chip" style="background:rgba(200,146,42,.15);border-color:var(--gold-light);color:var(--gold-light);">⏳ Starts in ${days} day${days!==1?'s':''}</span>
+      </div>
+    </div>`;
+  } else {
+    el.innerHTML = '';
+  }
+}
+
+async function logFeaturedChallenge(month){
+  const targetMonth = month || getCurrentMonth();
+  const challenge = MONTHLY_CHALLENGES[targetMonth];
+  if(!challenge){ showToast('Challenge not found.'); return; }
+  const state = getChallengeState(targetMonth);
+  if(state !== 'active'){ showToast('This challenge is not active yet!'); return; }
+  const already = CACHE.entries.some(e =>
+    e.userId===currentUser.id && e.month===targetMonth && e.isFeaturedChallenge
+  );
+  if(already){ showToast("You've already logged this month's challenge!"); return; }
+  const miles = challenge.miles || 30;
+  const cat   = challenge.cat || 'physical';
+  const title = challenge.title || 'Featured Monthly Challenge';
+  try{
+    await fbAdd('entries',{
+      userId:currentUser.id, userName:currentUser.name,
+      cat, desc:title+' — Monthly Challenge',
+      miles, month:targetMonth,
+      ts:Date.now(), custom:true, isFeaturedChallenge:true
+    });
+    showToast('✓ '+targetMonth+' challenge logged: +'+miles+' miles!');
+    fireConfetti();
+    checkBadges();
+    renderDashboard();
+    renderFeaturedLogSection();
+    await announceAchievement(currentUser.name,'🎯',
+      currentUser.name+' completed the '+targetMonth+' Featured Challenge: '+title+'!');
+  }catch(err){ showToast('Error: '+err.message); }
+}
+
+// ══════════════════════════════════════════════════
+//  BADGE ANNOUNCEMENTS (shared feed on Group Map)
+// ══════════════════════════════════════════════════
+async function announceAchievement(userName,icon,text){
+  try{
+    await fbAdd('badgeAnnouncements',{userName,icon,text,ts:Date.now()});
+  }catch(e){console.log('Announce error:',e);}
+}
+
+// renderBadgeAnnouncements — defined above with reactions support
+
+
+// ══════════════════════════════════════════════════
+//  MONTHLY TOP-MILES TROPHY BADGE
+// ══════════════════════════════════════════════════
+function trophySVG(color,monthAbbr){
+  const c=color||'#c8922a';const ca=color+'40'||'rgba(200,146,42,.25)';
+  return`<svg class="trophy-svg" viewBox="0 0 48 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Trophy cup -->
+    <rect x="12" y="12" width="24" height="20" rx="3" fill="${c}"/>
+    <!-- Cup top arc -->
+    <ellipse cx="24" cy="12" rx="12" ry="4" fill="${c}"/>
+    <!-- Handles -->
+    <path d="M12 16 Q4 16 4 22 Q4 28 12 28" fill="none" stroke="${c}" stroke-width="3" stroke-linecap="round"/>
+    <path d="M36 16 Q44 16 44 22 Q44 28 36 28" fill="none" stroke="${c}" stroke-width="3" stroke-linecap="round"/>
+    <!-- Stem -->
+    <rect x="20" y="32" width="8" height="5" rx="1" fill="${c}"/>
+    <!-- Base -->
+    <rect x="14" y="37" width="20" height="4" rx="2" fill="${c}"/>
+    <!-- Star on cup -->
+    <text x="24" y="26" text-anchor="middle" font-size="10" fill="white">★</text>
+    <!-- Sparkles -->
+    <circle cx="8" cy="10" r="1.5" fill="${c}" opacity=".7"/>
+    <circle cx="40" cy="10" r="1.5" fill="${c}" opacity=".7"/>
+    <circle cx="6" cy="20" r="1" fill="${c}" opacity=".5"/>
+    <circle cx="42" cy="20" r="1" fill="${c}" opacity=".5"/>
+    <!-- Month stamp -->
+    <rect x="8" y="42" width="32" height="9" rx="2" fill="${c}" opacity=".2"/>
+    <text x="24" y="49" text-anchor="middle" font-family="Georgia,serif" font-size="6" font-weight="bold" fill="${c}">${monthAbbr}</text>
+  </svg>`;
+}
+
+function renderMonthlyTrophyRow(){
+  const el=document.getElementById('monthlyTrophyRow');
+  if(!el)return;
+  const d=db();
+  const isLeader=currentUser.isLeader;
+  let html='';
+  MONTHS.forEach(month=>{
+    const color=MONTH_TROPHY_COLORS[month]||'#c8922a';
+    const abbr=month.slice(0,3).toUpperCase();
+    // Check if current user holds this month's trophy
+    const trophyKey='trophy_'+month+'_'+(isLeader?'adult':'youth');
+    const winner=localStorage.getItem(trophyKey);
+    const iWon=winner===currentUser.id;
+    html+=`<div class="trophy-badge ${iWon?'earned':'locked'}" title="${month} Top Miles${iWon?' — You won this!':''}" style="border-color:${iWon?color:'var(--sand-dark)'};">
+      ${trophySVG(color,abbr)}
+      <div style="font-family:'Cinzel',serif;font-size:.5rem;color:${iWon?'var(--navy)':'var(--sand-dark)'};margin-top:2px;">${month}</div>
+    </div>`;
+  });
+  // Overall champion
+  const overallKey='overallChamp_'+(isLeader?'adult':'youth');
+  const isOverallChamp=localStorage.getItem(overallKey)===currentUser.id;
+  html+=`<div class="trophy-badge ${isOverallChamp?'earned':'locked'}" title="Overall Journey Champion" style="border-color:${isOverallChamp?'var(--gold)':'var(--sand-dark)'};">
+    ${trophySVG('#c8922a','ALL')}
+    <div style="font-family:'Cinzel',serif;font-size:.5rem;color:${isOverallChamp?'var(--gold)':'var(--sand-dark)'};margin-top:2px;">Champion</div>
+  </div>`;
+  el.innerHTML=html;
+}
+
+async function checkAndAwardMonthlyTrophies(){
+  // Awards monthly top-miles trophy — called after any miles are logged
+  const d=db();
+  const youth=d.users.filter(u=>!u.isLeader);
+  const leaders=d.users.filter(u=>u.isLeader);
+  const score=(uid,month)=>d.entries.filter(e=>e.userId===uid&&e.month===month).reduce((s,e)=>s+e.miles,0);
+  MONTHS.forEach(month=>{
+    // Youth trophy
+    const yScored=youth.map(u=>({...u,s:score(u.id,month)})).sort((a,b)=>b.s-a.s);
+    const yWinner=yScored[0];
+    if(yWinner&&yWinner.s>0){
+      const key='trophy_'+month+'_youth';
+      const prev=localStorage.getItem(key);
+      if(prev!==yWinner.id){
+        localStorage.setItem(key,yWinner.id);
+        if(yWinner.id===currentUser.id&&prev!==yWinner.id&&prev!==null){
+          showToast('🏆 You are now leading '+month+' — Top Youth!');
+          announceAchievement(yWinner.name,'🏆',yWinner.name+' is leading the '+month+' youth leaderboard with '+yWinner.s+' miles!');
+          fireConfetti();
+        }
+      }
+    }
+    // Leader/Adult trophy
+    const lScored=leaders.map(u=>({...u,s:score(u.id,month)})).sort((a,b)=>b.s-a.s);
+    const lWinner=lScored[0];
+    if(lWinner&&lWinner.s>0){
+      const key='trophy_'+month+'_adult';
+      const prev=localStorage.getItem(key);
+      if(prev!==lWinner.id){
+        localStorage.setItem(key,lWinner.id);
+        if(lWinner.id===currentUser.id&&prev!==null){
+          showToast('🏆 You are leading '+month+' — Top Leader/Adult!');
+          announceAchievement(lWinner.name,'🏆',lWinner.name+' is leading the '+month+' leader/adult leaderboard with '+lWinner.s+' miles!');
+          fireConfetti();
+        }
+      }
+    }
+  });
+}
+
+// ══════════════════════════════════════════════════
+//  JERUSALEM COUNTDOWN
+// ══════════════════════════════════════════════════
+function renderCountdown(){
+  const el=document.getElementById('partyCountdown');
+  const msg=document.getElementById('partyMsg');
+  if(!el)return;
+  // Target: November 30, 2026
+  const target=new Date('2026-11-30T18:00:00');
+  const now=new Date();
+  const diff=target-now;
+  if(diff<=0){
+    el.innerHTML='<div class="countdown-unit"><div class="countdown-num">🎉</div><div class="countdown-label">Arrived!</div></div>';
+    if(msg)msg.textContent='We have arrived in Jerusalem! Celebrate!';
+    return;
+  }
+  const days=Math.floor(diff/86400000);
+  const hours=Math.floor((diff%86400000)/3600000);
+  const mins=Math.floor((diff%3600000)/60000);
+  const secs=Math.floor((diff%60000)/1000);
+  el.innerHTML=[['Days',days],['Hours',hours],['Mins',mins],['Secs',secs]].map(([l,v])=>`
+    <div class="countdown-unit">
+      <div class="countdown-num">${String(v).padStart(2,'0')}</div>
+      <div class="countdown-label">${l}</div>
+    </div>`).join('');
+  if(msg){
+    const d=db();const youth=d.users.filter(u=>!u.isLeader);
+    const comps=youth.filter(u=>d.entries.filter(e=>e.userId===u.id).reduce((s,e)=>s+e.miles,0)>=600).length;
+    const pct=youth.length?Math.round(comps/youth.length*100):0;
+    msg.textContent=`${comps} of ${youth.length} youth (${pct}%) have completed the journey. Jerusalem awaits!`;
+  }
+}
+
+// ══════════════════════════════════════════════════
+//  NUDGE TOOL
+// ══════════════════════════════════════════════════
+function updateNudgePreview(){
+  const type=document.getElementById('nudgeType').value;
+  const d=db();
+  const curMonth=getCurrentMonth();
+  const builtIn=MONTHLY_CHALLENGES[curMonth];
+  const youth=d.users.filter(u=>!u.isLeader);
+  const onTrack=youth.filter(u=>d.entries.filter(e=>e.userId===u.id&&e.month===curMonth).reduce((s,e)=>s+e.miles,0)>=60).length;
+  const groupMi=d.entries.reduce((s,e)=>s+e.miles,0);
+  const msgs={
+    general:`Hey Level Creek Ward Youth! 👋\n\nJust a friendly reminder — ${curMonth} is flying by! Make sure you're logging your miles for the Walk to Jerusalem challenge. You need 60 miles this month to stay on track.\n\nLog your miles here: https://qubecompanies.github.io/walk-with-me/\n\nCurrently ${onTrack} of ${youth.length} youth are on track this month. Let's keep climbing! 🏺`,
+    challenge:`Hey everyone! 🎯\n\nDon't forget about this month's Featured Challenge:\n\n${builtIn?'"'+builtIn.title+'" — '+builtIn.desc.slice(0,100)+'…':'Check the app for this month\'s challenge!'}\n\nComplete it for +30 miles! Log it directly in the app under "Log Miles."\n\nhttps://qubecompanies.github.io/walk-with-me/`,
+    streak:`Hi Level Creek! 🔥\n\nDid you know that staying consistent month after month earns you a streak badge? ${onTrack} youth are on track this month — are you one of them?\n\nEven one activity this week can make a difference. Open the app and log something today!\n\nhttps://qubecompanies.github.io/walk-with-me/`,
+    group:`Ward Update! 🗺️\n\nOur ward has logged a combined ${groupMi} individual miles on the Walk to Jerusalem! Every mile you log helps move us closer as a group.\n\nOpen the app and check the Group Map to see how far we've come together.\n\nhttps://qubecompanies.github.io/walk-with-me/`,
+    jerusalem:`We're getting CLOSE! ✨\n\nJerusalem is within reach! Check the Group Map to see our ward's progress. Keep logging — every mile counts as we push toward the finish line together.\n\nComplete your personal 600-mile journey to earn your Jerusalem certificate and fireworks celebration!\n\nhttps://qubecompanies.github.io/walk-with-me/`
+  };
+  const el=document.getElementById('nudgePreview');
+  if(el)el.textContent=msgs[type]||msgs.general;
+}
+
+function copyNudge(){
+  const text=document.getElementById('nudgePreview').textContent;
+  navigator.clipboard.writeText(text).then(()=>showToast('📋 Message copied to clipboard!')).catch(()=>showToast('Select and copy the text manually.'));
+}
+
+// ══════════════════════════════════════════════════
+//  ADMIN ENTRY FILTER HELPERS
+// ══════════════════════════════════════════════════
+function clearAdminFilters(){
+  const n=document.getElementById('filterName');const m=document.getElementById('filterMonth');const c=document.getElementById('filterCat');
+  if(n)n.value='';if(m)m.value='';if(c)c.value='';renderAdmin();
+}
+
+// ══════════════════════════════════════════════════
+//  CONFETTI BURST
+// ══════════════════════════════════════════════════
+function fireConfetti(){
+  const colors=['#c8922a','#2a7a6e','#e8b050','#5abcb0','#1a3a5c','#e8dcc8','#a84a2a'];
+  for(let i=0;i<28;i++){
+    const p=document.createElement('div');
+    p.className='confetti-piece';
+    p.style.cssText=`left:${30+Math.random()*40}%;top:${window.scrollY+100+Math.random()*60}px;background:${colors[Math.floor(Math.random()*colors.length)]};transform:rotate(${Math.random()*360}deg);animation-delay:${Math.random()*0.4}s;animation-duration:${0.7+Math.random()*0.6}s;width:${6+Math.random()*6}px;height:${6+Math.random()*6}px;border-radius:${Math.random()>0.5?'50%':'2px'};`;
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),1400);
+  }
+}
+
+
+// ══════════════════════════════════════════════════
+//  SHOUTOUT BANNER + NOTIFICATION DOT
+// ══════════════════════════════════════════════════
+let _lastShoutoutTs = parseInt(localStorage.getItem('lastShoutoutSeen')||'0');
+let _bannerTimer = null;
+
+function checkForNewShoutouts(){
+  const d = db();
+  const shouts = (d.shoutouts||[]).sort((a,b)=>b.ts-a.ts);
+  const newest = shouts[0];
+  if(newest && newest.ts > _lastShoutoutTs && newest.from !== currentUser.name){
+    showShoutoutBanner(newest);
+    document.getElementById('groupNotifDot').style.display='inline-block';
+  }
+}
+
+function showShoutoutBanner(shout){
+  document.getElementById('bannerFrom').textContent = shout.from + ' says:';
+  document.getElementById('bannerText').textContent = shout.text;
+  const b = document.getElementById('shoutoutBanner');
+  b.classList.add('show');
+  clearTimeout(_bannerTimer);
+  _bannerTimer = setTimeout(dismissBanner, 6000);
+}
+
+function dismissBanner(){
+  document.getElementById('shoutoutBanner').classList.remove('show');
+  const d = db();
+  const shouts = (d.shoutouts||[]).sort((a,b)=>b.ts-a.ts);
+  if(shouts[0]){
+    _lastShoutoutTs = shouts[0].ts;
+    localStorage.setItem('lastShoutoutSeen', _lastShoutoutTs);
+  }
+  document.getElementById('groupNotifDot').style.display='none';
+}
+
+// ══════════════════════════════════════════════════
+//  SHOUTOUT + BADGE ANNOUNCEMENT REACTIONS
+// ══════════════════════════════════════════════════
+const REACTION_EMOJIS = ['👍','❤️','🔥','🙌','⭐'];
+
+async function toggleReaction(collectionName, docId, emoji){
+  const d = db();
+  const items = d[collectionName]||[];
+  const item = items.find(i=>i.id===docId);
+  if(!item) return;
+  if(!item.reactions) item.reactions={};
+  const key = emoji;
+  const users = item.reactions[key]||[];
+  const myIdx = users.indexOf(currentUser.id);
+  if(myIdx>=0) users.splice(myIdx,1);
+  else users.push(currentUser.id);
+  item.reactions[key] = users;
+  try{
+    await _db().collection(collectionName).doc(docId).update({['reactions.'+key]: users});
+    if(collectionName==='shoutouts') renderShoutouts();
+    else renderBadgeAnnouncements();
+  }catch(e){ showToast('Could not save reaction'); }
+}
+
+function reactionBar(collectionName, item){
+  const reactions = item.reactions||{};
+  return `<div class="reaction-bar">${REACTION_EMOJIS.map(e=>{
+    const users = reactions[e]||[];
+    const count = users.length;
+    const reacted = users.includes(currentUser.id);
+    return `<button class="reaction-btn${reacted?' reacted':''}" onclick="toggleReaction('${collectionName}','${item.id}','${e}')">
+      ${e}${count>0?`<span class="reaction-count">${count}</span>`:''}
+    </button>`;
+  }).join('')}</div>`;
+}
+
+function renderShoutouts(){
+  const d=db();
+  const feed=document.getElementById('shoutoutFeed');
+  if(!feed) return;
+  const shouts=[...( d.shoutouts||[])].sort((a,b)=>b.ts-a.ts);
+  feed.innerHTML=shouts.length?shouts.map(s=>`
+    <div class="shoutout">
+      <div class="shoutout-header">
+        <span class="shoutout-from">${s.from}</span>
+        <span class="shoutout-time">${timeAgo(s.ts)}</span>
+      </div>
+      <div class="shoutout-text">"${s.text}"</div>
+      ${reactionBar('shoutouts',s)}
+    </div>`).join('')
+    :'<p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);">No shoutouts yet — check back soon!</p>';
+  checkForNewShoutouts();
+}
+
+function renderBadgeAnnouncements(){
+  const d=db();
+  const ann=d.badgeAnnouncements||[];
+  const el=document.getElementById('badgeAnnounceFeed');
+  if(!el) return;
+  const sorted=[...ann].sort((a,b)=>b.ts-a.ts).slice(0,20);
+  if(!sorted.length){el.innerHTML='<p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);">No badge announcements yet.</p>';return;}
+  el.innerHTML=sorted.map(a=>`
+    <div class="badge-announce">
+      <div class="badge-announce-icon">${a.icon||'🏅'}</div>
+      <div class="badge-announce-body">
+        <div class="badge-announce-who">${a.userName}</div>
+        <div class="badge-announce-text">${a.text}</div>
+        <div class="badge-announce-time">${timeAgo(a.ts)}</div>
+        ${reactionBar('badgeAnnouncements',a)}
+      </div>
+    </div>`).join('');
+}
+
+// ══════════════════════════════════════════════════
+//  LEADERBOARD — MEDALS + CARDS + YM/YW SECTIONS
+// ══════════════════════════════════════════════════
+function medalHTML(rank){
+  if(rank===1) return `<div class="medal-badge medal-gold" style="animation-delay:.1s">🥇</div>`;
+  if(rank===2) return `<div class="medal-badge medal-silver" style="animation-delay:.2s">🥈</div>`;
+  if(rank===3) return `<div class="medal-badge medal-bronze" style="animation-delay:.3s">🥉</div>`;
+  return `<div class="lb-rank-num">${rank}</div>`;
+}
+
+function isRecentlyActive(userId){
+  const cutoff=Date.now()-7*24*60*60*1000;
+  return CACHE.entries.some(e=>e.userId===userId&&e.ts>cutoff);
+}
+
+function lbCardHTML(u, rank, maxMiles, isAdultRow){
+  const isMe = u.id===currentUser.id;
+  const bp = Math.round(u.miles/(maxMiles||1)*100);
+  const flame = isRecentlyActive(u.id)?'🔥':'';
+  const jerusalem = u.miles>=600?'✨':'';
+  const rankClass = rank===1?'rank-1':rank===2?'rank-2':rank===3?'rank-3':'';
+  return `<div class="lb-card ${rankClass}">
+    ${medalHTML(rank)}
+    <div class="lb-info">
+      <div class="lb-card-name ${isMe?'me':''}">${u.name}${isMe?' (you)':''}${flame}${jerusalem}</div>
+      <div class="lb-card-group">${u.group}</div>
+      <div class="lb-prog-wrap" style="margin-top:.3rem;">
+        <div class="lb-prog-fill ${isAdultRow?'leader-fill':''}" style="width:${bp}%"></div>
+      </div>
+    </div>
+    <div class="lb-card-miles">${u.miles}<span style="font-size:.65rem;font-family:'Inter',sans-serif;color:var(--sand-dark);"> mi</span></div>
+  </div>`;
+}
+
+// renderLeaderboard — full version with sub-tabs defined above
+
+
+// ══════════════════════════════════════════════════
+//  LOG MILES — ICON CATEGORY TABS
+// ══════════════════════════════════════════════════
+// Difficulty stars: 1-3 based on miles
+function diffStars(miles){
+  if(miles>=60) return '★★★';
+  if(miles>=30) return '★★';
+  return '★';
+}
+
+function filterActivitiesIcon(cat, btn){
+  document.querySelectorAll('.cat-icon-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#activityList .accordion').forEach(acc=>{
+    if(cat==='all'||acc.dataset.cat===cat){acc.style.display='block';if(cat!=='all')acc.classList.add('open');}
+    else acc.style.display='none';
+  });
+}
+
+// Override buildActivityList to add difficulty stars
+const _origBuildActivityList = buildActivityList;
+function buildActivityList(){
+  const container=document.getElementById('activityList');container.innerHTML='';
+  ['spiritual','physical','intellectual','social'].forEach(cat=>{
+    const section=document.createElement('div');section.className='accordion';section.dataset.cat=cat;
+    section.innerHTML=`<div class="accordion-header" onclick="toggleAccordion(this.parentElement)">
+      <h3><span class="cat-dot dot-${cat}"></span> ${cap(cat)}</h3>
+      <svg class="accordion-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </div><div class="accordion-body" id="actBody-${cat}"></div>`;
+    container.appendChild(section);
+    const body=section.querySelector('.accordion-body');
+    ACTIVITIES[cat].forEach((act,i)=>{
+      const id=makeActId(cat,i);const item=document.createElement('div');item.className='activity-item';item.id='logAct-'+id;
+      item.innerHTML=`<div class="activity-miles">${act.miles}<span>miles</span><div class="diff-stars">${diffStars(act.miles)}</div></div><div class="activity-text">${act.text}</div>`;
+      item.onclick=()=>logActivity(cat,act,i,item);body.appendChild(item);
+    });
+  });
+  refreshActivityDoneStates();
+}
+
+// ══════════════════════════════════════════════════
+//  PLANNER — VISUAL CATEGORY CARDS WITH PROGRESS RING
+// ══════════════════════════════════════════════════
+const CAT_META = {
+  spiritual:   {icon:'🙏', label:'Spiritual',   bg:'rgba(42,80,128,.08)',  border:'var(--spiritual)', text:'var(--spiritual)'},
+  physical:    {icon:'💪', label:'Physical',    bg:'rgba(90,122,42,.08)', border:'var(--physical)',  text:'var(--physical)'},
+  intellectual:{icon:'📚', label:'Intellectual', bg:'rgba(122,74,32,.08)', border:'var(--intellectual)',text:'var(--intellectual)'},
+  social:      {icon:'🤝', label:'Social',      bg:'rgba(106,42,106,.08)',border:'var(--social)',   text:'var(--social)'}
+};
+
+let _plannerActiveCat = 'all';
+
+function buildPlannerCatGrid(){
+  const grid=document.getElementById('plannerCatGrid');
+  if(!grid) return;
+  const plan=getPlanner();
+  const done=getCompletedIds();
+  const plannedMiles=plan.reduce((s,p)=>s+p.miles,0);
+  const goal=60;
+  const pct=Math.min(100,Math.round(plannedMiles/goal*100));
+  const circ=2*Math.PI*18; // r=18
+
+  // "All" summary ring card
+  let html=`<div class="planner-cat-card ${_plannerActiveCat==='all'?'selected':''}" onclick="setPlannerCat('all',this)"
+    style="background:var(--parchment);border-color:${_plannerActiveCat==='all'?'var(--navy)':'transparent'};grid-column:span 2;">
+    <div style="display:flex;align-items:center;gap:.75rem;">
+      <div class="planner-ring-wrap" style="position:relative;width:48px;height:48px;flex-shrink:0;">
+        <svg width="48" height="48" viewBox="0 0 48 48" class="progress-ring">
+          <circle class="progress-ring-bg" cx="24" cy="24" r="18" stroke="rgba(201,185,154,.4)"/>
+          <circle class="progress-ring-fill" cx="24" cy="24" r="18" stroke="var(--navy)"
+            stroke-dasharray="${circ}"
+            stroke-dashoffset="${circ-(circ*pct/100)}"/>
+        </svg>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:.7rem;color:var(--navy);">${pct}%</div>
+      </div>
+      <div>
+        <div style="font-family:'Cinzel',serif;font-size:.95rem;color:var(--navy);">All Activities</div>
+        <div style="font-family:'Inter',sans-serif;font-size:.7rem;color:var(--ink-soft);">${plan.length} planned · ${plannedMiles} / ${goal} miles</div>
+      </div>
+    </div>
+  </div>`;
+
+  // Category cards
+  Object.entries(CAT_META).forEach(([cat,meta])=>{
+    const catPlan=plan.filter(p=>p.cat===cat);
+    const catMiles=catPlan.reduce((s,p)=>s+p.miles,0);
+    const catDone=catPlan.filter(p=>done.has(p.id)||p.done).length;
+    const isSelected=_plannerActiveCat===cat;
+    html+=`<div class="planner-cat-card ${isSelected?'selected':''}" onclick="setPlannerCat('${cat}',this)"
+      style="background:${meta.bg};border-color:${isSelected?meta.border:'transparent'};color:${meta.text};">
+      <div class="planner-cat-icon">${meta.icon}</div>
+      <div class="planner-cat-name">${meta.label}</div>
+      <div class="planner-cat-count">${catPlan.length} planned${catDone>0?' · '+catDone+' done':''}</div>
+      ${catMiles>0?`<div style="font-size:.65rem;margin-top:.2rem;">+${catMiles} mi</div>`:''}
+    </div>`;
+  });
+  grid.innerHTML=html;
+}
+
+function setPlannerCat(cat, el){
+  _plannerActiveCat=cat;
+  buildPlannerCatGrid();
+  // Filter the activity list
+  document.querySelectorAll('#plannerActivityList .accordion').forEach(acc=>{
+    if(cat==='all'||acc.dataset.cat===cat){acc.style.display='block';if(cat!=='all')acc.classList.add('open');}
+    else acc.style.display='none';
+  });
+}
+
+// ══════════════════════════════════════════════════
+//  GROUP MAP — ILLUSTRATED WAYPOINT ICONS
+// ══════════════════════════════════════════════════
+const WAYPOINT_ICONS = ['🏺','🌊','⛰️','🌵','🏞️','✨'];
+
+// Override buildGroupWaypoints to use emoji icons
+const _origBuildGroupWaypoints = buildGroupWaypoints;
+function buildGroupWaypoints(){
+  const container=document.getElementById('waypointsContainer');
+  const line=document.getElementById('journeyLine');
+  WAYPOINTS.forEach((wp,i)=>{
+    const div=document.createElement('div');div.className='waypoint';div.id='grp-wp-'+i;
+    div.innerHTML=`
+      <div class="waypoint-icon-svg">${WAYPOINT_ICONS[i]||'📍'}</div>
+      <div class="waypoint-dot"></div>
+      <div class="waypoint-label">${wp.label.replace('\n','<br>')}</div>
+      <div class="waypoint-miles">${wp.miles>0?wp.miles+' mi':'Start'}</div>`;
+    container.appendChild(div);
+  });
+  container.appendChild(line);
+  setTimeout(drawMapCanvas,150);
+}
+
+
+// ══════════════════════════════════════════════════
+//  LEADERBOARD SUB-TABS
+// ══════════════════════════════════════════════════
+let _lbActivePane = 'youth';
+
+function switchLBTab(pane, btn){
+  _lbActivePane = pane;
+  document.querySelectorAll('.lb-pane').forEach(p=>p.style.display='none');
+  document.querySelectorAll('.lb-sub-tab').forEach(b=>b.classList.remove('active'));
+  const el = document.getElementById('lb-pane-'+pane);
+  if(el) el.style.display='block';
+  if(btn) btn.classList.add('active');
+  renderLeaderboard();
+}
+
+// ══════════════════════════════════════════════════
+//  FULL LEADERBOARD RENDER
+// ══════════════════════════════════════════════════
+function renderLeaderboard(){
+  const d=db();
+  const score = u => d.entries.filter(e=>e.userId===u.id).reduce((s,e)=>s+e.miles,0);
+  const monthScore = (u,month) => d.entries.filter(e=>e.userId===u.id&&e.month===month).reduce((s,e)=>s+e.miles,0);
+  const avgMonthScore = u => {
+    const months = MONTHS.filter(m=>d.entries.some(e=>e.userId===u.id&&e.month===m));
+    if(!months.length) return 0;
+    return Math.round(months.reduce((s,m)=>s+monthScore(u,m),0)/months.length);
+  };
+  const catScore = (u,cat) => d.entries.filter(e=>e.userId===u.id&&e.cat===cat).reduce((s,e)=>s+e.miles,0);
+
+  const allUsers = d.users||[];
+  const ym  = allUsers.filter(u=>!u.isLeader&&u.group==='Young Men').map(u=>({...u,miles:score(u)})).sort((a,b)=>b.miles-a.miles);
+  const yw  = allUsers.filter(u=>!u.isLeader&&u.group==='Young Women').map(u=>({...u,miles:score(u)})).sort((a,b)=>b.miles-a.miles);
+  const ldr = allUsers.filter(u=>u.isLeader).map(u=>({...u,miles:score(u)})).sort((a,b)=>b.miles-a.miles);
+  const youth = [...ym,...yw].sort((a,b)=>b.miles-a.miles);
+  const none = '<p style="padding:1rem 1rem .5rem;font-style:italic;font-size:.9rem;color:var(--ink-soft);">No one registered in this group yet.</p>';
+
+  if(_lbActivePane==='youth'){
+    // YM section
+    const ymTot = document.getElementById('ymTotal');
+    if(ymTot) ymTot.textContent = ym.length ? ym.reduce((s,u)=>s+u.miles,0)+' total mi' : '';
+    document.getElementById('leaderboardYM').innerHTML = ym.length ? ym.map((u,i)=>lbCardHTML(u,i+1,ym[0]?.miles||1,false)).join('') : none;
+    // YW section
+    const ywTot = document.getElementById('ywTotal');
+    if(ywTot) ywTot.textContent = yw.length ? yw.reduce((s,u)=>s+u.miles,0)+' total mi' : '';
+    document.getElementById('leaderboardYW').innerHTML = yw.length ? yw.map((u,i)=>lbCardHTML(u,i+1,yw[0]?.miles||1,false)).join('') : none;
+  }
+
+  if(_lbActivePane==='adults'){
+    const lCard=document.getElementById('leaderLBCard');
+    if(ldr.length){
+      if(lCard)lCard.style.display='block';
+      document.getElementById('leaderboardLeaders').innerHTML = ldr.map((u,i)=>lbCardHTML(u,i+1,ldr[0]?.miles||1,true)).join('');
+    } else {
+      if(lCard)lCard.style.display='none';
+    }
+  }
+
+  if(_lbActivePane==='ymvsyw'){
+    renderVersusYMYW(d,score,avgMonthScore,catScore,ym,yw);
+  }
+
+  if(_lbActivePane==='youthvsleader'){
+    renderVersusYouthLeader(d,score,avgMonthScore,catScore,youth,ldr);
+  }
+
+  if(_lbActivePane==='monthly'){
+    const cur=getCurrentMonth();
+    const lbMonthLabel=document.getElementById('lbMonthLabel');
+    if(lbMonthLabel)lbMonthLabel.textContent=cur;
+    const allYouth=allUsers.filter(u=>!u.isLeader).map(u=>({...u,miles:monthScore(u,cur)})).sort((a,b)=>b.miles-a.miles);
+    const maxM=allYouth[0]?.miles||1;
+    document.getElementById('leaderboardMonthly').innerHTML = allYouth.length
+      ? '<div class="monthly-lb-note">Sorted by '+cur+' miles earned this month only</div>'
+        + allYouth.map((u,i)=>lbCardHTML(u,i+1,maxM,false)).join('')
+      : none;
+  }
+}
+
+// ══════════════════════════════════════════════════
+//  VERSUS BOARD BUILDERS
+// ══════════════════════════════════════════════════
+function versusStatRow(label, leftVal, rightVal, leftBetter){
+  const lWins = parseFloat(leftVal) > parseFloat(rightVal);
+  const rWins = parseFloat(rightVal) > parseFloat(leftVal);
+  const lColor = lWins ? 'var(--teal)' : rWins ? 'var(--ink-soft)' : 'var(--navy)';
+  const rColor = rWins ? 'var(--social)' : lWins ? 'var(--ink-soft)' : 'var(--navy)';
+  const lMax = Math.max(parseFloat(leftVal),parseFloat(rightVal),1);
+  const lPct = Math.round(parseFloat(leftVal)/lMax*100);
+  const rPct = Math.round(parseFloat(rightVal)/lMax*100);
+  return `
+    <div class="versus-stat-row">
+      <div class="versus-stat-val" style="color:${lColor}">${leftVal}</div>
+      <div class="versus-stat-label">${label}</div>
+      <div class="versus-stat-val" style="color:${rColor}">${rightVal}</div>
+    </div>
+    <div class="versus-bar-row">
+      <div style="display:flex;justify-content:flex-end;">
+        <div class="versus-bar-left" style="width:${lPct}%"></div>
+      </div>
+      <div class="versus-bar-center">${label.slice(0,6)}</div>
+      <div class="versus-bar-right" style="width:${rPct}%"></div>
+    </div>`;
+}
+
+function renderVersusYMYW(d,score,avgMonthScore,catScore,ym,yw){
+  const el=document.getElementById('lbVersusYMYW');if(!el)return;
+  if(!ym.length&&!yw.length){el.innerHTML='<p style="padding:1rem;font-style:italic;font-size:.9rem;color:var(--ink-soft);">Need registered youth in both groups to compare.</p>';return;}
+  const ymAvg = ym.length?Math.round(ym.reduce((s,u)=>s+u.miles,0)/ym.length):0;
+  const ywAvg = yw.length?Math.round(yw.reduce((s,u)=>s+u.miles,0)/yw.length):0;
+  const ymMonthAvg = ym.length?Math.round(ym.reduce((s,u)=>s+avgMonthScore(u),0)/ym.length):0;
+  const ywMonthAvg = yw.length?Math.round(yw.reduce((s,u)=>s+avgMonthScore(u),0)/yw.length):0;
+  const ymTotal = ym.reduce((s,u)=>s+u.miles,0);
+  const ywTotal = yw.reduce((s,u)=>s+u.miles,0);
+  const ymComplete = ym.filter(u=>u.miles>=600).length;
+  const ywComplete = yw.filter(u=>u.miles>=600).length;
+  const ymActive = ym.filter(u=>isRecentlyActive(u.id)).length;
+  const ywActive = yw.filter(u=>isRecentlyActive(u.id)).length;
+  const ymOnTrack = ym.filter(u=>d.entries.filter(e=>e.userId===u.id&&e.month===getCurrentMonth()).reduce((s,e)=>s+e.miles,0)>=60).length;
+  const ywOnTrack = yw.filter(u=>d.entries.filter(e=>e.userId===u.id&&e.month===getCurrentMonth()).reduce((s,e)=>s+e.miles,0)>=60).length;
+  const winner = ymAvg>ywAvg?'⚡ Young Men lead!':ywAvg>ymAvg?'🌸 Young Women lead!':'It\'s a tie! 🤝';
+
+  // Category breakdown per group
+  const cats=['spiritual','physical','intellectual','social'];
+  const catIcons={spiritual:'🙏',physical:'💪',intellectual:'📚',social:'🤝'};
+  const ymCatAvgs = cats.map(c=>({c,v:ym.length?Math.round(ym.reduce((s,u)=>s+catScore(u,c),0)/ym.length):0}));
+  const ywCatAvgs = cats.map(c=>({c,v:yw.length?Math.round(yw.reduce((s,u)=>s+catScore(u,c),0)/yw.length):0}));
+
+  el.innerHTML=`<div class="versus-wrap">
+    <div class="versus-header">
+      <div class="versus-team-name">⚡ Young Men<br><span style="font-size:.7rem;opacity:.7;">${ym.length} members</span></div>
+      <div class="versus-vs">VS</div>
+      <div class="versus-team-name">🌸 Young Women<br><span style="font-size:.7rem;opacity:.7;">${yw.length} members</span></div>
+    </div>
+    <div class="card neutral" style="border-radius:0;padding:0;margin:0;border-left:none;border-right:none;">
+      ${versusStatRow('Avg total miles',ymAvg,ywAvg)}
+      ${versusStatRow('Avg miles/month',ymMonthAvg,ywMonthAvg)}
+      ${versusStatRow('Total miles',ymTotal,ywTotal)}
+      ${versusStatRow('Completions',ymComplete,ywComplete)}
+      ${versusStatRow('Active this week',ymActive,ywActive)}
+      ${versusStatRow('On track '+getCurrentMonth().slice(0,3),ymOnTrack,ywOnTrack)}
+    </div>
+    <div style="padding:.6rem 1rem .2rem;font-family:'Cinzel',serif;font-size:.7rem;color:var(--navy);letter-spacing:.06em;text-transform:uppercase;">Avg miles by category</div>
+    <div class="versus-category-grid">
+      ${cats.map((c,i)=>`<div class="versus-cat-cell">
+        <div class="versus-cat-label">${catIcons[c]} ${c}</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.3rem;margin-top:.3rem;">
+          <div style="text-align:center;font-family:'Cinzel',serif;font-size:.9rem;color:var(--spiritual);">${ymCatAvgs[i].v}</div>
+          <div style="text-align:center;font-family:'Cinzel',serif;font-size:.9rem;color:var(--social);">${ywCatAvgs[i].v}</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.3rem;">
+          <div style="font-family:'Inter',sans-serif;font-size:.55rem;color:var(--ink-soft);text-align:center;">YM</div>
+          <div style="font-family:'Inter',sans-serif;font-size:.55rem;color:var(--ink-soft);text-align:center;">YW</div>
+        </div>
+      </div>`).join('')}
+    </div>
+    <div class="versus-winner">${winner}</div>
+  </div>`;
+}
+
+function renderVersusYouthLeader(d,score,avgMonthScore,catScore,youth,ldr){
+  const el=document.getElementById('lbVersusYouthLeader');if(!el)return;
+  if(!youth.length&&!ldr.length){el.innerHTML='<p style="padding:1rem;font-style:italic;font-size:.9rem;color:var(--ink-soft);">Need registered members in both groups.</p>';return;}
+  const yAvg = youth.length?Math.round(youth.reduce((s,u)=>s+u.miles,0)/youth.length):0;
+  const lAvg = ldr.length?Math.round(ldr.reduce((s,u)=>s+u.miles,0)/ldr.length):0;
+  const yMonthAvg = youth.length?Math.round(youth.reduce((s,u)=>s+avgMonthScore(u),0)/youth.length):0;
+  const lMonthAvg = ldr.length?Math.round(ldr.reduce((s,u)=>s+avgMonthScore(u),0)/ldr.length):0;
+  const yTotal = youth.reduce((s,u)=>s+u.miles,0);
+  const lTotal = ldr.reduce((s,u)=>s+u.miles,0);
+  const yComplete = youth.filter(u=>u.miles>=600).length;
+  const lComplete = ldr.filter(u=>u.miles>=600).length;
+  const yActive = youth.filter(u=>isRecentlyActive(u.id)).length;
+  const lActive = ldr.filter(u=>isRecentlyActive(u.id)).length;
+  const yOnTrack = youth.filter(u=>d.entries.filter(e=>e.userId===u.id&&e.month===getCurrentMonth()).reduce((s,e)=>s+e.miles,0)>=60).length;
+  const lOnTrack = ldr.filter(u=>d.entries.filter(e=>e.userId===u.id&&e.month===getCurrentMonth()).reduce((s,e)=>s+e.miles,0)>=60).length;
+  const yOnPct = youth.length?Math.round(yOnTrack/youth.length*100):0;
+  const lOnPct = ldr.length?Math.round(lOnTrack/ldr.length*100):0;
+  const winner = yAvg>lAvg?'🏃 Youth lead!':lAvg>yAvg?'★ Leaders lead!':'Dead even! 🤝';
+  const topYouth = [...youth].sort((a,b)=>b.miles-a.miles).slice(0,3);
+  const topLdr = [...ldr].sort((a,b)=>b.miles-a.miles).slice(0,3);
+
+  el.innerHTML=`<div class="versus-wrap">
+    <div class="versus-header" style="background:linear-gradient(135deg,var(--teal),var(--navy));">
+      <div class="versus-team-name">🏃 Youth<br><span style="font-size:.7rem;opacity:.7;">${youth.length} members</span></div>
+      <div class="versus-vs">VS</div>
+      <div class="versus-team-name">★ Leaders<br><span style="font-size:.7rem;opacity:.7;">${ldr.length} members</span></div>
+    </div>
+    <div class="card neutral" style="border-radius:0;padding:0;margin:0;border-left:none;border-right:none;">
+      ${versusStatRow('Avg total miles',yAvg,lAvg)}
+      ${versusStatRow('Avg miles/month',yMonthAvg,lMonthAvg)}
+      ${versusStatRow('Total miles',yTotal,lTotal)}
+      ${versusStatRow('Completions',yComplete,lComplete)}
+      ${versusStatRow('Active this week',yActive,lActive)}
+      ${versusStatRow('On track % '+getCurrentMonth().slice(0,3),yOnPct+'%',lOnPct+'%')}
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;padding:.75rem 1rem;">
+      <div>
+        <div style="font-family:'Cinzel',serif;font-size:.7rem;color:var(--teal);margin-bottom:.4rem;letter-spacing:.06em;">TOP YOUTH</div>
+        ${topYouth.map((u,i)=>`<div style="display:flex;align-items:center;gap:.4rem;padding:.2rem 0;border-bottom:1px solid rgba(201,185,154,.2);">
+          <span style="font-size:.7rem;">${['🥇','🥈','🥉'][i]||''}</span>
+          <span style="font-family:'Crimson Pro',serif;font-size:.85rem;flex:1;">${u.name}</span>
+          <span style="font-family:'Cinzel',serif;font-size:.75rem;color:var(--teal);">${u.miles}</span>
+        </div>`).join('')}
+      </div>
+      <div>
+        <div style="font-family:'Cinzel',serif;font-size:.7rem;color:var(--gold);margin-bottom:.4rem;letter-spacing:.06em;">TOP LEADERS</div>
+        ${topLdr.map((u,i)=>`<div style="display:flex;align-items:center;gap:.4rem;padding:.2rem 0;border-bottom:1px solid rgba(201,185,154,.2);">
+          <span style="font-size:.7rem;">${['🥇','🥈','🥉'][i]||''}</span>
+          <span style="font-family:'Crimson Pro',serif;font-size:.85rem;flex:1;">${u.name}</span>
+          <span style="font-family:'Cinzel',serif;font-size:.75rem;color:var(--gold);">${u.miles}</span>
+        </div>`).join('')}
+      </div>
+    </div>
+    <div class="versus-winner">${winner}</div>
+  </div>`;
+}
+
+// ── TUTORIAL MODAL ──
+function openTutorialModal(){
+  document.getElementById('tutorialModal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+// Auto-open tutorial modal if URL contains #tutorial
+if(window.location.hash === '#tutorial'){
+  // Wait for DOM to be ready before opening
+  setTimeout(openTutorialModal, 400);
+}
+function closeTutorialModal(){
+  document.getElementById('tutorialModal').classList.remove('open');
+  document.body.style.overflow='';
+}
+function closeTutorialModalBackdrop(e){
+  if(e.target===document.getElementById('tutorialModal')) closeTutorialModal();
+}
+// Close on Escape key
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape') closeTutorialModal();
+});
 function exportCSV(){
   const d=db();const headers=['Name','Group','Category','Description','Miles','Month','Date','Custom'];
   const rows=d.entries.map(e=>{const u=d.users.find(u=>u.id===e.userId)||{};return[u.name||e.userName,u.group||'',e.cat,'"'+e.desc.replace(/"/g,'""')+'"',e.miles,e.month,new Date(e.ts).toLocaleDateString(),e.custom?'Yes':'No'].join(',');});
@@ -1182,7 +2970,61 @@ function showToast(msg){const t=document.getElementById('toast');t.textContent=m
 
 function buildStars(){const c=document.getElementById('loginStars');for(let i=0;i<80;i++){const s=document.createElement('div');s.className='star';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.animationDelay=Math.random()*4+'s';s.style.animationDuration=(2+Math.random()*3)+'s';s.style.width=s.style.height=(1+Math.random()*2)+'px';c.appendChild(s);}}
 buildStars();
-}); // end window.addEventListener('load')
 </script>
+
+
+<!-- TUTORIAL MODAL -->
+<div id="tutorialModal" onclick="closeTutorialModalBackdrop(event)">
+  <div class="tut-modal-card">
+    <div class="tut-modal-handle"></div>
+    <div class="tut-modal-header">
+      <button class="tut-modal-close" onclick="closeTutorialModal()">&#x2715;</button>
+      <div class="tut-modal-eyebrow">&#10022; Level Creek Ward &middot; 2026</div>
+      <div class="tut-modal-title">How Walk With Me works</div>
+      <div class="tut-modal-sub">600 miles, Egypt to Jerusalem &mdash; your quick guide</div>
+    </div>
+    <div class="tut-modal-body">
+      <div class="tut-step">
+        <div class="tut-step-icon">&#x270D;</div>
+        <div class="tut-step-body">
+          <div class="tut-step-title">Create your account</div>
+          <div class="tut-step-desc">Tap &ldquo;Create your account,&rdquo; enter your name, choose your group, and pick a 4-digit PIN. No email needed.</div>
+        </div>
+      </div>
+      <div class="tut-step">
+        <div class="tut-step-icon">&#x26A1;</div>
+        <div class="tut-step-body">
+          <div class="tut-step-title">Log miles by doing real things</div>
+          <div class="tut-step-desc">Browse 150+ activities across Spiritual, Physical, Intellectual, and Social categories. Tap any activity to log it &mdash; each one is worth miles. Goal: 60 miles per month.</div>
+        </div>
+      </div>
+      <div class="tut-step">
+        <div class="tut-step-icon">&#x1F3AF;</div>
+        <div class="tut-step-body">
+          <div class="tut-step-title">Complete monthly challenges</div>
+          <div class="tut-step-desc">Each month (April&ndash;November) has a special 30-mile featured challenge. Complete all 8 to earn the Monthly Champion badge and +100 bonus miles.</div>
+        </div>
+      </div>
+      <div class="tut-step">
+        <div class="tut-step-icon">&#x1F5FA;</div>
+        <div class="tut-step-body">
+          <div class="tut-step-title">Watch the ward walk together</div>
+          <div class="tut-step-desc">The Group Map shows your whole ward advancing from Egypt toward Jerusalem in real time. Check the Leaderboard to see YM vs YW, Youth vs Leaders, and who leads each month.</div>
+        </div>
+      </div>
+      <div class="tut-step">
+        <div class="tut-step-icon">&#x2728;</div>
+        <div class="tut-step-body">
+          <div class="tut-step-title">Arrive in Jerusalem</div>
+          <div class="tut-step-desc">Hit 600 miles and the app throws a fireworks celebration plus a printable certificate. Every milestone unlocks a badge.</div>
+        </div>
+      </div>
+    </div>
+    <div class="tut-modal-footer">
+      <a href="https://qubecompanies.github.io/walk-with-me/tutorial.html" target="_blank" class="tut-full-btn">Open Full Interactive Tutorial &rarr;</a>
+      <button class="tut-dismiss-btn" onclick="closeTutorialModal()">Got it</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
