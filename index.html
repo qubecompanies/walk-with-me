@@ -496,14 +496,12 @@ textarea.form-input{min-height:72px;resize:vertical;}
 .tut-step{display:flex;gap:.85rem;padding:.7rem 0;border-bottom:1px solid rgba(201,185,154,.25);align-items:flex-start;}
 .tut-step:last-of-type{border-bottom:none;}
 .tut-step-icon{width:36px;height:36px;border-radius:50%;background:var(--sand);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;border:1.5px solid var(--sand-dark);}
-.tut-step-body{}
 .tut-step-title{font-family:'Cinzel',serif;font-size:.82rem;color:var(--navy);margin-bottom:.15rem;}
 .tut-step-desc{font-family:'Crimson Pro',serif;font-size:.88rem;color:var(--ink-soft);line-height:1.45;}
 .tut-modal-footer{padding:.75rem 1.25rem 1rem;border-top:1px solid var(--sand-dark);display:flex;gap:.75rem;align-items:center;flex-wrap:wrap;}
 .tut-full-btn{flex:1;display:block;background:linear-gradient(135deg,var(--navy),#2a5080);color:white;font-family:'Cinzel',serif;font-size:.8rem;letter-spacing:.06em;text-decoration:none;padding:.65rem 1rem;border-radius:30px;text-align:center;transition:opacity .15s;}
 .tut-full-btn:hover{opacity:.9;}
 .tut-dismiss-btn{background:none;border:none;font-family:'Inter',sans-serif;font-size:.75rem;color:var(--ink-soft);cursor:pointer;white-space:nowrap;padding:.5rem;}
-/* How it works link */
 .how-it-works-link{display:block;text-align:center;margin-top:1rem;font-family:'Inter',sans-serif;font-size:.75rem;color:var(--ink-soft);cursor:pointer;opacity:.7;transition:opacity .15s;}
 .how-it-works-link:hover{opacity:1;color:var(--teal);}
 .how-it-works-link span{text-decoration:underline;text-underline-offset:2px;}
@@ -547,9 +545,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
       <div class="form-group"><label class="form-label">PIN (4 digits)</label><input type="password" id="loginPin" class="form-input" placeholder="••••" maxlength="4" inputmode="numeric"></div>
       <button class="btn btn-primary" onclick="handleLogin()">Begin the Journey →</button>
       <div class="login-toggle">New here? <a onclick="showRegister()">Create your account</a></div>
-      <div class="how-it-works-link" onclick="openTutorialModal()">
-        <span>? How it works</span>
-      </div>
+      <div class="how-it-works-link" onclick="openTutorialModal()"><span>? How it works</span></div>
     </div>
     <div id="registerForm" style="display:none">
       <div class="form-group"><label class="form-label">Full Name</label><input type="text" id="regName" class="form-input" placeholder="First Last" autocomplete="name"></div>
@@ -560,9 +556,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
       <div class="form-group"><label class="form-label">Confirm PIN</label><input type="password" id="regPin2" class="form-input" placeholder="••••" maxlength="4" inputmode="numeric"></div>
       <button class="btn btn-primary" onclick="handleRegister()">Join the Journey →</button>
       <div class="login-toggle">Already joined? <a onclick="showLogin()">Sign in</a></div>
-      <div class="how-it-works-link" onclick="openTutorialModal()">
-        <span>? How it works</span>
-      </div>
+      <div class="how-it-works-link" onclick="openTutorialModal()"><span>? How it works</span></div>
     </div>
   </div>
 </div>
@@ -660,30 +654,43 @@ textarea.form-input{min-height:72px;resize:vertical;}
     <div id="tab-log" class="tab-content">
       <div class="section-heading">Log Miles</div>
       <div class="section-sub">Select a completed activity to record your miles.</div>
+
+      <!-- 1. ACTIVE CHALLENGE PINNED TOP -->
+      <div id="activeChallengePinned" style="margin-bottom:1rem;"></div>
+
+      <!-- 2. MONTH SELECTOR + TUCKED CUSTOM GOAL -->
       <div class="card neutral" style="margin-bottom:1.5rem;">
         <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">Select Month</strong>
         <div class="month-select-row" id="monthSelector"></div>
-      </div>
-      <div class="card neutral" style="margin-bottom:1.5rem;">
-        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">✦ Log Custom / Personal Goal</strong>
-        <div class="form-group"><label class="form-label">Category</label>
-          <select id="customCat" class="form-input"><option value="spiritual">Spiritual</option><option value="physical">Physical</option><option value="intellectual">Intellectual</option><option value="social">Social</option></select>
+        <div style="margin-top:.75rem;border-top:1px solid var(--sand-dark);padding-top:.75rem;">
+          <div onclick="toggleCustomGoal()" style="display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none;">
+            <span style="font-family:'Cinzel',serif;font-size:.8rem;color:var(--navy);">&#x2726; Log Custom / Personal Goal</span>
+            <span id="customGoalChevron" style="font-size:.75rem;color:var(--ink-soft);transition:transform .2s;">&#9660;</span>
+          </div>
+          <div id="customGoalBody" style="display:none;margin-top:.75rem;">
+            <div class="form-group"><label class="form-label">Category</label>
+              <select id="customCat" class="form-input"><option value="spiritual">Spiritual</option><option value="physical">Physical</option><option value="intellectual">Intellectual</option><option value="social">Social</option></select>
+            </div>
+            <div class="form-group"><label class="form-label">Goal Description</label><textarea id="customDesc" class="form-input" placeholder="Describe your personal goal..."></textarea></div>
+            <div class="form-group"><label class="form-label">Miles (leader-approved)</label><input type="number" id="customMiles" class="form-input" placeholder="e.g. 30" min="1" max="200"></div>
+            <button class="btn btn-gold btn-sm" onclick="logCustomGoal()">Log Custom Goal</button>
+          </div>
         </div>
-        <div class="form-group"><label class="form-label">Goal Description</label><textarea id="customDesc" class="form-input" placeholder="Describe your personal goal…"></textarea></div>
-        <div class="form-group"><label class="form-label">Miles (leader-approved)</label><input type="number" id="customMiles" class="form-input" placeholder="e.g. 30" min="1" max="200"></div>
-        <button class="btn btn-gold btn-sm" onclick="logCustomGoal()">Log Custom Goal</button>
       </div>
-      <div id="featuredLogSection" style="margin-bottom:1rem;"></div>
+
+      <!-- 3. CATEGORY TABS + ACTIVITY LIST -->
       <div class="cat-icon-tabs" id="catIconTabs">
-        <div class="cat-icon-tab all active" onclick="filterActivitiesIcon('all',this)"><span class="cat-tab-icon">✦</span><span class="cat-tab-label">All</span></div>
-        <div class="cat-icon-tab spiritual" onclick="filterActivitiesIcon('spiritual',this)"><span class="cat-tab-icon">🙏</span><span class="cat-tab-label">Spiritual</span></div>
-        <div class="cat-icon-tab physical" onclick="filterActivitiesIcon('physical',this)"><span class="cat-tab-icon">💪</span><span class="cat-tab-label">Physical</span></div>
-        <div class="cat-icon-tab intellectual" onclick="filterActivitiesIcon('intellectual',this)"><span class="cat-tab-icon">📚</span><span class="cat-tab-label">Mind</span></div>
-        <div class="cat-icon-tab social" onclick="filterActivitiesIcon('social',this)"><span class="cat-tab-icon">🤝</span><span class="cat-tab-label">Social</span></div>
+        <div class="cat-icon-tab all active" onclick="filterActivitiesIcon('all',this)"><span class="cat-tab-icon">&#x2726;</span><span class="cat-tab-label">All</span></div>
+        <div class="cat-icon-tab spiritual" onclick="filterActivitiesIcon('spiritual',this)"><span class="cat-tab-icon">&#x1F64F;</span><span class="cat-tab-label">Spiritual</span></div>
+        <div class="cat-icon-tab physical" onclick="filterActivitiesIcon('physical',this)"><span class="cat-tab-icon">&#x1F4AA;</span><span class="cat-tab-label">Physical</span></div>
+        <div class="cat-icon-tab intellectual" onclick="filterActivitiesIcon('intellectual',this)"><span class="cat-tab-icon">&#x1F4DA;</span><span class="cat-tab-label">Mind</span></div>
+        <div class="cat-icon-tab social" onclick="filterActivitiesIcon('social',this)"><span class="cat-tab-icon">&#x1F91D;</span><span class="cat-tab-label">Social</span></div>
       </div>
       <div id="activityList"></div>
-    </div>
 
+      <!-- 4. UPCOMING & FUTURE CHALLENGES TIMELINE -->
+      <div id="featuredLogSection" style="margin-top:1.5rem;"></div>
+    </div>
     <!-- HISTORY -->
     <div id="tab-history" class="tab-content">
       <div class="section-heading">My Mile Log</div>
@@ -1374,7 +1381,7 @@ async function switchTab(tab){
   });
   try{await refreshData();}catch(e){/* show cached */}
   if(tab==='dashboard'){renderDashboard();refreshActivityDoneStates();}
-  if(tab==='log'){renderFeaturedLogSection();}
+  if(tab==='log'){renderActiveChallengePinned();renderFeaturedLogSection();}
   if(tab==='planner')renderPlanner();
   if(tab==='history')renderHistory();
   if(tab==='group'){renderGroup();checkForNewShoutouts();}
@@ -1880,10 +1887,7 @@ function printRoster(){
   ${youth.map((u,i)=>{const tot=score(u);const mm=d.entries.filter(e=>e.userId===u.id&&e.month===cur).reduce((s,e)=>s+e.miles,0);const cls=mm>=60?'on-track':mm>0?'behind':'';const st=tot>=600?'✨ Done':mm>=60?'✓ On Track':'…';return`<tr><td>${i+1}</td><td>${u.name}</td><td>${u.group}</td><td>${tot}</td><td class="${cls}">${mm}</td><td>${st}</td></tr>`;}).join('')}
   </table>
   ${adults.length?`<h2>Adults &amp; Leaders</h2><table><tr><th>#</th><th>Name</th><th>Group</th><th>Total Mi</th></tr>${adults.map((u,i)=>`<tr><td>${i+1}</td><td>${u.name}</td><td>${u.group}</td><td>${score(u)}</td></tr>`).join('')}</table>`:''}
-  
-
-
-</body></html>`);
+  </body></html>`);
   win.document.close();win.print();
 }
 
@@ -2126,7 +2130,8 @@ function renderFeaturedLogSection(){
   challengeMonths.forEach(month => {
     const challenge = MONTHLY_CHALLENGES[month];
     const state = getChallengeState(month);
-    if(state === 'past') return; // hide completed past months to keep it clean
+    if(state === 'past') return;
+    if(state === 'active') return; // shown as pinned card at top
     cards.push(buildChallengeCard(month, challenge, state));
   });
 
@@ -2134,7 +2139,7 @@ function renderFeaturedLogSection(){
   cards.push(buildChampionCard());
 
   el.innerHTML = cards.length
-    ? `<div style="font-family:'Cinzel',serif;font-size:.9rem;color:var(--navy);margin-bottom:.75rem;">🎯 Monthly Challenges</div>
+    ? `<div style="font-family:'Cinzel',serif;font-size:.9rem;color:var(--navy);margin-bottom:.75rem;margin-top:.25rem;">🗓️ Upcoming &amp; Future Challenges</div>
        <div class="challenge-timeline">${cards.join('')}</div>`
     : '';
 }
@@ -2928,11 +2933,6 @@ function openTutorialModal(){
   document.getElementById('tutorialModal').classList.add('open');
   document.body.style.overflow='hidden';
 }
-// Auto-open tutorial modal if URL contains #tutorial
-if(window.location.hash === '#tutorial'){
-  // Wait for DOM to be ready before opening
-  setTimeout(openTutorialModal, 400);
-}
 function closeTutorialModal(){
   document.getElementById('tutorialModal').classList.remove('open');
   document.body.style.overflow='';
@@ -2940,10 +2940,55 @@ function closeTutorialModal(){
 function closeTutorialModalBackdrop(e){
   if(e.target===document.getElementById('tutorialModal')) closeTutorialModal();
 }
-// Close on Escape key
-document.addEventListener('keydown',e=>{
+document.addEventListener('keydown',function(e){
   if(e.key==='Escape') closeTutorialModal();
 });
+if(window.location.hash==='#tutorial'){
+  setTimeout(openTutorialModal,400);
+}
+
+// ── CUSTOM GOAL TOGGLE ──
+function toggleCustomGoal(){
+  const body=document.getElementById('customGoalBody');
+  const chevron=document.getElementById('customGoalChevron');
+  if(!body||!chevron)return;
+  const isOpen=body.style.display!=='none';
+  body.style.display=isOpen?'none':'block';
+  chevron.style.transform=isOpen?'':'rotate(180deg)';
+}
+
+// ── ACTIVE CHALLENGE PINNED TOP OF LOG MILES ──
+function renderActiveChallengePinned(){
+  const el=document.getElementById('activeChallengePinned');
+  if(!el)return;
+  const curMonth=getCurrentMonth();
+  const challenge=MONTHLY_CHALLENGES[curMonth];
+  if(!challenge){el.innerHTML='';return;}
+  const state=getChallengeState(curMonth);
+  if(state!=='active'){el.innerHTML='';return;}
+  const isDone=CACHE.entries.some(e=>e.userId===currentUser.id&&e.month===curMonth&&e.isFeaturedChallenge);
+  const cc={spiritual:'rgba(42,80,128,.1)',physical:'rgba(90,122,42,.1)',intellectual:'rgba(122,74,32,.1)',social:'rgba(106,42,106,.1)'}[challenge.cat]||'rgba(201,185,154,.1)';
+  const ct={spiritual:'var(--spiritual)',physical:'var(--physical)',intellectual:'var(--intellectual)',social:'var(--social)'}[challenge.cat]||'var(--navy)';
+  el.innerHTML=`<div class="challenge-card ${isDone?'done':'active'}" ${isDone?'':' onclick="logFeaturedChallenge(''+curMonth+'')"'}>
+    <div class="challenge-card-badge ${isDone?'badge-done':'badge-active'}">${isDone?'&#x2713; Completed!':'&#x1F3AF; '+curMonth+' Featured Challenge &#x2014; Active Now'}</div>
+    <div class="challenge-card-inner">
+      <div class="challenge-card-top">
+        <div class="challenge-card-icon">${challenge.badge&&challenge.badge.icon||'&#x1F3AF;'}</div>
+        <div>
+          <div class="challenge-card-cat" style="background:${cc};color:${ct};">${cap(challenge.cat)}</div>
+          <div class="challenge-card-title">${challenge.title}</div>
+          <div class="challenge-card-desc">${challenge.desc}</div>
+        </div>
+      </div>
+      <div class="challenge-card-footer">
+        <span class="challenge-card-miles">+${challenge.miles} miles</span>
+        ${challenge.scripture?'<span class="challenge-card-scripture">'+challenge.scripture.slice(0,90)+'&#x2026;</span>':''}
+        ${isDone?'<span style="font-family:'Cinzel',serif;font-size:.8rem;color:var(--teal);">&#x2728; Badge earned!</span>':'<span class="challenge-card-cta">Tap to log &#x2192;</span>'}
+      </div>
+    </div>
+  </div>`;
+}
+
 function exportCSV(){
   const d=db();const headers=['Name','Group','Category','Description','Miles','Month','Date','Custom'];
   const rows=d.entries.map(e=>{const u=d.users.find(u=>u.id===e.userId)||{};return[u.name||e.userName,u.group||'',e.cat,'"'+e.desc.replace(/"/g,'""')+'"',e.miles,e.month,new Date(e.ts).toLocaleDateString(),e.custom?'Yes':'No'].join(',');});
@@ -2972,56 +3017,55 @@ function buildStars(){const c=document.getElementById('loginStars');for(let i=0;
 buildStars();
 </script>
 
-
 <!-- TUTORIAL MODAL -->
 <div id="tutorialModal" onclick="closeTutorialModalBackdrop(event)">
   <div class="tut-modal-card">
     <div class="tut-modal-handle"></div>
     <div class="tut-modal-header">
       <button class="tut-modal-close" onclick="closeTutorialModal()">&#x2715;</button>
-      <div class="tut-modal-eyebrow">&#10022; Level Creek Ward &middot; 2026</div>
+      <div class="tut-modal-eyebrow">&#x2726; Level Creek Ward &middot; 2026</div>
       <div class="tut-modal-title">How Walk With Me works</div>
       <div class="tut-modal-sub">600 miles, Egypt to Jerusalem &mdash; your quick guide</div>
     </div>
     <div class="tut-modal-body">
       <div class="tut-step">
         <div class="tut-step-icon">&#x270D;</div>
-        <div class="tut-step-body">
+        <div>
           <div class="tut-step-title">Create your account</div>
           <div class="tut-step-desc">Tap &ldquo;Create your account,&rdquo; enter your name, choose your group, and pick a 4-digit PIN. No email needed.</div>
         </div>
       </div>
       <div class="tut-step">
         <div class="tut-step-icon">&#x26A1;</div>
-        <div class="tut-step-body">
+        <div>
           <div class="tut-step-title">Log miles by doing real things</div>
-          <div class="tut-step-desc">Browse 150+ activities across Spiritual, Physical, Intellectual, and Social categories. Tap any activity to log it &mdash; each one is worth miles. Goal: 60 miles per month.</div>
+          <div class="tut-step-desc">Browse 150+ activities across Spiritual, Physical, Intellectual, and Social. Tap any activity to log it. Goal: 60 miles per month.</div>
         </div>
       </div>
       <div class="tut-step">
         <div class="tut-step-icon">&#x1F3AF;</div>
-        <div class="tut-step-body">
+        <div>
           <div class="tut-step-title">Complete monthly challenges</div>
           <div class="tut-step-desc">Each month (April&ndash;November) has a special 30-mile featured challenge. Complete all 8 to earn the Monthly Champion badge and +100 bonus miles.</div>
         </div>
       </div>
       <div class="tut-step">
         <div class="tut-step-icon">&#x1F5FA;</div>
-        <div class="tut-step-body">
+        <div>
           <div class="tut-step-title">Watch the ward walk together</div>
-          <div class="tut-step-desc">The Group Map shows your whole ward advancing from Egypt toward Jerusalem in real time. Check the Leaderboard to see YM vs YW, Youth vs Leaders, and who leads each month.</div>
+          <div class="tut-step-desc">The Group Map shows your whole ward advancing from Egypt toward Jerusalem in real time. Check the Leaderboard for YM vs YW, Youth vs Leaders, and monthly rankings.</div>
         </div>
       </div>
       <div class="tut-step">
         <div class="tut-step-icon">&#x2728;</div>
-        <div class="tut-step-body">
+        <div>
           <div class="tut-step-title">Arrive in Jerusalem</div>
-          <div class="tut-step-desc">Hit 600 miles and the app throws a fireworks celebration plus a printable certificate. Every milestone unlocks a badge.</div>
+          <div class="tut-step-desc">Hit 600 miles and the app throws a fireworks celebration plus a printable certificate. Every milestone unlocks a badge along the way.</div>
         </div>
       </div>
     </div>
     <div class="tut-modal-footer">
-      <a href="https://qubecompanies.github.io/walk-with-me/tutorial.html" target="_blank" class="tut-full-btn">Open Full Interactive Tutorial &rarr;</a>
+      <a href="https://qubecompanies.github.io/walk-with-me/tutorial.html" target="_blank" class="tut-full-btn">&#x1F4D6; Open Full Interactive Tutorial &rarr;</a>
       <button class="tut-dismiss-btn" onclick="closeTutorialModal()">Got it</button>
     </div>
   </div>
