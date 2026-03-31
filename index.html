@@ -660,20 +660,32 @@ textarea.form-input{min-height:72px;resize:vertical;}
     <div id="tab-log" class="tab-content">
       <div class="section-heading">Log Miles</div>
       <div class="section-sub">Select a completed activity to record your miles.</div>
+
+      <!-- 1. CURRENT MONTH ACTIVE CHALLENGE (single card, top) -->
+      <div id="activeChallengePinned" style="margin-bottom:1rem;"></div>
+
+      <!-- 2. MONTH SELECTOR + tucked custom goal -->
       <div class="card neutral" style="margin-bottom:1.5rem;">
         <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">Select Month</strong>
         <div class="month-select-row" id="monthSelector"></div>
-      </div>
-      <div class="card neutral" style="margin-bottom:1.5rem;">
-        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">✦ Log Custom / Personal Goal</strong>
-        <div class="form-group"><label class="form-label">Category</label>
-          <select id="customCat" class="form-input"><option value="spiritual">Spiritual</option><option value="physical">Physical</option><option value="intellectual">Intellectual</option><option value="social">Social</option></select>
+        <!-- Tucked custom goal — revealed on tap -->
+        <div style="margin-top:.75rem;border-top:1px solid var(--sand-dark);padding-top:.75rem;">
+          <div onclick="toggleCustomGoal()" style="display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none;">
+            <span style="font-family:'Cinzel',serif;font-size:.8rem;color:var(--navy);">✦ Log Custom / Personal Goal</span>
+            <span id="customGoalChevron" style="font-size:.75rem;color:var(--ink-soft);transition:transform .2s;">▼</span>
+          </div>
+          <div id="customGoalBody" style="display:none;margin-top:.75rem;">
+            <div class="form-group"><label class="form-label">Category</label>
+              <select id="customCat" class="form-input"><option value="spiritual">Spiritual</option><option value="physical">Physical</option><option value="intellectual">Intellectual</option><option value="social">Social</option></select>
+            </div>
+            <div class="form-group"><label class="form-label">Goal Description</label><textarea id="customDesc" class="form-input" placeholder="Describe your personal goal…"></textarea></div>
+            <div class="form-group"><label class="form-label">Miles (leader-approved)</label><input type="number" id="customMiles" class="form-input" placeholder="e.g. 30" min="1" max="200"></div>
+            <button class="btn btn-gold btn-sm" onclick="logCustomGoal()">Log Custom Goal</button>
+          </div>
         </div>
-        <div class="form-group"><label class="form-label">Goal Description</label><textarea id="customDesc" class="form-input" placeholder="Describe your personal goal…"></textarea></div>
-        <div class="form-group"><label class="form-label">Miles (leader-approved)</label><input type="number" id="customMiles" class="form-input" placeholder="e.g. 30" min="1" max="200"></div>
-        <button class="btn btn-gold btn-sm" onclick="logCustomGoal()">Log Custom Goal</button>
       </div>
-      <div id="featuredLogSection" style="margin-bottom:1rem;"></div>
+
+      <!-- 3. CATEGORY ICON TABS + ACTIVITY LIST -->
       <div class="cat-icon-tabs" id="catIconTabs">
         <div class="cat-icon-tab all active" onclick="filterActivitiesIcon('all',this)"><span class="cat-tab-icon">✦</span><span class="cat-tab-label">All</span></div>
         <div class="cat-icon-tab spiritual" onclick="filterActivitiesIcon('spiritual',this)"><span class="cat-tab-icon">🙏</span><span class="cat-tab-label">Spiritual</span></div>
@@ -682,6 +694,9 @@ textarea.form-input{min-height:72px;resize:vertical;}
         <div class="cat-icon-tab social" onclick="filterActivitiesIcon('social',this)"><span class="cat-tab-icon">🤝</span><span class="cat-tab-label">Social</span></div>
       </div>
       <div id="activityList"></div>
+
+      <!-- 4. FULL MONTHLY CHALLENGES TIMELINE (all months) -->
+      <div id="featuredLogSection" style="margin-top:1.5rem;"></div>
     </div>
 
     <!-- HISTORY -->
@@ -1374,7 +1389,7 @@ async function switchTab(tab){
   });
   try{await refreshData();}catch(e){/* show cached */}
   if(tab==='dashboard'){renderDashboard();refreshActivityDoneStates();}
-  if(tab==='log'){renderFeaturedLogSection();}
+  if(tab==='log'){renderActiveChallengePinned();renderFeaturedLogSection();}
   if(tab==='planner')renderPlanner();
   if(tab==='history')renderHistory();
   if(tab==='group'){renderGroup();checkForNewShoutouts();}
@@ -2120,13 +2135,15 @@ function renderFeaturedLogSection(){
   if(!el) return;
 
   // Only show current+future months (skip past months)
+  // Skip active month — it's already pinned at the top of Log Miles
   const challengeMonths = Object.keys(MONTHLY_CHALLENGES);
   const cards = [];
 
   challengeMonths.forEach(month => {
     const challenge = MONTHLY_CHALLENGES[month];
     const state = getChallengeState(month);
-    if(state === 'past') return; // hide completed past months to keep it clean
+    if(state === 'past') return;
+    if(state === 'active') return; // active month shown as pinned card at top
     cards.push(buildChallengeCard(month, challenge, state));
   });
 
@@ -2134,7 +2151,7 @@ function renderFeaturedLogSection(){
   cards.push(buildChampionCard());
 
   el.innerHTML = cards.length
-    ? `<div style="font-family:'Cinzel',serif;font-size:.9rem;color:var(--navy);margin-bottom:.75rem;">🎯 Monthly Challenges</div>
+    ? `<div style="font-family:'Cinzel',serif;font-size:.9rem;color:var(--navy);margin-bottom:.75rem;margin-top:.25rem;">🗓️ Upcoming &amp; Future Challenges</div>
        <div class="challenge-timeline">${cards.join('')}</div>`
     : '';
 }
@@ -2944,6 +2961,59 @@ function closeTutorialModalBackdrop(e){
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape') closeTutorialModal();
 });
+
+// ── CUSTOM GOAL TOGGLE ──
+function toggleCustomGoal(){
+  const body = document.getElementById('customGoalBody');
+  const chevron = document.getElementById('customGoalChevron');
+  const isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : 'block';
+  chevron.style.transform = isOpen ? '' : 'rotate(180deg)';
+}
+
+// ── ACTIVE CHALLENGE PINNED CARD (top of Log Miles) ──
+function renderActiveChallengePinned(){
+  const el = document.getElementById('activeChallengePinned');
+  if(!el) return;
+  const curMonth = getCurrentMonth();
+  const challenge = MONTHLY_CHALLENGES[curMonth];
+  if(!challenge){ el.innerHTML=''; return; }
+  const state = getChallengeState(curMonth);
+  if(state !== 'active'){ el.innerHTML=''; return; }
+  // Only show the active challenge as a single prominent card
+  const isDone = CACHE.entries.some(e =>
+    e.userId===currentUser.id && e.month===curMonth && e.isFeaturedChallenge
+  );
+  const cc = {
+    spiritual:'rgba(42,80,128,.1)', physical:'rgba(90,122,42,.1)',
+    intellectual:'rgba(122,74,32,.1)', social:'rgba(106,42,106,.1)'
+  }[challenge.cat] || 'rgba(201,185,154,.1)';
+  const ct = {
+    spiritual:'var(--spiritual)', physical:'var(--physical)',
+    intellectual:'var(--intellectual)', social:'var(--social)'
+  }[challenge.cat] || 'var(--navy)';
+
+  el.innerHTML = `<div class="challenge-card ${isDone?'done':'active'}" ${isDone?'':' onclick="logFeaturedChallenge(''+curMonth+'')"'}>
+    <div class="challenge-card-badge ${isDone?'badge-done':'badge-active'}">${isDone?'✓ Completed!':'🎯 '+curMonth+' Featured Challenge — Active Now'}</div>
+    <div class="challenge-card-inner">
+      <div class="challenge-card-top">
+        <div class="challenge-card-icon">${challenge.badge?.icon||'🎯'}</div>
+        <div>
+          <div class="challenge-card-cat" style="background:${cc};color:${ct};">${cap(challenge.cat)}</div>
+          <div class="challenge-card-title">${challenge.title}</div>
+          <div class="challenge-card-desc">${challenge.desc}</div>
+        </div>
+      </div>
+      <div class="challenge-card-footer">
+        <span class="challenge-card-miles">+${challenge.miles} miles</span>
+        ${challenge.scripture?`<span class="challenge-card-scripture">${challenge.scripture.slice(0,90)}…</span>`:''}
+        ${isDone
+          ? '<span style="font-family:'Cinzel',serif;font-size:.8rem;color:var(--teal);">✨ Badge earned!</span>'
+          : '<span class="challenge-card-cta">Tap to log →</span>'}
+      </div>
+    </div>
+  </div>`;
+}
 function exportCSV(){
   const d=db();const headers=['Name','Group','Category','Description','Miles','Month','Date','Custom'];
   const rows=d.entries.map(e=>{const u=d.users.find(u=>u.id===e.userId)||{};return[u.name||e.userName,u.group||'',e.cat,'"'+e.desc.replace(/"/g,'""')+'"',e.miles,e.month,new Date(e.ts).toLocaleDateString(),e.custom?'Yes':'No'].join(',');});
