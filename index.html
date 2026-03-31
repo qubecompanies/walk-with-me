@@ -1881,59 +1881,7 @@ function printRoster(){
   </table>
   ${adults.length?`<h2>Adults &amp; Leaders</h2><table><tr><th>#</th><th>Name</th><th>Group</th><th>Total Mi</th></tr>${adults.map((u,i)=>`<tr><td>${i+1}</td><td>${u.name}</td><td>${u.group}</td><td>${score(u)}</td></tr>`).join('')}</table>`:''}
   
-<!-- TUTORIAL MODAL -->
-<div id="tutorialModal" onclick="closeTutorialModal(event)">
-  <div class="tut-modal-card">
-    <div class="tut-modal-handle"></div>
-    <div class="tut-modal-header">
-      <button class="tut-modal-close" onclick="closeTutorialModal()">✕</button>
-      <div class="tut-modal-eyebrow">✦ Level Creek Ward · 2026</div>
-      <div class="tut-modal-title">How Walk With Me works</div>
-      <div class="tut-modal-sub">600 miles, Egypt to Jerusalem — your quick guide</div>
-    </div>
-    <div class="tut-modal-body">
-      <div class="tut-step">
-        <div class="tut-step-icon">✍️</div>
-        <div class="tut-step-body">
-          <div class="tut-step-title">Create your account</div>
-          <div class="tut-step-desc">Tap "Create your account," enter your name, choose your group (Young Men / Young Women / Adult / Leader), and pick a 4-digit PIN. That's it — no email needed.</div>
-        </div>
-      </div>
-      <div class="tut-step">
-        <div class="tut-step-icon">⚡</div>
-        <div class="tut-step-body">
-          <div class="tut-step-title">Log miles by doing real things</div>
-          <div class="tut-step-desc">Browse 150+ activities across Spiritual, Physical, Intellectual, and Social categories. Tap any activity to log it instantly. Each activity is worth miles based on difficulty — from ★ easy to ★★★ hard. Goal: 60 miles per month.</div>
-        </div>
-      </div>
-      <div class="tut-step">
-        <div class="tut-step-icon">🎯</div>
-        <div class="tut-step-body">
-          <div class="tut-step-title">Complete monthly challenges</div>
-          <div class="tut-step-desc">Each month (April–November) has a special 30-mile featured challenge. Complete all 8 to earn the Monthly Champion badge and +100 bonus miles. April's challenge is the Nature Photography Walk.</div>
-        </div>
-      </div>
-      <div class="tut-step">
-        <div class="tut-step-icon">🗺️</div>
-        <div class="tut-step-body">
-          <div class="tut-step-title">Watch the ward walk together</div>
-          <div class="tut-step-desc">The Group Map shows your whole ward advancing from Egypt toward Jerusalem in real time. Check the Leaderboard to see YM vs YW, Youth vs Leaders, and who's leading each month.</div>
-        </div>
-      </div>
-      <div class="tut-step">
-        <div class="tut-step-icon">✨</div>
-        <div class="tut-step-body">
-          <div class="tut-step-title">Arrive in Jerusalem</div>
-          <div class="tut-step-desc">Hit 600 miles and the app throws a fireworks celebration — plus a printable certificate with your name on it. Every milestone along the way unlocks a badge.</div>
-        </div>
-      </div>
-    </div>
-    <div class="tut-modal-footer">
-      <a href="https://qubecompanies.github.io/walk-with-me/tutorial.html" target="_blank" class="tut-full-btn">📖 Open Full Interactive Tutorial →</a>
-      <button class="tut-dismiss-btn" onclick="closeTutorialModal()">Got it</button>
-    </div>
-  </div>
-</div>
+
 
 </body></html>`);
   win.document.close();win.print();
@@ -2980,11 +2928,12 @@ function openTutorialModal(){
   document.getElementById('tutorialModal').classList.add('open');
   document.body.style.overflow='hidden';
 }
-function closeTutorialModal(e){
-  // Close on backdrop click or explicit call
-  if(e && e.target!==document.getElementById('tutorialModal') && e.type==='click') return;
+function closeTutorialModal(){
   document.getElementById('tutorialModal').classList.remove('open');
   document.body.style.overflow='';
+}
+function closeTutorialModalBackdrop(e){
+  if(e.target===document.getElementById('tutorialModal')) closeTutorialModal();
 }
 // Close on Escape key
 document.addEventListener('keydown',e=>{
@@ -3017,5 +2966,60 @@ function showToast(msg){const t=document.getElementById('toast');t.textContent=m
 function buildStars(){const c=document.getElementById('loginStars');for(let i=0;i<80;i++){const s=document.createElement('div');s.className='star';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.animationDelay=Math.random()*4+'s';s.style.animationDuration=(2+Math.random()*3)+'s';s.style.width=s.style.height=(1+Math.random()*2)+'px';c.appendChild(s);}}
 buildStars();
 </script>
+
+
+<!-- TUTORIAL MODAL -->
+<div id="tutorialModal" onclick="closeTutorialModalBackdrop(event)">
+  <div class="tut-modal-card">
+    <div class="tut-modal-handle"></div>
+    <div class="tut-modal-header">
+      <button class="tut-modal-close" onclick="closeTutorialModal()">&#x2715;</button>
+      <div class="tut-modal-eyebrow">&#10022; Level Creek Ward &middot; 2026</div>
+      <div class="tut-modal-title">How Walk With Me works</div>
+      <div class="tut-modal-sub">600 miles, Egypt to Jerusalem &mdash; your quick guide</div>
+    </div>
+    <div class="tut-modal-body">
+      <div class="tut-step">
+        <div class="tut-step-icon">&#x270D;</div>
+        <div class="tut-step-body">
+          <div class="tut-step-title">Create your account</div>
+          <div class="tut-step-desc">Tap &ldquo;Create your account,&rdquo; enter your name, choose your group, and pick a 4-digit PIN. No email needed.</div>
+        </div>
+      </div>
+      <div class="tut-step">
+        <div class="tut-step-icon">&#x26A1;</div>
+        <div class="tut-step-body">
+          <div class="tut-step-title">Log miles by doing real things</div>
+          <div class="tut-step-desc">Browse 150+ activities across Spiritual, Physical, Intellectual, and Social categories. Tap any activity to log it &mdash; each one is worth miles. Goal: 60 miles per month.</div>
+        </div>
+      </div>
+      <div class="tut-step">
+        <div class="tut-step-icon">&#x1F3AF;</div>
+        <div class="tut-step-body">
+          <div class="tut-step-title">Complete monthly challenges</div>
+          <div class="tut-step-desc">Each month (April&ndash;November) has a special 30-mile featured challenge. Complete all 8 to earn the Monthly Champion badge and +100 bonus miles.</div>
+        </div>
+      </div>
+      <div class="tut-step">
+        <div class="tut-step-icon">&#x1F5FA;</div>
+        <div class="tut-step-body">
+          <div class="tut-step-title">Watch the ward walk together</div>
+          <div class="tut-step-desc">The Group Map shows your whole ward advancing from Egypt toward Jerusalem in real time. Check the Leaderboard to see YM vs YW, Youth vs Leaders, and who leads each month.</div>
+        </div>
+      </div>
+      <div class="tut-step">
+        <div class="tut-step-icon">&#x2728;</div>
+        <div class="tut-step-body">
+          <div class="tut-step-title">Arrive in Jerusalem</div>
+          <div class="tut-step-desc">Hit 600 miles and the app throws a fireworks celebration plus a printable certificate. Every milestone unlocks a badge.</div>
+        </div>
+      </div>
+    </div>
+    <div class="tut-modal-footer">
+      <a href="https://qubecompanies.github.io/walk-with-me/tutorial.html" target="_blank" class="tut-full-btn">Open Full Interactive Tutorial &rarr;</a>
+      <button class="tut-dismiss-btn" onclick="closeTutorialModal()">Got it</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
