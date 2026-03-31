@@ -430,6 +430,54 @@ textarea.form-input{min-height:72px;resize:vertical;}
 .versus-cat-label{font-family:'Inter',sans-serif;font-size:.62rem;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em;}
 .versus-cat-val{font-family:'Cinzel',serif;font-size:.95rem;color:var(--navy);}
 .monthly-lb-note{font-family:'Inter',sans-serif;font-size:.72rem;color:var(--ink-soft);padding:.5rem 1rem;font-style:italic;}
+
+/* ══ CHALLENGE TIMELINE CARDS ══ */
+.challenge-timeline{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.25rem;}
+.challenge-card{border-radius:6px;position:relative;transition:all .2s;overflow:hidden;}
+/* ACTIVE */
+.challenge-card.active{border:2px solid var(--gold);cursor:pointer;box-shadow:0 4px 16px rgba(200,146,42,.18);}
+.challenge-card.active:hover{transform:translateX(3px);box-shadow:0 6px 20px rgba(200,146,42,.25);}
+/* PREVIEW — last 7 days of prior month */
+.challenge-card.preview{border:2px solid var(--teal);opacity:.92;}
+/* LOCKED */
+.challenge-card.locked{border:1.5px solid var(--sand-dark);opacity:.65;cursor:default;}
+/* DONE */
+.challenge-card.done{border:2px solid var(--completed);opacity:.7;cursor:default;}
+/* CHAMPION card */
+.challenge-card.champion-info{border:2px solid var(--gold);background:linear-gradient(135deg,var(--gold-pale),rgba(248,242,232,.9));cursor:default;}
+.challenge-card-inner{padding:.9rem 1rem 1rem;}
+.challenge-card-badge{position:absolute;top:-1px;left:14px;font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.1em;padding:.18rem .65rem;border-radius:0 0 8px 8px;color:white;}
+.badge-active{background:var(--gold);}
+.badge-preview{background:var(--teal);}
+.badge-locked{background:var(--sand-dark);color:var(--ink-soft);}
+.badge-done{background:var(--completed);color:white;}
+.badge-champion{background:var(--gold);}
+.challenge-card-top{display:flex;align-items:flex-start;gap:.75rem;margin-top:.6rem;}
+.challenge-card-icon{font-size:1.5rem;flex-shrink:0;margin-top:.1rem;}
+.challenge-card-title{font-family:'Cinzel',serif;font-size:.95rem;color:var(--navy);margin-bottom:.2rem;}
+.challenge-card-cat{display:inline-block;padding:.1rem .5rem;border-radius:10px;font-family:'Inter',sans-serif;font-size:.6rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;margin-bottom:.35rem;}
+.challenge-card-desc{font-size:.88rem;color:var(--ink-soft);line-height:1.45;}
+.challenge-card-footer{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;margin-top:.6rem;}
+.challenge-card-miles{font-family:'Cinzel',serif;font-size:1rem;color:var(--gold);}
+.challenge-card-scripture{font-size:.75rem;color:var(--teal);font-style:italic;flex:1;}
+.challenge-card-cta{font-family:'Inter',sans-serif;font-size:.72rem;font-weight:600;color:var(--navy);background:var(--gold-pale);border:1px solid var(--gold);border-radius:20px;padding:.2rem .7rem;white-space:nowrap;}
+.countdown-chip{display:inline-flex;align-items:center;gap:.3rem;background:rgba(42,122,110,.12);border:1px solid var(--teal);border-radius:20px;padding:.15rem .6rem;font-family:'Inter',sans-serif;font-size:.68rem;color:var(--teal);font-weight:600;}
+.locked-chip{display:inline-flex;align-items:center;gap:.3rem;background:rgba(201,185,154,.2);border:1px solid var(--sand-dark);border-radius:20px;padding:.15rem .6rem;font-family:'Inter',sans-serif;font-size:.68rem;color:var(--ink-soft);}
+.hidden-desc{font-family:'Cinzel',serif;font-size:.85rem;color:var(--sand-dark);letter-spacing:.15em;}
+
+/* ══ DASHBOARD HYPE CARD ══ */
+.dash-hype-card{background:linear-gradient(135deg,var(--navy) 0%,#0f2540 70%,#1a3a2a 100%);border-radius:6px;padding:1.1rem 1.25rem;margin-bottom:1rem;position:relative;overflow:hidden;cursor:pointer;border:none;transition:all .2s;}
+.dash-hype-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(26,58,92,.3);}
+.dash-hype-card::before{content:'';position:absolute;top:-30px;right:-30px;width:120px;height:120px;background:radial-gradient(circle,rgba(200,146,42,.15) 0%,transparent 70%);pointer-events:none;}
+.dash-hype-eyebrow{font-family:'Inter',sans-serif;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-light);margin-bottom:.3rem;display:flex;align-items:center;gap:.4rem;}
+.dash-hype-eyebrow::before{content:'';display:inline-block;width:20px;height:1px;background:var(--gold-light);}
+.dash-hype-title{font-family:'Cinzel',serif;font-size:1.05rem;color:white;margin-bottom:.3rem;}
+.dash-hype-preview{font-size:.82rem;color:rgba(255,255,255,.72);line-height:1.4;margin-bottom:.6rem;}
+.dash-hype-footer{display:flex;align-items:center;justify-content:space-between;}
+.dash-hype-miles{font-family:'Cinzel',serif;font-size:.9rem;color:var(--gold-light);}
+.dash-hype-cta{font-family:'Inter',sans-serif;font-size:.7rem;font-weight:600;background:var(--gold);color:white;border-radius:20px;padding:.25rem .8rem;white-space:nowrap;}
+.dash-hype-done{font-family:'Cinzel',serif;font-size:.8rem;color:var(--teal-light);}
+.dash-hype-preview-state{font-size:.8rem;color:rgba(255,255,255,.65);}
 </style>
 </head>
 <body>
@@ -512,6 +560,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
     <div id="tab-dashboard" class="tab-content active">
       <div class="section-heading" id="dashGreeting">My Journey</div>
       <div class="section-sub">Keep walking — Jerusalem awaits.</div>
+      <div id="dashHypeCard"></div>
       <div class="stats-row">
         <div class="stat-card"><div class="stat-number" id="dashTotal">0</div><div class="stat-label">Total Miles</div></div>
         <div class="stat-card"><div class="stat-number" id="dashMonthMiles">0</div><div class="stat-label">This Month</div></div>
@@ -594,7 +643,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
         <div class="cat-icon-tab all active" onclick="filterActivitiesIcon('all',this)"><span class="cat-tab-icon">✦</span><span class="cat-tab-label">All</span></div>
         <div class="cat-icon-tab spiritual" onclick="filterActivitiesIcon('spiritual',this)"><span class="cat-tab-icon">🙏</span><span class="cat-tab-label">Spiritual</span></div>
         <div class="cat-icon-tab physical" onclick="filterActivitiesIcon('physical',this)"><span class="cat-tab-icon">💪</span><span class="cat-tab-label">Physical</span></div>
-        <div class="cat-icon-tab intellectual" onclick="filterActivitiesIcon('intellectual',this)"><span class="cat-tab-icon">📚</span><span class="cat-tab-label">Intellectual</span></div>
+        <div class="cat-icon-tab intellectual" onclick="filterActivitiesIcon('intellectual',this)"><span class="cat-tab-icon">📚</span><span class="cat-tab-label">Mind</span></div>
         <div class="cat-icon-tab social" onclick="filterActivitiesIcon('social',this)"><span class="cat-tab-icon">🤝</span><span class="cat-tab-label">Social</span></div>
       </div>
       <div id="activityList"></div>
@@ -1441,7 +1490,7 @@ function renderDashboard(){
   document.getElementById('dashPct').textContent=pct+'%';
   document.getElementById('dashJourneyBar').style.width=pct+'%';document.getElementById('dashMonthBar').style.width=mPct+'%';
   document.getElementById('dashStreak').textContent=calcStreak(my);
-  renderStreakRow(my);renderBadges(total);renderMonthlyBadges();renderMonthlyTrophyRow();updateMiniMap(total);checkAndAwardMonthlyTrophies();
+  renderStreakRow(my);renderBadges(total);renderMonthlyBadges();renderMonthlyTrophyRow();updateMiniMap(total);checkAndAwardMonthlyTrophies();renderDashHypeCard();
   const catColors={spiritual:'var(--spiritual)',physical:'var(--physical)',intellectual:'var(--intellectual)',social:'var(--social)'};
   const catMiles={spiritual:0,physical:0,intellectual:0,social:0};
   my.forEach(e=>{if(catMiles[e.cat]!==undefined)catMiles[e.cat]+=e.miles;});
@@ -1495,12 +1544,10 @@ function checkMonthlyChallengeBadges(){
     // Check if this month's featured challenge was logged as custom or matched
     const monthMiles=my.filter(e=>e.month===month&&e.cat===challenge.cat).reduce((s,e)=>s+e.miles,0);
     // Also check if there's a custom entry with matching keywords
-    const hasChallenge=my.some(e=>
-      e.month===month&&
-      (e.miles>=challenge.miles)&&
-      (e.cat===challenge.cat||e.custom)&&
-      (e.desc&&e.desc.toLowerCase().includes('photo'))
-    )||monthMiles>=challenge.miles;
+    // Check for direct featured challenge log OR sufficient category miles
+    const hasChallenge = my.some(e=>
+      e.month===month && e.isFeaturedChallenge
+    ) || monthMiles >= challenge.miles;
     if(hasChallenge){
       const isNew=earnMonthlyBadge(month);
       if(isNew){showToast('🗓️ Monthly Challenge Badge Earned: '+month+'!');fireConfetti();announceAchievement(currentUser.name,'🗓️',currentUser.name+' completed the '+month+' Monthly Challenge and earned a badge!');}
@@ -1852,58 +1899,302 @@ function dismissHomePrompt(){
 // ══════════════════════════════════════════════════
 //  FEATURED CHALLENGE IN LOG MILES
 // ══════════════════════════════════════════════════
-function renderFeaturedLogSection(){
-  const el=document.getElementById('featuredLogSection');
-  if(!el)return;
-  const d=db();
-  const fcs=d.featuredChallenges||[];
-  const curMonth=getCurrentMonth();
-  const fc=[...fcs].filter(c=>c.month===curMonth).sort((a,b)=>b.ts-a.ts)[0]||null;
-  // Also check built-in challenge for current month
-  const builtIn=MONTHLY_CHALLENGES[curMonth]||null;
-  const challenge=fc||builtIn;
-  if(!challenge){el.innerHTML='';return;}
-  const desc=challenge.desc||'';
-  const miles=challenge.bonus||challenge.miles||30;
-  const month=challenge.month||curMonth;
-  const scripture=challenge.scripture||(builtIn&&builtIn.scripture)||'';
-  const title=challenge.title||(builtIn&&builtIn.title)||'Featured Challenge';
-  // Check if already done
-  const myEntries=CACHE.entries.filter(e=>e.userId===currentUser.id);
-  const isDone=myEntries.some(e=>e.month===month&&e.isFeaturedChallenge);
-  el.innerHTML=`<div class="featured-log-card ${isDone?'done-featured':''}" onclick="${isDone?'':'logFeaturedChallenge()'}">
-    <div class="featured-log-badge">🎯 ${month} Featured Challenge</div>
-    <div class="featured-log-title">${title}</div>
-    <div class="featured-log-desc">${desc}</div>
-    <div class="featured-log-footer">
-      <span class="featured-log-miles">+${miles} miles</span>
-      ${scripture?`<span class="featured-log-scripture">"${scripture.slice(0,80)}${scripture.length>80?'…':''}"</span>`:''}
-      ${isDone?'<span style="color:var(--teal);font-family:\'Cinzel\',serif;font-size:.8rem;">✓ Completed!</span>':'<span style="font-family:\'Inter\',sans-serif;font-size:.75rem;color:var(--ink-soft);">Tap to log →</span>'}
+// ══════════════════════════════════════════════════
+//  CHALLENGE STATE HELPERS
+// ══════════════════════════════════════════════════
+function getChallengeState(month) {
+  // Returns: 'active' | 'preview' | 'locked' | 'done' | 'past'
+  const now = new Date();
+  const year = 2026;
+  const monthIdx = ["January","February","March","April","May","June",
+                    "July","August","September","October","November","December"]
+                    .indexOf(month);
+  if(monthIdx < 0) return 'locked';
+
+  const monthStart = new Date(year, monthIdx, 1);
+  const monthEnd   = new Date(year, monthIdx+1, 0, 23, 59, 59);
+  const previewStart = new Date(year, monthIdx-1, 24); // last 7 days of prior month
+
+  if(now > monthEnd) return 'past';
+  if(now >= monthStart && now <= monthEnd) {
+    // Check if user already logged it
+    const done = CACHE.entries.some(e =>
+      e.userId === currentUser.id && e.month === month && e.isFeaturedChallenge
+    );
+    return done ? 'done' : 'active';
+  }
+  if(now >= previewStart) return 'preview';
+  return 'locked';
+}
+
+function daysUntil(month) {
+  const year = 2026;
+  const monthIdx = ["January","February","March","April","May","June",
+                    "July","August","September","October","November","December"]
+                    .indexOf(month);
+  const target = new Date(year, monthIdx, 1);
+  const diff = Math.ceil((target - new Date()) / 86400000);
+  return Math.max(0, diff);
+}
+
+function daysUntilPreview(month) {
+  const year = 2026;
+  const monthIdx = ["January","February","March","April","May","June",
+                    "July","August","September","October","November","December"]
+                    .indexOf(month);
+  const target = new Date(year, monthIdx-1, 24);
+  const diff = Math.ceil((target - new Date()) / 86400000);
+  return Math.max(0, diff);
+}
+
+// ══════════════════════════════════════════════════
+//  CHALLENGE CARD HTML BUILDER
+// ══════════════════════════════════════════════════
+const CAT_COLORS = {
+  spiritual:   {bg:'rgba(42,80,128,.1)',  text:'var(--spiritual)'},
+  physical:    {bg:'rgba(90,122,42,.1)',  text:'var(--physical)'},
+  intellectual:{bg:'rgba(122,74,32,.1)', text:'var(--intellectual)'},
+  social:      {bg:'rgba(106,42,106,.1)',text:'var(--social)'}
+};
+
+function buildChallengeCard(month, challenge, state) {
+  const cc = CAT_COLORS[challenge.cat] || {bg:'rgba(201,185,154,.15)',text:'var(--navy)'};
+  const days = daysUntil(month);
+  const previewDays = daysUntilPreview(month);
+
+  let badgeLabel='', badgeClass='', cardClass='', inner='';
+
+  if(state === 'active') {
+    badgeLabel = '🎯 ' + month + ' — Active Now';
+    badgeClass = 'badge-active';
+    cardClass  = 'active';
+    inner = `
+      <div class="challenge-card-top">
+        <div class="challenge-card-icon">${challenge.badge?.icon||'🎯'}</div>
+        <div>
+          <div class="challenge-card-cat" style="background:${cc.bg};color:${cc.text};">${cap(challenge.cat)}</div>
+          <div class="challenge-card-title">${challenge.title}</div>
+          <div class="challenge-card-desc">${challenge.desc}</div>
+        </div>
+      </div>
+      <div class="challenge-card-footer">
+        <span class="challenge-card-miles">+${challenge.miles} miles</span>
+        ${challenge.scripture?`<span class="challenge-card-scripture">${challenge.scripture.slice(0,90)}…</span>`:''}
+        <span class="challenge-card-cta">Tap to log →</span>
+      </div>`;
+  } else if(state === 'preview') {
+    badgeLabel = '👀 Preview — Opens ' + month + ' 1';
+    badgeClass = 'badge-preview';
+    cardClass  = 'preview';
+    inner = `
+      <div class="challenge-card-top">
+        <div class="challenge-card-icon">${challenge.badge?.icon||'🎯'}</div>
+        <div>
+          <div class="challenge-card-cat" style="background:${cc.bg};color:${cc.text};">${cap(challenge.cat)}</div>
+          <div class="challenge-card-title">${challenge.title}</div>
+          <div class="challenge-card-desc">${challenge.desc}</div>
+        </div>
+      </div>
+      <div class="challenge-card-footer">
+        <span class="challenge-card-miles">+${challenge.miles} miles</span>
+        <span class="countdown-chip">⏳ Opens in ${days} day${days!==1?'s':''}</span>
+        ${challenge.scripture?`<span class="challenge-card-scripture">${challenge.scripture.slice(0,70)}…</span>`:''}
+      </div>`;
+  } else if(state === 'done') {
+    badgeLabel = '✓ Completed!';
+    badgeClass = 'badge-done';
+    cardClass  = 'done';
+    inner = `
+      <div class="challenge-card-top">
+        <div class="challenge-card-icon">${challenge.badge?.icon||'✓'}</div>
+        <div>
+          <div class="challenge-card-cat" style="background:${cc.bg};color:${cc.text};">${cap(challenge.cat)}</div>
+          <div class="challenge-card-title">${challenge.title}</div>
+          <div class="challenge-card-desc" style="text-decoration:line-through;opacity:.6;">${challenge.desc}</div>
+        </div>
+      </div>
+      <div class="challenge-card-footer">
+        <span class="challenge-card-miles" style="color:var(--completed);">+${challenge.miles} miles logged</span>
+        <span style="font-family:'Cinzel',serif;font-size:.8rem;color:var(--teal);">✨ Badge earned!</span>
+      </div>`;
+  } else if(state === 'locked') {
+    badgeLabel = '🔒 ' + month;
+    badgeClass = 'badge-locked';
+    cardClass  = 'locked';
+    const showPreviewDays = previewDays > 0;
+    inner = `
+      <div class="challenge-card-top">
+        <div class="challenge-card-icon" style="opacity:.4;">${challenge.badge?.icon||'🔒'}</div>
+        <div>
+          <div class="challenge-card-cat" style="background:${cc.bg};color:${cc.text};opacity:.6;">${cap(challenge.cat)}</div>
+          <div class="challenge-card-title" style="opacity:.6;">${challenge.title}</div>
+          <div class="hidden-desc">· · · · · · · · · · · · · ·</div>
+        </div>
+      </div>
+      <div class="challenge-card-footer">
+        <span class="locked-chip">🔒 +30 miles</span>
+        ${showPreviewDays
+          ? `<span class="locked-chip">👀 Preview in ${previewDays} day${previewDays!==1?'s':''}</span>`
+          : `<span class="locked-chip">📅 Unlocks ${month} 1</span>`}
+      </div>`;
+  }
+
+  const onclick = state==='active' ? 'onclick="logFeaturedChallenge(\''+month+'\')"' : '';
+  return `<div class="challenge-card ${cardClass}" ${onclick}>
+    <div class="challenge-card-badge ${badgeClass}">${badgeLabel}</div>
+    <div class="challenge-card-inner">${inner}</div>
+  </div>`;
+}
+
+// ══════════════════════════════════════════════════
+//  CHAMPION CARD (always visible, non-clickable)
+// ══════════════════════════════════════════════════
+function buildChampionCard() {
+  const earned = getEarnedMonthlyBadges();
+  const available = Object.keys(MONTHLY_CHALLENGES);
+  const completedCount = available.filter(m => earned.includes(m)).length;
+  const champKey = 'champBadge_'+currentUser.id;
+  const isEarned = !!localStorage.getItem(champKey);
+  return `<div class="challenge-card champion-info" style="margin-top:.25rem;">
+    <div class="challenge-card-badge badge-champion">🏆 Monthly Champion Award</div>
+    <div class="challenge-card-inner" style="margin-top:.4rem;">
+      <div class="challenge-card-top">
+        <div class="challenge-card-icon">${isEarned?'👑':'🏆'}</div>
+        <div>
+          <div class="challenge-card-title" style="color:var(--gold);">${isEarned?'Monthly Champion — Earned!':'Monthly Champion Badge'}</div>
+          <div class="challenge-card-desc">Complete <strong>all 8 monthly challenges</strong> (April through November) to earn the Monthly Champion badge and <strong>+100 bonus miles</strong> added automatically to your total. This award is triggered by completing all individual monthly challenges — it cannot be logged manually.</div>
+        </div>
+      </div>
+      <div class="challenge-card-footer" style="margin-top:.5rem;">
+        <span class="challenge-card-miles" style="color:var(--gold);">+100 bonus miles</span>
+        <span style="font-family:'Inter',sans-serif;font-size:.72rem;color:var(--ink-soft);">${completedCount} of ${available.length} challenges completed</span>
+        ${isEarned?'<span style="font-family:\'Cinzel\',serif;font-size:.8rem;color:var(--gold);">👑 Champion!</span>':'<span class="locked-chip">Auto-awarded on completion</span>'}
+      </div>
     </div>
   </div>`;
 }
 
-async function logFeaturedChallenge(){
-  const d=db();
-  const curMonth=getCurrentMonth();
-  const fcs=d.featuredChallenges||[];
-  const fc=[...fcs].filter(c=>c.month===curMonth).sort((a,b)=>b.ts-a.ts)[0]||null;
-  const builtIn=MONTHLY_CHALLENGES[curMonth]||null;
-  const challenge=fc||builtIn;
-  if(!challenge)return;
-  const miles=challenge.bonus||challenge.miles||30;
-  const cat=challenge.cat||'physical';
-  const title=challenge.title||(builtIn&&builtIn.title)||'Featured Monthly Challenge';
-  // Check not already logged
-  const already=CACHE.entries.some(e=>e.userId===currentUser.id&&e.month===curMonth&&e.isFeaturedChallenge);
-  if(already){showToast("You've already logged this month's challenge!");return;}
+// ══════════════════════════════════════════════════
+//  MAIN RENDER — CHALLENGE TIMELINE ON LOG MILES
+// ══════════════════════════════════════════════════
+function renderFeaturedLogSection(){
+  const el = document.getElementById('featuredLogSection');
+  if(!el) return;
+
+  // Only show current+future months (skip past months)
+  const challengeMonths = Object.keys(MONTHLY_CHALLENGES);
+  const cards = [];
+
+  challengeMonths.forEach(month => {
+    const challenge = MONTHLY_CHALLENGES[month];
+    const state = getChallengeState(month);
+    if(state === 'past') return; // hide completed past months to keep it clean
+    cards.push(buildChallengeCard(month, challenge, state));
+  });
+
+  // Champion card always at bottom
+  cards.push(buildChampionCard());
+
+  el.innerHTML = cards.length
+    ? `<div style="font-family:'Cinzel',serif;font-size:.9rem;color:var(--navy);margin-bottom:.75rem;">🎯 Monthly Challenges</div>
+       <div class="challenge-timeline">${cards.join('')}</div>`
+    : '';
+}
+
+// ══════════════════════════════════════════════════
+//  DASHBOARD HYPE CARD
+// ══════════════════════════════════════════════════
+function renderDashHypeCard(){
+  const el = document.getElementById('dashHypeCard');
+  if(!el) return;
+
+  const curMonth = getCurrentMonth();
+  const challenge = MONTHLY_CHALLENGES[curMonth];
+  const state = getChallengeState(curMonth);
+
+  // Also check preview month
+  const months = Object.keys(MONTHLY_CHALLENGES);
+  let displayChallenge = challenge;
+  let displayState = state;
+  let displayMonth = curMonth;
+
+  if(!challenge || state === 'past') {
+    // Check if next month is in preview
+    const allMonths = ["February","March","April","May","June","July","August","September","October","November"];
+    const curIdx = allMonths.indexOf(curMonth);
+    if(curIdx >= 0 && curIdx < allMonths.length-1) {
+      const nextMonth = allMonths[curIdx+1];
+      const nextChallenge = MONTHLY_CHALLENGES[nextMonth];
+      const nextState = getChallengeState(nextMonth);
+      if(nextChallenge && nextState === 'preview') {
+        displayChallenge = nextChallenge;
+        displayState = 'preview';
+        displayMonth = nextMonth;
+      }
+    }
+    if(!displayChallenge) { el.innerHTML=''; return; }
+  }
+
+  const days = daysUntil(displayMonth);
+
+  if(displayState === 'active') {
+    const isDone = CACHE.entries.some(e =>
+      e.userId===currentUser.id && e.month===displayMonth && e.isFeaturedChallenge
+    );
+    el.innerHTML = `<div class="dash-hype-card" onclick="${isDone?'':'logFeaturedChallenge(\''+displayMonth+'\')'}" style="${isDone?'cursor:default;':''}">
+      <div class="dash-hype-eyebrow">🎯 ${displayMonth} Featured Challenge — 30 miles</div>
+      <div class="dash-hype-title">${displayChallenge.title}</div>
+      <div class="dash-hype-preview">${displayChallenge.desc.slice(0,100)}…</div>
+      <div class="dash-hype-footer">
+        <span class="dash-hype-miles">${displayChallenge.badge?.icon||''} ${displayChallenge.miles} miles · ${cap(displayChallenge.cat)}</span>
+        ${isDone
+          ? '<span class="dash-hype-done">✓ Completed this month!</span>'
+          : '<span class="dash-hype-cta">Log it now →</span>'}
+      </div>
+    </div>`;
+  } else if(displayState === 'preview') {
+    el.innerHTML = `<div class="dash-hype-card" style="cursor:default;opacity:.9;">
+      <div class="dash-hype-eyebrow">👀 Coming Up — ${displayMonth} Challenge</div>
+      <div class="dash-hype-title">${displayChallenge.title}</div>
+      <div class="dash-hype-preview">${displayChallenge.desc.slice(0,100)}… <em>Get ready!</em></div>
+      <div class="dash-hype-footer">
+        <span class="dash-hype-miles">${displayChallenge.badge?.icon||''} ${displayChallenge.miles} miles · ${cap(displayChallenge.cat)}</span>
+        <span class="countdown-chip" style="background:rgba(200,146,42,.15);border-color:var(--gold-light);color:var(--gold-light);">⏳ Starts in ${days} day${days!==1?'s':''}</span>
+      </div>
+    </div>`;
+  } else {
+    el.innerHTML = '';
+  }
+}
+
+async function logFeaturedChallenge(month){
+  const targetMonth = month || getCurrentMonth();
+  const challenge = MONTHLY_CHALLENGES[targetMonth];
+  if(!challenge){ showToast('Challenge not found.'); return; }
+  const state = getChallengeState(targetMonth);
+  if(state !== 'active'){ showToast('This challenge is not active yet!'); return; }
+  const already = CACHE.entries.some(e =>
+    e.userId===currentUser.id && e.month===targetMonth && e.isFeaturedChallenge
+  );
+  if(already){ showToast("You've already logged this month's challenge!"); return; }
+  const miles = challenge.miles || 30;
+  const cat   = challenge.cat || 'physical';
+  const title = challenge.title || 'Featured Monthly Challenge';
   try{
-    await fbAdd('entries',{userId:currentUser.id,userName:currentUser.name,cat,desc:title+' (Monthly Challenge)',miles,month:currentLogMonth,ts:Date.now(),custom:true,isFeaturedChallenge:true});
-    showToast('✓ Monthly challenge logged: +'+miles+' miles!');
+    await fbAdd('entries',{
+      userId:currentUser.id, userName:currentUser.name,
+      cat, desc:title+' — Monthly Challenge',
+      miles, month:targetMonth,
+      ts:Date.now(), custom:true, isFeaturedChallenge:true
+    });
+    showToast('✓ '+targetMonth+' challenge logged: +'+miles+' miles!');
     fireConfetti();
-    checkBadges();renderDashboard();renderFeaturedLogSection();
-    await announceAchievement(currentUser.name,'🎯',currentUser.name+' completed the '+curMonth+' Featured Challenge: '+title+'!');
-  }catch(err){showToast('Error: '+err.message);}
+    checkBadges();
+    renderDashboard();
+    renderFeaturedLogSection();
+    await announceAchievement(currentUser.name,'🎯',
+      currentUser.name+' completed the '+targetMonth+' Featured Challenge: '+title+'!');
+  }catch(err){ showToast('Error: '+err.message); }
 }
 
 // ══════════════════════════════════════════════════
