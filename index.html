@@ -505,6 +505,75 @@ textarea.form-input{min-height:72px;resize:vertical;}
 .how-it-works-link{display:block;text-align:center;margin-top:1rem;font-family:'Inter',sans-serif;font-size:.75rem;color:var(--ink-soft);cursor:pointer;opacity:.7;transition:opacity .15s;}
 .how-it-works-link:hover{opacity:1;color:var(--teal);}
 .how-it-works-link span{text-decoration:underline;text-underline-offset:2px;}
+
+/* ══ GROUP MAP SPRUCE ══ */
+.group-map-hero{background:linear-gradient(160deg,var(--navy-deep) 0%,var(--navy) 55%,#1a2a18 100%);border-radius:8px;padding:1.25rem 1.25rem 1rem;margin-bottom:1rem;position:relative;overflow:hidden;}
+.group-map-hero::before{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;background:radial-gradient(circle,rgba(200,146,42,.12) 0%,transparent 70%);pointer-events:none;}
+.group-hero-total{font-family:'Cinzel',serif;font-size:2.4rem;color:var(--gold-light);line-height:1;margin-bottom:.15rem;}
+.group-hero-label{font-family:'Inter',sans-serif;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:.75rem;}
+.group-hero-prog{height:6px;background:rgba(255,255,255,.12);border-radius:10px;margin-bottom:.5rem;overflow:hidden;}
+.group-hero-prog-fill{height:100%;border-radius:10px;background:linear-gradient(90deg,var(--gold),var(--gold-light));transition:width .8s ease;}
+.group-hero-sub{font-family:'Crimson Pro',serif;font-size:.9rem;color:rgba(255,255,255,.6);font-style:italic;}
+.group-stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin-bottom:1rem;}
+.group-stat-pill{background:var(--sand);border-radius:6px;padding:.6rem .4rem;text-align:center;}
+.group-stat-num{font-family:'Cinzel',serif;font-size:1.2rem;color:var(--navy);}
+.group-stat-label{font-family:'Inter',sans-serif;font-size:.58rem;color:var(--ink-soft);letter-spacing:.06em;text-transform:uppercase;}
+/* countdown inline */
+.countdown-inline{display:flex;gap:.5rem;justify-content:center;padding:.75rem 1rem;background:linear-gradient(135deg,var(--navy),#0f2540);border-radius:6px;margin-bottom:1rem;}
+.ci-unit{text-align:center;min-width:44px;}
+.ci-num{font-family:'Cinzel',serif;font-size:1.4rem;color:var(--gold-light);line-height:1;}
+.ci-label{font-family:'Inter',sans-serif;font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-top:.15rem;}
+.ci-sep{font-family:'Cinzel',serif;font-size:1.2rem;color:rgba(255,255,255,.2);align-self:flex-start;margin-top:.1rem;}
+/* feed cards */
+.feed-card{background:white;border-radius:6px;border:1px solid var(--sand-dark);overflow:hidden;margin-bottom:1rem;}
+.feed-card-header{display:flex;align-items:center;justify-content:space-between;padding:.65rem 1rem;border-bottom:1px solid var(--sand-dark);background:var(--sand);}
+.feed-card-title{font-family:'Cinzel',serif;font-size:.82rem;color:var(--navy);}
+.feed-card-count{font-family:'Inter',sans-serif;font-size:.65rem;color:var(--ink-soft);}
+.feed-body{padding:0;}
+.show-more-btn{display:block;width:100%;padding:.6rem;text-align:center;font-family:'Inter',sans-serif;font-size:.72rem;color:var(--teal);background:var(--sand);border:none;border-top:1px solid var(--sand-dark);cursor:pointer;transition:background .15s;}
+.show-more-btn:hover{background:var(--sand-dark);}
+
+/* ══ DAILY QUOTE ══ */
+.login-quote{font-family:'Crimson Pro',serif;font-style:italic;font-size:.88rem;color:rgba(255,255,255,.55);text-align:center;padding:.6rem 1.5rem 0;line-height:1.5;max-width:340px;margin:0 auto;}
+.login-quote-ref{font-family:'Inter',sans-serif;font-size:.6rem;letter-spacing:.08em;color:rgba(255,255,255,.35);text-align:center;margin-top:.25rem;}
+
+/* ══ WAYPOINT CELEBRATION OVERLAY ══ */
+#waypointOverlay{position:fixed;inset:0;background:linear-gradient(160deg,#0d2035 0%,#1a3a5c 55%,#0d2820 100%);z-index:9997;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;}
+#waypointOverlay.show{display:flex;}
+.wp-celeb-icon{font-size:4.5rem;margin-bottom:.75rem;animation:wpBounce .7s cubic-bezier(.34,1.56,.64,1) both;}
+.wp-celeb-eyebrow{font-family:'Inter',sans-serif;font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-light);margin-bottom:.5rem;opacity:.8;}
+.wp-celeb-title{font-family:'Cinzel',serif;font-size:2rem;color:white;letter-spacing:.06em;margin-bottom:.4rem;line-height:1.15;}
+.wp-celeb-miles{font-family:'Cinzel',serif;font-size:1rem;color:var(--gold-light);margin-bottom:.75rem;}
+.wp-celeb-fact{font-family:'Crimson Pro',serif;font-style:italic;font-size:1rem;color:rgba(255,255,255,.7);max-width:380px;margin:0 auto 1.75rem;line-height:1.6;}
+@keyframes wpBounce{0%{transform:scale(0) rotate(-15deg);}60%{transform:scale(1.25) rotate(5deg);}100%{transform:scale(1) rotate(0deg);}}
+
+/* ══ TODAY'S CHALLENGE CARD ══ */
+.todays-challenge{background:linear-gradient(135deg,rgba(42,80,128,.12),rgba(42,80,128,.05));border:1.5px solid var(--spiritual);border-radius:6px;padding:.9rem 1rem;margin-bottom:1rem;position:relative;cursor:pointer;transition:all .2s;}
+.todays-challenge:hover{transform:translateX(3px);}
+.todays-challenge.physical{background:linear-gradient(135deg,rgba(90,122,42,.12),rgba(90,122,42,.05));border-color:var(--physical);}
+.todays-challenge.intellectual{background:linear-gradient(135deg,rgba(122,74,32,.12),rgba(122,74,32,.05));border-color:var(--intellectual);}
+.todays-challenge.social{background:linear-gradient(135deg,rgba(106,42,106,.12),rgba(106,42,106,.05));border-color:var(--social);}
+.tc-eyebrow{font-family:'Inter',sans-serif;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.3rem;}
+.tc-title{font-family:'Cinzel',serif;font-size:.9rem;color:var(--navy);margin-bottom:.25rem;}
+.tc-desc{font-family:'Crimson Pro',serif;font-size:.85rem;color:var(--ink-soft);line-height:1.4;margin-bottom:.4rem;}
+.tc-footer{display:flex;align-items:center;justify-content:space-between;}
+.tc-miles{font-family:'Cinzel',serif;font-size:.85rem;color:var(--gold);}
+.tc-log-btn{font-family:'Inter',sans-serif;font-size:.65rem;font-weight:600;color:var(--navy);background:var(--gold-pale);border:1px solid var(--gold);border-radius:20px;padding:.2rem .65rem;}
+
+/* ══ STREAK CELEBRATION ══ */
+#streakOverlay{position:fixed;inset:0;background:rgba(10,20,35,.85);z-index:9996;display:none;align-items:center;justify-content:center;padding:1.5rem;}
+#streakOverlay.show{display:flex;}
+.streak-card{background:var(--parchment);border-radius:12px;max-width:360px;width:100%;padding:2rem 1.75rem;text-align:center;border:2px solid var(--gold);box-shadow:0 20px 60px rgba(0,0,0,.5);}
+.streak-icon{font-size:3rem;margin-bottom:.5rem;}
+.streak-title{font-family:'Cinzel',serif;font-size:1.3rem;color:var(--navy);margin-bottom:.4rem;}
+.streak-body{font-family:'Crimson Pro',serif;font-size:.95rem;color:var(--ink-soft);line-height:1.6;margin-bottom:1.25rem;}
+.streak-months{display:flex;justify-content:center;gap:.4rem;margin-bottom:1.25rem;flex-wrap:wrap;}
+.streak-dot{width:28px;height:28px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:.6rem;font-family:'Cinzel',serif;color:white;}
+
+/* ══ DID YOU KNOW ══ */
+.did-you-know{background:linear-gradient(135deg,rgba(26,58,92,.06),rgba(26,58,92,.02));border:1px solid var(--sand-dark);border-left:3px solid var(--navy);border-radius:0 6px 6px 0;padding:.75rem 1rem;margin-top:.75rem;}
+.dyk-label{font-family:'Inter',sans-serif;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);margin-bottom:.3rem;}
+.dyk-text{font-family:'Crimson Pro',serif;font-size:.88rem;color:var(--ink-soft);line-height:1.5;font-style:italic;}
 </style>
 </head>
 <body>
@@ -539,6 +608,8 @@ textarea.form-input{min-height:72px;resize:vertical;}
     </div>
     <div class="login-title">Walk With Me</div>
     <div class="login-subtitle">Level Creek Ward · Walk to Jerusalem 2026</div>
+    <div id="loginQuote" class="login-quote"></div>
+    <div id="loginQuoteRef" class="login-quote-ref"></div>
     <div id="loginError" class="error-msg"></div>
     <div id="loginForm">
       <div class="form-group"><label class="form-label">Your Name</label><input type="text" id="loginName" class="form-input" placeholder="First Last" autocomplete="name"></div>
@@ -575,11 +646,11 @@ textarea.form-input{min-height:72px;resize:vertical;}
     </div>
     <nav class="nav-tabs">
       <div class="nav-tab active" onclick="switchTab('dashboard')">Dashboard</div>
-      <div class="nav-tab" onclick="switchTab('planner')">Planner</div>
       <div class="nav-tab" onclick="switchTab('log')">Log Miles</div>
-      <div class="nav-tab" onclick="switchTab('history')">History</div>
+      <div class="nav-tab" onclick="switchTab('planner')">Planner</div>
       <div class="nav-tab" onclick="switchTab('group')">Group Map<span class="notif-dot" id="groupNotifDot" style="display:none"></span></div>
       <div class="nav-tab" onclick="switchTab('leaderboard')">Leaderboard</div>
+      <div class="nav-tab" onclick="switchTab('history')">History</div>
       <div class="nav-tab" id="adminTab" style="display:none" onclick="switchTab('admin')">⚙ Admin</div>
     </nav>
   </header>
@@ -589,6 +660,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
     <div id="tab-dashboard" class="tab-content active">
       <div class="section-heading" id="dashGreeting">My Journey</div>
       <div class="section-sub">Keep walking — Jerusalem awaits.</div>
+      <div id="todaysChallengeCard"></div>
       <div id="dashHypeCard"></div>
       <div class="stats-row">
         <div class="stat-card"><div class="stat-number" id="dashTotal">0</div><div class="stat-label">Total Miles</div></div>
@@ -706,44 +778,59 @@ textarea.form-input{min-height:72px;resize:vertical;}
     <div id="tab-group" class="tab-content">
       <div class="section-heading">Group Journey</div>
       <div class="section-sub">Level Creek Ward — walking together to Jerusalem</div>
-      <div class="journey-map" id="groupJourneyMap">
-        <canvas class="map-canvas" id="mapCanvas"></canvas>
-        <div class="map-total" id="groupTotalDisp">0 miles</div>
-        <div class="map-sub" id="groupMapSub">The journey has begun</div>
-        <div class="waypoints" id="waypointsContainer">
-          <div class="journey-line" id="journeyLine" style="width:0%"></div>
+
+      <!-- HERO MILES CARD -->
+      <div class="group-map-hero">
+        <div class="group-hero-total" id="groupTotalDisp">0 miles</div>
+        <div class="group-hero-label">Combined ward progress</div>
+        <div class="group-hero-prog"><div class="group-hero-prog-fill" id="groupProgressBar" style="width:0%"></div></div>
+        <div class="group-hero-sub" id="groupMapSub">The journey has begun from Egypt</div>
+      </div>
+
+      <!-- STATS ROW -->
+      <div class="group-stats-grid">
+        <div class="group-stat-pill"><div class="group-stat-num" id="groupMilesDisp">0</div><div class="group-stat-label">Miles</div></div>
+        <div class="group-stat-pill"><div class="group-stat-num" id="groupParticipants">0</div><div class="group-stat-label">Walking</div></div>
+        <div class="group-stat-pill"><div class="group-stat-num" id="groupCompletions">0</div><div class="group-stat-label">Finished</div></div>
+        <div class="group-stat-pill"><div class="group-stat-num" id="groupPct">0%</div><div class="group-stat-label">Progress</div></div>
+      </div>
+
+      <!-- WAYPOINTS MAP -->
+      <div class="card journey-map" style="margin-bottom:1rem;padding:1.25rem 1rem;position:relative;">
+        <div id="waypointsContainer" style="display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:2rem;position:relative;">
+          <div id="journeyLine" style="position:absolute;bottom:.8rem;left:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:2px;width:0%;transition:width .8s ease;z-index:0;"></div>
         </div>
+        <canvas id="mapCanvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;border-radius:4px;" width="400" height="200"></canvas>
       </div>
-      <div class="card neutral">
-        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.5rem;">
-          <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);">Combined miles toward Jerusalem</strong>
-          <span style="font-size:.8rem;color:var(--ink-soft);"><span id="groupMilesDisp">0</span> / 600 mi</span>
-        </div>
-        <div class="progress-wrap progress-gold"><div class="progress-fill" id="groupProgressBar" style="width:0%"></div></div>
-      </div>
-      <div class="stats-row">
-        <div class="stat-card"><div class="stat-number" id="groupParticipants">0</div><div class="stat-label">Participating</div></div>
-        <div class="stat-card"><div class="stat-number" id="groupCompletions">0</div><div class="stat-label">Completions</div></div>
-        <div class="stat-card"><div class="stat-number" id="groupPct70">0%</div><div class="stat-label">Toward 70% Goal</div></div>
-        <div class="stat-card"><div class="stat-number" id="groupPct">0%</div><div class="stat-label">Miles Progress</div></div>
-      </div>
+
+      <!-- COUNTDOWN (above shoutouts) -->
+      <div class="countdown-inline" id="partyCountdown"></div>
+      <p style="font-family:'Crimson Pro',serif;font-style:italic;font-size:.82rem;color:var(--ink-soft);text-align:center;margin-bottom:1rem;margin-top:-.5rem;" id="partyMsg">Jerusalem awaits!</p>
+
+      <!-- FEATURED CHALLENGE -->
+      <div id="didYouKnowCard" style="margin-bottom:1rem;"></div>
       <div id="featuredChallengeCard" style="display:none;margin-bottom:1rem;"></div>
-      <div class="card teal-accent">
-        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">📣 Leader Shoutouts</strong>
-        <div id="shoutoutFeed"><p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);">No shoutouts yet — check back soon!</p></div>
+
+      <!-- LEADER SHOUTOUTS FEED -->
+      <div class="feed-card">
+        <div class="feed-card-header">
+          <span class="feed-card-title">📣 Leader Shoutouts</span>
+          <span class="feed-card-count" id="shoutoutCount"></span>
+        </div>
+        <div class="feed-body" id="shoutoutFeed"><p style="padding:1rem;font-style:italic;font-size:.9rem;color:var(--ink-soft);">No shoutouts yet — check back soon!</p></div>
+        <button class="show-more-btn" id="shoutoutMoreBtn" style="display:none;" onclick="toggleFeedMore('shoutout')">Show more ▼</button>
       </div>
-      <div class="card neutral" style="margin-top:.75rem;">
-        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">🏅 Badge Celebrations</strong>
-        <div id="badgeAnnounceFeed"><p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);">No badge announcements yet.</p></div>
-      </div>
-      <!-- COUNTDOWN -->
-      <div class="card neutral" style="margin-top:.75rem;">
-        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.5rem;">🎉 Journey to Jerusalem — Countdown</strong>
-        <div id="partyCountdown" class="countdown-row"></div>
-        <p style="font-size:.85rem;color:var(--ink-soft);font-style:italic;text-align:center;" id="partyMsg">The celebration awaits in Jerusalem!</p>
+
+      <!-- BADGE CELEBRATIONS FEED -->
+      <div class="feed-card">
+        <div class="feed-card-header">
+          <span class="feed-card-title">🏅 Badge Celebrations</span>
+          <span class="feed-card-count" id="badgeCount"></span>
+        </div>
+        <div class="feed-body" id="badgeAnnounceFeed"><p style="padding:1rem;font-style:italic;font-size:.9rem;color:var(--ink-soft);">No badge announcements yet.</p></div>
+        <button class="show-more-btn" id="badgeMoreBtn" style="display:none;" onclick="toggleFeedMore('badge')">Show more ▼</button>
       </div>
     </div>
-
     <!-- LEADERBOARD -->
     <div id="tab-leaderboard" class="tab-content">
       <div class="section-heading">Leaderboard</div>
@@ -846,6 +933,12 @@ textarea.form-input{min-height:72px;resize:vertical;}
       <div class="card neutral">
         <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">📤 Export Data</strong>
         <button class="btn btn-ghost btn-sm" onclick="exportCSV()">Download All Entries as CSV</button>
+      </div>
+      <div class="card neutral">
+        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.5rem;">🔄 Recalculate All Badges</strong>
+        <p style="font-size:.85rem;color:var(--ink-soft);margin-bottom:.75rem;">Award any milestone, monthly challenge, or waypoint badges that were earned before the badge system was added.</p>
+        <button class="btn btn-teal btn-sm" onclick="recalcAllBadges()">Run Badge Recalculation for All Users</button>
+        <div id="recalcStatus" style="font-size:.8rem;color:var(--teal);margin-top:.5rem;font-style:italic;"></div>
       </div>
       <!-- GROUP DIVISOR -->
       <div class="card neutral">
@@ -1353,6 +1446,7 @@ function enterApp(){
   buildMonthSelector();buildPlannerMonthSelector();buildActivityList();buildPlannerActivityList();buildGroupWaypoints();buildMiniMap();
   renderDashboard();switchTab('dashboard');
   initHomeScreenPrompt();
+  silentRecalcOnLogin();
   // Poll for new shoutouts every 30 seconds while app is open
   setInterval(async()=>{
     try{await refreshData();checkForNewShoutouts();}catch(e){}
@@ -1532,7 +1626,8 @@ function renderDashboard(){
   document.getElementById('dashPct').textContent=pct+'%';
   document.getElementById('dashJourneyBar').style.width=pct+'%';document.getElementById('dashMonthBar').style.width=mPct+'%';
   document.getElementById('dashStreak').textContent=calcStreak(my);
-  renderStreakRow(my);renderBadges(total);renderMonthlyBadges();renderMonthlyTrophyRow();updateMiniMap(total);checkAndAwardMonthlyTrophies();renderDashHypeCard();
+  renderStreakRow(my);renderBadges(total);renderMonthlyBadges();renderMonthlyTrophyRow();updateMiniMap(total);checkAndAwardMonthlyTrophies();renderDashHypeCard();renderTodaysChallenge();
+  const streak=calcStreak(my);checkStreakCelebration(streak);
   const catColors={spiritual:'var(--spiritual)',physical:'var(--physical)',intellectual:'var(--intellectual)',social:'var(--social)'};
   const catMiles={spiritual:0,physical:0,intellectual:0,social:0};
   my.forEach(e=>{if(catMiles[e.cat]!==undefined)catMiles[e.cat]+=e.miles;});
@@ -1561,6 +1656,7 @@ function checkBadges(){
   BADGES.forEach(b=>{if(b.miles>0&&total>=b.miles&&prev<b.miles){showToast('🏅 Badge Earned: '+b.name+'!');fireConfetti();announceAchievement(currentUser.name,'🏅',currentUser.name+' just earned the '+b.name+' milestone badge!');}  });
   checkJerusalemArrival(total);
   checkMonthlyChallengeBadges();
+  checkWaypointCelebrations(total);
 }
 
 function getEarnedMonthlyBadges(){
@@ -1692,9 +1788,13 @@ function renderGroup(){
   const participating=youth.filter(u=>d.entries.some(e=>e.userId===u.id)).length;
   const pct=Math.min(100,Math.round(total/600*100));
   const pct70=Math.min(100,Math.round(completions/(youth.length*.7||1)*100));
-  document.getElementById('groupTotalDisp').textContent=total+' miles';document.getElementById('groupMilesDisp').textContent=total;
-  document.getElementById('groupProgressBar').style.width=pct+'%';document.getElementById('groupParticipants').textContent=participating;
-  document.getElementById('groupCompletions').textContent=completions;document.getElementById('groupPct').textContent=pct+'%';document.getElementById('groupPct70').textContent=pct70+'%';
+  const gtd=document.getElementById('groupTotalDisp');if(gtd)gtd.textContent=total+' miles';
+  const gmd=document.getElementById('groupMilesDisp');if(gmd)gmd.textContent=total;
+  const gpb=document.getElementById('groupProgressBar');if(gpb)gpb.style.width=pct+'%';
+  const gpa=document.getElementById('groupParticipants');if(gpa)gpa.textContent=participating;
+  const gc=document.getElementById('groupCompletions');if(gc)gc.textContent=completions;
+  const gpct=document.getElementById('groupPct');if(gpct)gpct.textContent=pct+'%';
+  const gp70=document.getElementById('groupPct70');if(gp70)gp70.textContent=pct70+'%';
   WAYPOINTS.forEach((wp,i)=>{const el=document.getElementById('grp-wp-'+i);if(el){if(total>=wp.miles)el.classList.add('reached');else el.classList.remove('reached');}});
   const line=document.getElementById('journeyLine');const container=document.getElementById('waypointsContainer');
   line.style.width=(Math.min(100,total/600*100)/100*(container.offsetWidth-32))+'px';
@@ -1708,6 +1808,7 @@ function renderGroup(){
   const fcCard=document.getElementById('featuredChallengeCard');
   if(fc&&fcCard){fcCard.style.display='block';fcCard.innerHTML=`<div class="featured-challenge"><div class="featured-badge">🎯 This Month's Challenge</div><div style="font-family:'Cinzel',serif;font-size:.95rem;color:var(--navy);margin-top:.5rem;">${fc.desc}</div><div style="color:var(--gold);font-family:'Cinzel',serif;font-size:.85rem;margin-top:.25rem;">+${fc.bonus} bonus miles · ${fc.month}</div></div>`;}
   else if(fcCard){fcCard.style.display='none';}
+  renderDidYouKnow(total);
 }
 
 // ════════════════════════════════════════════════════
@@ -2370,11 +2471,11 @@ function renderCountdown(){
   const hours=Math.floor((diff%86400000)/3600000);
   const mins=Math.floor((diff%3600000)/60000);
   const secs=Math.floor((diff%60000)/1000);
-  el.innerHTML=[['Days',days],['Hours',hours],['Mins',mins],['Secs',secs]].map(([l,v])=>`
-    <div class="countdown-unit">
-      <div class="countdown-num">${String(v).padStart(2,'0')}</div>
-      <div class="countdown-label">${l}</div>
-    </div>`).join('');
+  const units=[['Days',days],['Hours',hours],['Mins',mins],['Secs',secs]];
+  el.innerHTML=units.map(([l,v],i)=>
+    `<div class="ci-unit"><div class="ci-num">${String(v).padStart(2,'0')}</div><div class="ci-label">${l}</div></div>`
+    +(i<3?'<div class="ci-sep">:</div>':'')
+  ).join('');
   if(msg){
     const d=db();const youth=d.users.filter(u=>!u.isLeader);
     const comps=youth.filter(u=>d.entries.filter(e=>e.userId===u.id).reduce((s,e)=>s+e.miles,0)>=600).length;
@@ -2509,8 +2610,17 @@ function renderShoutouts(){
   const d=db();
   const feed=document.getElementById('shoutoutFeed');
   if(!feed) return;
-  const shouts=[...( d.shoutouts||[])].sort((a,b)=>b.ts-a.ts);
-  feed.innerHTML=shouts.length?shouts.map(s=>`
+  const all=[...( d.shoutouts||[])].sort((a,b)=>b.ts-a.ts);
+  const limit=10; const showAll=_feedState.shoutout;
+  const visible=showAll?all:all.slice(0,limit);
+  const countEl=document.getElementById('shoutoutCount');
+  if(countEl)countEl.textContent=all.length?all.length+' post'+(all.length!==1?'s':''):'';
+  const moreBtn=document.getElementById('shoutoutMoreBtn');
+  if(moreBtn){
+    if(all.length>limit){moreBtn.style.display='block';moreBtn.textContent=showAll?'Show less ▲':'Show more ▼';}
+    else moreBtn.style.display='none';
+  }
+  feed.innerHTML=visible.length?visible.map(s=>`
     <div class="shoutout">
       <div class="shoutout-header">
         <span class="shoutout-from">${s.from}</span>
@@ -2519,7 +2629,7 @@ function renderShoutouts(){
       <div class="shoutout-text">"${s.text}"</div>
       ${reactionBar('shoutouts',s)}
     </div>`).join('')
-    :'<p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);">No shoutouts yet — check back soon!</p>';
+    :'<p style="padding:1rem;font-style:italic;font-size:.9rem;color:var(--ink-soft);">No shoutouts yet — check back soon!</p>';
   checkForNewShoutouts();
 }
 
@@ -2528,9 +2638,18 @@ function renderBadgeAnnouncements(){
   const ann=d.badgeAnnouncements||[];
   const el=document.getElementById('badgeAnnounceFeed');
   if(!el) return;
-  const sorted=[...ann].sort((a,b)=>b.ts-a.ts).slice(0,20);
-  if(!sorted.length){el.innerHTML='<p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);">No badge announcements yet.</p>';return;}
-  el.innerHTML=sorted.map(a=>`
+  const all=[...ann].sort((a,b)=>b.ts-a.ts);
+  const limit=10; const showAll=_feedState.badge;
+  const visible=showAll?all:all.slice(0,limit);
+  const countEl=document.getElementById('badgeCount');
+  if(countEl)countEl.textContent=all.length?all.length+' badge'+(all.length!==1?'s':''):'';
+  const moreBtn=document.getElementById('badgeMoreBtn');
+  if(moreBtn){
+    if(all.length>limit){moreBtn.style.display='block';moreBtn.textContent=showAll?'Show less ▲':'Show more ▼';}
+    else moreBtn.style.display='none';
+  }
+  if(!visible.length){el.innerHTML='<p style="padding:1rem;font-style:italic;font-size:.9rem;color:var(--ink-soft);">No badge announcements yet.</p>';return;}
+  el.innerHTML=visible.map(a=>`
     <div class="badge-announce">
       <div class="badge-announce-icon">${a.icon||'🏅'}</div>
       <div class="badge-announce-body">
@@ -2782,10 +2901,15 @@ function renderLeaderboard(){
     const lbMonthLabel=document.getElementById('lbMonthLabel');
     if(lbMonthLabel)lbMonthLabel.textContent=cur;
     const allYouth=allUsers.filter(u=>!u.isLeader).map(u=>({...u,miles:monthScore(u,cur)})).sort((a,b)=>b.miles-a.miles);
-    const maxM=allYouth[0]?.miles||1;
-    document.getElementById('leaderboardMonthly').innerHTML = allYouth.length
-      ? '<div class="monthly-lb-note">Sorted by '+cur+' miles earned this month only</div>'
+    const allLdr=allUsers.filter(u=>u.isLeader).map(u=>({...u,miles:monthScore(u,cur)})).sort((a,b)=>b.miles-a.miles);
+    const maxM=Math.max(allYouth[0]?.miles||0, allLdr[0]?.miles||0)||1;
+    document.getElementById('leaderboardMonthly').innerHTML =
+      (allYouth.length||allLdr.length)
+      ? '<div class="monthly-lb-note">Sorted by '+cur+' miles only</div>'
+        + (allYouth.length?'<div class="lb-section-divider" style="margin:0"><span class="lb-section-divider-label">&#x26A1; Youth</span></div>':'')
         + allYouth.map((u,i)=>lbCardHTML(u,i+1,maxM,false)).join('')
+        + (allLdr.length?'<div class="lb-section-divider" style="margin:.5rem 0 0"><span class="lb-section-divider-label">&#x2605; Leaders &amp; Adults</span></div>':'')
+        + allLdr.map((u,i)=>lbCardHTML(u,i+1,maxM,true)).join('')
       : none;
   }
 }
@@ -2993,6 +3117,270 @@ function renderActiveChallengePinned(){
     + '</div></div></div>';
 }
 
+
+// ══ FEED SHOW MORE / LESS ══
+const _feedState = {shoutout: false, badge: false};
+
+function toggleFeedMore(type){
+  _feedState[type] = !_feedState[type];
+  if(type==='shoutout') renderShoutouts();
+  else renderBadgeAnnouncements();
+}
+
+
+// ══════════════════════════════════════════════════
+//  DATA: QUOTES, FACTS, ENCOURAGEMENTS
+// ══════════════════════════════════════════════════
+const DAILY_QUOTES = [
+  {text:"Come, follow me.", ref:"Luke 18:22"},
+  {text:"I can do all things through Christ which strengtheneth me.", ref:"Philippians 4:13"},
+  {text:"Be strong and courageous. Do not be afraid; do not be discouraged.", ref:"Joshua 1:9"},
+  {text:"Trust in the Lord with all thine heart; and lean not unto thine own understanding.", ref:"Proverbs 3:5"},
+  {text:"The Lord thy God is with thee whithersoever thou goest.", ref:"Joshua 1:9"},
+  {text:"Seek ye out of the best books words of wisdom; seek learning, even by study and also by faith.", ref:"D&C 88:118"},
+  {text:"Pray always, and I will pour out my Spirit upon you.", ref:"D&C 19:38"},
+  {text:"When ye are in the service of your fellow beings ye are only in the service of your God.", ref:"Mosiah 2:17"},
+  {text:"The spirit and the body are the soul of man.", ref:"D&C 88:15"},
+  {text:"Whatever principle of intelligence we attain unto in this life, it will rise with us in the resurrection.", ref:"D&C 130:18"},
+  {text:"The heavens declare the glory of God; and the firmament sheweth his handywork.", ref:"Psalm 19:1"},
+  {text:"By small and simple things are great things brought to pass.", ref:"Alma 37:6"},
+  {text:"Run with patience the race that is set before us.", ref:"Hebrews 12:1"},
+  {text:"And now, my sons, remember, remember that it is upon the rock of our Redeemer that ye must build.", ref:"Helaman 5:12"},
+  {text:"Arise and shine forth, that thy light may be a standard for the nations.", ref:"D&C 115:5"},
+];
+
+const WAYPOINT_FACTS = {
+  "Egypt":    {fact:"Ancient Egypt was one of the world's first great civilizations. The Israelites lived here for 430 years before the Exodus.", emoji:"🏺"},
+  "Red Sea":  {fact:"The parting of the Red Sea remains one of history's greatest miracles. Modern scholars estimate the crossing may have been near the Gulf of Suez.", emoji:"🌊"},
+  "Mt. Sinai":{fact:"Mt. Sinai — where Moses received the Ten Commandments — is believed to be in the southern Sinai Peninsula, rising 7,497 feet above sea level.", emoji:"⛰️"},
+  "Paran":    {fact:"The Wilderness of Paran was a vast, harsh desert. The Israelites spent many years wandering here, learning faith and reliance on God.", emoji:"🌵"},
+  "Jordan River":{fact:"The Jordan River stretches 156 miles. The Israelites crossed it miraculously — the waters parted just as the Red Sea had, forty years earlier.", emoji:"🏞️"},
+  "Jerusalem":{fact:"Jerusalem has been continuously inhabited for over 5,000 years and is considered holy by three of the world's major religions.", emoji:"✨"},
+};
+
+const ENCOURAGEMENTS = [
+  "Every mile is a step of faith. Keep going!",
+  "Jerusalem is closer than you think. 🏺",
+  "You're walking where ancient prophets walked. That's incredible.",
+  "Great work! The Lord notices every effort.",
+  "One step at a time — that's how you get to Jerusalem.",
+  "Your consistency is an inspiration to the whole ward.",
+  "Keep walking! The journey is the blessing.",
+  "Small steps. Big journey. You've got this.",
+];
+
+// ══════════════════════════════════════════════════
+//  DAILY QUOTE ON LOGIN
+// ══════════════════════════════════════════════════
+function renderLoginQuote(){
+  const el = document.getElementById('loginQuote');
+  const refEl = document.getElementById('loginQuoteRef');
+  if(!el) return;
+  // Pick quote by day of year so it changes daily
+  const day = Math.floor((Date.now() - new Date(new Date().getFullYear(),0,0)) / 86400000);
+  const q = DAILY_QUOTES[day % DAILY_QUOTES.length];
+  el.textContent = '\u201c' + q.text + '\u201d';
+  if(refEl) refEl.textContent = '\u2014 ' + q.ref;
+}
+renderLoginQuote();
+
+// ══════════════════════════════════════════════════
+//  TODAY'S CHALLENGE CARD ON DASHBOARD
+// ══════════════════════════════════════════════════
+function renderTodaysChallenge(){
+  const el = document.getElementById('todaysChallengeCard');
+  if(!el || !currentUser) return;
+  const d = db();
+  const curMonth = getCurrentMonth();
+  const myEntries = d.entries.filter(e=>e.userId===currentUser.id&&e.month===curMonth);
+  const loggedCats = new Set(myEntries.map(e=>e.cat));
+  // Find the category they haven't logged yet this month
+  const cats = ['spiritual','physical','intellectual','social'];
+  const missing = cats.filter(c=>!loggedCats.has(c));
+  const targetCat = missing.length > 0 ? missing[Math.floor(Math.random()*missing.length)] : cats[new Date().getDay()%4];
+  // Pick a random activity from that category
+  const acts = ACTIVITIES[targetCat]||[];
+  if(!acts.length){el.innerHTML='';return;}
+  // Avoid already-completed ones
+  const done = getCompletedIds();
+  const available = acts.filter((_,i)=>!done.has(makeActId(targetCat,i)));
+  if(!available.length){el.innerHTML='';return;}
+  const pick = available[Math.floor(Math.random()*available.length)];
+  const pickIdx = acts.indexOf(pick);
+  const catColors = {spiritual:'var(--spiritual)',physical:'var(--physical)',intellectual:'var(--intellectual)',social:'var(--social)'};
+  const catEmojis = {spiritual:'🙏',physical:'💪',intellectual:'📚',social:'🤝'};
+  const color = catColors[targetCat]||'var(--navy)';
+  el.innerHTML = `<div class="todays-challenge ${targetCat}" onclick="switchTab('log')">
+    <div class="tc-eyebrow" style="color:${color};">${catEmojis[targetCat]} Today's suggestion \u2014 ${cap(targetCat)}</div>
+    <div class="tc-title">${pick.text.length>80?pick.text.slice(0,80)+'\u2026':pick.text}</div>
+    <div class="tc-footer">
+      <span class="tc-miles">+${pick.miles} miles</span>
+      <span class="tc-log-btn">Go log it \u2192</span>
+    </div>
+  </div>`;
+}
+
+// ══════════════════════════════════════════════════
+//  WAYPOINT MILESTONE CELEBRATION
+// ══════════════════════════════════════════════════
+function checkWaypointCelebrations(total){
+  if(!currentUser) return;
+  WAYPOINTS.forEach(wp=>{
+    if(wp.miles===0) return; // skip Egypt start
+    const key = 'wpCelebrated_'+currentUser.id+'_'+wp.miles;
+    if(total >= wp.miles && !localStorage.getItem(key)){
+      localStorage.setItem(key,'1');
+      setTimeout(()=>showWaypointCelebration(wp, total), 800);
+    }
+  });
+}
+
+function showWaypointCelebration(wp, total){
+  const overlay = document.getElementById('waypointOverlay');
+  if(!overlay) return;
+  const factData = WAYPOINT_FACTS[wp.label.replace('\n',' ')] || WAYPOINT_FACTS[wp.label] || {};
+  document.getElementById('wpIcon').textContent = factData.emoji || wp.icon || '\u2728';
+  document.getElementById('wpName').textContent = 'Reached ' + wp.label.replace('\n',' ') + '!';
+  document.getElementById('wpMiles').textContent = wp.miles + ' miles \u2014 ' + Math.round(wp.miles/600*100) + '% of the journey';
+  document.getElementById('wpFact').textContent = factData.fact || 'Another waypoint on the road to Jerusalem!';
+  overlay.classList.add('show');
+  startWaypointFireworks();
+  announceAchievement(currentUser.name, factData.emoji||'\u2728',
+    currentUser.name + ' reached ' + wp.label.replace('\n',' ') + ' on the Walk to Jerusalem! (' + total + ' miles)');
+}
+
+function closeWaypointOverlay(){
+  document.getElementById('waypointOverlay').classList.remove('show');
+}
+
+function startWaypointFireworks(){
+  const canvas = document.getElementById('waypointFireworkCanvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+  const particles = [];
+  const colors = ['#e8b050','#2a7a6e','#c8922a','#ffffff','#5abcb0','#f5e4c0'];
+  function burst(x,y){for(let i=0;i<50;i++){const a=Math.random()*Math.PI*2,sp=2+Math.random()*5;particles.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,alpha:1,color:colors[Math.floor(Math.random()*colors.length)],size:2+Math.random()*3});}}
+  let frame=0;
+  function animate(){
+    if(!document.getElementById('waypointOverlay').classList.contains('show'))return;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    if(frame%35===0)burst(Math.random()*canvas.width,Math.random()*canvas.height*.6);
+    for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.x+=p.vx;p.y+=p.vy;p.vy+=.1;p.alpha-=.016;if(p.alpha<=0){particles.splice(i,1);continue;}ctx.globalAlpha=p.alpha;ctx.fillStyle=p.color;ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fill();}
+    ctx.globalAlpha=1;frame++;requestAnimationFrame(animate);
+  }
+  animate();
+}
+
+// ══════════════════════════════════════════════════
+//  STREAK CELEBRATION
+// ══════════════════════════════════════════════════
+function checkStreakCelebration(streak){
+  if(streak < 3 || !currentUser) return;
+  const key = 'streakCelebrated_'+currentUser.id+'_'+streak;
+  if(localStorage.getItem(key)) return;
+  localStorage.setItem(key,'1');
+  setTimeout(()=>showStreakCelebration(streak), 1200);
+}
+
+function showStreakCelebration(streak){
+  const overlay = document.getElementById('streakOverlay');
+  if(!overlay) return;
+  const titles = {3:'Three Months Strong!',4:'Four Months In!',5:'Halfway There!',6:'Six Month Warrior!',7:'Seven Months of Faith!',8:'Eight Months Done!',9:'Almost to Jerusalem!',10:'Ten Month Champion!'};
+  document.getElementById('streakTitle').textContent = titles[streak] || streak+' Month Streak!';
+  document.getElementById('streakBody').textContent =
+    'You\'ve logged miles for ' + streak + ' consecutive months! '
+    + (streak>=5 ? 'That kind of consistency is truly remarkable. ' : 'You\'re building a powerful habit. ')
+    + 'Keep walking \u2014 Jerusalem is waiting!';
+  // Show filled dots for each streak month
+  const dots = document.getElementById('streakDots');
+  const monthNames = MONTHS.slice(0, streak);
+  dots.innerHTML = monthNames.map(m=>`<div class="streak-dot" title="${m}">${m.slice(0,1)}</div>`).join('');
+  overlay.classList.add('show');
+  fireConfetti();
+}
+
+// ══════════════════════════════════════════════════
+//  DID YOU KNOW — GROUP MAP
+// ══════════════════════════════════════════════════
+function renderDidYouKnow(total){
+  const el = document.getElementById('didYouKnowCard');
+  if(!el) return;
+  // Find the most recently passed waypoint
+  const passed = [...WAYPOINTS].reverse().find(wp=>total>=wp.miles);
+  if(!passed){el.innerHTML='';return;}
+  const factData = WAYPOINT_FACTS[passed.label.replace('\n',' ')] || WAYPOINT_FACTS[passed.label];
+  if(!factData){el.innerHTML='';return;}
+  el.innerHTML = `<div class="did-you-know">
+    <div class="dyk-label">${factData.emoji} Did you know? \u2014 ${passed.label.replace('\n',' ')}</div>
+    <div class="dyk-text">${factData.fact}</div>
+  </div>`;
+}
+
+// ══════════════════════════════════════════════════
+//  RETROACTIVE BADGE RECALCULATION
+// ══════════════════════════════════════════════════
+function recalcBadgesForUser(user){
+  const d = db();
+  const total = d.entries.filter(e=>e.userId===user.id).reduce((s,e)=>s+e.miles,0);
+  // Milestone badges — just check via checkBadges logic
+  // Store prev as 0 to trigger all earned ones
+  const prevKey = 'badgePrev_'+user.id;
+  const current = parseInt(localStorage.getItem(prevKey)||'0');
+  if(total > current){
+    // Will trigger badge checks silently
+    setBadgePrev(total);
+  }
+  // Waypoint celebrations — award silently without animation for other users
+  WAYPOINTS.forEach(wp=>{
+    if(wp.miles===0)return;
+    const key='wpCelebrated_'+user.id+'_'+wp.miles;
+    if(total>=wp.miles&&!localStorage.getItem(key)){
+      localStorage.setItem(key,'1');
+    }
+  });
+  // Monthly challenge badges
+  const earned = getEarnedMonthlyBadges ? getEarnedMonthlyBadges() : [];
+  Object.entries(MONTHLY_CHALLENGES).forEach(([month,challenge])=>{
+    const monthMiles=d.entries.filter(e=>e.userId===user.id&&e.month===month&&e.cat===challenge.cat).reduce((s,e)=>s+e.miles,0);
+    const hasFeatured=d.entries.some(e=>e.userId===user.id&&e.month===month&&e.isFeaturedChallenge);
+    if((monthMiles>=challenge.miles||hasFeatured)&&!earned.includes(month)){
+      if(typeof earnMonthlyBadge==='function') earnMonthlyBadge(month);
+    }
+  });
+}
+
+async function recalcAllBadges(){
+  const statusEl = document.getElementById('recalcStatus');
+  if(statusEl) statusEl.textContent = 'Running\u2026';
+  const d = db();
+  let count = 0;
+  d.users.forEach(user=>{
+    recalcBadgesForUser(user);
+    count++;
+  });
+  // Also run for current user with full animation
+  if(currentUser){
+    const total = d.entries.filter(e=>e.userId===currentUser.id).reduce((s,e)=>s+e.miles,0);
+    setBadgePrev(0); // reset so all earned badges fire
+    checkBadges();
+  }
+  if(statusEl) statusEl.textContent = '\u2713 Recalculated badges for '+count+' users.';
+  showToast('\u2713 Badge recalculation complete for '+count+' users!');
+  renderDashboard();
+}
+
+// Silent recalc on login for current user
+function silentRecalcOnLogin(){
+  if(!currentUser) return;
+  const d = db();
+  const total = d.entries.filter(e=>e.userId===currentUser.id).reduce((s,e)=>s+e.miles,0);
+  // Check waypoints silently (no animation on first login — only for new crossings)
+  checkWaypointCelebrations(total);
+  // Recalc monthly badges silently
+  recalcBadgesForUser(currentUser);
+}
+
 function exportCSV(){
   const d=db();const headers=['Name','Group','Category','Description','Miles','Month','Date','Custom'];
   const rows=d.entries.map(e=>{const u=d.users.find(u=>u.id===e.userId)||{};return[u.name||e.userName,u.group||'',e.cat,'"'+e.desc.replace(/"/g,'""')+'"',e.miles,e.month,new Date(e.ts).toLocaleDateString(),e.custom?'Yes':'No'].join(',');});
@@ -3072,6 +3460,27 @@ buildStars();
       <a href="https://qubecompanies.github.io/walk-with-me/tutorial.html" target="_blank" class="tut-full-btn">&#x1F4D6; Open Full Interactive Tutorial &rarr;</a>
       <button class="tut-dismiss-btn" onclick="closeTutorialModal()">Got it</button>
     </div>
+  </div>
+</div>
+
+<!-- WAYPOINT CELEBRATION OVERLAY -->
+<div id="waypointOverlay">
+  <canvas id="waypointFireworkCanvas" style="position:absolute;inset:0;pointer-events:none;"></canvas>
+  <div class="wp-celeb-eyebrow">You have reached a waypoint!</div>
+  <div class="wp-celeb-icon" id="wpIcon">🌊</div>
+  <div class="wp-celeb-title" id="wpName">Red Sea</div>
+  <div class="wp-celeb-miles" id="wpMiles">60 miles</div>
+  <div class="wp-celeb-fact" id="wpFact"></div>
+  <button class="btn btn-gold" onclick="closeWaypointOverlay()" style="width:auto;padding:.75rem 2rem;">Continue the Journey →</button>
+</div>
+<!-- STREAK CELEBRATION OVERLAY -->
+<div id="streakOverlay" onclick="this.classList.remove('show')">
+  <div class="streak-card" onclick="event.stopPropagation()">
+    <div class="streak-icon">🔥</div>
+    <div class="streak-title" id="streakTitle">On Fire!</div>
+    <div class="streak-body" id="streakBody"></div>
+    <div class="streak-months" id="streakDots"></div>
+    <button class="btn btn-primary" onclick="document.getElementById('streakOverlay').classList.remove('show')">Keep Walking →</button>
   </div>
 </div>
 </body>
