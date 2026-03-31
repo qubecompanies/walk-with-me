@@ -2973,46 +2973,49 @@ function toggleCustomGoal(){
 
 // ── ACTIVE CHALLENGE PINNED CARD (top of Log Miles) ──
 function renderActiveChallengePinned(){
-  const el = document.getElementById('activeChallengePinned');
+  var el = document.getElementById('activeChallengePinned');
   if(!el) return;
-  const curMonth = getCurrentMonth();
-  const challenge = MONTHLY_CHALLENGES[curMonth];
+  var curMonth = getCurrentMonth();
+  var challenge = MONTHLY_CHALLENGES[curMonth];
   if(!challenge){ el.innerHTML=''; return; }
-  const state = getChallengeState(curMonth);
+  var state = getChallengeState(curMonth);
   if(state !== 'active'){ el.innerHTML=''; return; }
-  // Only show the active challenge as a single prominent card
-  const isDone = CACHE.entries.some(e =>
-    e.userId===currentUser.id && e.month===curMonth && e.isFeaturedChallenge
-  );
-  const cc = {
-    spiritual:'rgba(42,80,128,.1)', physical:'rgba(90,122,42,.1)',
-    intellectual:'rgba(122,74,32,.1)', social:'rgba(106,42,106,.1)'
-  }[challenge.cat] || 'rgba(201,185,154,.1)';
-  const ct = {
-    spiritual:'var(--spiritual)', physical:'var(--physical)',
-    intellectual:'var(--intellectual)', social:'var(--social)'
-  }[challenge.cat] || 'var(--navy)';
-
-  el.innerHTML = `<div class="challenge-card ${isDone?'done':'active'}" ${isDone?'':' onclick="logFeaturedChallenge(''+curMonth+'')"'}>
-    <div class="challenge-card-badge ${isDone?'badge-done':'badge-active'}">${isDone?'✓ Completed!':'🎯 '+curMonth+' Featured Challenge — Active Now'}</div>
-    <div class="challenge-card-inner">
-      <div class="challenge-card-top">
-        <div class="challenge-card-icon">${challenge.badge?.icon||'🎯'}</div>
-        <div>
-          <div class="challenge-card-cat" style="background:${cc};color:${ct};">${cap(challenge.cat)}</div>
-          <div class="challenge-card-title">${challenge.title}</div>
-          <div class="challenge-card-desc">${challenge.desc}</div>
-        </div>
-      </div>
-      <div class="challenge-card-footer">
-        <span class="challenge-card-miles">+${challenge.miles} miles</span>
-        ${challenge.scripture?`<span class="challenge-card-scripture">${challenge.scripture.slice(0,90)}…</span>`:''}
-        ${isDone
-          ? '<span style="font-family:'Cinzel',serif;font-size:.8rem;color:var(--teal);">✨ Badge earned!</span>'
-          : '<span class="challenge-card-cta">Tap to log →</span>'}
-      </div>
-    </div>
-  </div>`;
+  var isDone = CACHE.entries.some(function(e){
+    return e.userId===currentUser.id && e.month===curMonth && e.isFeaturedChallenge;
+  });
+  var catColors = {spiritual:'rgba(42,80,128,.1)',physical:'rgba(90,122,42,.1)',intellectual:'rgba(122,74,32,.1)',social:'rgba(106,42,106,.1)'};
+  var catText = {spiritual:'var(--spiritual)',physical:'var(--physical)',intellectual:'var(--intellectual)',social:'var(--social)'};
+  var cc = catColors[challenge.cat] || 'rgba(201,185,154,.1)';
+  var ct = catText[challenge.cat] || 'var(--navy)';
+  var icon = (challenge.badge && challenge.badge.icon) ? challenge.badge.icon : '🎯';
+  var scripture = challenge.scripture ? challenge.scripture.slice(0,90)+'…' : '';
+  var div = document.createElement('div');
+  div.className = 'challenge-card ' + (isDone ? 'done' : 'active');
+  if(!isDone){ div.onclick = function(){ logFeaturedChallenge(curMonth); }; }
+  var badgeText = isDone ? '✓ Completed!' : '🎯 '+curMonth+' Featured Challenge — Active Now';
+  var badgeClass = isDone ? 'badge-done' : 'badge-active';
+  var footer = isDone
+    ? '<span style="font-family:\'Cinzel\',serif;font-size:.8rem;color:var(--teal);">✨ Badge earned!</span>'
+    : '<span class="challenge-card-cta">Tap to log →</span>';
+  div.innerHTML =
+    '<div class="challenge-card-badge '+badgeClass+'">'+badgeText+'</div>'+
+    '<div class="challenge-card-inner">'+
+      '<div class="challenge-card-top">'+
+        '<div class="challenge-card-icon">'+icon+'</div>'+
+        '<div>'+
+          '<div class="challenge-card-cat" style="background:'+cc+';color:'+ct+';">'+cap(challenge.cat)+'</div>'+
+          '<div class="challenge-card-title">'+challenge.title+'</div>'+
+          '<div class="challenge-card-desc">'+challenge.desc+'</div>'+
+        '</div>'+
+      '</div>'+
+      '<div class="challenge-card-footer">'+
+        '<span class="challenge-card-miles">+'+challenge.miles+' miles</span>'+
+        (scripture ? '<span class="challenge-card-scripture">'+scripture+'</span>' : '')+
+        footer+
+      '</div>'+
+    '</div>';
+  el.innerHTML = '';
+  el.appendChild(div);
 }
 function exportCSV(){
   const d=db();const headers=['Name','Group','Category','Description','Miles','Month','Date','Custom'];
