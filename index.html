@@ -405,6 +405,31 @@ textarea.form-input{min-height:72px;resize:vertical;}
 .map-sub{color:#5a4020 !important;}
 .waypoint-label{color:#3a2800 !important;font-weight:600;}
 .waypoint-miles{color:#5a4020 !important;}
+
+/* ══ LEADERBOARD SUB-TABS ══ */
+.lb-sub-tab{padding:.4rem .9rem;border:1.5px solid var(--sand-dark);border-radius:20px;background:white;cursor:pointer;font-family:'Inter',sans-serif;font-size:.7rem;font-weight:500;color:var(--ink-soft);transition:all .15s;white-space:nowrap;}
+.lb-sub-tab:hover{border-color:var(--navy);background:var(--sand-light);}
+.lb-sub-tab.active{background:var(--navy);border-color:var(--navy);color:white;}
+
+/* ══ VERSUS BOARD ══ */
+.versus-wrap{margin-bottom:1rem;}
+.versus-header{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:.75rem;padding:1.25rem 1rem;background:var(--navy);border-radius:4px 4px 0 0;}
+.versus-team-name{font-family:'Cinzel',serif;font-size:1rem;color:white;text-align:center;}
+.versus-vs{font-family:'Cinzel',serif;font-size:1.1rem;color:var(--gold-light);text-align:center;}
+.versus-stat-row{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:.5rem;padding:.6rem 1rem;border-bottom:1px solid rgba(201,185,154,.2);}
+.versus-stat-row:last-child{border-bottom:none;}
+.versus-stat-val{font-family:'Cinzel',serif;font-size:1.1rem;text-align:center;}
+.versus-stat-label{font-family:'Inter',sans-serif;font-size:.68rem;color:var(--ink-soft);text-align:center;letter-spacing:.04em;}
+.versus-bar-row{display:grid;grid-template-columns:1fr 60px 1fr;align-items:center;gap:.5rem;padding:.5rem 1rem;}
+.versus-bar-left{height:10px;border-radius:10px 0 0 10px;background:linear-gradient(270deg,var(--spiritual),rgba(42,80,128,.5));transition:width .8s ease;min-width:4px;}
+.versus-bar-right{height:10px;border-radius:0 10px 10px 0;background:linear-gradient(90deg,var(--social),rgba(106,42,106,.5));transition:width .8s ease;min-width:4px;}
+.versus-bar-center{font-family:'Inter',sans-serif;font-size:.6rem;color:var(--ink-soft);text-align:center;letter-spacing:.04em;}
+.versus-winner{font-family:'Cinzel',serif;font-size:.75rem;color:var(--gold);text-align:center;padding:.4rem;background:var(--gold-pale);border-radius:0 0 4px 4px;}
+.versus-category-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem;padding:.75rem 1rem;}
+.versus-cat-cell{text-align:center;padding:.5rem;border-radius:4px;background:var(--parchment);}
+.versus-cat-label{font-family:'Inter',sans-serif;font-size:.62rem;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em;}
+.versus-cat-val{font-family:'Cinzel',serif;font-size:.95rem;color:var(--navy);}
+.monthly-lb-note{font-family:'Inter',sans-serif;font-size:.72rem;color:var(--ink-soft);padding:.5rem 1rem;font-style:italic;}
 </style>
 </head>
 <body>
@@ -632,20 +657,52 @@ textarea.form-input{min-height:72px;resize:vertical;}
     <div id="tab-leaderboard" class="tab-content">
       <div class="section-heading">Leaderboard</div>
       <div class="section-sub">Honoring every pilgrim on the journey</div>
-      <!-- Young Men -->
-      <div class="card neutral" style="padding:0;overflow:hidden;margin-bottom:.75rem;">
-        <div class="lb-section-divider"><span class="lb-section-divider-label">⚡ Young Men</span></div>
-        <div id="leaderboardYM"></div>
+
+      <!-- Sub-tab nav -->
+      <div style="display:flex;gap:.4rem;margin-bottom:1.25rem;flex-wrap:wrap;" id="lbSubTabs">
+        <button class="lb-sub-tab active" onclick="switchLBTab('youth',this)">🏃 Youth</button>
+        <button class="lb-sub-tab" onclick="switchLBTab('adults',this)">★ Leaders</button>
+        <button class="lb-sub-tab" onclick="switchLBTab('ymvsyw',this)">⚡ vs 🌸</button>
+        <button class="lb-sub-tab" onclick="switchLBTab('youthvsleader',this)">Youth vs Adults</button>
+        <button class="lb-sub-tab" onclick="switchLBTab('monthly',this)">📅 This Month</button>
       </div>
-      <!-- Young Women -->
-      <div class="card neutral" style="padding:0;overflow:hidden;margin-bottom:.75rem;">
-        <div class="lb-section-divider"><span class="lb-section-divider-label">🌸 Young Women</span></div>
-        <div id="leaderboardYW"></div>
+
+      <!-- YOUTH BOARD -->
+      <div id="lb-pane-youth" class="lb-pane">
+        <div class="card neutral" style="padding:0;overflow:hidden;margin-bottom:.75rem;">
+          <div class="lb-section-divider"><span class="lb-section-divider-label">⚡ Young Men</span><span id="ymTotal" style="float:right;font-family:'Cinzel',serif;font-size:.68rem;color:var(--ink-soft);"></span></div>
+          <div id="leaderboardYM"></div>
+        </div>
+        <div class="card neutral" style="padding:0;overflow:hidden;">
+          <div class="lb-section-divider"><span class="lb-section-divider-label">🌸 Young Women</span><span id="ywTotal" style="float:right;font-family:'Cinzel',serif;font-size:.68rem;color:var(--ink-soft);"></span></div>
+          <div id="leaderboardYW"></div>
+        </div>
       </div>
-      <!-- Leaders & Adults -->
-      <div class="card neutral" style="padding:0;overflow:hidden;" id="leaderLBCard">
-        <div class="lb-section-divider"><span class="lb-section-divider-label">★ Leaders &amp; Adults</span></div>
-        <div id="leaderboardLeaders"></div>
+
+      <!-- ADULTS BOARD -->
+      <div id="lb-pane-adults" class="lb-pane" style="display:none;">
+        <div class="card neutral" style="padding:0;overflow:hidden;" id="leaderLBCard">
+          <div class="lb-section-divider"><span class="lb-section-divider-label">★ Leaders &amp; Adults</span></div>
+          <div id="leaderboardLeaders"></div>
+        </div>
+      </div>
+
+      <!-- YM vs YW VERSUS BOARD -->
+      <div id="lb-pane-ymvsyw" class="lb-pane" style="display:none;">
+        <div id="lbVersusYMYW"></div>
+      </div>
+
+      <!-- YOUTH vs LEADER VERSUS BOARD -->
+      <div id="lb-pane-youthvsleader" class="lb-pane" style="display:none;">
+        <div id="lbVersusYouthLeader"></div>
+      </div>
+
+      <!-- THIS MONTH BOARD -->
+      <div id="lb-pane-monthly" class="lb-pane" style="display:none;">
+        <div class="card neutral" style="padding:0;overflow:hidden;">
+          <div class="lb-section-divider"><span class="lb-section-divider-label">📅 <span id="lbMonthLabel">This Month</span> — All Youth</span></div>
+          <div id="leaderboardMonthly"></div>
+        </div>
       </div>
     </div>
 
@@ -2161,6 +2218,11 @@ function medalHTML(rank){
   return `<div class="lb-rank-num">${rank}</div>`;
 }
 
+function isRecentlyActive(userId){
+  const cutoff=Date.now()-7*24*60*60*1000;
+  return CACHE.entries.some(e=>e.userId===userId&&e.ts>cutoff);
+}
+
 function lbCardHTML(u, rank, maxMiles, isAdultRow){
   const isMe = u.id===currentUser.id;
   const bp = Math.round(u.miles/(maxMiles||1)*100);
@@ -2180,22 +2242,8 @@ function lbCardHTML(u, rank, maxMiles, isAdultRow){
   </div>`;
 }
 
-function renderLeaderboard(){
-  const d=db();
-  const score=u=>d.entries.filter(e=>e.userId===u.id).reduce((s,e)=>s+e.miles,0);
-  const ym = d.users.filter(u=>!u.isLeader&&u.group==='Young Men').map(u=>({...u,miles:score(u)})).sort((a,b)=>b.miles-a.miles);
-  const yw = d.users.filter(u=>!u.isLeader&&u.group==='Young Women').map(u=>({...u,miles:score(u)})).sort((a,b)=>b.miles-a.miles);
-  const leaders = d.users.filter(u=>u.isLeader).map(u=>({...u,miles:score(u)})).sort((a,b)=>b.miles-a.miles);
-  const maxYM=ym[0]?.miles||1, maxYW=yw[0]?.miles||1, maxL=leaders[0]?.miles||1;
-  const none='<p style="padding:1rem;font-style:italic;font-size:.9rem;color:var(--ink-soft);">None registered yet.</p>';
-  document.getElementById('leaderboardYM').innerHTML = ym.length?ym.map((u,i)=>lbCardHTML(u,i+1,maxYM,false)).join(''):none;
-  document.getElementById('leaderboardYW').innerHTML = yw.length?yw.map((u,i)=>lbCardHTML(u,i+1,maxYW,false)).join(''):none;
-  const lCard=document.getElementById('leaderLBCard');
-  if(leaders.length){
-    if(lCard)lCard.style.display='block';
-    document.getElementById('leaderboardLeaders').innerHTML=leaders.map((u,i)=>lbCardHTML(u,i+1,maxL,true)).join('');
-  } else { if(lCard)lCard.style.display='none'; }
-}
+// renderLeaderboard — full version with sub-tabs defined above
+
 
 // ══════════════════════════════════════════════════
 //  LOG MILES — ICON CATEGORY TABS
@@ -2329,6 +2377,222 @@ function buildGroupWaypoints(){
   setTimeout(drawMapCanvas,150);
 }
 
+
+// ══════════════════════════════════════════════════
+//  LEADERBOARD SUB-TABS
+// ══════════════════════════════════════════════════
+let _lbActivePane = 'youth';
+
+function switchLBTab(pane, btn){
+  _lbActivePane = pane;
+  document.querySelectorAll('.lb-pane').forEach(p=>p.style.display='none');
+  document.querySelectorAll('.lb-sub-tab').forEach(b=>b.classList.remove('active'));
+  const el = document.getElementById('lb-pane-'+pane);
+  if(el) el.style.display='block';
+  if(btn) btn.classList.add('active');
+  renderLeaderboard();
+}
+
+// ══════════════════════════════════════════════════
+//  FULL LEADERBOARD RENDER
+// ══════════════════════════════════════════════════
+function renderLeaderboard(){
+  const d=db();
+  const score = u => d.entries.filter(e=>e.userId===u.id).reduce((s,e)=>s+e.miles,0);
+  const monthScore = (u,month) => d.entries.filter(e=>e.userId===u.id&&e.month===month).reduce((s,e)=>s+e.miles,0);
+  const avgMonthScore = u => {
+    const months = MONTHS.filter(m=>d.entries.some(e=>e.userId===u.id&&e.month===m));
+    if(!months.length) return 0;
+    return Math.round(months.reduce((s,m)=>s+monthScore(u,m),0)/months.length);
+  };
+  const catScore = (u,cat) => d.entries.filter(e=>e.userId===u.id&&e.cat===cat).reduce((s,e)=>s+e.miles,0);
+
+  const allUsers = d.users||[];
+  const ym  = allUsers.filter(u=>!u.isLeader&&u.group==='Young Men').map(u=>({...u,miles:score(u)})).sort((a,b)=>b.miles-a.miles);
+  const yw  = allUsers.filter(u=>!u.isLeader&&u.group==='Young Women').map(u=>({...u,miles:score(u)})).sort((a,b)=>b.miles-a.miles);
+  const ldr = allUsers.filter(u=>u.isLeader).map(u=>({...u,miles:score(u)})).sort((a,b)=>b.miles-a.miles);
+  const youth = [...ym,...yw].sort((a,b)=>b.miles-a.miles);
+  const none = '<p style="padding:1rem 1rem .5rem;font-style:italic;font-size:.9rem;color:var(--ink-soft);">No one registered in this group yet.</p>';
+
+  if(_lbActivePane==='youth'){
+    // YM section
+    const ymTot = document.getElementById('ymTotal');
+    if(ymTot) ymTot.textContent = ym.length ? ym.reduce((s,u)=>s+u.miles,0)+' total mi' : '';
+    document.getElementById('leaderboardYM').innerHTML = ym.length ? ym.map((u,i)=>lbCardHTML(u,i+1,ym[0]?.miles||1,false)).join('') : none;
+    // YW section
+    const ywTot = document.getElementById('ywTotal');
+    if(ywTot) ywTot.textContent = yw.length ? yw.reduce((s,u)=>s+u.miles,0)+' total mi' : '';
+    document.getElementById('leaderboardYW').innerHTML = yw.length ? yw.map((u,i)=>lbCardHTML(u,i+1,yw[0]?.miles||1,false)).join('') : none;
+  }
+
+  if(_lbActivePane==='adults'){
+    const lCard=document.getElementById('leaderLBCard');
+    if(ldr.length){
+      if(lCard)lCard.style.display='block';
+      document.getElementById('leaderboardLeaders').innerHTML = ldr.map((u,i)=>lbCardHTML(u,i+1,ldr[0]?.miles||1,true)).join('');
+    } else {
+      if(lCard)lCard.style.display='none';
+    }
+  }
+
+  if(_lbActivePane==='ymvsyw'){
+    renderVersusYMYW(d,score,avgMonthScore,catScore,ym,yw);
+  }
+
+  if(_lbActivePane==='youthvsleader'){
+    renderVersusYouthLeader(d,score,avgMonthScore,catScore,youth,ldr);
+  }
+
+  if(_lbActivePane==='monthly'){
+    const cur=getCurrentMonth();
+    const lbMonthLabel=document.getElementById('lbMonthLabel');
+    if(lbMonthLabel)lbMonthLabel.textContent=cur;
+    const allYouth=allUsers.filter(u=>!u.isLeader).map(u=>({...u,miles:monthScore(u,cur)})).sort((a,b)=>b.miles-a.miles);
+    const maxM=allYouth[0]?.miles||1;
+    document.getElementById('leaderboardMonthly').innerHTML = allYouth.length
+      ? '<div class="monthly-lb-note">Sorted by '+cur+' miles earned this month only</div>'
+        + allYouth.map((u,i)=>lbCardHTML(u,i+1,maxM,false)).join('')
+      : none;
+  }
+}
+
+// ══════════════════════════════════════════════════
+//  VERSUS BOARD BUILDERS
+// ══════════════════════════════════════════════════
+function versusStatRow(label, leftVal, rightVal, leftBetter){
+  const lWins = parseFloat(leftVal) > parseFloat(rightVal);
+  const rWins = parseFloat(rightVal) > parseFloat(leftVal);
+  const lColor = lWins ? 'var(--teal)' : rWins ? 'var(--ink-soft)' : 'var(--navy)';
+  const rColor = rWins ? 'var(--social)' : lWins ? 'var(--ink-soft)' : 'var(--navy)';
+  const lMax = Math.max(parseFloat(leftVal),parseFloat(rightVal),1);
+  const lPct = Math.round(parseFloat(leftVal)/lMax*100);
+  const rPct = Math.round(parseFloat(rightVal)/lMax*100);
+  return `
+    <div class="versus-stat-row">
+      <div class="versus-stat-val" style="color:${lColor}">${leftVal}</div>
+      <div class="versus-stat-label">${label}</div>
+      <div class="versus-stat-val" style="color:${rColor}">${rightVal}</div>
+    </div>
+    <div class="versus-bar-row">
+      <div style="display:flex;justify-content:flex-end;">
+        <div class="versus-bar-left" style="width:${lPct}%"></div>
+      </div>
+      <div class="versus-bar-center">${label.slice(0,6)}</div>
+      <div class="versus-bar-right" style="width:${rPct}%"></div>
+    </div>`;
+}
+
+function renderVersusYMYW(d,score,avgMonthScore,catScore,ym,yw){
+  const el=document.getElementById('lbVersusYMYW');if(!el)return;
+  if(!ym.length&&!yw.length){el.innerHTML='<p style="padding:1rem;font-style:italic;font-size:.9rem;color:var(--ink-soft);">Need registered youth in both groups to compare.</p>';return;}
+  const ymAvg = ym.length?Math.round(ym.reduce((s,u)=>s+u.miles,0)/ym.length):0;
+  const ywAvg = yw.length?Math.round(yw.reduce((s,u)=>s+u.miles,0)/yw.length):0;
+  const ymMonthAvg = ym.length?Math.round(ym.reduce((s,u)=>s+avgMonthScore(u),0)/ym.length):0;
+  const ywMonthAvg = yw.length?Math.round(yw.reduce((s,u)=>s+avgMonthScore(u),0)/yw.length):0;
+  const ymTotal = ym.reduce((s,u)=>s+u.miles,0);
+  const ywTotal = yw.reduce((s,u)=>s+u.miles,0);
+  const ymComplete = ym.filter(u=>u.miles>=600).length;
+  const ywComplete = yw.filter(u=>u.miles>=600).length;
+  const ymActive = ym.filter(u=>isRecentlyActive(u.id)).length;
+  const ywActive = yw.filter(u=>isRecentlyActive(u.id)).length;
+  const ymOnTrack = ym.filter(u=>d.entries.filter(e=>e.userId===u.id&&e.month===getCurrentMonth()).reduce((s,e)=>s+e.miles,0)>=60).length;
+  const ywOnTrack = yw.filter(u=>d.entries.filter(e=>e.userId===u.id&&e.month===getCurrentMonth()).reduce((s,e)=>s+e.miles,0)>=60).length;
+  const winner = ymAvg>ywAvg?'⚡ Young Men lead!':ywAvg>ymAvg?'🌸 Young Women lead!':'It\'s a tie! 🤝';
+
+  // Category breakdown per group
+  const cats=['spiritual','physical','intellectual','social'];
+  const catIcons={spiritual:'🙏',physical:'💪',intellectual:'📚',social:'🤝'};
+  const ymCatAvgs = cats.map(c=>({c,v:ym.length?Math.round(ym.reduce((s,u)=>s+catScore(u,c),0)/ym.length):0}));
+  const ywCatAvgs = cats.map(c=>({c,v:yw.length?Math.round(yw.reduce((s,u)=>s+catScore(u,c),0)/yw.length):0}));
+
+  el.innerHTML=`<div class="versus-wrap">
+    <div class="versus-header">
+      <div class="versus-team-name">⚡ Young Men<br><span style="font-size:.7rem;opacity:.7;">${ym.length} members</span></div>
+      <div class="versus-vs">VS</div>
+      <div class="versus-team-name">🌸 Young Women<br><span style="font-size:.7rem;opacity:.7;">${yw.length} members</span></div>
+    </div>
+    <div class="card neutral" style="border-radius:0;padding:0;margin:0;border-left:none;border-right:none;">
+      ${versusStatRow('Avg total miles',ymAvg,ywAvg)}
+      ${versusStatRow('Avg miles/month',ymMonthAvg,ywMonthAvg)}
+      ${versusStatRow('Total miles',ymTotal,ywTotal)}
+      ${versusStatRow('Completions',ymComplete,ywComplete)}
+      ${versusStatRow('Active this week',ymActive,ywActive)}
+      ${versusStatRow('On track '+getCurrentMonth().slice(0,3),ymOnTrack,ywOnTrack)}
+    </div>
+    <div style="padding:.6rem 1rem .2rem;font-family:'Cinzel',serif;font-size:.7rem;color:var(--navy);letter-spacing:.06em;text-transform:uppercase;">Avg miles by category</div>
+    <div class="versus-category-grid">
+      ${cats.map((c,i)=>`<div class="versus-cat-cell">
+        <div class="versus-cat-label">${catIcons[c]} ${c}</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.3rem;margin-top:.3rem;">
+          <div style="text-align:center;font-family:'Cinzel',serif;font-size:.9rem;color:var(--spiritual);">${ymCatAvgs[i].v}</div>
+          <div style="text-align:center;font-family:'Cinzel',serif;font-size:.9rem;color:var(--social);">${ywCatAvgs[i].v}</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.3rem;">
+          <div style="font-family:'Inter',sans-serif;font-size:.55rem;color:var(--ink-soft);text-align:center;">YM</div>
+          <div style="font-family:'Inter',sans-serif;font-size:.55rem;color:var(--ink-soft);text-align:center;">YW</div>
+        </div>
+      </div>`).join('')}
+    </div>
+    <div class="versus-winner">${winner}</div>
+  </div>`;
+}
+
+function renderVersusYouthLeader(d,score,avgMonthScore,catScore,youth,ldr){
+  const el=document.getElementById('lbVersusYouthLeader');if(!el)return;
+  if(!youth.length&&!ldr.length){el.innerHTML='<p style="padding:1rem;font-style:italic;font-size:.9rem;color:var(--ink-soft);">Need registered members in both groups.</p>';return;}
+  const yAvg = youth.length?Math.round(youth.reduce((s,u)=>s+u.miles,0)/youth.length):0;
+  const lAvg = ldr.length?Math.round(ldr.reduce((s,u)=>s+u.miles,0)/ldr.length):0;
+  const yMonthAvg = youth.length?Math.round(youth.reduce((s,u)=>s+avgMonthScore(u),0)/youth.length):0;
+  const lMonthAvg = ldr.length?Math.round(ldr.reduce((s,u)=>s+avgMonthScore(u),0)/ldr.length):0;
+  const yTotal = youth.reduce((s,u)=>s+u.miles,0);
+  const lTotal = ldr.reduce((s,u)=>s+u.miles,0);
+  const yComplete = youth.filter(u=>u.miles>=600).length;
+  const lComplete = ldr.filter(u=>u.miles>=600).length;
+  const yActive = youth.filter(u=>isRecentlyActive(u.id)).length;
+  const lActive = ldr.filter(u=>isRecentlyActive(u.id)).length;
+  const yOnTrack = youth.filter(u=>d.entries.filter(e=>e.userId===u.id&&e.month===getCurrentMonth()).reduce((s,e)=>s+e.miles,0)>=60).length;
+  const lOnTrack = ldr.filter(u=>d.entries.filter(e=>e.userId===u.id&&e.month===getCurrentMonth()).reduce((s,e)=>s+e.miles,0)>=60).length;
+  const yOnPct = youth.length?Math.round(yOnTrack/youth.length*100):0;
+  const lOnPct = ldr.length?Math.round(lOnTrack/ldr.length*100):0;
+  const winner = yAvg>lAvg?'🏃 Youth lead!':lAvg>yAvg?'★ Leaders lead!':'Dead even! 🤝';
+  const topYouth = [...youth].sort((a,b)=>b.miles-a.miles).slice(0,3);
+  const topLdr = [...ldr].sort((a,b)=>b.miles-a.miles).slice(0,3);
+
+  el.innerHTML=`<div class="versus-wrap">
+    <div class="versus-header" style="background:linear-gradient(135deg,var(--teal),var(--navy));">
+      <div class="versus-team-name">🏃 Youth<br><span style="font-size:.7rem;opacity:.7;">${youth.length} members</span></div>
+      <div class="versus-vs">VS</div>
+      <div class="versus-team-name">★ Leaders<br><span style="font-size:.7rem;opacity:.7;">${ldr.length} members</span></div>
+    </div>
+    <div class="card neutral" style="border-radius:0;padding:0;margin:0;border-left:none;border-right:none;">
+      ${versusStatRow('Avg total miles',yAvg,lAvg)}
+      ${versusStatRow('Avg miles/month',yMonthAvg,lMonthAvg)}
+      ${versusStatRow('Total miles',yTotal,lTotal)}
+      ${versusStatRow('Completions',yComplete,lComplete)}
+      ${versusStatRow('Active this week',yActive,lActive)}
+      ${versusStatRow('On track % '+getCurrentMonth().slice(0,3),yOnPct+'%',lOnPct+'%')}
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;padding:.75rem 1rem;">
+      <div>
+        <div style="font-family:'Cinzel',serif;font-size:.7rem;color:var(--teal);margin-bottom:.4rem;letter-spacing:.06em;">TOP YOUTH</div>
+        ${topYouth.map((u,i)=>`<div style="display:flex;align-items:center;gap:.4rem;padding:.2rem 0;border-bottom:1px solid rgba(201,185,154,.2);">
+          <span style="font-size:.7rem;">${['🥇','🥈','🥉'][i]||''}</span>
+          <span style="font-family:'Crimson Pro',serif;font-size:.85rem;flex:1;">${u.name}</span>
+          <span style="font-family:'Cinzel',serif;font-size:.75rem;color:var(--teal);">${u.miles}</span>
+        </div>`).join('')}
+      </div>
+      <div>
+        <div style="font-family:'Cinzel',serif;font-size:.7rem;color:var(--gold);margin-bottom:.4rem;letter-spacing:.06em;">TOP LEADERS</div>
+        ${topLdr.map((u,i)=>`<div style="display:flex;align-items:center;gap:.4rem;padding:.2rem 0;border-bottom:1px solid rgba(201,185,154,.2);">
+          <span style="font-size:.7rem;">${['🥇','🥈','🥉'][i]||''}</span>
+          <span style="font-family:'Crimson Pro',serif;font-size:.85rem;flex:1;">${u.name}</span>
+          <span style="font-family:'Cinzel',serif;font-size:.75rem;color:var(--gold);">${u.miles}</span>
+        </div>`).join('')}
+      </div>
+    </div>
+    <div class="versus-winner">${winner}</div>
+  </div>`;
+}
 function exportCSV(){
   const d=db();const headers=['Name','Group','Category','Description','Miles','Month','Date','Custom'];
   const rows=d.entries.map(e=>{const u=d.users.find(u=>u.id===e.userId)||{};return[u.name||e.userName,u.group||'',e.cat,'"'+e.desc.replace(/"/g,'""')+'"',e.miles,e.month,new Date(e.ts).toLocaleDateString(),e.custom?'Yes':'No'].join(',');});
