@@ -34,10 +34,10 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 @keyframes spin{to{transform:rotate(360deg)}}
 .login-card{background:rgba(248,242,232,.97);border-radius:2px;padding:3rem 2.5rem;max-width:420px;width:100%;box-shadow:0 40px 80px rgba(0,0,0,.5),0 0 0 1px rgba(200,146,42,.3);text-align:center;position:relative;animation:fadeUp .6s ease both;}
 .login-card::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60px;height:3px;background:var(--gold);}
-.login-emblem{width:80px;height:80px;margin:0 auto 1.5rem;background:linear-gradient(135deg,var(--navy),var(--teal));border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(26,58,92,.3);}
+.login-emblem{width:88px;height:88px;margin:0 auto 1.5rem;background:linear-gradient(160deg,#0d2035 0%,#1a3a5c 60%,#0f2a1a 100%);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(26,58,92,.45),0 0 0 2px rgba(200,146,42,.25);}
 .login-emblem svg{width:44px;height:44px;}
 .login-title{font-family:'Cinzel',serif;font-size:1.6rem;color:var(--navy);letter-spacing:.05em;margin-bottom:.25rem;}
-.login-subtitle{font-size:.95rem;color:var(--ink-soft);font-style:italic;margin-bottom:2rem;opacity:.8;}
+.login-subtitle{font-size:.95rem;color:var(--ink-soft);font-style:italic;margin-bottom:0;opacity:.8;}
 .form-group{margin-bottom:1rem;text-align:left;}
 .form-label{display:block;font-family:'Inter',sans-serif;font-size:.7rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);margin-bottom:.4rem;}
 .form-input{width:100%;padding:.75rem 1rem;border:1.5px solid var(--sand-dark);border-radius:2px;background:white;font-family:'Crimson Pro',serif;font-size:1.1rem;color:var(--ink);transition:border-color .2s,box-shadow .2s;outline:none;}
@@ -534,8 +534,9 @@ textarea.form-input{min-height:72px;resize:vertical;}
 .show-more-btn:hover{background:var(--sand-dark);}
 
 /* ══ DAILY QUOTE ══ */
-.login-quote{font-family:'Crimson Pro',serif;font-style:italic;font-size:.88rem;color:rgba(255,255,255,.55);text-align:center;padding:.6rem 1.5rem 0;line-height:1.5;max-width:340px;margin:0 auto;}
-.login-quote-ref{font-family:'Inter',sans-serif;font-size:.6rem;letter-spacing:.08em;color:rgba(255,255,255,.35);text-align:center;margin-top:.25rem;}
+.login-quote-wrap{background:rgba(248,242,232,.92);border:1px solid rgba(200,146,42,.35);border-radius:6px;padding:.7rem 1.1rem .6rem;margin:1.25rem auto 1.25rem;max-width:320px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.12);}
+.login-quote{font-family:'Crimson Pro',serif;font-style:italic;font-size:.92rem;color:#1a3a5c;line-height:1.55;display:block;}
+.login-quote-ref{font-family:'Inter',sans-serif;font-size:.6rem;letter-spacing:.1em;color:#c8922a;display:block;margin-top:.35rem;font-weight:500;}
 
 /* ══ WAYPOINT CELEBRATION OVERLAY ══ */
 #waypointOverlay{position:fixed;inset:0;background:linear-gradient(160deg,#0d2035 0%,#1a3a5c 55%,#0d2820 100%);z-index:9997;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;}
@@ -598,18 +599,37 @@ textarea.form-input{min-height:72px;resize:vertical;}
   <div class="login-stars" id="loginStars"></div>
   <div class="login-card">
     <div class="login-emblem">
-      <svg viewBox="0 0 44 44" fill="none">
-        <path d="M22 4L38 36H6Z" fill="rgba(255,255,255,.15)" stroke="rgba(255,255,255,.6)" stroke-width="1.5"/>
-        <circle cx="22" cy="12" r="5" fill="rgba(200,146,42,.9)"/>
-        <path d="M14 30Q18 24 22 28Q26 32 30 26" stroke="rgba(255,255,255,.7)" stroke-width="1.5" fill="none"/>
-        <circle cx="16" cy="32" r="2" fill="rgba(255,255,255,.6)"/>
-        <circle cx="28" cy="32" r="2" fill="rgba(255,255,255,.6)"/>
+      <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Sky glow behind peaks -->
+        <ellipse cx="28" cy="28" rx="22" ry="10" fill="rgba(200,146,42,.08)"/>
+        <!-- Back range — distant, muted -->
+        <polygon points="8,38 18,18 28,34 38,16 48,38" fill="rgba(255,255,255,.07)"/>
+        <!-- Middle mountain left — solid navy-tinted white -->
+        <polygon points="4,42 17,14 30,42" fill="rgba(255,255,255,.13)"/>
+        <!-- Snow cap left -->
+        <polygon points="17,14 13,26 21,26" fill="rgba(255,255,255,.55)"/>
+        <!-- Main center mountain — tallest, brightest -->
+        <polygon points="16,42 28,8 40,42" fill="rgba(255,255,255,.22)"/>
+        <!-- Snow cap center -->
+        <polygon points="28,8 24,20 32,20" fill="rgba(255,255,255,.85)"/>
+        <!-- Gold sunrise peak accent -->
+        <polygon points="28,8 26,14 30,14" fill="#e8b050"/>
+        <!-- Right mountain -->
+        <polygon points="26,42 39,16 52,42" fill="rgba(255,255,255,.13)"/>
+        <!-- Snow cap right -->
+        <polygon points="39,16 35,27 43,27" fill="rgba(255,255,255,.5)"/>
+        <!-- Horizon base line -->
+        <line x1="4" y1="42" x2="52" y2="42" stroke="rgba(200,146,42,.4)" stroke-width="1.2"/>
+        <!-- Gold star/sun at peak -->
+        <circle cx="28" cy="8" r="2.2" fill="#e8b050" opacity=".9"/>
       </svg>
     </div>
     <div class="login-title">Walk With Me</div>
     <div class="login-subtitle">Level Creek Ward · Walk to Jerusalem 2026</div>
-    <div id="loginQuote" class="login-quote"></div>
-    <div id="loginQuoteRef" class="login-quote-ref"></div>
+    <div class="login-quote-wrap">
+      <span id="loginQuote" class="login-quote"></span>
+      <span id="loginQuoteRef" class="login-quote-ref"></span>
+    </div>
     <div id="loginError" class="error-msg"></div>
     <div id="loginForm">
       <div class="form-group"><label class="form-label">Your Name</label><input type="text" id="loginName" class="form-input" placeholder="First Last" autocomplete="name"></div>
@@ -755,7 +775,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
         <div class="cat-icon-tab all active" onclick="filterActivitiesIcon('all',this)"><span class="cat-tab-icon">&#x2726;</span><span class="cat-tab-label">All</span></div>
         <div class="cat-icon-tab spiritual" onclick="filterActivitiesIcon('spiritual',this)"><span class="cat-tab-icon">&#x1F64F;</span><span class="cat-tab-label">Spiritual</span></div>
         <div class="cat-icon-tab physical" onclick="filterActivitiesIcon('physical',this)"><span class="cat-tab-icon">&#x1F4AA;</span><span class="cat-tab-label">Physical</span></div>
-        <div class="cat-icon-tab intellectual" onclick="filterActivitiesIcon('intellectual',this)"><span class="cat-tab-icon">&#x1F4DA;</span><span class="cat-tab-label">Intellectual</span></div>
+        <div class="cat-icon-tab intellectual" onclick="filterActivitiesIcon('intellectual',this)"><span class="cat-tab-icon">&#x1F4DA;</span><span class="cat-tab-label">Mind</span></div>
         <div class="cat-icon-tab social" onclick="filterActivitiesIcon('social',this)"><span class="cat-tab-icon">&#x1F91D;</span><span class="cat-tab-label">Social</span></div>
       </div>
       <div id="activityList"></div>
