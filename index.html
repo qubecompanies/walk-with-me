@@ -1098,23 +1098,27 @@ const COL = {
   entries:    () => _db().collection('entries'),
   groupMiles: () => _db().collection('groupMiles'),
   shoutouts:  () => _db().collection('shoutouts'),
+  userState:  () => _db().collection('userState'),
+  appConfig:  () => _db().collection('appConfig'),
 };
 
 // ── In-memory cache (refreshed on login + each tab switch) ──
-let CACHE = { users:[], entries:[], groupMiles:[], shoutouts:[] };
+let CACHE = { users:[], entries:[], groupMiles:[], shoutouts:[], featuredChallenges:[], badgeAnnouncements:[], userState:{}, appConfig:{} };
 
 function db() { return CACHE; }  // all rendering functions call db() — unchanged
 
 async function loadAll() {
   setSyncState('syncing');
   try {
-    const [u,e,g,s,fc,ba] = await Promise.all([
+    const [u,e,g,s,fc,ba,us,ac] = await Promise.all([
       COL.users().get(),
       COL.entries().get(),
       COL.groupMiles().get(),
       COL.shoutouts().get(),
       _db().collection('featuredChallenges').get(),
       _db().collection('badgeAnnouncements').get(),
+      currentUser ? COL.userState().doc(currentUser.id).get() : Promise.resolve(null),
+      COL.appConfig().doc('settings').get(),
     ]);
     CACHE.users              = u.docs.map(d=>({id:d.id,...d.data()}));
     CACHE.entries            = e.docs.map(d=>({id:d.id,...d.data()}));
@@ -1122,6 +1126,8 @@ async function loadAll() {
     CACHE.shoutouts          = s.docs.map(d=>({id:d.id,...d.data()}));
     CACHE.featuredChallenges = fc.docs.map(d=>({id:d.id,...d.data()}));
     CACHE.badgeAnnouncements = ba.docs.map(d=>({id:d.id,...d.data()}));
+    if(us && us.exists) CACHE.userState = us.data()||{};
+    if(ac && ac.exists) CACHE.appConfig = ac.data()||{};
     setSyncState('ok');
   } catch(err) {
     setSyncState('error');
@@ -1175,10 +1181,8 @@ function overlay(on) {
 
 // Planner + badge prev-miles stay in localStorage (personal device pref)
 function getPlannerKey(){return 'planner_'+currentUser.id+'_'+currentPlanMonth;}
-function getPlanner(){try{return JSON.parse(localStorage.getItem(getPlannerKey())||'[]');}catch{return[];}}
-function savePlanner(arr){localStorage.setItem(getPlannerKey(),JSON.stringify(arr));}
-function getBadgePrev(){return parseInt(localStorage.getItem('badges_'+currentUser.id)||'0');}
-function setBadgePrev(n){localStorage.setItem('badges_'+currentUser.id,String(n));}
+// getPlanner, savePlanner, getBadgePrev, setBadgePrev — defined in userState layer above
+
 
 // ════════════════════════════════════════════════════
 //  ACTIVITIES
@@ -1454,6 +1458,12 @@ async function handleRegister(){
 
 function enterApp(){
   overlay(false);
+  // Load user state from Firestore into memory
+  loadUserState().then(()=>{
+    renderDashboard();
+    silentRecalcOnLogin();
+    renderMonthlyTrophyRow();
+  });
   document.getElementById('loginScreen').classList.remove('active');
   document.getElementById('appScreen').classList.add('active');
   document.getElementById('headerName').textContent=currentUser.name;
@@ -1464,9 +1474,8 @@ function enterApp(){
     document.getElementById('adminTab').style.display='block';
   }
   buildMonthSelector();buildPlannerMonthSelector();buildActivityList();buildPlannerActivityList();buildGroupWaypoints();buildMiniMap();
-  renderDashboard();switchTab('dashboard');
+  switchTab('dashboard');
   initHomeScreenPrompt();
-  silentRecalcOnLogin();
   // Poll for new shoutouts every 30 seconds while app is open
   setInterval(async()=>{
     try{await refreshData();checkForNewShoutouts();}catch(e){}
@@ -1474,6 +1483,7 @@ function enterApp(){
 }
 
 function logout(){
+  flushUserState();
   currentUser=null;CACHE={users:[],entries:[],groupMiles:[],shoutouts:[]};
   document.getElementById('appScreen').classList.remove('active');
   document.getElementById('loginScreen').classList.add('active');
@@ -1679,21 +1689,8 @@ function checkBadges(){
   checkWaypointCelebrations(total);
 }
 
-function getEarnedMonthlyBadges(){
-  const key='monthlyBadges_'+currentUser.id;
-  try{return JSON.parse(localStorage.getItem(key)||'[]');}catch{return[];}
-}
+// getEarnedMonthlyBadges, earnMonthlyBadge — defined in userState layer
 
-function earnMonthlyBadge(month){
-  const key='monthlyBadges_'+currentUser.id;
-  const earned=getEarnedMonthlyBadges();
-  if(!earned.includes(month)){
-    earned.push(month);
-    localStorage.setItem(key,JSON.stringify(earned));
-    return true;
-  }
-  return false;
-}
 
 function checkMonthlyChallengeBadges(){
   const d=db();
@@ -1716,9 +1713,8 @@ function checkMonthlyChallengeBadges(){
   const available=Object.keys(MONTHLY_CHALLENGES);
   const allEarned=available.length>0&&available.every(m=>earned.includes(m));
   if(allEarned){
-    const champKey='champBadge_'+currentUser.id;
-    if(!localStorage.getItem(champKey)){
-      localStorage.setItem(champKey,'1');
+    if(!hasChampBadge()){
+      setChampBadge();
       showToast('🏆 Monthly Champion Badge Earned!');fireConfetti();
       announceAchievement(currentUser.name,'🏆',currentUser.name+' earned the MONTHLY CHAMPION badge — all challenges complete! +100 bonus miles coming!');
       // Award +100 bonus miles
@@ -1729,8 +1725,7 @@ function checkMonthlyChallengeBadges(){
 
 function renderMonthlyBadges(){
   const earned=getEarnedMonthlyBadges();
-  const champKey='champBadge_'+currentUser.id;
-  const hasChamp=!!localStorage.getItem(champKey);
+  const hasChamp=hasChampBadge();
   const row=document.getElementById('monthlyBadgesRow');
   if(!row)return;
   let html='';
@@ -1794,7 +1789,7 @@ function drawMapCanvas(){
   ctx.beginPath();ctx.arc(cx,cy,3,0,Math.PI*2);ctx.fill();
 }
 
-function getDivisor(){return parseInt(localStorage.getItem('groupDivisor')||'25');}
+// getDivisor — defined in userState layer above
 
 function renderGroup(){
   const d=db();const youth=d.users.filter(u=>!u.isLeader);
@@ -1926,10 +1921,10 @@ async function deleteEntry(id){
 
 
 // ── GROUP DIVISOR ──
-function saveDivisor(){
+async function saveDivisor(){
   const v=parseInt(document.getElementById('divisorInput').value);
   if(!v||v<1){showToast('Enter a valid divisor.');return;}
-  localStorage.setItem('groupDivisor',v);
+  await saveDivisorToFirestore(v);
   const s=document.getElementById('divisorStatus');if(s){s.textContent='Saved! (÷'+v+')';setTimeout(()=>{if(s)s.textContent='';},3000);}
   showToast('Group divisor set to ÷'+v);
 }
@@ -2015,8 +2010,11 @@ function printRoster(){
 // ── JERUSALEM CELEBRATION ──
 function checkJerusalemArrival(total){
   if(total>=600){
-    const key='jerusShown_'+currentUser.id;
-    if(!localStorage.getItem(key)){localStorage.setItem(key,'1');setTimeout(()=>showCelebration(),600);}
+    if(!hasJerusShown()){
+      setJerusShown();
+      announceAchievement(currentUser.name,'✨',currentUser.name+' has completed the full Walk to Jerusalem — 600 miles achieved!');
+      setTimeout(()=>showCelebration(),600);
+    }
   }
 }
 function showCelebration(){
@@ -2216,8 +2214,7 @@ function buildChampionCard() {
   const earned = getEarnedMonthlyBadges();
   const available = Object.keys(MONTHLY_CHALLENGES);
   const completedCount = available.filter(m => earned.includes(m)).length;
-  const champKey = 'champBadge_'+currentUser.id;
-  const isEarned = !!localStorage.getItem(champKey);
+  const isEarned = hasChampBadge();
   return `<div class="challenge-card champion-info" style="margin-top:.25rem;">
     <div class="challenge-card-badge badge-champion">🏆 Monthly Champion Award</div>
     <div class="challenge-card-inner" style="margin-top:.4rem;">
@@ -2413,8 +2410,7 @@ function renderMonthlyTrophyRow(){
     const color=MONTH_TROPHY_COLORS[month]||'#c8922a';
     const abbr=month.slice(0,3).toUpperCase();
     // Check if current user holds this month's trophy
-    const trophyKey='trophy_'+month+'_'+(isLeader?'adult':'youth');
-    const winner=localStorage.getItem(trophyKey);
+    const winner=getTrophyWinner(month,isLeader?'adult':'youth');
     const iWon=winner===currentUser.id;
     html+=`<div class="trophy-badge ${iWon?'earned':'locked'}" title="${month} Top Miles${iWon?' — You won this!':''}" style="border-color:${iWon?color:'var(--sand-dark)'};">
       ${trophySVG(color,abbr)}
@@ -2422,8 +2418,7 @@ function renderMonthlyTrophyRow(){
     </div>`;
   });
   // Overall champion
-  const overallKey='overallChamp_'+(isLeader?'adult':'youth');
-  const isOverallChamp=localStorage.getItem(overallKey)===currentUser.id;
+  const isOverallChamp=getTrophyWinner('overall',isLeader?'adult':'youth')===currentUser.id;
   html+=`<div class="trophy-badge ${isOverallChamp?'earned':'locked'}" title="Overall Journey Champion" style="border-color:${isOverallChamp?'var(--gold)':'var(--sand-dark)'};">
     ${trophySVG('#c8922a','ALL')}
     <div style="font-family:'Cinzel',serif;font-size:.5rem;color:${isOverallChamp?'var(--gold)':'var(--sand-dark)'};margin-top:2px;">Champion</div>
@@ -3248,8 +3243,8 @@ function checkWaypointCelebrations(total){
   WAYPOINTS.forEach(wp=>{
     if(wp.miles===0) return; // skip Egypt start
     const key = 'wpCelebrated_'+currentUser.id+'_'+wp.miles;
-    if(total >= wp.miles && !localStorage.getItem(key)){
-      localStorage.setItem(key,'1');
+    if(total >= wp.miles && !hasWpCelebrated(wp.miles)){
+      setWpCelebrated(wp.miles);
       setTimeout(()=>showWaypointCelebration(wp, total), 800);
     }
   });
@@ -3297,9 +3292,8 @@ function startWaypointFireworks(){
 // ══════════════════════════════════════════════════
 function checkStreakCelebration(streak){
   if(streak < 3 || !currentUser) return;
-  const key = 'streakCelebrated_'+currentUser.id+'_'+streak;
-  if(localStorage.getItem(key)) return;
-  localStorage.setItem(key,'1');
+  if(hasStreakCelebrated(streak)) return;
+  setStreakCelebrated(streak);
   setTimeout(()=>showStreakCelebration(streak), 1200);
 }
 
@@ -3354,9 +3348,8 @@ function recalcBadgesForUser(user){
   // Waypoint celebrations — award silently without animation for other users
   WAYPOINTS.forEach(wp=>{
     if(wp.miles===0)return;
-    const key='wpCelebrated_'+user.id+'_'+wp.miles;
-    if(total>=wp.miles&&!localStorage.getItem(key)){
-      localStorage.setItem(key,'1');
+    if(total>=wp.miles&&!hasWpCelebrated(wp.miles)){
+      setWpCelebrated(wp.miles);
     }
   });
   // Monthly challenge badges
@@ -3399,6 +3392,138 @@ function silentRecalcOnLogin(){
   checkWaypointCelebrations(total);
   // Recalc monthly badges silently
   recalcBadgesForUser(currentUser);
+}
+
+
+// ══════════════════════════════════════════════════
+//  USER STATE — Firestore-backed, synced across devices
+//  All user-specific flags live here instead of localStorage
+// ══════════════════════════════════════════════════
+
+// In-memory state merged from Firestore on login
+let _userStateCache = {};
+let _userStateDirty = false;
+let _userStateTimer = null;
+
+// Load state from Firestore into memory
+async function loadUserState(){
+  if(!currentUser) return;
+  try {
+    const doc = await COL.userState().doc(currentUser.id).get();
+    _userStateCache = doc.exists ? (doc.data()||{}) : {};
+    // Merge planner into CACHE too
+    CACHE.userState = _userStateCache;
+  } catch(e){ console.log('userState load error:', e); }
+}
+
+// Read a flag (returns value or default)
+function getUF(key, def='') {
+  return _userStateCache[key] !== undefined ? _userStateCache[key] : def;
+}
+
+// Write a flag — batches writes with 2s debounce
+function setUF(key, value) {
+  _userStateCache[key] = value;
+  _userStateDirty = true;
+  clearTimeout(_userStateTimer);
+  _userStateTimer = setTimeout(flushUserState, 2000);
+}
+
+// Check if flag is set (truthy)
+function hasUF(key) {
+  return !!_userStateCache[key];
+}
+
+// Flush pending writes to Firestore
+async function flushUserState(){
+  if(!currentUser || !_userStateDirty) return;
+  _userStateDirty = false;
+  try {
+    await COL.userState().doc(currentUser.id).set(_userStateCache, {merge:true});
+  } catch(e){ console.log('userState flush error:', e); _userStateDirty = true; }
+}
+
+// ══════════════════════════════════════════════════
+//  PLANNER — Firestore-backed
+// ══════════════════════════════════════════════════
+function getPlannerKey(){ return 'planner_'+currentPlanMonth; }
+
+function getPlanner(){
+  const key = getPlannerKey();
+  const raw = getUF(key, null);
+  if(raw === null) return [];
+  try { return typeof raw === 'string' ? JSON.parse(raw) : (Array.isArray(raw) ? raw : []); }
+  catch { return []; }
+}
+
+function savePlanner(arr){
+  setUF(getPlannerKey(), arr);
+}
+
+// ══════════════════════════════════════════════════
+//  BADGES — Firestore-backed
+// ══════════════════════════════════════════════════
+function getBadgePrev(){
+  return parseInt(getUF('badgePrev_'+currentUser.id, '0'));
+}
+function setBadgePrev(n){
+  setUF('badgePrev_'+currentUser.id, String(n));
+}
+
+function getEarnedMonthlyBadges(){
+  const raw = getUF('monthlyBadges_'+currentUser.id, null);
+  if(!raw) return [];
+  try { return typeof raw === 'string' ? JSON.parse(raw) : (Array.isArray(raw) ? raw : []); }
+  catch { return []; }
+}
+
+function earnMonthlyBadge(month){
+  const earned = getEarnedMonthlyBadges();
+  if(!earned.includes(month)){
+    earned.push(month);
+    setUF('monthlyBadges_'+currentUser.id, earned);
+    return true;
+  }
+  return false;
+}
+
+// Champion badge
+function hasChampBadge(){ return hasUF('champBadge_'+currentUser.id); }
+function setChampBadge(){ setUF('champBadge_'+currentUser.id, '1'); }
+
+// Jerusalem shown
+function hasJerusShown(){ return hasUF('jerusShown_'+currentUser.id); }
+function setJerusShown(){ setUF('jerusShown_'+currentUser.id, '1'); }
+
+// Waypoint celebrated
+function hasWpCelebrated(miles){ return hasUF('wpCelebrated_'+currentUser.id+'_'+miles); }
+function setWpCelebrated(miles){ setUF('wpCelebrated_'+currentUser.id+'_'+miles, '1'); }
+
+// Streak celebrated
+function hasStreakCelebrated(streak){ return hasUF('streakCelebrated_'+currentUser.id+'_'+streak); }
+function setStreakCelebrated(streak){ setUF('streakCelebrated_'+currentUser.id+'_'+streak, '1'); }
+
+// Trophy winners — stored per-month in appConfig (shared, not per-user)
+function getTrophyWinner(month, type){ return CACHE.appConfig?.['trophy_'+month+'_'+type]||null; }
+async function setTrophyWinner(month, type, userId){
+  const key = 'trophy_'+month+'_'+type;
+  if(!CACHE.appConfig) CACHE.appConfig={};
+  CACHE.appConfig[key]=userId;
+  try { await COL.appConfig().doc('settings').set({[key]:userId},{merge:true}); } catch(e){}
+}
+
+// Group divisor — stored in appConfig (shared across leaders)
+async function getDivisorAsync(){
+  if(CACHE.appConfig?.groupDivisor) return parseInt(CACHE.appConfig.groupDivisor);
+  return 25;
+}
+function getDivisor(){
+  return parseInt(CACHE.appConfig?.groupDivisor||'25');
+}
+async function saveDivisorToFirestore(v){
+  if(!CACHE.appConfig) CACHE.appConfig={};
+  CACHE.appConfig.groupDivisor=String(v);
+  try { await COL.appConfig().doc('settings').set({groupDivisor:String(v)},{merge:true}); } catch(e){}
 }
 
 function exportCSV(){
