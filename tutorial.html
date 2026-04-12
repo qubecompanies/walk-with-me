@@ -191,6 +191,20 @@ body{font-family:'Crimson Pro',Georgia,serif;background:var(--parch);color:var(-
   .badge-grid{grid-template-columns:repeat(2,1fr);}
   #navDots{display:none;}
 }
+
+/* ── DAILY ENGAGEMENT MOCKUPS ── */
+.mock-spark{background:linear-gradient(135deg,rgba(42,122,110,.15),rgba(42,122,110,.04));border:1px solid #2a7a6e;border-radius:4px;padding:.35rem .45rem;margin-bottom:.3rem;display:flex;gap:.3rem;align-items:flex-start;}
+.mock-spark-icon{font-size:.6rem;flex-shrink:0;}
+.mock-spark-text{font-size:.28rem;color:#3a3a2e;font-style:italic;line-height:1.4;}
+.mock-mtwi{border-radius:4px;padding:.35rem .45rem;margin-bottom:.3rem;border:1px solid;}
+.mock-mtwi.avail{background:linear-gradient(135deg,rgba(200,146,42,.12),rgba(200,146,42,.04));border-color:#c8922a;}
+.mock-mtwi.done{background:rgba(42,122,110,.06);border-color:#2a7a6e;}
+.mock-streak-card{background:white;border:1px solid #e8dcc8;border-radius:4px;padding:.35rem .45rem;margin-bottom:.3rem;}
+.mock-streak-dots{display:flex;gap:.15rem;margin-top:.25rem;}
+.mock-streak-dot{width:10px;height:10px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.2rem;border:1px solid;}
+.mock-rings{display:grid;grid-template-columns:repeat(4,1fr);gap:.15rem;margin-bottom:.3rem;}
+.mock-ring-wrap{display:flex;flex-direction:column;align-items:center;gap:.1rem;}
+.mock-recap{background:linear-gradient(160deg,#1a3a5c,#0f2540,#1a2a18);border-radius:4px;padding:.45rem .5rem;margin-bottom:.3rem;text-align:center;}
 </style>
 </head>
 <body>
@@ -686,7 +700,112 @@ body{font-family:'Crimson Pro',Georgia,serif;background:var(--parch);color:var(-
 </section>
 
 <!-- ════════════ JERUSALEM CTA ════════════ -->
-<section class="jerusalem-section" id="s9">
+
+<!-- ════════════ 9. DAILY ENGAGEMENT ════════════ -->
+<section class="tutorial-section" id="s9">
+  <div class="section-inner reverse">
+    <div class="reveal-right">
+      <div class="step-label"><div class="step-num">9</div> Daily Engagement</div>
+      <h2 class="section-title">Something new every single day.</h2>
+      <p class="section-body">The app is designed to be worth opening every day — not just when you want to log a big activity. Five daily features keep it fresh and rewarding on a day-by-day basis.</p>
+      <ul class="feat-list">
+        <li data-icon="✨"><strong>Daily Spark</strong> — a rotating scripture or micro-challenge appears at the top of your Dashboard every morning. 15 hand-written sparks, one per day.</li>
+        <li data-icon="⚡"><strong>Minute to Win It</strong> — one tiny honor-system challenge per day worth 1 mile. Do 20 push-ups, say a prayer, text a compliment. Tap "I did it!" and it's logged. Resets at midnight.</li>
+        <li data-icon="🔥"><strong>Daily Streak</strong> — log any activity OR complete the Minute to Win It to keep your streak alive. A 7-day mini calendar shows your active days. Miss one day and a grace period kicks in — miss two in a row and the streak resets.</li>
+        <li data-icon="🎯"><strong>Today's Challenge</strong> — the Dashboard suggests one specific activity from the category you haven't logged yet this month, so it always feels personally relevant.</li>
+        <li data-icon="⏰"><strong>Month-end Nudge</strong> — during the last 7 days of each month, if you're still short of 60 miles, a banner shows exactly how many miles you need. Dismissable once you've seen it.</li>
+      </ul>
+      <div class="section-tip"><strong>Milestone streaks:</strong> Hit 3, 7, 14, and 30 consecutive active days and the app fires a full celebration overlay with confetti. Reach 30 days and earn the permanent 🏆 Daily Champion badge.</div>
+    </div>
+    <div class="reveal-left phone-wrap">
+      <div class="phone">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="mock-screen">
+            <div class="mock-header"><span class="mock-header-title">✦ Walk to Jerusalem</span></div>
+            <div class="mock-nav">
+              <div class="mock-nav-item active">Dashboard</div>
+              <div class="mock-nav-item">Log</div>
+              <div class="mock-nav-item">Group</div>
+              <div class="mock-nav-item">Leaders</div>
+            </div>
+            <div class="mock-body">
+              <!-- Daily Spark -->
+              <div class="mock-spark">
+                <div class="mock-spark-icon">🌅</div>
+                <div>
+                  <div style="font-size:.25rem;color:#2a7a6e;font-family:'Inter',sans-serif;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.1rem;">Daily Spark</div>
+                  <div class="mock-spark-text">"Every great journey begins with a single step."</div>
+                </div>
+              </div>
+              <!-- MTWI -->
+              <div class="mock-mtwi avail">
+                <div style="font-size:.25rem;color:#c8922a;font-family:'Inter',sans-serif;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.15rem;">⚡ Minute to Win It · 1 mile</div>
+                <div style="font-size:.3rem;color:#1a1a0e;margin-bottom:.2rem;">Do 20 jumping jacks right now.</div>
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <span style="font-family:'Cinzel',serif;font-size:.35rem;color:#c8922a;">+1 mile</span>
+                  <span style="background:#c8922a;color:white;font-size:.25rem;font-family:'Inter',sans-serif;padding:.1rem .3rem;border-radius:8px;">I did it!</span>
+                </div>
+              </div>
+              <!-- Daily Streak card -->
+              <div class="mock-streak-card">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.2rem;">
+                  <div style="display:flex;align-items:center;gap:.2rem;">
+                    <span style="font-size:.5rem;">🔥</span>
+                    <div><div style="font-family:'Cinzel',serif;font-size:.5rem;color:#1a3a5c;line-height:1;">5</div><div style="font-family:'Inter',sans-serif;font-size:.22rem;color:#888;text-transform:uppercase;letter-spacing:.06em;">Day streak</div></div>
+                  </div>
+                  <span style="font-family:'Inter',sans-serif;font-size:.25rem;background:rgba(42,122,110,.1);color:#2a7a6e;border-radius:8px;padding:.08rem .3rem;">Today logged ✓</span>
+                </div>
+                <div class="mock-streak-dots">
+                  <div class="mock-streak-dot" style="background:#c8922a;border-color:#c8922a;color:white;">✓</div>
+                  <div class="mock-streak-dot" style="background:#c8922a;border-color:#c8922a;color:white;">✓</div>
+                  <div class="mock-streak-dot" style="background:rgba(200,146,42,.15);border-color:#c8922a;color:#c8922a;">~</div>
+                  <div class="mock-streak-dot" style="background:#c8922a;border-color:#c8922a;color:white;">✓</div>
+                  <div class="mock-streak-dot" style="background:#c8922a;border-color:#c8922a;color:white;">✓</div>
+                  <div class="mock-streak-dot" style="background:#c8922a;border-color:#c8922a;color:white;">✓</div>
+                  <div class="mock-streak-dot" style="background:rgba(42,122,110,.08);border-color:#2a7a6e;color:#2a7a6e;">?</div>
+                </div>
+              </div>
+              <!-- Mastery rings -->
+              <div style="font-size:.28rem;color:#1a3a5c;font-family:'Cinzel',serif;margin-bottom:.2rem;">Category Balance</div>
+              <div class="mock-rings">
+                <div class="mock-ring-wrap">
+                  <svg width="20" height="20" viewBox="0 0 48 48"><circle cx="24" cy="24" r="18" fill="none" stroke="rgba(201,185,154,.3)" stroke-width="4"/><circle cx="24" cy="24" r="18" fill="none" stroke="#2a5080" stroke-width="4" stroke-linecap="round" stroke-dasharray="113" stroke-dashoffset="45" transform="rotate(-90 24 24)"/><text x="24" y="28" text-anchor="middle" font-family="Cinzel,serif" font-size="9" fill="#2a5080">40</text></svg>
+                  <div style="font-size:.22rem;color:#2a5080;font-family:'Inter',sans-serif;">Spirit</div>
+                </div>
+                <div class="mock-ring-wrap">
+                  <svg width="20" height="20" viewBox="0 0 48 48"><circle cx="24" cy="24" r="18" fill="none" stroke="rgba(201,185,154,.3)" stroke-width="4"/><circle cx="24" cy="24" r="18" fill="none" stroke="#5a7a2a" stroke-width="4" stroke-linecap="round" stroke-dasharray="113" stroke-dashoffset="70" transform="rotate(-90 24 24)"/><text x="24" y="28" text-anchor="middle" font-family="Cinzel,serif" font-size="9" fill="#5a7a2a">25</text></svg>
+                  <div style="font-size:.22rem;color:#5a7a2a;font-family:'Inter',sans-serif;">Phys</div>
+                </div>
+                <div class="mock-ring-wrap">
+                  <svg width="20" height="20" viewBox="0 0 48 48"><circle cx="24" cy="24" r="18" fill="none" stroke="rgba(201,185,154,.3)" stroke-width="4"/><circle cx="24" cy="24" r="18" fill="none" stroke="#7a4a20" stroke-width="4" stroke-linecap="round" stroke-dasharray="113" stroke-dashoffset="85" transform="rotate(-90 24 24)"/><text x="24" y="28" text-anchor="middle" font-family="Cinzel,serif" font-size="9" fill="#7a4a20">15</text></svg>
+                  <div style="font-size:.22rem;color:#7a4a20;font-family:'Inter',sans-serif;">Mind</div>
+                </div>
+                <div class="mock-ring-wrap">
+                  <svg width="20" height="20" viewBox="0 0 48 48"><circle cx="24" cy="24" r="18" fill="none" stroke="rgba(201,185,154,.3)" stroke-width="4"/><circle cx="24" cy="24" r="18" fill="none" stroke="#6a2a6a" stroke-width="4" stroke-linecap="round" stroke-dasharray="113" stroke-dashoffset="55" transform="rotate(-90 24 24)"/><text x="24" y="28" text-anchor="middle" font-family="Cinzel,serif" font-size="9" fill="#6a2a6a">35</text></svg>
+                  <div style="font-size:.22rem;color:#6a2a6a;font-family:'Inter',sans-serif;">Social</div>
+                </div>
+              </div>
+              <!-- Month recap teaser -->
+              <div class="mock-recap">
+                <div style="font-size:.25rem;color:#c8922a;font-family:'Inter',sans-serif;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.15rem;">✨ March Recap</div>
+                <div style="font-family:'Cinzel',serif;font-size:.4rem;color:white;margin-bottom:.25rem;">Your March Journey</div>
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.15rem;margin-bottom:.25rem;">
+                  <div style="background:rgba(255,255,255,.08);border-radius:3px;padding:.2rem;"><div style="font-family:'Cinzel',serif;font-size:.45rem;color:#e8b050;">68</div><div style="font-size:.22rem;color:rgba(255,255,255,.5);font-family:'Inter',sans-serif;text-transform:uppercase;">Miles</div></div>
+                  <div style="background:rgba(255,255,255,.08);border-radius:3px;padding:.2rem;"><div style="font-family:'Cinzel',serif;font-size:.45rem;color:#e8b050;">12</div><div style="font-size:.22rem;color:rgba(255,255,255,.5);font-family:'Inter',sans-serif;text-transform:uppercase;">Acts</div></div>
+                  <div style="background:rgba(255,255,255,.08);border-radius:3px;padding:.2rem;"><div style="font-family:'Cinzel',serif;font-size:.45rem;color:#e8b050;">4</div><div style="font-size:.22rem;color:rgba(255,255,255,.5);font-family:'Inter',sans-serif;text-transform:uppercase;">Cats</div></div>
+                </div>
+                <div style="font-size:.25rem;color:rgba(255,255,255,.6);font-style:italic;font-family:'Crimson Pro',serif;">You crushed it! 60+ miles is outstanding.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="jerusalem-section" id="s10">
   <div class="jerusalem-icon">✨</div>
   <h2 class="jerusalem-title">Ready to start walking?</h2>
   <p class="jerusalem-sub">Jerusalem is waiting. Your ward is already on the road. Every mile you log moves us all closer together.</p>
@@ -711,9 +830,9 @@ for(let i=0;i<80;i++){
 }
 
 // ── Nav dots ──
-const sections=['s0','s1','s2','s3','s4','s5','s6','s7','s8','s9'];
+const sections=['s0','s1','s2','s3','s4','s5','s6','s7','s8','s9','s10'];
 const nav=document.getElementById('navDots');
-const labels=['Intro','Overview','Register','Dashboard','Log Miles','Challenges','Group Map','Leaderboard','Badges','Start!'];
+const labels=['Intro','Overview','Register','Dashboard','Log Miles','Challenges','Group Map','Leaderboard','Badges','Daily Engagement','Start!'];
 sections.forEach((id,i)=>{
   const d=document.createElement('div');d.className='nav-dot';
   d.title=labels[i];d.onclick=()=>document.getElementById(id).scrollIntoView({behavior:'smooth'});
