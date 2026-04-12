@@ -575,6 +575,100 @@ textarea.form-input{min-height:72px;resize:vertical;}
 .did-you-know{background:linear-gradient(135deg,rgba(26,58,92,.06),rgba(26,58,92,.02));border:1px solid var(--sand-dark);border-left:3px solid var(--navy);border-radius:0 6px 6px 0;padding:.75rem 1rem;margin-top:.75rem;}
 .dyk-label{font-family:'Inter',sans-serif;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);margin-bottom:.3rem;}
 .dyk-text{font-family:'Crimson Pro',serif;font-size:.88rem;color:var(--ink-soft);line-height:1.5;font-style:italic;}
+
+/* ══ DAILY SPARK ══ */
+.daily-spark{background:linear-gradient(135deg,rgba(42,122,110,.1),rgba(42,122,110,.04));border:1.5px solid var(--teal);border-radius:6px;padding:.85rem 1rem;margin-bottom:.75rem;display:flex;align-items:flex-start;gap:.75rem;}
+.spark-icon{font-size:1.3rem;flex-shrink:0;margin-top:.05rem;}
+.spark-body{flex:1;}
+.spark-label{font-family:'Inter',sans-serif;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:.25rem;}
+.spark-text{font-family:'Crimson Pro',serif;font-style:italic;font-size:.95rem;color:var(--ink);line-height:1.5;}
+.spark-ref{font-family:'Inter',sans-serif;font-size:.62rem;color:var(--teal);opacity:.7;margin-top:.2rem;}
+
+/* ══ MINUTE TO WIN IT ══ */
+.mtwi-card{border-radius:6px;padding:.85rem 1rem;margin-bottom:.75rem;position:relative;overflow:hidden;border:1.5px solid;}
+.mtwi-card.available{background:linear-gradient(135deg,rgba(200,146,42,.12),rgba(200,146,42,.04));border-color:var(--gold);cursor:pointer;transition:all .2s;}
+.mtwi-card.available:hover{transform:translateX(3px);}
+.mtwi-card.done{background:rgba(42,122,110,.06);border-color:var(--teal);opacity:.75;}
+.mtwi-eyebrow{font-family:'Inter',sans-serif;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.3rem;}
+.mtwi-challenge{font-family:'Cinzel',serif;font-size:.9rem;color:var(--navy);margin-bottom:.4rem;}
+.mtwi-footer{display:flex;align-items:center;justify-content:space-between;}
+.mtwi-miles{font-family:'Cinzel',serif;font-size:.85rem;color:var(--gold);}
+.mtwi-btn{font-family:'Inter',sans-serif;font-size:.68rem;font-weight:600;padding:.25rem .75rem;border-radius:20px;border:none;cursor:pointer;transition:all .15s;}
+.mtwi-btn.claim{background:var(--gold);color:white;}
+.mtwi-btn.claimed{background:var(--teal);color:white;cursor:default;}
+
+/* ══ THIS WEEK CARD ══ */
+.week-card{background:white;border-radius:6px;border:1px solid var(--sand-dark);padding:.75rem 1rem;margin-bottom:.75rem;display:flex;align-items:center;gap:1rem;}
+.week-stat{flex:1;text-align:center;}
+.week-num{font-family:'Cinzel',serif;font-size:1.5rem;color:var(--navy);line-height:1;}
+.week-label{font-family:'Inter',sans-serif;font-size:.6rem;color:var(--ink-soft);letter-spacing:.08em;text-transform:uppercase;margin-top:.2rem;}
+.week-divider{width:1px;height:36px;background:var(--sand-dark);}
+.week-trend{font-size:1.2rem;text-align:center;}
+.week-trend-label{font-family:'Inter',sans-serif;font-size:.6rem;text-align:center;margin-top:.1rem;}
+
+/* ══ MASTERY RINGS ══ */
+.mastery-rings{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin-bottom:.75rem;}
+.mastery-ring-wrap{display:flex;flex-direction:column;align-items:center;gap:.3rem;}
+.mastery-ring-label{font-family:'Inter',sans-serif;font-size:.58rem;text-align:center;letter-spacing:.04em;}
+.mastery-ring-miles{font-family:'Cinzel',serif;font-size:.65rem;color:var(--navy);}
+
+/* ══ MONTH-END NUDGE ══ */
+.month-nudge{background:linear-gradient(135deg,#1a3a5c,#0f2540);border-radius:6px;padding:.85rem 1rem;margin-bottom:.75rem;display:flex;align-items:flex-start;gap:.75rem;position:relative;}
+.nudge-body{flex:1;}
+.nudge-title{font-family:'Cinzel',serif;font-size:.85rem;color:var(--gold-light);margin-bottom:.2rem;}
+.nudge-text{font-family:'Crimson Pro',serif;font-size:.88rem;color:rgba(255,255,255,.8);line-height:1.4;}
+.nudge-close{background:none;border:none;color:rgba(255,255,255,.4);cursor:pointer;font-size:.9rem;padding:.1rem .3rem;flex-shrink:0;}
+
+/* ══ END-OF-MONTH RECAP ══ */
+.recap-card{background:linear-gradient(160deg,var(--navy-deep),var(--navy),#1a2a18);border-radius:8px;padding:1.25rem;margin-bottom:.75rem;text-align:center;position:relative;overflow:hidden;}
+.recap-card::before{content:'';position:absolute;top:-30px;right:-30px;width:120px;height:120px;background:radial-gradient(circle,rgba(200,146,42,.15),transparent 70%);pointer-events:none;}
+.recap-eyebrow{font-family:'Inter',sans-serif;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-light);margin-bottom:.4rem;opacity:.8;}
+.recap-month{font-family:'Cinzel',serif;font-size:1.3rem;color:white;margin-bottom:.75rem;}
+.recap-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-bottom:.75rem;}
+.recap-stat{background:rgba(255,255,255,.08);border-radius:4px;padding:.5rem .25rem;}
+.recap-stat-num{font-family:'Cinzel',serif;font-size:1.1rem;color:var(--gold-light);}
+.recap-stat-label{font-family:'Inter',sans-serif;font-size:.52rem;color:rgba(255,255,255,.5);letter-spacing:.06em;text-transform:uppercase;margin-top:.15rem;}
+.recap-msg{font-family:'Crimson Pro',serif;font-style:italic;font-size:.9rem;color:rgba(255,255,255,.7);line-height:1.5;margin-bottom:.75rem;}
+.recap-dismiss{background:none;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.6);font-family:'Inter',sans-serif;font-size:.7rem;padding:.3rem .8rem;border-radius:20px;cursor:pointer;}
+
+/* ══ JOURNEY JOURNAL ══ */
+.journal-note-input{width:100%;border:1px solid var(--sand-dark);border-radius:4px;padding:.5rem .75rem;font-family:'Crimson Pro',serif;font-style:italic;font-size:.9rem;color:var(--ink);background:white;resize:none;margin-top:.4rem;}
+.journal-entry{font-family:'Crimson Pro',serif;font-style:italic;font-size:.82rem;color:var(--ink-soft);margin-top:.25rem;padding:.3rem .5rem;background:rgba(201,185,154,.1);border-radius:3px;border-left:2px solid var(--sand-dark);}
+
+/* ══ DAILY STREAK ══ */
+.daily-streak-card{background:white;border:1.5px solid var(--sand-dark);border-radius:6px;padding:.75rem 1rem;margin-bottom:.75rem;}
+.daily-streak-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem;}
+.daily-streak-count{display:flex;align-items:center;gap:.4rem;}
+.daily-streak-num{font-family:'Cinzel',serif;font-size:1.6rem;color:var(--navy);line-height:1;}
+.daily-streak-label{font-family:'Inter',sans-serif;font-size:.6rem;color:var(--ink-soft);letter-spacing:.08em;text-transform:uppercase;}
+.daily-streak-fire{font-size:1.3rem;}
+.daily-streak-status{font-family:'Inter',sans-serif;font-size:.65rem;border-radius:20px;padding:.15rem .6rem;font-weight:500;}
+.daily-streak-status.active{background:rgba(42,122,110,.1);color:var(--teal);}
+.daily-streak-status.grace{background:rgba(200,146,42,.1);color:var(--gold);}
+.daily-streak-status.broken{background:rgba(168,74,42,.1);color:var(--terracotta);}
+.daily-week-grid{display:flex;gap:.35rem;justify-content:space-between;}
+.daily-week-day{flex:1;display:flex;flex-direction:column;align-items:center;gap:.25rem;}
+.daily-week-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-family:'Inter',sans-serif;font-weight:600;border:1.5px solid;}
+.daily-week-dot.hit{background:var(--gold);border-color:var(--gold);color:white;}
+.daily-week-dot.grace-used{background:rgba(200,146,42,.15);border-color:var(--gold);color:var(--gold);}
+.daily-week-dot.today-empty{background:rgba(42,122,110,.08);border-color:var(--teal);color:var(--teal);}
+.daily-week-dot.missed{background:rgba(168,74,42,.08);border-color:var(--terracotta);color:var(--terracotta);}
+.daily-week-dot.future{background:var(--sand);border-color:var(--sand-dark);color:var(--sand-dark);}
+.daily-week-day-label{font-family:'Inter',sans-serif;font-size:.52rem;color:var(--ink-soft);letter-spacing:.04em;}
+.daily-streak-msg{font-family:'Crimson Pro',serif;font-style:italic;font-size:.82rem;color:var(--ink-soft);margin-top:.5rem;text-align:center;}
+/* Badge row addition */
+.daily-badge{display:inline-flex;align-items:center;gap:.3rem;background:linear-gradient(135deg,var(--gold-pale),var(--sand));border:1.5px solid var(--gold);border-radius:4px;padding:.4rem .75rem;font-family:'Cinzel',serif;font-size:.7rem;color:var(--navy);}
+
+/* ══ ADMIN TOGGLE TABS ══ */
+.admin-toggle-tabs{display:flex;gap:.35rem;margin-bottom:.75rem;}
+.admin-toggle-tab{padding:.3rem .85rem;border:1.5px solid var(--sand-dark);border-radius:20px;background:white;cursor:pointer;font-family:'Inter',sans-serif;font-size:.7rem;font-weight:500;color:var(--ink-soft);transition:all .15s;}
+.admin-toggle-tab:hover{border-color:var(--navy);}
+.admin-toggle-tab.active{background:var(--navy);border-color:var(--navy);color:white;}
+
+/* ══ TRAVELER ICONS ══ */
+#miniTraveler{position:absolute;bottom:-.2rem;transform:translateX(-50%);transition:left .9s cubic-bezier(.4,0,.2,1);z-index:10;pointer-events:none;filter:drop-shadow(0 2px 4px rgba(0,0,0,.3));}
+#groupTraveler{position:absolute;bottom:.4rem;transform:translateX(-50%);transition:left .9s cubic-bezier(.4,0,.2,1);z-index:10;pointer-events:none;filter:drop-shadow(0 3px 6px rgba(0,0,0,.35));}
+.mini-waypoints{position:relative;}
 </style>
 </head>
 <body>
@@ -680,18 +774,24 @@ textarea.form-input{min-height:72px;resize:vertical;}
     <div id="tab-dashboard" class="tab-content active">
       <div class="section-heading" id="dashGreeting">My Journey</div>
       <div class="section-sub">Keep walking — Jerusalem awaits.</div>
+      <div id="monthRecapCard"></div>
+      <div id="monthNudgeCard"></div>
+      <div id="dailySparkCard"></div>
+      <div id="mtwiCard"></div>
       <div id="todaysChallengeCard"></div>
       <div id="dashHypeCard"></div>
       <div class="stats-row">
         <div class="stat-card"><div class="stat-number" id="dashTotal">0</div><div class="stat-label">Total Miles</div></div>
         <div class="stat-card"><div class="stat-number" id="dashMonthMiles">0</div><div class="stat-label">This Month</div></div>
         <div class="stat-card"><div class="stat-number" id="dashStreak">0</div><div class="stat-label">Month Streak 🔥</div></div>
+        <div class="stat-card"><div class="stat-number" id="dashDailyStreak">0</div><div class="stat-label">Daily Streak ⚡</div></div>
         <div class="stat-card"><div class="stat-number" id="dashPct">0%</div><div class="stat-label">Journey Complete</div></div>
       </div>
       <div class="mini-map" id="personalMiniMap">
         <div class="mini-map-label">Your Personal Journey</div>
         <div class="mini-waypoints" id="miniWaypoints">
           <div class="mini-journey-line" id="miniJourneyLine" style="width:0"></div>
+          <div id="miniTraveler" style="left:0;"></div>
         </div>
       </div>
       <div class="card neutral">
@@ -708,6 +808,9 @@ textarea.form-input{min-height:72px;resize:vertical;}
         </div>
         <div class="progress-wrap"><div class="progress-fill" id="dashMonthBar" style="width:0%"></div></div>
       </div>
+      <div id="masteryRingsRow"></div>
+      <div id="thisWeekCard"></div>
+      <div id="dailyStreakCard"></div>
       <div style="font-family:'Cinzel',serif;font-size:.9rem;color:var(--navy);margin-bottom:.75rem;margin-top:.25rem;">✦ Milestone Badges</div>
       <div class="badges-row" id="badgesRow"></div>
       <div style="font-family:'Cinzel',serif;font-size:.9rem;color:var(--navy);margin-bottom:.75rem;margin-top:.25rem;">🗓️ Monthly Challenge Badges</div>
@@ -765,6 +868,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
             </div>
             <div class="form-group"><label class="form-label">Goal Description</label><textarea id="customDesc" class="form-input" placeholder="Describe your personal goal..."></textarea></div>
             <div class="form-group"><label class="form-label">Miles (leader-approved)</label><input type="number" id="customMiles" class="form-input" placeholder="e.g. 30" min="1" max="200"></div>
+            <div class="form-group"><label class="form-label">Journal Note (optional)</label><textarea id="customNote" class="journal-note-input" rows="2" placeholder="One sentence about what you did…"></textarea></div>
             <button class="btn btn-gold btn-sm" onclick="logCustomGoal()">Log Custom Goal</button>
           </div>
         </div>
@@ -819,6 +923,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
       <div class="card journey-map" style="margin-bottom:1rem;padding:1.25rem 1rem;position:relative;">
         <div id="waypointsContainer" style="display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:2rem;position:relative;">
           <div id="journeyLine" style="position:absolute;bottom:.8rem;left:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:2px;width:0%;transition:width .8s ease;z-index:0;"></div>
+          <div id="groupTraveler" style="left:0;"></div>
         </div>
         <canvas id="mapCanvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;border-radius:4px;" width="400" height="200"></canvas>
       </div>
@@ -909,7 +1014,14 @@ textarea.form-input{min-height:72px;resize:vertical;}
       <div class="section-heading">Leader Dashboard</div>
       <div class="section-sub">Ward overview, group miles, shoutouts, and entry management</div>
       <div class="card neutral">
-        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">📊 Ward Overview</strong>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;">
+          <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);">📊 Ward Overview</strong>
+          <div class="admin-toggle-tabs" id="overviewToggle">
+            <button class="admin-toggle-tab active" onclick="setAdminView('youth',this)">Youth</button>
+            <button class="admin-toggle-tab" onclick="setAdminView('adults',this)">Leaders</button>
+            <button class="admin-toggle-tab" onclick="setAdminView('all',this)">All</button>
+          </div>
+        </div>
         <div class="leader-stat-grid" id="leaderStatGrid"></div>
         <div style="margin-top:1rem;">
           <div style="font-family:'Inter',sans-serif;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--navy);margin-bottom:.6rem;">Miles by Category (all youth)</div>
@@ -917,7 +1029,14 @@ textarea.form-input{min-height:72px;resize:vertical;}
         </div>
       </div>
       <div class="card neutral">
-        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">This Month Status (Youth)</strong>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;">
+          <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);">This Month Status</strong>
+          <div class="admin-toggle-tabs" id="monthToggle">
+            <button class="admin-toggle-tab active" onclick="setMonthView('youth',this)">Youth</button>
+            <button class="admin-toggle-tab" onclick="setMonthView('adults',this)">Leaders</button>
+            <button class="admin-toggle-tab" onclick="setMonthView('all',this)">All</button>
+          </div>
+        </div>
         <div id="leaderMonthStatus"></div>
       </div>
       <div class="card neutral">
@@ -1570,10 +1689,11 @@ async function logCustomGoal(){
   const cat=document.getElementById('customCat').value;
   const desc=document.getElementById('customDesc').value.trim();
   const miles=parseInt(document.getElementById('customMiles').value);
+  const note=(document.getElementById('customNote')||{}).value||'';
   if(!desc){showToast('Please describe your goal.');return;}
   if(!miles||miles<1){showToast('Please enter a valid mile value.');return;}
   try{
-    await fbAdd('entries',{userId:currentUser.id,userName:currentUser.name,cat,desc,miles,month:currentLogMonth,ts:Date.now(),custom:true});
+    await fbAdd('entries',{userId:currentUser.id,userName:currentUser.name,cat,desc,miles,month:currentLogMonth,ts:Date.now(),custom:true,note:note||''});
     document.getElementById('customDesc').value='';document.getElementById('customMiles').value='';
     showToast('✓ Custom goal logged: '+miles+' miles!');checkBadges();renderDashboard();
   }catch(err){showToast('Error: '+err.message);}
@@ -1657,6 +1777,8 @@ function renderDashboard(){
   document.getElementById('dashJourneyBar').style.width=pct+'%';document.getElementById('dashMonthBar').style.width=mPct+'%';
   document.getElementById('dashStreak').textContent=calcStreak(my);
   renderStreakRow(my);renderBadges(total);renderMonthlyBadges();renderMonthlyTrophyRow();updateMiniMap(total);checkAndAwardMonthlyTrophies();renderDashHypeCard();renderTodaysChallenge();
+  renderDailySpark();renderMtwiCard();renderThisWeekCard();renderDailyStreakCard();renderMasteryRings();renderMonthNudge();renderMonthRecap();
+  checkDailyStreakMilestones();
   const streak=calcStreak(my);checkStreakCelebration(streak);
   const catColors={spiritual:'var(--spiritual)',physical:'var(--physical)',intellectual:'var(--intellectual)',social:'var(--social)'};
   const catMiles={spiritual:0,physical:0,intellectual:0,social:0};
@@ -1687,6 +1809,7 @@ function checkBadges(){
   checkJerusalemArrival(total);
   checkMonthlyChallengeBadges();
   checkWaypointCelebrations(total);
+  checkDailyStreakMilestones();
 }
 
 // getEarnedMonthlyBadges, earnMonthlyBadge — defined in userState layer
@@ -1764,7 +1887,9 @@ function buildMiniMap(){
 function updateMiniMap(total){
   WAYPOINTS.forEach((wp,i)=>{const el=document.getElementById('mini-wp-'+i);if(el){if(total>=wp.miles)el.classList.add('reached');else el.classList.remove('reached');}});
   const line=document.getElementById('miniJourneyLine');const container=document.getElementById('miniWaypoints');
-  line.style.width=(Math.min(100,total/600*100)/100*(container.offsetWidth-16))+'px';
+  const lineW=(Math.min(100,total/600*100)/100*(container.offsetWidth-16));
+  line.style.width=lineW+'px';
+  updateMiniTraveler(total);
 }
 
 // ════════════════════════════════════════════════════
@@ -1811,6 +1936,8 @@ function renderGroup(){
   const gpct=document.getElementById('groupPct');if(gpct)gpct.textContent=pct+'%';
   const gp70=document.getElementById('groupPct70');if(gp70)gp70.textContent=pct70+'%';
   WAYPOINTS.forEach((wp,i)=>{const el=document.getElementById('grp-wp-'+i);if(el){if(total>=wp.miles)el.classList.add('reached');else el.classList.remove('reached');}});
+  const jl=document.getElementById('journeyLine');if(jl)jl.style.width=pct+'%';
+  setTimeout(()=>updateGroupTraveler(total),100);
   const line=document.getElementById('journeyLine');const container=document.getElementById('waypointsContainer');
   line.style.width=(Math.min(100,total/600*100)/100*(container.offsetWidth-32))+'px';
   const cur=[...WAYPOINTS].reverse().find(wp=>total>=wp.miles);const nxt=WAYPOINTS.find(wp=>total<wp.miles);
@@ -1849,16 +1976,19 @@ function renderHistory(){
 // ════════════════════════════════════════════════════
 function renderAdmin(){
   updateNudgePreview();
-  const d=db();const youth=d.users.filter(u=>!u.isLeader);const score=u=>d.entries.filter(e=>e.userId===u.id).reduce((s,e)=>s+e.miles,0);
-  const totalYouth=youth.length;const participating=youth.filter(u=>d.entries.some(e=>e.userId===u.id)).length;
-  const onTrack=youth.filter(u=>d.entries.filter(e=>e.userId===u.id&&e.month===getCurrentMonth()).reduce((s,e)=>s+e.miles,0)>=60).length;
-  const completions=youth.filter(u=>score(u)>=600).length;const allMiles=d.entries.filter(e=>youth.find(u=>u.id===e.userId)).reduce((s,e)=>s+e.miles,0);
+  const d=db();const score=u=>d.entries.filter(e=>e.userId===u.id).reduce((s,e)=>s+e.miles,0);
+  const overviewGroup = getAdminUsers(_adminView||'youth');
+  const monthGroup = getAdminUsers(_monthView||'youth');
+  const youth=d.users.filter(u=>!u.isLeader); // keep for other sections
+  const totalYouth=overviewGroup.length;const participating=overviewGroup.filter(u=>d.entries.some(e=>e.userId===u.id)).length;
+  const onTrack=overviewGroup.filter(u=>d.entries.filter(e=>e.userId===u.id&&e.month===getCurrentMonth()).reduce((s,e)=>s+e.miles,0)>=60).length;
+  const completions=overviewGroup.filter(u=>score(u)>=600).length;const allMiles=d.entries.filter(e=>overviewGroup.find(u=>u.id===e.userId)).reduce((s,e)=>s+e.miles,0);
   document.getElementById('leaderStatGrid').innerHTML=`<div class="stat-card"><div class="stat-number">${totalYouth}</div><div class="stat-label">Total Youth</div></div><div class="stat-card"><div class="stat-number">${participating}</div><div class="stat-label">Participating</div></div><div class="stat-card"><div class="stat-number">${onTrack}</div><div class="stat-label">On Track This Month</div></div><div class="stat-card"><div class="stat-number">${completions}</div><div class="stat-label">Completions</div></div><div class="stat-card"><div class="stat-number">${allMiles}</div><div class="stat-label">Total Ward Miles</div></div><div class="stat-card"><div class="stat-number">${Math.round(allMiles/(totalYouth||1))}</div><div class="stat-label">Avg Miles/Youth</div></div>`;
-  const catMiles={spiritual:0,physical:0,intellectual:0,social:0};d.entries.filter(e=>youth.find(u=>u.id===e.userId)).forEach(e=>{if(catMiles[e.cat]!==undefined)catMiles[e.cat]+=e.miles;});
+  const catMiles={spiritual:0,physical:0,intellectual:0,social:0};d.entries.filter(e=>overviewGroup.find(u=>u.id===e.userId)).forEach(e=>{if(catMiles[e.cat]!==undefined)catMiles[e.cat]+=e.miles;});
   const maxCat=Math.max(...Object.values(catMiles),1);const catColors={spiritual:'var(--spiritual)',physical:'var(--physical)',intellectual:'var(--intellectual)',social:'var(--social)'};
   document.getElementById('leaderCatBars').innerHTML=Object.entries(catMiles).map(([cat,m])=>`<div class="cat-bar-row"><div class="cat-bar-label">${cap(cat)}</div><div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:${Math.round(m/maxCat*100)}%;background:${catColors[cat]};"></div></div><div class="cat-bar-miles">${m}</div></div>`).join('');
   const cur=getCurrentMonth();
-  document.getElementById('leaderMonthStatus').innerHTML=!youth.length?'<p style="font-size:.9rem;font-style:italic;color:var(--ink-soft);">No youth registered yet.</p>':youth.map(u=>{const m=d.entries.filter(e=>e.userId===u.id&&e.month===cur).reduce((s,e)=>s+e.miles,0);const p=Math.min(100,Math.round(m/60*100));const color=m>=60?'var(--teal)':m>0?'var(--gold)':'var(--sand-dark)';return`<div class="admin-user-row"><div class="admin-user-name">${u.name}</div><div style="flex:1;padding:0 .75rem;"><div class="progress-wrap" style="height:5px;margin:0;"><div class="progress-fill" style="width:${p}%;background:${color};"></div></div></div><div style="font-size:.85rem;font-family:'Cinzel',serif;color:${color};min-width:60px;text-align:right;">${m} mi ${m>=60?'✓':'…'}</div></div>`;}).join('');
+  document.getElementById('leaderMonthStatus').innerHTML=!monthGroup.length?'<p style="font-size:.9rem;font-style:italic;color:var(--ink-soft);">No youth registered yet.</p>':monthGroup.map(u=>{const m=d.entries.filter(e=>e.userId===u.id&&e.month===cur).reduce((s,e)=>s+e.miles,0);const p=Math.min(100,Math.round(m/60*100));const color=m>=60?'var(--teal)':m>0?'var(--gold)':'var(--sand-dark)';return`<div class="admin-user-row"><div class="admin-user-name">${u.name}</div><div style="flex:1;padding:0 .75rem;"><div class="progress-wrap" style="height:5px;margin:0;"><div class="progress-fill" style="width:${p}%;background:${color};"></div></div></div><div style="font-size:.85rem;font-family:'Cinzel',serif;color:${color};min-width:60px;text-align:right;">${m} mi ${m>=60?'✓':'…'}</div></div>`;}).join('');
   // Full roster with role editing
   const allSorted=[...d.users].sort((a,b)=>a.name.localeCompare(b.name));
   document.getElementById('adminRoster').innerHTML=allSorted.length?allSorted.map(u=>`
@@ -3063,6 +3193,20 @@ function renderVersusYouthLeader(d,score,avgMonthScore,catScore,youth,ldr){
         </div>`).join('')}
       </div>
     </div>
+    <div style="padding:.6rem 1rem .2rem;font-family:'Cinzel',serif;font-size:.7rem;color:var(--navy);letter-spacing:.06em;text-transform:uppercase;">Avg miles by category</div>
+    <div class="versus-category-grid">
+      ${['spiritual','physical','intellectual','social'].map(c=>`<div class="versus-cat-cell">
+        <div class="versus-cat-label">${{spiritual:'&#x1F64F;',physical:'&#x1F4AA;',intellectual:'&#x1F4DA;',social:'&#x1F91D;'}[c]} ${c}</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.3rem;margin-top:.3rem;">
+          <div style="text-align:center;font-family:'Cinzel',serif;font-size:.9rem;color:var(--teal);">${youth.length?Math.round(youth.reduce((s,u)=>s+catScore(u,c),0)/youth.length):0}</div>
+          <div style="text-align:center;font-family:'Cinzel',serif;font-size:.9rem;color:var(--gold);">${ldr.length?Math.round(ldr.reduce((s,u)=>s+catScore(u,c),0)/ldr.length):0}</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.3rem;">
+          <div style="font-family:'Inter',sans-serif;font-size:.55rem;color:var(--ink-soft);text-align:center;">Youth</div>
+          <div style="font-family:'Inter',sans-serif;font-size:.55rem;color:var(--ink-soft);text-align:center;">Leaders</div>
+        </div>
+      </div>`).join('')}
+    </div>
     <div class="versus-winner">${winner}</div>
   </div>`;
 }
@@ -3524,6 +3668,618 @@ async function saveDivisorToFirestore(v){
   if(!CACHE.appConfig) CACHE.appConfig={};
   CACHE.appConfig.groupDivisor=String(v);
   try { await COL.appConfig().doc('settings').set({groupDivisor:String(v)},{merge:true}); } catch(e){}
+}
+
+
+// ══════════════════════════════════════════════════
+//  ENGAGEMENT DATA
+// ══════════════════════════════════════════════════
+const DAILY_SPARKS = [
+  {icon:'🌅',text:'Every great journey begins with a single step. What step will you take today?',ref:'Walk With Me 2026'},
+  {icon:'📖',text:'Even 5 minutes in the scriptures today plants seeds that grow for years.',ref:'Daily reminder'},
+  {icon:'🤝',text:'Who in your life could use a kind word today? One text. One knock. One moment.',ref:'Social challenge'},
+  {icon:'💪',text:'Your body is a gift. Move it today — even a short walk counts.',ref:'Physical reminder'},
+  {icon:'🙏',text:'Morning prayer sets the tone for the whole day. Even a 30-second prayer changes things.',ref:'Spiritual spark'},
+  {icon:'📚',text:'Learn one new thing today. Curiosity is an act of faith.',ref:'Intellectual spark'},
+  {icon:'🌿',text:'Go outside for 10 minutes today. Notice something beautiful.',ref:'Nature challenge'},
+  {icon:'✍️',text:'Write down one thing you\'re grateful for right now. Just one.',ref:'Gratitude practice'},
+  {icon:'👨‍👩‍👧',text:'Tell a family member something specific you appreciate about them today.',ref:'Family challenge'},
+  {icon:'⭐',text:'You are 600 miles away from Jerusalem. Every mile matters. Every day matters.',ref:'Journey reminder'},
+  {icon:'🕊️',text:'Peace comes from small daily habits, not grand gestures. Keep going.',ref:'Walk With Me 2026'},
+  {icon:'🔥',text:'Streaks are built one day at a time. Today is your chance to keep yours alive.',ref:'Streak reminder'},
+  {icon:'🏔️',text:'The Israelites didn\'t arrive in a day. Neither will you. And that\'s the point.',ref:'Journey perspective'},
+  {icon:'🎯',text:'One activity logged today keeps your month on track. What\'s the easiest one you can do right now?',ref:'Monthly goal'},
+  {icon:'💬',text:'Encourage someone on the leaderboard today. A shoutout costs nothing and means everything.',ref:'Community spark'},
+];
+
+const MTWI_CHALLENGES = [
+  {cat:'spiritual', text:'Say a prayer out loud right now — even a short one.'},
+  {cat:'spiritual', text:'Read 3 verses of scripture before you close the app.'},
+  {cat:'spiritual', text:'Text a family member one thing you\'re grateful for today.'},
+  {cat:'spiritual', text:'Sing or hum one hymn you know from memory.'},
+  {cat:'physical',  text:'Do 20 jumping jacks right now. Yes, right now.'},
+  {cat:'physical',  text:'Take a 5-minute walk outside before you go to bed tonight.'},
+  {cat:'physical',  text:'Drink a full glass of water before doing anything else today.'},
+  {cat:'physical',  text:'Do 10 push-ups or 10 squats. Your choice.'},
+  {cat:'intellectual',text:'Learn one new word or fact today. Tell someone about it.'},
+  {cat:'intellectual',text:'Read one article, chapter, or blog post about something you\'re curious about.'},
+  {cat:'intellectual',text:'Write down one goal you have for this month.'},
+  {cat:'social',    text:'Send a genuine compliment to someone — in person or by text.'},
+  {cat:'social',    text:'Do one small thing to help your family at home today.'},
+  {cat:'social',    text:'Check in on a friend you haven\'t talked to in a while.'},
+  {cat:'social',    text:'Put your phone away during your next meal with family.'},
+];
+
+const RECAP_MESSAGES = [
+  v => v>=60 ? 'You crushed it! 60+ miles in a single month is outstanding. The road to Jerusalem is looking shorter every day.' :
+       v>=40 ? 'Strong month! You\'re building great habits. A little push next month and you\'ll be right on track.' :
+       v>=20 ? 'Every mile you logged is a step of faith. Keep going — the journey is the blessing.' :
+               'Every journey starts somewhere. This month was your beginning. Next month, take one more step.',
+];
+
+// ══════════════════════════════════════════════════
+//  DAILY SPARK
+// ══════════════════════════════════════════════════
+function renderDailySpark(){
+  const el = document.getElementById('dailySparkCard');
+  if(!el) return;
+  const day = Math.floor(Date.now()/86400000);
+  const spark = DAILY_SPARKS[day % DAILY_SPARKS.length];
+  el.innerHTML = `<div class="daily-spark">
+    <div class="spark-icon">${spark.icon}</div>
+    <div class="spark-body">
+      <div class="spark-label">Daily spark</div>
+      <div class="spark-text">${spark.text}</div>
+      <div class="spark-ref">${spark.ref}</div>
+    </div>
+  </div>`;
+}
+
+// ══════════════════════════════════════════════════
+//  MINUTE TO WIN IT
+// ══════════════════════════════════════════════════
+function getMtwiKey(){ return 'mtwi_'+currentUser.id+'_'+Math.floor(Date.now()/86400000); }
+
+function getTodaysMtwi(){
+  const day = Math.floor(Date.now()/86400000);
+  return MTWI_CHALLENGES[day % MTWI_CHALLENGES.length];
+}
+
+function renderMtwiCard(){
+  const el = document.getElementById('mtwiCard');
+  if(!el||!currentUser) return;
+  const key = getMtwiKey();
+  const done = hasUF(key);
+  const challenge = getTodaysMtwi();
+  const catColors = {spiritual:'var(--spiritual)',physical:'var(--physical)',intellectual:'var(--intellectual)',social:'var(--social)'};
+  const catEmojis = {spiritual:'🙏',physical:'💪',intellectual:'📚',social:'🤝'};
+  const color = catColors[challenge.cat];
+  el.innerHTML = `<div class="mtwi-card ${done?'done':'available'}" ${done?'':' onclick="claimMtwi()"'}>
+    <div class="mtwi-eyebrow" style="color:${color};">${catEmojis[challenge.cat]} Minute to Win It &mdash; ${done?'Done today!':'1 mile &middot; Honor system'}</div>
+    <div class="mtwi-challenge">${challenge.text}</div>
+    <div class="mtwi-footer">
+      <span class="mtwi-miles">${done?'&#x2713; +1 mile logged':'+1 mile'}</span>
+      <button class="mtwi-btn ${done?'claimed':'claim'}" ${done?'disabled':''} onclick="${done?'':'claimMtwi();event.stopPropagation()'}">
+        ${done?'Completed!':'I did it!'}
+      </button>
+    </div>
+  </div>`;
+}
+
+async function claimMtwi(){
+  const key = getMtwiKey();
+  if(hasUF(key)) return;
+  setUF(key,'1');
+  const challenge = getTodaysMtwi();
+  try {
+    await fbAdd('entries',{
+      userId:currentUser.id, userName:currentUser.name,
+      cat:challenge.cat, desc:'Minute to Win It: '+challenge.text,
+      miles:1, month:getCurrentMonth(), ts:Date.now(),
+      custom:true, isMtwi:true
+    });
+    showToast('+1 mile! Minute to Win It complete!');
+    fireConfetti();
+    renderMtwiCard();
+    renderDashboard();
+  } catch(e){ showToast('Error: '+e.message); setUF(key,null); }
+}
+
+// ══════════════════════════════════════════════════
+//  THIS WEEK CARD
+// ══════════════════════════════════════════════════
+function renderThisWeekCard(){
+  const el = document.getElementById('thisWeekCard');
+  if(!el||!currentUser) return;
+  const d = db();
+  const now = Date.now();
+  const weekMs = 7*24*60*60*1000;
+  const myEntries = d.entries.filter(e=>e.userId===currentUser.id);
+  const thisWeek = myEntries.filter(e=>e.ts>now-weekMs).reduce((s,e)=>s+e.miles,0);
+  const lastWeek = myEntries.filter(e=>e.ts>now-2*weekMs&&e.ts<=now-weekMs).reduce((s,e)=>s+e.miles,0);
+  const diff = thisWeek - lastWeek;
+  const trendIcon = diff>0?'📈':diff<0?'📉':'➡️';
+  const trendColor = diff>0?'var(--teal)':diff<0?'var(--terracotta)':'var(--ink-soft)';
+  const trendLabel = diff>0?'+'+diff+' vs last week':diff<0?diff+' vs last week':'Same as last week';
+  el.innerHTML = `<div class="week-card">
+    <div class="week-stat">
+      <div class="week-num">${thisWeek}</div>
+      <div class="week-label">This week</div>
+    </div>
+    <div class="week-divider"></div>
+    <div class="week-stat">
+      <div class="week-num" style="color:var(--ink-soft);font-size:1.1rem;">${lastWeek}</div>
+      <div class="week-label">Last week</div>
+    </div>
+    <div class="week-divider"></div>
+    <div class="week-stat">
+      <div class="week-trend">${trendIcon}</div>
+      <div class="week-trend-label" style="color:${trendColor};font-family:'Inter',sans-serif;font-size:.6rem;">${trendLabel}</div>
+    </div>
+  </div>`;
+}
+
+// ══════════════════════════════════════════════════
+//  CATEGORY MASTERY RINGS
+// ══════════════════════════════════════════════════
+function renderMasteryRings(){
+  const el = document.getElementById('masteryRingsRow');
+  if(!el||!currentUser) return;
+  const d = db();
+  const my = d.entries.filter(e=>e.userId===currentUser.id&&e.month===getCurrentMonth());
+  const cats = [
+    {key:'spiritual',  label:'Spiritual',   color:'#2a5080', goal:15},
+    {key:'physical',   label:'Physical',    color:'#5a7a2a', goal:15},
+    {key:'intellectual',label:'Intellectual',color:'#7a4a20', goal:15},
+    {key:'social',     label:'Social',      color:'#6a2a6a', goal:15},
+  ];
+  const r=18, circ=2*Math.PI*r;
+  el.innerHTML = `<div class="mastery-rings">${cats.map(cat=>{
+    const miles = my.filter(e=>e.cat===cat.key).reduce((s,e)=>s+e.miles,0);
+    const pct = Math.min(1, miles/cat.goal);
+    const offset = circ-(circ*pct);
+    return `<div class="mastery-ring-wrap">
+      <svg width="48" height="48" viewBox="0 0 48 48">
+        <circle cx="24" cy="24" r="${r}" fill="none" stroke="rgba(201,185,154,.3)" stroke-width="4"/>
+        <circle cx="24" cy="24" r="${r}" fill="none" stroke="${cat.color}" stroke-width="4"
+          stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${offset}"
+          transform="rotate(-90 24 24)" style="transition:stroke-dashoffset .8s ease;"/>
+        <text x="24" y="28" text-anchor="middle" font-family="Cinzel,serif" font-size="9" fill="${cat.color}">${miles}</text>
+      </svg>
+      <div class="mastery-ring-label" style="color:${cat.color};">${cat.label.slice(0,6)}</div>
+    </div>`;
+  }).join('')}</div>`;
+}
+
+// ══════════════════════════════════════════════════
+//  MONTH-END NUDGE
+// ══════════════════════════════════════════════════
+function renderMonthNudge(){
+  const el = document.getElementById('monthNudgeCard');
+  if(!el||!currentUser) return;
+  const now = new Date();
+  const daysLeft = new Date(now.getFullYear(),now.getMonth()+1,0).getDate()-now.getDate();
+  if(daysLeft>7){el.innerHTML='';return;}
+  const nudgeKey='nudgeDismissed_'+currentUser.id+'_'+getCurrentMonth();
+  if(hasUF(nudgeKey)){el.innerHTML='';return;}
+  const d=db();
+  const monthMiles=d.entries.filter(e=>e.userId===currentUser.id&&e.month===getCurrentMonth()).reduce((s,e)=>s+e.miles,0);
+  const needed=60-monthMiles;
+  if(needed<=0){el.innerHTML='';return;}
+  el.innerHTML=`<div class="month-nudge">
+    <div style="font-size:1.2rem;flex-shrink:0;">⏰</div>
+    <div class="nudge-body">
+      <div class="nudge-title">${daysLeft} day${daysLeft!==1?'s':''} left in ${getCurrentMonth()}</div>
+      <div class="nudge-text">You need <strong style="color:var(--gold-light);">${needed} more miles</strong> to hit your 60-mile goal this month. You can do this!</div>
+    </div>
+    <button class="nudge-close" onclick="dismissNudge('${getCurrentMonth()}')">&#x2715;</button>
+  </div>`;
+}
+
+function dismissNudge(month){
+  setUF('nudgeDismissed_'+currentUser.id+'_'+month,'1');
+  const el=document.getElementById('monthNudgeCard');
+  if(el)el.innerHTML='';
+}
+
+// ══════════════════════════════════════════════════
+//  END-OF-MONTH RECAP
+// ══════════════════════════════════════════════════
+function renderMonthRecap(){
+  const el=document.getElementById('monthRecapCard');
+  if(!el||!currentUser)return;
+  const now=new Date();
+  if(now.getDate()>5){el.innerHTML='';return;} // only show first 5 days of month
+  const months=["January","February","March","April","May","June","July","August","September","October","November","December"];
+  const lastMonth=months[now.getMonth()===0?11:now.getMonth()-1];
+  const recapKey='recapDismissed_'+currentUser.id+'_'+lastMonth;
+  if(hasUF(recapKey)){el.innerHTML='';return;}
+  const d=db();
+  const my=d.entries.filter(e=>e.userId===currentUser.id&&e.month===lastMonth);
+  if(!my.length){el.innerHTML='';return;}
+  const miles=my.reduce((s,e)=>s+e.miles,0);
+  const acts=my.length;
+  const cats=new Set(my.map(e=>e.cat)).size;
+  const msg=RECAP_MESSAGES[0](miles);
+  el.innerHTML=`<div class="recap-card">
+    <div class="recap-eyebrow">&#x2728; ${lastMonth} Recap</div>
+    <div class="recap-month">Your ${lastMonth} Journey</div>
+    <div class="recap-stats">
+      <div class="recap-stat"><div class="recap-stat-num">${miles}</div><div class="recap-stat-label">Miles</div></div>
+      <div class="recap-stat"><div class="recap-stat-num">${acts}</div><div class="recap-stat-label">Activities</div></div>
+      <div class="recap-stat"><div class="recap-stat-num">${cats}</div><div class="recap-stat-label">Categories</div></div>
+    </div>
+    <div class="recap-msg">${msg}</div>
+    <button class="recap-dismiss" onclick="dismissRecap('${lastMonth}')">Onward to ${getCurrentMonth()} &#x2192;</button>
+  </div>`;
+}
+
+function dismissRecap(month){
+  setUF('recapDismissed_'+currentUser.id+'_'+month,'1');
+  const el=document.getElementById('monthRecapCard');
+  if(el)el.innerHTML='';
+}
+
+
+// ══════════════════════════════════════════════════
+//  DAILY STREAK SYSTEM
+//  Counts consecutive days where user logged any
+//  activity OR completed the Minute to Win It.
+//  Grace rule: 1 missed day per week is forgiven.
+//  Milestones: 3, 7, 14, 30 days fire celebrations.
+//  30-day badge is permanent.
+// ══════════════════════════════════════════════════
+
+function getDayStamp(date){
+  // Returns YYYYMMDD integer for a given date
+  const d = date || new Date();
+  return d.getFullYear()*10000 + (d.getMonth()+1)*100 + d.getDate();
+}
+
+function getDayStampOffset(daysBack){
+  const d = new Date();
+  d.setDate(d.getDate()-daysBack);
+  return getDayStamp(d);
+}
+
+function wasActiveOnDay(dayStamp, entries){
+  // Active = logged any entry on that calendar day
+  // OR completed the MTWI on that day (stored as mtwi_userId_dayNumber)
+  const dayNum = Math.floor(new Date(
+    Math.floor(dayStamp/10000),
+    Math.floor((dayStamp%10000)/100)-1,
+    dayStamp%100
+  ).getTime()/86400000);
+
+  // Check Firestore entries
+  const startOfDay = new Date(Math.floor(dayStamp/10000), Math.floor((dayStamp%10000)/100)-1, dayStamp%100).getTime();
+  const endOfDay = startOfDay + 86399999;
+  const hasEntry = entries.some(e => e.userId===currentUser.id && e.ts>=startOfDay && e.ts<=endOfDay);
+  if(hasEntry) return true;
+
+  // Check MTWI completion stored in userState
+  const mtwiKey = 'mtwi_'+currentUser.id+'_'+dayNum;
+  return hasUF(mtwiKey);
+}
+
+function calcDailyStreak(){
+  const d = db();
+  const entries = d.entries||[];
+  const today = getDayStamp();
+
+  // Build activity map for past 60 days
+  const activeDays = new Set();
+  for(let i=0;i<60;i++){
+    if(wasActiveOnDay(getDayStampOffset(i), entries)){
+      activeDays.add(getDayStampOffset(i));
+    }
+  }
+
+  // Walk backward from today counting streak with grace rule
+  let streak = 0;
+  let graceUsedThisWeek = false;
+  let weekStart = 0; // track 7-day windows for grace reset
+  let consecutiveMisses = 0;
+
+  for(let i=0; i<60; i++){
+    const day = getDayStampOffset(i);
+    const isActive = activeDays.has(day);
+
+    // Reset grace every 7 days
+    if(i > 0 && i % 7 === 0) graceUsedThisWeek = false;
+
+    if(isActive){
+      streak++;
+      consecutiveMisses = 0;
+    } else {
+      if(i === 0){
+        // Today not active yet — don't penalize if still early in day
+        // Streak is still "alive" — just not yet logged
+        continue;
+      }
+      consecutiveMisses++;
+      if(consecutiveMisses === 1 && !graceUsedThisWeek){
+        // Use grace day
+        graceUsedThisWeek = true;
+        // Don't break — keep counting
+      } else {
+        // Two consecutive misses or grace already used — streak broken
+        break;
+      }
+    }
+  }
+
+  return streak;
+}
+
+function getDailyStreakStatus(){
+  // Returns: 'active' (logged today), 'grace' (yesterday missed, grace available),
+  //          'pending' (today not yet logged), 'broken'
+  const d = db();
+  const entries = d.entries||[];
+  const todayActive = wasActiveOnDay(getDayStamp(), entries);
+  if(todayActive) return 'active';
+  const yesterdayActive = wasActiveOnDay(getDayStampOffset(1), entries);
+  if(!yesterdayActive){
+    const twoDaysAgoActive = wasActiveOnDay(getDayStampOffset(2), entries);
+    if(!twoDaysAgoActive) return 'broken';
+    return 'grace'; // yesterday missed but day before was active
+  }
+  return 'pending'; // today not logged yet but yesterday was
+}
+
+function renderDailyStreakCard(){
+  const el = document.getElementById('dailyStreakCard');
+  const statEl = document.getElementById('dashDailyStreak');
+  if(!el || !currentUser) return;
+
+  const streak = calcDailyStreak();
+  const status = getDailyStreakStatus();
+  if(statEl) statEl.textContent = streak + (status==='active'?'🔥':status==='grace'?'⚠':'');
+
+  // Build 7-day mini calendar (Mon-Sun of current week)
+  const d = db();
+  const entries = d.entries||[];
+  const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const today = new Date();
+  const todayDow = today.getDay();
+
+  // Show last 7 days
+  const weekDots = [];
+  for(let i=6; i>=0; i--){
+    const stamp = getDayStampOffset(i);
+    const date = new Date(); date.setDate(date.getDate()-i);
+    const dow = days[date.getDay()];
+    const isToday = i===0;
+    const active = wasActiveOnDay(stamp, entries);
+    let dotClass, symbol;
+    if(active){ dotClass='hit'; symbol='✓'; }
+    else if(isToday){ dotClass='today-empty'; symbol='?'; }
+    else {
+      // Was it a grace day?
+      const dayBefore = wasActiveOnDay(getDayStampOffset(i+1), entries);
+      const dayAfter = i>0 ? wasActiveOnDay(getDayStampOffset(i-1), entries) : true;
+      if(dayBefore && dayAfter){ dotClass='grace-used'; symbol='~'; }
+      else { dotClass='missed'; symbol='✕'; }
+    }
+    weekDots.push({dow,dotClass,symbol,isToday});
+  }
+
+  const statusText = {
+    active: 'Today logged ✓',
+    pending: 'Log something today to keep your streak!',
+    grace: 'Grace day — log today to stay alive!',
+    broken: 'Streak reset — start fresh today!'
+  }[status]||'';
+
+  const statusClass = {active:'active',pending:'active',grace:'grace',broken:'broken'}[status]||'active';
+
+  // Milestone messages
+  const milestoneMsg = streak>=30?'🏆 30-day legend!':streak>=14?'🌟 Two-week warrior!':streak>=7?'🔥 One full week!':streak>=3?'⚡ On a roll!':'';
+
+  el.innerHTML = `<div class="daily-streak-card">
+    <div class="daily-streak-header">
+      <div class="daily-streak-count">
+        <div class="daily-streak-fire">🔥</div>
+        <div>
+          <div class="daily-streak-num">${streak}</div>
+          <div class="daily-streak-label">Day streak</div>
+        </div>
+      </div>
+      <span class="daily-streak-status ${statusClass}">${statusText}</span>
+    </div>
+    <div class="daily-week-grid">
+      ${weekDots.map(d=>`<div class="daily-week-day">
+        <div class="daily-week-dot ${d.dotClass}" style="${d.isToday?'box-shadow:0 0 0 2px var(--teal);':''}">${d.symbol}</div>
+        <div class="daily-week-day-label" style="${d.isToday?'color:var(--teal);font-weight:600;':''}">${d.dow}</div>
+      </div>`).join('')}
+    </div>
+    ${milestoneMsg?`<div class="daily-streak-msg">${milestoneMsg}</div>`:''}
+    ${streak>=30?`<div style="text-align:center;margin-top:.6rem;"><div class="daily-badge">🏆 Daily Champion — 30 days</div></div>`:''}
+  </div>`;
+}
+
+function checkDailyStreakMilestones(){
+  if(!currentUser) return;
+  const streak = calcDailyStreak();
+  const status = getDailyStreakStatus();
+  if(status !== 'active') return; // only celebrate on days they logged
+
+  const milestones = [3,7,14,30];
+  milestones.forEach(m=>{
+    const key = 'dailyMilestone_'+currentUser.id+'_'+m;
+    if(streak>=m && !hasUF(key)){
+      setUF(key,'1');
+      const msgs = {
+        3:  {title:'3-Day Streak! ⚡',  body:'Three days in a row of meaningful activity. You\'re building something real.'},
+        7:  {title:'One Full Week! 🔥',  body:'Seven consecutive days! You just proved you can make this a habit.'},
+        14: {title:'Two Weeks Strong! 🌟', body:'Fourteen days straight. That\'s not luck — that\'s character.'},
+        30: {title:'30-Day Daily Champion! 🏆', body:'One month of daily activity. You\'ve earned the Daily Champion badge. Incredible dedication.'},
+      };
+      setTimeout(()=>showDailyStreakMilestone(msgs[m], m), 800);
+    }
+  });
+}
+
+function showDailyStreakMilestone(msg, days){
+  // Reuse streak overlay
+  const overlay = document.getElementById('streakOverlay');
+  if(!overlay) return;
+  document.getElementById('streakTitle').textContent = msg.title;
+  document.getElementById('streakBody').textContent = msg.body;
+  // Show day dots
+  const dots = document.getElementById('streakDots');
+  dots.innerHTML = Array.from({length:Math.min(days,14)},(_,i)=>
+    `<div class="streak-dot" title="Day ${i+1}">${i+1}</div>`
+  ).join('') + (days>14?`<div class="streak-dot" style="font-size:.55rem;">+${days-14}</div>`:'');
+  overlay.classList.add('show');
+  fireConfetti();
+  if(days===30){
+    announceAchievement(currentUser.name,'🏆',currentUser.name+' earned the Daily Champion badge — 30 days of consecutive activity!');
+  }
+}
+
+
+// ══ ADMIN VIEW STATE ══
+let _adminView = 'youth';   // 'youth' | 'adults' | 'all'
+let _monthView = 'youth';
+
+function setAdminView(view, btn){
+  _adminView = view;
+  document.querySelectorAll('#overviewToggle .admin-toggle-tab').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  renderAdmin();
+}
+
+function setMonthView(view, btn){
+  _monthView = view;
+  document.querySelectorAll('#monthToggle .admin-toggle-tab').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  renderAdmin();
+}
+
+function getAdminUsers(view){
+  const d = db();
+  if(view==='youth')  return d.users.filter(u=>!u.isLeader);
+  if(view==='adults') return d.users.filter(u=>u.isLeader);
+  return d.users;
+}
+
+
+// ══════════════════════════════════════════════════
+//  TRAVELER ICON SVGs
+//  Individual: Option B (turban + layered robes)
+//  Group: Option 1 (three figures side by side)
+// ══════════════════════════════════════════════════
+
+function getIndividualTravelerSVG(){
+  return '<svg width="24" height="36" viewBox="0 0 88 108" fill="none" xmlns="http://www.w3.org/2000/svg">'
+    // Hex background
+    + '<polygon points="44,36 78,54 78,90 44,108 10,90 10,54" fill="#1a3a5c"/>'
+    + '<polygon points="44,40 74,56 74,88 44,104 14,88 14,56" fill="#0d1f35"/>'
+    // Inner robe (tan, widest layer)
+    + '<path d="M30,62 C24,72 13,88 11,103 L77,103 C75,88 64,72 58,62 Z" fill="#c8a055"/>'
+    // Outer robe (navy, shorter overlay)
+    + '<path d="M32,60 C27,68 18,80 16,96 L72,96 C70,80 61,68 56,60 Z" fill="#2a5080"/>'
+    // Hem overlap
+    + '<path d="M16,94 C24,90 34,88 44,89 C54,88 64,90 72,94 L72,96 L16,96 Z" fill="#1a3a5c" opacity=".55"/>'
+    // Belt
+    + '<rect x="31" y="69" width="26" height="5" rx="2.5" fill="#c8922a"/>'
+    // Arms
+    + '<path d="M32,62 C26,66 22,74 22,80" stroke="#2a5080" stroke-width="7" stroke-linecap="round" fill="none"/>'
+    + '<path d="M56,62 C62,66 66,72 64,78" stroke="#2a5080" stroke-width="7" stroke-linecap="round" fill="none"/>'
+    + '<circle cx="22" cy="80" r="3.5" fill="#d4a870"/>'
+    + '<circle cx="64" cy="78" r="3.5" fill="#d4a870"/>'
+    // Turban
+    + '<ellipse cx="44" cy="47" rx="12" ry="8" fill="#2a7a6e"/>'
+    + '<path d="M32,46 C33,43 38,41 44,41 C50,41 55,43 56,46" stroke="#1a5a50" stroke-width="2" fill="none"/>'
+    + '<path d="M33,49 C35,47 39,46 44,46 C49,46 53,47 55,49" stroke="#1a5a50" stroke-width="1.5" fill="none"/>'
+    + '<path d="M56,44 C62,46 66,51 64,55" stroke="#2a7a6e" stroke-width="4" stroke-linecap="round" fill="none"/>'
+    // Face
+    + '<ellipse cx="44" cy="54" rx="7" ry="7.5" fill="#d4a870"/>'
+    // Beard
+    + '<path d="M38,59 Q40,64 44,64 Q48,64 50,59" fill="#b88c5a"/>'
+    // Gold hex border
+    + '<polygon points="44,36 78,54 78,90 44,108 10,90 10,54" fill="none" stroke="#c8922a" stroke-width="2.5"/>'
+    // Gold pin above
+    + '<circle cx="44" cy="14" r="10" fill="#c8922a"/>'
+    + '<polygon points="44,24 39,34 44,38 49,34" fill="#c8922a"/>'
+    + '<circle cx="44" cy="14" r="5" fill="white"/>'
+    + '<circle cx="44" cy="14" r="2.5" fill="#c8922a"/>'
+    + '</svg>';
+}
+
+function getGroupTravelerSVG(){
+  return '<svg width="38" height="52" viewBox="0 0 152 168" fill="none" xmlns="http://www.w3.org/2000/svg">'
+    // Wider hex for three figures
+    + '<polygon points="76,36 126,62 126,114 76,140 26,114 26,62" fill="#1a3a5c"/>'
+    + '<polygon points="76,41 120,65 120,111 76,135 32,111 32,65" fill="#0d1f35"/>'
+    // LEFT figure (muted, teal turban)
+    + '<ellipse cx="42" cy="72" rx="10" ry="7" fill="#2a7a6e" opacity=".55"/>'
+    + '<ellipse cx="42" cy="79" rx="7" ry="7" fill="#d4a870" opacity=".55"/>'
+    + '<path d="M30,90 C26,99 20,111 18,125 L66,125 C64,111 58,99 54,90 Z" fill="#c8a055" opacity=".55"/>'
+    + '<path d="M32,88 C28,96 22,106 20,118 L64,118 C62,106 56,96 52,88 Z" fill="#1e3a6a" opacity=".55"/>'
+    + '<rect x="26" y="96" width="30" height="4" rx="2" fill="#c8922a" opacity=".45"/>'
+    // RIGHT figure (muted, warm turban)
+    + '<ellipse cx="110" cy="72" rx="10" ry="7" fill="#c8922a" opacity=".5"/>'
+    + '<ellipse cx="110" cy="79" rx="7" ry="7" fill="#d4a870" opacity=".5"/>'
+    + '<path d="M98,90 C94,99 88,111 86,125 L134,125 C132,111 126,99 122,90 Z" fill="#c8a055" opacity=".5"/>'
+    + '<path d="M100,88 C96,96 90,106 88,118 L132,118 C130,106 124,96 120,88 Z" fill="#6a2a2a" opacity=".5"/>'
+    + '<rect x="94" y="96" width="30" height="4" rx="2" fill="#c8922a" opacity=".4"/>'
+    // CENTER figure (full detail, slightly larger)
+    + '<path d="M62,86 C55,98 43,116 41,132 L111,132 C109,116 97,98 90,86 Z" fill="#c8a055"/>'
+    + '<path d="M64,84 C58,95 48,112 46,126 L106,126 C104,112 94,95 88,84 Z" fill="#2a5080"/>'
+    + '<path d="M46,123 C56,118 66,116 76,117 C86,116 96,118 106,123 L106,126 L46,126 Z" fill="#1a3a5c" opacity=".55"/>'
+    + '<rect x="54" y="97" width="44" height="6" rx="3" fill="#c8922a"/>'
+    + '<rect x="66" y="94" width="20" height="12" rx="3" fill="#e8b050"/>'
+    // Center arms
+    + '<path d="M64,87 C57,92 53,100 53,107" stroke="#2a5080" stroke-width="8" stroke-linecap="round" fill="none"/>'
+    + '<path d="M88,87 C95,92 99,98 97,105" stroke="#2a5080" stroke-width="8" stroke-linecap="round" fill="none"/>'
+    + '<circle cx="53" cy="107" r="5" fill="#d4a870"/>'
+    + '<circle cx="97" cy="105" r="5" fill="#d4a870"/>'
+    // Center turban
+    + '<ellipse cx="76" cy="56" rx="18" ry="12" fill="#2a7a6e"/>'
+    + '<path d="M58,55 C60,49 67,45 76,45 C85,45 92,49 94,55" stroke="#1a5a50" stroke-width="3" fill="none"/>'
+    + '<path d="M60,60 C63,56 69,54 76,54 C83,54 89,56 92,60" stroke="#1a5a50" stroke-width="2" fill="none"/>'
+    + '<path d="M94,51 C103,54 109,61 107,68" stroke="#2a7a6e" stroke-width="6" stroke-linecap="round" fill="none"/>'
+    + '<path d="M58,52 C52,56 49,62 51,68" stroke="#2a7a6e" stroke-width="5" stroke-linecap="round" fill="none"/>'
+    // Center face
+    + '<ellipse cx="76" cy="68" rx="11" ry="11" fill="#d4a870"/>'
+    + '<path d="M66,76 Q70,83 76,82 Q82,83 86,76" fill="#b88c5a"/>'
+    // Gold hex border
+    + '<polygon points="76,36 126,62 126,114 76,140 26,114 26,62" fill="none" stroke="#c8922a" stroke-width="3"/>'
+    // Gold pin above
+    + '<circle cx="76" cy="14" r="12" fill="#c8922a"/>'
+    + '<polygon points="76,26 70,39 76,44 82,39" fill="#c8922a"/>'
+    + '<circle cx="76" cy="14" r="6" fill="white"/>'
+    + '<circle cx="76" cy="14" r="3" fill="#c8922a"/>'
+    + '</svg>';
+}
+
+// ── Position individual traveler on mini-map ──────────────────────────────────
+function updateMiniTraveler(total){
+  const traveler = document.getElementById('miniTraveler');
+  const container = document.getElementById('miniWaypoints');
+  if(!traveler || !container) return;
+  // Inject SVG on first call
+  if(!traveler.innerHTML) traveler.innerHTML = getIndividualTravelerSVG();
+  const pct = Math.min(100, total/600*100);
+  const containerW = container.offsetWidth || 300;
+  const leftPx = (pct/100) * (containerW - 16) + 8;
+  traveler.style.left = leftPx + 'px';
+}
+
+// ── Position group traveler on group map ──────────────────────────────────────
+function updateGroupTraveler(total){
+  const traveler = document.getElementById('groupTraveler');
+  const container = document.getElementById('waypointsContainer');
+  if(!traveler || !container) return;
+  // Inject SVG on first call
+  if(!traveler.innerHTML) traveler.innerHTML = getGroupTravelerSVG();
+  const pct = Math.min(100, total/600*100);
+  const containerW = container.offsetWidth || 300;
+  const leftPx = (pct/100) * (containerW - 24) + 12;
+  traveler.style.left = leftPx + 'px';
 }
 
 function exportCSV(){
