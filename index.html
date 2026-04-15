@@ -669,6 +669,124 @@ textarea.form-input{min-height:72px;resize:vertical;}
 #miniTraveler{position:absolute;bottom:-.2rem;transform:translateX(-50%);transition:left .9s cubic-bezier(.4,0,.2,1);z-index:10;pointer-events:none;filter:drop-shadow(0 2px 4px rgba(0,0,0,.3));}
 #groupTraveler{position:absolute;bottom:.4rem;transform:translateX(-50%);transition:left .9s cubic-bezier(.4,0,.2,1);z-index:10;pointer-events:none;filter:drop-shadow(0 3px 6px rgba(0,0,0,.35));}
 .mini-waypoints{position:relative;}
+
+/* ══ HISTORY REDESIGN ══ */
+.history-stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin-bottom:1rem;}
+.history-stat-card{background:white;border:1px solid var(--sand-dark);border-radius:6px;padding:.65rem .5rem;text-align:center;}
+.history-stat-num{font-family:'Cinzel',serif;font-size:1.2rem;color:var(--navy);line-height:1;}
+.history-stat-label{font-family:'Inter',sans-serif;font-size:.55rem;color:var(--ink-soft);letter-spacing:.06em;text-transform:uppercase;margin-top:.2rem;}
+.history-chart-wrap{background:white;border:1px solid var(--sand-dark);border-radius:6px;padding:.75rem 1rem;margin-bottom:1rem;}
+.history-chart-label{font-family:'Cinzel',serif;font-size:.78rem;color:var(--navy);margin-bottom:.6rem;}
+.history-bars{display:flex;align-items:flex-end;gap:.25rem;height:64px;}
+.history-bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:.2rem;}
+.history-bar{width:100%;border-radius:3px 3px 0 0;min-height:3px;transition:height .4s ease;}
+.history-bar-month{font-family:'Inter',sans-serif;font-size:.45rem;color:var(--ink-soft);}
+.history-bar-miles{font-family:'Cinzel',serif;font-size:.45rem;color:var(--navy);}
+.history-search{width:100%;border:1.5px solid var(--sand-dark);border-radius:6px;padding:.55rem .85rem;font-family:'Crimson Pro',serif;font-size:.95rem;color:var(--ink);background:white;margin-bottom:.75rem;box-sizing:border-box;}
+.history-search:focus{outline:none;border-color:var(--teal);}
+.history-filter-row{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:.75rem;}
+.history-filter-btn{padding:.25rem .7rem;border:1.5px solid var(--sand-dark);border-radius:20px;background:white;cursor:pointer;font-family:'Inter',sans-serif;font-size:.68rem;color:var(--ink-soft);transition:all .15s;}
+.history-filter-btn.active{background:var(--navy);border-color:var(--navy);color:white;}
+.month-summary-card{background:white;border:1px solid var(--sand-dark);border-radius:6px;overflow:hidden;margin-bottom:.5rem;}
+.month-summary-header{display:flex;align-items:center;justify-content:space-between;padding:.65rem 1rem;cursor:pointer;user-select:none;}
+.month-summary-title{font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);}
+.month-summary-meta{display:flex;align-items:center;gap:.6rem;}
+.month-summary-miles{font-family:'Cinzel',serif;font-size:.85rem;color:var(--gold);}
+.month-summary-count{font-family:'Inter',sans-serif;font-size:.65rem;color:var(--ink-soft);}
+.month-summary-chevron{font-size:.7rem;color:var(--ink-soft);transition:transform .2s;}
+.month-summary-chevron.open{transform:rotate(180deg);}
+.month-summary-prog{height:4px;background:var(--sand-dark);}
+.month-summary-prog-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-light));transition:width .4s;}
+.month-summary-entries{border-top:1px solid var(--sand-dark);display:none;}
+.month-summary-entries.open{display:block;}
+.history-entry-v2{display:flex;align-items:flex-start;gap:.75rem;padding:.65rem 1rem;border-bottom:1px solid #f8f4ee;}
+.history-entry-v2:last-child{border-bottom:none;}
+.history-entry-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:.35rem;}
+.history-entry-body{flex:1;}
+.history-entry-desc{font-size:.88rem;color:var(--ink);line-height:1.4;}
+.history-entry-meta{font-family:'Inter',sans-serif;font-size:.65rem;color:var(--ink-soft);margin-top:.2rem;}
+.history-entry-note{font-family:'Crimson Pro',serif;font-style:italic;font-size:.8rem;color:var(--ink-soft);margin-top:.2rem;padding:.25rem .5rem;background:rgba(201,185,154,.12);border-radius:3px;border-left:2px solid var(--sand-dark);}
+.history-entry-miles{font-family:'Cinzel',serif;font-size:.9rem;color:var(--navy);flex-shrink:0;}
+
+/* ══ VISITOR ══ */
+/* ward name shown inline in leaderboard group label */
+
+/* ══ PARTNER CHALLENGES ══ */
+.partner-btn{display:inline-flex;align-items:center;gap:.3rem;background:rgba(42,122,110,.1);border:1px solid var(--teal);color:var(--teal);border-radius:20px;padding:.2rem .65rem;font-family:'Inter',sans-serif;font-size:.65rem;font-weight:500;cursor:pointer;transition:all .15s;margin-top:.35rem;}
+.partner-btn:hover{background:var(--teal);color:white;}
+#partnerModal{position:fixed;inset:0;z-index:9994;display:flex;align-items:flex-end;justify-content:center;padding:1rem;pointer-events:none;opacity:0;transition:opacity .25s;}
+#partnerModal.open{opacity:1;pointer-events:all;}
+#partnerModal::before{content:'';position:absolute;inset:0;background:rgba(10,20,35,.7);backdrop-filter:blur(3px);}
+.partner-modal-card{position:relative;background:var(--parchment);border-radius:12px 12px 8px 8px;max-width:460px;width:100%;box-shadow:0 -8px 40px rgba(0,0,0,.4);transform:translateY(40px);transition:transform .3s cubic-bezier(.4,0,.2,1);overflow:hidden;}
+#partnerModal.open .partner-modal-card{transform:translateY(0);}
+.partner-modal-header{background:linear-gradient(135deg,var(--teal),#1a5a4e);padding:1.1rem 1.25rem;}
+.partner-modal-title{font-family:'Cinzel',serif;font-size:1rem;color:white;margin-bottom:.2rem;}
+.partner-modal-sub{font-family:'Crimson Pro',serif;font-size:.85rem;color:rgba(255,255,255,.7);font-style:italic;}
+.partner-modal-body{padding:1rem 1.25rem;}
+.partner-target{display:flex;align-items:center;gap:.75rem;background:var(--sand);border-radius:6px;padding:.75rem 1rem;margin-bottom:.75rem;}
+.partner-target-name{font-family:'Cinzel',serif;font-size:.9rem;color:var(--navy);}
+.partner-target-group{font-family:'Inter',sans-serif;font-size:.65rem;color:var(--ink-soft);}
+.partner-activity-list{max-height:200px;overflow-y:auto;margin-bottom:.75rem;}
+.partner-activity-item{display:flex;align-items:center;gap:.6rem;padding:.5rem .75rem;border-radius:4px;cursor:pointer;transition:background .1s;}
+.partner-activity-item:hover{background:var(--sand);}
+.partner-activity-item.selected{background:rgba(42,122,110,.1);border:1px solid var(--teal);}
+.partner-activity-miles{font-family:'Cinzel',serif;font-size:.8rem;color:var(--navy);min-width:28px;}
+.partner-activity-desc{font-size:.85rem;color:var(--ink-soft);flex:1;line-height:1.3;}
+.partner-modal-footer{padding:.75rem 1.25rem 1rem;border-top:1px solid var(--sand-dark);display:flex;gap:.75rem;}
+.partner-send-btn{flex:1;background:var(--teal);color:white;font-family:'Cinzel',serif;font-size:.8rem;border:none;border-radius:30px;padding:.65rem;cursor:pointer;transition:opacity .15s;}
+.partner-challenge-card{background:linear-gradient(135deg,rgba(42,122,110,.1),rgba(42,122,110,.04));border:1.5px solid var(--teal);border-radius:6px;padding:.85rem 1rem;margin-bottom:.75rem;}
+.pc-eyebrow{font-family:'Inter',sans-serif;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:.3rem;}
+.pc-title{font-family:'Cinzel',serif;font-size:.9rem;color:var(--navy);margin-bottom:.25rem;}
+.pc-partners{font-family:'Crimson Pro',serif;font-size:.88rem;color:var(--ink-soft);margin-bottom:.4rem;}
+.pc-footer{display:flex;align-items:center;justify-content:space-between;}
+.pc-deadline{font-family:'Inter',sans-serif;font-size:.65rem;color:var(--ink-soft);}
+.pc-claim-btn{background:var(--teal);color:white;border:none;border-radius:20px;padding:.25rem .85rem;font-family:'Inter',sans-serif;font-size:.68rem;font-weight:600;cursor:pointer;}
+
+/* ══ RETURN TO ZION ══ */
+.zion-map{background:linear-gradient(160deg,#1a3a5c 0%,#0f2540 55%,#2a1a0a 100%);border-radius:8px;padding:1rem;margin-bottom:.75rem;position:relative;overflow:hidden;}
+.zion-map::before{content:'';position:absolute;top:-30px;right:-30px;width:120px;height:120px;background:radial-gradient(circle,rgba(232,176,80,.12),transparent 70%);pointer-events:none;}
+.zion-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem;}
+.zion-title{font-family:'Cinzel',serif;font-size:.85rem;color:var(--gold-light);letter-spacing:.06em;}
+.zion-level{background:rgba(200,146,42,.2);border:1px solid var(--gold);border-radius:20px;font-family:'Cinzel',serif;font-size:.65rem;color:var(--gold-light);padding:.15rem .6rem;}
+.zion-waypoints{display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:1.5rem;position:relative;margin-bottom:.25rem;}
+.zion-line-bg{position:absolute;bottom:.55rem;left:0;right:0;height:2px;background:rgba(255,255,255,.1);border-radius:2px;}
+.zion-line-fill{position:absolute;bottom:.55rem;left:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:2px;transition:width .8s ease;}
+.zion-wp{display:flex;flex-direction:column;align-items:center;gap:.25rem;position:relative;z-index:2;}
+.zion-wp-dot{width:10px;height:10px;border-radius:50%;border:2px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);transition:all .3s;}
+.zion-wp-dot.reached{background:var(--gold);border-color:var(--gold-light);box-shadow:0 0 6px rgba(200,146,42,.5);}
+.zion-wp-icon{font-size:.9rem;}
+.zion-wp-label{font-family:'Cinzel',serif;font-size:.38rem;color:rgba(255,255,255,.55);text-align:center;max-width:30px;line-height:1.2;}
+.xp-bar-wrap{height:6px;background:rgba(255,255,255,.1);border-radius:10px;margin:.4rem 0;overflow:hidden;}
+.xp-bar-fill{height:100%;border-radius:10px;background:linear-gradient(90deg,#c8922a,#e8b050);transition:width .6s ease;}
+.xp-label{font-family:'Inter',sans-serif;font-size:.58rem;color:rgba(255,255,255,.45);display:flex;justify-content:space-between;}
+#zionUnlockOverlay{position:fixed;inset:0;background:linear-gradient(160deg,#1a2a0a,#2a3a15,#1a2a0a);z-index:9998;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;}
+#zionUnlockOverlay.show{display:flex;}
+.zion-unlock-icon{font-size:4rem;margin-bottom:.75rem;animation:wpBounce .7s cubic-bezier(.34,1.56,.64,1) both;}
+.zion-unlock-eyebrow{font-family:'Inter',sans-serif;font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-light);margin-bottom:.5rem;}
+.zion-unlock-title{font-family:'Cinzel',serif;font-size:2.2rem;color:white;margin-bottom:.5rem;line-height:1.1;}
+.zion-unlock-sub{font-family:'Crimson Pro',serif;font-style:italic;font-size:1.1rem;color:rgba(255,255,255,.7);max-width:380px;margin:0 auto 2rem;line-height:1.6;}
+
+/* ══ WHAT'S NEW MODAL ══ */
+#whatsNewModal{position:fixed;inset:0;z-index:9993;display:flex;align-items:center;justify-content:center;padding:1.25rem;pointer-events:none;opacity:0;transition:opacity .3s;}
+#whatsNewModal.open{opacity:1;pointer-events:all;}
+#whatsNewModal::before{content:'';position:absolute;inset:0;background:rgba(10,20,35,.75);backdrop-filter:blur(4px);}
+.wn-card{position:relative;background:var(--parchment);border-radius:12px;max-width:420px;width:100%;max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.45);transform:scale(.94);transition:transform .3s cubic-bezier(.4,0,.2,1);}
+#whatsNewModal.open .wn-card{transform:scale(1);}
+.wn-header{background:linear-gradient(160deg,#1a3a5c,#0f2540,#1a2a18);padding:1.5rem 1.5rem 1.25rem;text-align:center;border-radius:12px 12px 0 0;}
+.wn-badge{display:inline-block;background:rgba(200,146,42,.2);border:1px solid var(--gold);border-radius:20px;font-family:'Inter',sans-serif;font-size:.65rem;letter-spacing:.1em;color:var(--gold-light);padding:.2rem .75rem;margin-bottom:.6rem;}
+.wn-title{font-family:'Cinzel',serif;font-size:1.4rem;color:white;margin-bottom:.3rem;}
+.wn-sub{font-family:'Crimson Pro',serif;font-style:italic;font-size:.88rem;color:rgba(255,255,255,.6);}
+.wn-body{padding:1.1rem 1.25rem 0;}
+.wn-feature{display:flex;gap:.85rem;padding:.7rem 0;border-bottom:1px solid rgba(201,185,154,.2);align-items:flex-start;}
+.wn-feature:last-of-type{border-bottom:none;}
+.wn-icon{width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.wn-feature-body{flex:1;}
+.wn-feature-title{font-family:'Cinzel',serif;font-size:.82rem;color:var(--navy);margin-bottom:.2rem;}
+.wn-feature-desc{font-family:'Crimson Pro',serif;font-size:.85rem;color:var(--ink-soft);line-height:1.45;}
+.wn-footer{padding:1rem 1.25rem 1.25rem;text-align:center;}
+.wn-cta{width:100%;background:linear-gradient(135deg,var(--navy),#2a5080);color:white;font-family:'Cinzel',serif;font-size:.85rem;letter-spacing:.06em;border:none;border-radius:30px;padding:.75rem;cursor:pointer;transition:opacity .15s;}
+.wn-cta:hover{opacity:.88;}
+.wn-dismiss{display:block;font-family:'Inter',sans-serif;font-size:.7rem;color:var(--ink-soft);margin-top:.6rem;cursor:pointer;background:none;border:none;width:100%;}
 </style>
 </head>
 <body>
@@ -735,8 +853,9 @@ textarea.form-input{min-height:72px;resize:vertical;}
     <div id="registerForm" style="display:none">
       <div class="form-group"><label class="form-label">Full Name</label><input type="text" id="regName" class="form-input" placeholder="First Last" autocomplete="name"></div>
       <div class="form-group"><label class="form-label">Group</label>
-        <select id="regGroup" class="form-input"><option value="Young Men">Young Men</option><option value="Young Women">Young Women</option><option value="Adult">Adult</option><option value="Leader">Leader</option></select>
+        <select id="regGroup" class="form-input" onchange="showWardNameField()"><option value="Young Men">Young Men</option><option value="Young Women">Young Women</option><option value="Adult">Adult</option><option value="Leader">Leader</option><option value="Visitor">Visitor (other ward)</option></select>
       </div>
+      <div class="form-group" id="wardNameGroup" style="display:none;"><label class="form-label">Your Ward Name (optional)</label><input type="text" id="regWard" class="form-input" placeholder="e.g. Forsyth 2nd Ward"></div>
       <div class="form-group"><label class="form-label">Choose a PIN (4 digits)</label><input type="password" id="regPin" class="form-input" placeholder="••••" maxlength="4" inputmode="numeric"></div>
       <div class="form-group"><label class="form-label">Confirm PIN</label><input type="password" id="regPin2" class="form-input" placeholder="••••" maxlength="4" inputmode="numeric"></div>
       <button class="btn btn-primary" onclick="handleRegister()">Join the Journey →</button>
@@ -778,6 +897,8 @@ textarea.form-input{min-height:72px;resize:vertical;}
       <div id="monthNudgeCard"></div>
       <div id="dailySparkCard"></div>
       <div id="mtwiCard"></div>
+      <div id="zionJourneyCard"></div>
+      <div id="partnerChallengesCard"></div>
       <div id="todaysChallengeCard"></div>
       <div id="dashHypeCard"></div>
       <div class="stats-row">
@@ -890,123 +1011,22 @@ textarea.form-input{min-height:72px;resize:vertical;}
     <!-- HISTORY -->
     <div id="tab-history" class="tab-content">
       <div class="section-heading">My Mile Log</div>
-      <div class="section-sub">Complete record of your journey</div>
-      <div class="month-grid" id="monthlyGrid"></div>
-      <div class="card neutral">
-        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">All Entries</strong>
-        <div id="historyList"></div>
+      <div class="section-sub">Your complete journey record</div>
+      <div class="history-stats-bar" id="historyStatsBar"></div>
+      <div class="history-chart-wrap">
+        <div class="history-chart-label">Miles by Month</div>
+        <div class="history-bars" id="historyChart"></div>
       </div>
-    </div>
-
-    <!-- GROUP MAP -->
-    <div id="tab-group" class="tab-content">
-      <div class="section-heading">Group Journey</div>
-      <div class="section-sub">Level Creek Ward — walking together to Jerusalem</div>
-
-      <!-- HERO MILES CARD -->
-      <div class="group-map-hero">
-        <div class="group-hero-total" id="groupTotalDisp">0 miles</div>
-        <div class="group-hero-label">Combined ward progress</div>
-        <div class="group-hero-prog"><div class="group-hero-prog-fill" id="groupProgressBar" style="width:0%"></div></div>
-        <div class="group-hero-sub" id="groupMapSub">The journey has begun from Egypt</div>
+      <input type="text" class="history-search" id="historySearch" placeholder="Search activities…" oninput="filterHistory()"/>
+      <div class="history-filter-row">
+        <button class="history-filter-btn active" onclick="setHistoryFilter('all',this)">All</button>
+        <button class="history-filter-btn" onclick="setHistoryFilter('spiritual',this)">&#x1F64F; Spiritual</button>
+        <button class="history-filter-btn" onclick="setHistoryFilter('physical',this)">&#x1F4AA; Physical</button>
+        <button class="history-filter-btn" onclick="setHistoryFilter('intellectual',this)">&#x1F4DA; Intellectual</button>
+        <button class="history-filter-btn" onclick="setHistoryFilter('social',this)">&#x1F91D; Social</button>
+        <button class="history-filter-btn" onclick="setHistoryFilter('custom',this)">&#x2726; Custom</button>
       </div>
-
-      <!-- STATS ROW -->
-      <div class="group-stats-grid">
-        <div class="group-stat-pill"><div class="group-stat-num" id="groupMilesDisp">0</div><div class="group-stat-label">Miles</div></div>
-        <div class="group-stat-pill"><div class="group-stat-num" id="groupParticipants">0</div><div class="group-stat-label">Walking</div></div>
-        <div class="group-stat-pill"><div class="group-stat-num" id="groupCompletions">0</div><div class="group-stat-label">Finished</div></div>
-        <div class="group-stat-pill"><div class="group-stat-num" id="groupPct">0%</div><div class="group-stat-label">Progress</div></div>
-      </div>
-
-      <!-- WAYPOINTS MAP -->
-      <div class="card journey-map" style="margin-bottom:1rem;padding:1.25rem 1rem;position:relative;">
-        <div id="waypointsContainer" style="display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:2rem;position:relative;">
-          <div id="journeyLine" style="position:absolute;bottom:.8rem;left:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:2px;width:0%;transition:width .8s ease;z-index:0;"></div>
-          <div id="groupTraveler" style="left:0;"></div>
-        </div>
-        <canvas id="mapCanvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;border-radius:4px;" width="400" height="200"></canvas>
-      </div>
-
-      <!-- COUNTDOWN (above shoutouts) -->
-      <div class="countdown-inline" id="partyCountdown"></div>
-      <p style="font-family:'Crimson Pro',serif;font-style:italic;font-size:.82rem;color:var(--ink-soft);text-align:center;margin-bottom:1rem;margin-top:-.5rem;" id="partyMsg">Jerusalem awaits!</p>
-
-      <!-- FEATURED CHALLENGE -->
-      <div id="didYouKnowCard" style="margin-bottom:1rem;"></div>
-      <div id="featuredChallengeCard" style="display:none;margin-bottom:1rem;"></div>
-
-      <!-- LEADER SHOUTOUTS FEED -->
-      <div class="feed-card">
-        <div class="feed-card-header">
-          <span class="feed-card-title">📣 Leader Shoutouts</span>
-          <span class="feed-card-count" id="shoutoutCount"></span>
-        </div>
-        <div class="feed-body" id="shoutoutFeed"><p style="padding:1rem;font-style:italic;font-size:.9rem;color:var(--ink-soft);">No shoutouts yet — check back soon!</p></div>
-        <button class="show-more-btn" id="shoutoutMoreBtn" style="display:none;" onclick="toggleFeedMore('shoutout')">Show more ▼</button>
-      </div>
-
-      <!-- BADGE CELEBRATIONS FEED -->
-      <div class="feed-card">
-        <div class="feed-card-header">
-          <span class="feed-card-title">🏅 Badge Celebrations</span>
-          <span class="feed-card-count" id="badgeCount"></span>
-        </div>
-        <div class="feed-body" id="badgeAnnounceFeed"><p style="padding:1rem;font-style:italic;font-size:.9rem;color:var(--ink-soft);">No badge announcements yet.</p></div>
-        <button class="show-more-btn" id="badgeMoreBtn" style="display:none;" onclick="toggleFeedMore('badge')">Show more ▼</button>
-      </div>
-    </div>
-    <!-- LEADERBOARD -->
-    <div id="tab-leaderboard" class="tab-content">
-      <div class="section-heading">Leaderboard</div>
-      <div class="section-sub">Honoring every pilgrim on the journey</div>
-
-      <!-- Sub-tab nav -->
-      <div style="display:flex;gap:.4rem;margin-bottom:1.25rem;flex-wrap:wrap;" id="lbSubTabs">
-        <button class="lb-sub-tab active" onclick="switchLBTab('youth',this)">🏃 Youth</button>
-        <button class="lb-sub-tab" onclick="switchLBTab('adults',this)">★ Leaders</button>
-        <button class="lb-sub-tab" onclick="switchLBTab('ymvsyw',this)">⚡ vs 🌸</button>
-        <button class="lb-sub-tab" onclick="switchLBTab('youthvsleader',this)">Youth vs Adults</button>
-        <button class="lb-sub-tab" onclick="switchLBTab('monthly',this)">📅 This Month</button>
-      </div>
-
-      <!-- YOUTH BOARD -->
-      <div id="lb-pane-youth" class="lb-pane">
-        <div class="card neutral" style="padding:0;overflow:hidden;margin-bottom:.75rem;">
-          <div class="lb-section-divider"><span class="lb-section-divider-label">⚡ Young Men</span><span id="ymTotal" style="float:right;font-family:'Cinzel',serif;font-size:.68rem;color:var(--ink-soft);"></span></div>
-          <div id="leaderboardYM"></div>
-        </div>
-        <div class="card neutral" style="padding:0;overflow:hidden;">
-          <div class="lb-section-divider"><span class="lb-section-divider-label">🌸 Young Women</span><span id="ywTotal" style="float:right;font-family:'Cinzel',serif;font-size:.68rem;color:var(--ink-soft);"></span></div>
-          <div id="leaderboardYW"></div>
-        </div>
-      </div>
-
-      <!-- ADULTS BOARD -->
-      <div id="lb-pane-adults" class="lb-pane" style="display:none;">
-        <div class="card neutral" style="padding:0;overflow:hidden;" id="leaderLBCard">
-          <div class="lb-section-divider"><span class="lb-section-divider-label">★ Leaders &amp; Adults</span></div>
-          <div id="leaderboardLeaders"></div>
-        </div>
-      </div>
-
-      <!-- YM vs YW VERSUS BOARD -->
-      <div id="lb-pane-ymvsyw" class="lb-pane" style="display:none;">
-        <div id="lbVersusYMYW"></div>
-      </div>
-
-      <!-- YOUTH vs LEADER VERSUS BOARD -->
-      <div id="lb-pane-youthvsleader" class="lb-pane" style="display:none;">
-        <div id="lbVersusYouthLeader"></div>
-      </div>
-
-      <!-- THIS MONTH BOARD -->
-      <div id="lb-pane-monthly" class="lb-pane" style="display:none;">
-        <div class="card neutral" style="padding:0;overflow:hidden;">
-          <div class="lb-section-divider"><span class="lb-section-divider-label">📅 <span id="lbMonthLabel">This Month</span> — All Youth</span></div>
-          <div id="leaderboardMonthly"></div>
-        </div>
-      </div>
+      <div id="historyMonthlySummaries"></div>
     </div>
 
     <!-- ADMIN -->
@@ -1566,7 +1586,8 @@ async function handleRegister(){
     const snap=await COL.users().get();
     if(snap.docs.find(d=>d.data().name.toLowerCase()===name.toLowerCase())){showError('That name is already registered. Try signing in instead.');overlay(false);return;}
     const isPrivileged=group==='Leader'||group==='Adult';
-    const userData={name,group,pin,isLeader:isPrivileged,ts:Date.now()};
+    const wardName=(document.getElementById('regWard')||{}).value||'';
+    const userData={name,group,pin,isLeader:isPrivileged,isVisitor:group==='Visitor',wardName,ts:Date.now()};
     const ref=await COL.users().add(userData);
     currentUser={id:ref.id,...userData};
     CACHE.users.push(currentUser);
@@ -1582,6 +1603,7 @@ function enterApp(){
     renderDashboard();
     silentRecalcOnLogin();
     renderMonthlyTrophyRow();
+    checkWhatsNew();
   });
   document.getElementById('loginScreen').classList.remove('active');
   document.getElementById('appScreen').classList.add('active');
@@ -1625,6 +1647,7 @@ async function switchTab(tab){
   try{await refreshData();}catch(e){/* show cached */}
   if(tab==='dashboard'){renderDashboard();refreshActivityDoneStates();}
   if(tab==='log'){renderActiveChallengePinned();renderFeaturedLogSection();}
+  if(tab==='history'){renderHistory();}
   if(tab==='planner')renderPlanner();
   if(tab==='history')renderHistory();
   if(tab==='group'){renderGroup();checkForNewShoutouts();}
@@ -1777,7 +1800,7 @@ function renderDashboard(){
   document.getElementById('dashJourneyBar').style.width=pct+'%';document.getElementById('dashMonthBar').style.width=mPct+'%';
   document.getElementById('dashStreak').textContent=calcStreak(my);
   renderStreakRow(my);renderBadges(total);renderMonthlyBadges();renderMonthlyTrophyRow();updateMiniMap(total);checkAndAwardMonthlyTrophies();renderDashHypeCard();renderTodaysChallenge();
-  renderDailySpark();renderMtwiCard();renderThisWeekCard();renderDailyStreakCard();renderMasteryRings();renderMonthNudge();renderMonthRecap();
+  renderZionJourneyCard();renderPartnerChallenges();renderDailySpark();renderMtwiCard();renderThisWeekCard();renderDailyStreakCard();renderMasteryRings();renderMonthNudge();renderMonthRecap();
   checkDailyStreakMilestones();
   const streak=calcStreak(my);checkStreakCelebration(streak);
   const catColors={spiritual:'var(--spiritual)',physical:'var(--physical)',intellectual:'var(--intellectual)',social:'var(--social)'};
@@ -1810,6 +1833,8 @@ function checkBadges(){
   checkMonthlyChallengeBadges();
   checkWaypointCelebrations(total);
   checkDailyStreakMilestones();
+  checkZionUnlock(total);
+  checkZionWaypointBadges(total);
 }
 
 // getEarnedMonthlyBadges, earnMonthlyBadge — defined in userState layer
@@ -1917,7 +1942,7 @@ function drawMapCanvas(){
 // getDivisor — defined in userState layer above
 
 function renderGroup(){
-  const d=db();const youth=d.users.filter(u=>!u.isLeader);
+  const d=db();const youth=d.users.filter(u=>!u.isLeader&&!u.isVisitor);
   const divisor=getDivisor();
   const rawYouthMiles=d.entries.filter(e=>youth.find(u=>u.id===e.userId)).reduce((s,e)=>s+e.miles,0);
   const scaledYouthMiles=rawYouthMiles/divisor;
@@ -1979,7 +2004,7 @@ function renderAdmin(){
   const d=db();const score=u=>d.entries.filter(e=>e.userId===u.id).reduce((s,e)=>s+e.miles,0);
   const overviewGroup = getAdminUsers(_adminView||'youth');
   const monthGroup = getAdminUsers(_monthView||'youth');
-  const youth=d.users.filter(u=>!u.isLeader); // keep for other sections
+  const youth=d.users.filter(u=>!u.isLeader&&!u.isVisitor); // keep for other sections
   const totalYouth=overviewGroup.length;const participating=overviewGroup.filter(u=>d.entries.some(e=>e.userId===u.id)).length;
   const onTrack=overviewGroup.filter(u=>d.entries.filter(e=>e.userId===u.id&&e.month===getCurrentMonth()).reduce((s,e)=>s+e.miles,0)>=60).length;
   const completions=overviewGroup.filter(u=>score(u)>=600).length;const allMiles=d.entries.filter(e=>overviewGroup.find(u=>u.id===e.userId)).reduce((s,e)=>s+e.miles,0);
@@ -2483,8 +2508,7 @@ async function logFeaturedChallenge(month){
     checkBadges();
     renderDashboard();
     renderFeaturedLogSection();
-    await announceAchievement(currentUser.name,'🎯',
-      currentUser.name+' completed the '+targetMonth+' Featured Challenge: '+title+'!');
+    
   }catch(err){ showToast('Error: '+err.message); }
 }
 
@@ -2559,7 +2583,7 @@ function renderMonthlyTrophyRow(){
 async function checkAndAwardMonthlyTrophies(){
   // Awards monthly top-miles trophy — called after any miles are logged
   const d=db();
-  const youth=d.users.filter(u=>!u.isLeader);
+  const youth=d.users.filter(u=>!u.isLeader&&!u.isVisitor);
   const leaders=d.users.filter(u=>u.isLeader);
   const score=(uid,month)=>d.entries.filter(e=>e.userId===uid&&e.month===month).reduce((s,e)=>s+e.miles,0);
   MONTHS.forEach(month=>{
@@ -2622,7 +2646,7 @@ function renderCountdown(){
     +(i<3?'<div class="ci-sep">:</div>':'')
   ).join('');
   if(msg){
-    const d=db();const youth=d.users.filter(u=>!u.isLeader);
+    const d=db();const youth=d.users.filter(u=>!u.isLeader&&!u.isVisitor);
     const comps=youth.filter(u=>d.entries.filter(e=>e.userId===u.id).reduce((s,e)=>s+e.miles,0)>=600).length;
     const pct=youth.length?Math.round(comps/youth.length*100):0;
     msg.textContent=`${comps} of ${youth.length} youth (${pct}%) have completed the journey. Jerusalem awaits!`;
@@ -2637,7 +2661,7 @@ function updateNudgePreview(){
   const d=db();
   const curMonth=getCurrentMonth();
   const builtIn=MONTHLY_CHALLENGES[curMonth];
-  const youth=d.users.filter(u=>!u.isLeader);
+  const youth=d.users.filter(u=>!u.isLeader&&!u.isVisitor);
   const onTrack=youth.filter(u=>d.entries.filter(e=>e.userId===u.id&&e.month===curMonth).reduce((s,e)=>s+e.miles,0)>=60).length;
   const groupMi=d.entries.reduce((s,e)=>s+e.miles,0);
   const msgs={
@@ -2756,7 +2780,7 @@ function renderShoutouts(){
   const feed=document.getElementById('shoutoutFeed');
   if(!feed) return;
   const all=[...( d.shoutouts||[])].sort((a,b)=>b.ts-a.ts);
-  const limit=10; const showAll=_feedState.shoutout;
+  const limit=5; const showAll=_feedState.shoutout;
   const visible=showAll?all:all.slice(0,limit);
   const countEl=document.getElementById('shoutoutCount');
   if(countEl)countEl.textContent=all.length?all.length+' post'+(all.length!==1?'s':''):'';
@@ -2831,13 +2855,14 @@ function lbCardHTML(u, rank, maxMiles, isAdultRow){
     ${medalHTML(rank)}
     <div class="lb-info">
       <div class="lb-card-name ${isMe?'me':''}">${u.name}${isMe?' (you)':''}${flame}${jerusalem}</div>
-      <div class="lb-card-group">${u.group}</div>
+      <div class="lb-card-group">${u.group}${u.isVisitor&&u.wardName?' &middot; '+u.wardName:''}</div>
       <div class="lb-prog-wrap" style="margin-top:.3rem;">
         <div class="lb-prog-fill ${isAdultRow?'leader-fill':''}" style="width:${bp}%"></div>
       </div>
     </div>
     <div class="lb-card-miles">${u.miles}<span style="font-size:.65rem;font-family:'Inter',sans-serif;color:var(--sand-dark);"> mi</span></div>
-  </div>`;
+  </div>
+  ${!isMe&&!u.isVisitor?`<div style="padding:.1rem .75rem .5rem;"><button class="partner-btn" onclick="openPartnerModal(event,'${u.id}','${u.name}','${u.group}')">&#x1F91D; Challenge ${u.name.split(' ')[0]}</button></div>`:''}`;
 }
 
 // renderLeaderboard — full version with sub-tabs defined above
@@ -3404,8 +3429,7 @@ function showWaypointCelebration(wp, total){
   document.getElementById('wpFact').textContent = factData.fact || 'Another waypoint on the road to Jerusalem!';
   overlay.classList.add('show');
   startWaypointFireworks();
-  announceAchievement(currentUser.name, factData.emoji||'\u2728',
-    currentUser.name + ' reached ' + wp.label.replace('\n',' ') + ' on the Walk to Jerusalem! (' + total + ' miles)');
+
 }
 
 function closeWaypointOverlay(){
@@ -3659,10 +3683,10 @@ async function setTrophyWinner(month, type, userId){
 // Group divisor — stored in appConfig (shared across leaders)
 async function getDivisorAsync(){
   if(CACHE.appConfig?.groupDivisor) return parseInt(CACHE.appConfig.groupDivisor);
-  return 25;
+  return 35;
 }
 function getDivisor(){
-  return parseInt(CACHE.appConfig?.groupDivisor||'25');
+  return parseInt(CACHE.appConfig?.groupDivisor||'35');
 }
 async function saveDivisorToFirestore(v){
   if(!CACHE.appConfig) CACHE.appConfig={};
@@ -4282,6 +4306,332 @@ function updateGroupTraveler(total){
   traveler.style.left = leftPx + 'px';
 }
 
+
+// ══════════════════════════════════════════════════
+//  HISTORY TAB — REDESIGNED
+// ══════════════════════════════════════════════════
+let _historyFilter='all', _historySearch='';
+
+function setHistoryFilter(cat,btn){
+  _historyFilter=cat;
+  document.querySelectorAll('.history-filter-btn').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  renderHistoryMonthlySummaries();
+}
+function filterHistory(){
+  _historySearch=(document.getElementById('historySearch')||{}).value||'';
+  renderHistoryMonthlySummaries();
+}
+function renderHistory(){
+  if(!currentUser)return;
+  renderHistoryStatsBar();renderHistoryChart();renderHistoryMonthlySummaries();
+}
+function renderHistoryStatsBar(){
+  const el=document.getElementById('historyStatsBar');if(!el)return;
+  const d=db();const my=d.entries.filter(e=>e.userId===currentUser.id);
+  const total=my.reduce((s,e)=>s+e.miles,0);
+  const avg=my.length?Math.round(total/my.length*10)/10:0;
+  const byMonth={};my.forEach(e=>{byMonth[e.month]=(byMonth[e.month]||0)+e.miles;});
+  const bestMonth=Object.entries(byMonth).sort((a,b)=>b[1]-a[1])[0];
+  const byCat={spiritual:0,physical:0,intellectual:0,social:0};
+  my.forEach(e=>{if(byCat[e.cat]!==undefined)byCat[e.cat]+=e.miles;});
+  const favCat=Object.entries(byCat).sort((a,b)=>b[1]-a[1])[0];
+  const catEmoji={spiritual:'🙏',physical:'💪',intellectual:'📚',social:'🤝'};
+  el.innerHTML=`
+    <div class="history-stat-card"><div class="history-stat-num">${total}</div><div class="history-stat-label">Total Miles</div></div>
+    <div class="history-stat-card"><div class="history-stat-num">${my.length}</div><div class="history-stat-label">Activities</div></div>
+    <div class="history-stat-card"><div class="history-stat-num">${bestMonth?bestMonth[1]:0}</div><div class="history-stat-label">Best Month</div></div>
+    <div class="history-stat-card"><div class="history-stat-num">${favCat?catEmoji[favCat[0]]:'&#x2014;'}</div><div class="history-stat-label">Top Cat.</div></div>`;
+}
+function renderHistoryChart(){
+  const el=document.getElementById('historyChart');if(!el)return;
+  const d=db();const my=d.entries.filter(e=>e.userId===currentUser.id);
+  const byMonth={};MONTHS.forEach(m=>byMonth[m]=0);
+  my.forEach(e=>{if(byMonth[e.month]!==undefined)byMonth[e.month]+=e.miles;});
+  const max=Math.max(...Object.values(byMonth),1);
+  el.innerHTML=MONTHS.map(m=>{
+    const miles=byMonth[m]||0;const pct=miles/max*100;
+    const isCur=m===getCurrentMonth();
+    return `<div class="history-bar-col" title="${m}: ${miles} mi">
+      <div class="history-bar-miles">${miles>0?miles:''}</div>
+      <div class="history-bar" style="height:${Math.max(pct,0)}%;background:${isCur?'var(--gold)':'var(--navy)'};opacity:${miles>0?1:.2};"></div>
+      <div class="history-bar-month">${m.slice(0,3)}</div>
+    </div>`;}).join('');
+}
+function renderHistoryMonthlySummaries(){
+  const el=document.getElementById('historyMonthlySummaries');if(!el||!currentUser)return;
+  const d=db();
+  let my=d.entries.filter(e=>e.userId===currentUser.id);
+  if(_historyFilter!=='all')my=my.filter(e=>e.cat===_historyFilter||(e.custom&&_historyFilter==='custom'));
+  if(_historySearch)my=my.filter(e=>e.desc.toLowerCase().includes(_historySearch.toLowerCase()));
+  const catColors={spiritual:'var(--spiritual)',physical:'var(--physical)',intellectual:'var(--intellectual)',social:'var(--social)',custom:'var(--gold)'};
+  const months=MONTHS.filter(m=>my.some(e=>e.month===m)).reverse();
+  if(!months.length){el.innerHTML='<p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);padding:.5rem 0;">No entries found.</p>';return;}
+  el.innerHTML=months.map(m=>{
+    const entries=my.filter(e=>e.month===m).sort((a,b)=>b.ts-a.ts);
+    const miles=entries.reduce((s,e)=>s+e.miles,0);
+    const pct=Math.min(100,Math.round(miles/60*100));
+    const isOpen=m===getCurrentMonth();
+    return `<div class="month-summary-card">
+      <div class="month-summary-header" onclick="toggleMonthSummary('${m}',this)">
+        <span class="month-summary-title">${m}</span>
+        <div class="month-summary-meta">
+          <span class="month-summary-count">${entries.length} activit${entries.length!==1?'ies':'y'}</span>
+          <span class="month-summary-miles">${miles} mi</span>
+          <span class="month-summary-chevron ${isOpen?'open':''}">&#9660;</span>
+        </div>
+      </div>
+      <div class="month-summary-prog"><div class="month-summary-prog-fill" style="width:${pct}%"></div></div>
+      <div class="month-summary-entries ${isOpen?'open':''}" id="month-entries-${m}" style="${isOpen?'':'display:none;'}">
+        ${entries.map(e=>{
+          const color=catColors[e.cat]||catColors.custom;
+          const date=e.ts?new Date(e.ts).toLocaleDateString('en-US',{month:'short',day:'numeric'}):'';
+          return `<div class="history-entry-v2">
+            <div class="history-entry-dot" style="background:${color};"></div>
+            <div class="history-entry-body">
+              <div class="history-entry-desc">${e.desc}</div>
+              <div class="history-entry-meta">${date}${date?' \u00b7 ':''}${cap(e.cat)}${e.custom?' \u00b7 custom':''}</div>
+              ${e.note?`<div class="history-entry-note">&#x1F4DD; ${e.note}</div>`:''}
+            </div>
+            <div class="history-entry-miles">${e.miles} mi</div>
+          </div>`;}).join('')}
+      </div>
+    </div>`;}).join('');
+}
+function toggleMonthSummary(month,headerEl){
+  const entries=document.getElementById('month-entries-'+month);
+  const chevron=headerEl.querySelector('.month-summary-chevron');
+  if(!entries)return;
+  const isOpen=entries.style.display!=='none';
+  entries.style.display=isOpen?'none':'block';
+  if(chevron)chevron.classList.toggle('open',!isOpen);
+}
+
+// ══════════════════════════════════════════════════
+//  VISITOR ROLE
+// ══════════════════════════════════════════════════
+function isVisitor(user){ return (user||currentUser)?.group==='Visitor'; }
+function showWardNameField(){
+  const sel=document.getElementById('regGroup');
+  const grp=document.getElementById('wardNameGroup');
+  if(grp)grp.style.display=sel&&sel.value==='Visitor'?'block':'none';
+}
+
+// ══════════════════════════════════════════════════
+//  PARTNER CHALLENGES
+// ══════════════════════════════════════════════════
+let _partnerTargetId=null,_partnerTargetName=null,_partnerSelectedActivity=null,_partnerActivityList=[];
+
+function openPartnerModal(e,userId,userName,userGroup){
+  if(e)e.stopPropagation();
+  _partnerTargetId=userId;_partnerTargetName=userName;_partnerSelectedActivity=null;
+  document.getElementById('partnerTargetName').textContent=userName;
+  document.getElementById('partnerTargetGroup').textContent=userGroup;
+  const allActs=[];
+  ['spiritual','physical','intellectual','social'].forEach(cat=>{
+    (ACTIVITIES[cat]||[]).forEach((a,i)=>allActs.push({cat,idx:i,...a}));
+  });
+  const picks=allActs.filter((_,i)=>i%10===0).slice(0,16);
+  _partnerActivityList=picks;
+  const catColors={spiritual:'var(--spiritual)',physical:'var(--physical)',intellectual:'var(--intellectual)',social:'var(--social)'};
+  document.getElementById('partnerActivityList').innerHTML=picks.map((a,i)=>
+    `<div class="partner-activity-item" id="pai-${i}" onclick="selectPartnerActivity(${i},'${a.cat}',${a.idx})">
+      <div class="partner-activity-miles" style="color:${catColors[a.cat]};">${a.miles}</div>
+      <div class="partner-activity-desc">${a.text.length>65?a.text.slice(0,65)+'\u2026':a.text}</div>
+    </div>`).join('');
+  const btn=document.getElementById('partnerSendBtn');btn.disabled=true;btn.style.opacity='.5';btn.textContent='Select an activity first';
+  document.getElementById('partnerModal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function selectPartnerActivity(listIdx,cat,actIdx){
+  document.querySelectorAll('.partner-activity-item').forEach(el=>el.classList.remove('selected'));
+  document.getElementById('pai-'+listIdx)?.classList.add('selected');
+  _partnerSelectedActivity={cat,actIdx,text:_partnerActivityList[listIdx].text,miles:_partnerActivityList[listIdx].miles};
+  const btn=document.getElementById('partnerSendBtn');btn.disabled=false;btn.style.opacity='1';btn.textContent='Send Challenge \u2192';
+}
+function closePartnerModal(e){
+  if(e&&e.target!==document.getElementById('partnerModal'))return;
+  document.getElementById('partnerModal').classList.remove('open');
+  document.body.style.overflow='';
+}
+async function sendPartnerChallenge(){
+  if(!_partnerSelectedActivity||!_partnerTargetId)return;
+  const challenge={
+    initiatorId:currentUser.id,initiatorName:currentUser.name,
+    targetId:_partnerTargetId,targetName:_partnerTargetName,
+    cat:_partnerSelectedActivity.cat,desc:_partnerSelectedActivity.text,
+    miles:_partnerSelectedActivity.miles,bonusMiles:5,
+    deadline:Date.now()+7*24*60*60*1000,ts:Date.now(),
+    initiatorDone:false,targetDone:false,status:'active'
+  };
+  try{
+    await _db().collection('partnerChallenges').add(challenge);
+    closePartnerModal();
+    showToast('\u{1F91D} Challenge sent to '+_partnerTargetName+'! You have 7 days.');
+    fireConfetti();
+    announceAchievement(currentUser.name,'\u{1F91D}',currentUser.name+' challenged '+_partnerTargetName+' to "'+challenge.desc.slice(0,40)+'\u2026" together!');
+  }catch(err){showToast('Error: '+err.message);}
+}
+async function claimPartnerChallenge(challengeId,isInitiator){
+  try{
+    const field=isInitiator?'initiatorDone':'targetDone';
+    await _db().collection('partnerChallenges').doc(challengeId).update({[field]:true});
+    const doc=await _db().collection('partnerChallenges').doc(challengeId).get();
+    const data=doc.data();
+    if(data.initiatorDone&&data.targetDone){
+      await _db().collection('partnerChallenges').doc(challengeId).update({status:'complete'});
+      await fbAdd('entries',{userId:data.initiatorId,userName:data.initiatorName,cat:data.cat,desc:'\u{1F91D} Partner Bonus w/ '+data.targetName,miles:data.bonusMiles,month:getCurrentMonth(),ts:Date.now(),custom:true});
+      await fbAdd('entries',{userId:data.targetId,userName:data.targetName,cat:data.cat,desc:'\u{1F91D} Partner Bonus w/ '+data.initiatorName,miles:data.bonusMiles,month:getCurrentMonth(),ts:Date.now(),custom:true});
+      setUF('partnerBadge_'+data.initiatorId+'_'+data.targetId,{partner:data.targetName,activity:data.desc,ts:Date.now()});
+      announceAchievement(data.initiatorName,'\u{1F91D}',data.initiatorName+' & '+data.targetName+' completed a Partner Challenge together! +'+data.bonusMiles+' bonus miles each!');
+      showToast('\u{1F389} Partnership complete! Both earned +'+data.bonusMiles+' bonus miles!');
+      fireConfetti();
+    }else{
+      showToast('\u2713 Your part done! Waiting on '+(isInitiator?data.targetName:data.initiatorName)+'\u2026');
+    }
+    await fbAdd('entries',{userId:currentUser.id,userName:currentUser.name,cat:data.cat,desc:data.desc+' (Partner Challenge)',miles:data.miles,month:getCurrentMonth(),ts:Date.now(),custom:true,isPartner:true});
+    await loadAll();renderDashboard();
+  }catch(err){showToast('Error: '+err.message);}
+}
+async function renderPartnerChallenges(){
+  const el=document.getElementById('partnerChallengesCard');if(!el||!currentUser)return;
+  try{
+    const snap=await _db().collection('partnerChallenges').where('status','==','active').get();
+    const mine=snap.docs.map(d=>({id:d.id,...d.data()})).filter(c=>
+      (c.initiatorId===currentUser.id||c.targetId===currentUser.id)&&c.deadline>Date.now()
+    );
+    if(!mine.length){el.innerHTML='';return;}
+    el.innerHTML=mine.map(c=>{
+      const isInitiator=c.initiatorId===currentUser.id;
+      const myDone=isInitiator?c.initiatorDone:c.targetDone;
+      const partner=isInitiator?c.targetName:c.initiatorName;
+      const daysLeft=Math.ceil((c.deadline-Date.now())/86400000);
+      return `<div class="partner-challenge-card">
+        <div class="pc-eyebrow">\u{1F91D} Active Partner Challenge</div>
+        <div class="pc-title">${c.desc.length>60?c.desc.slice(0,60)+'\u2026':c.desc}</div>
+        <div class="pc-partners">With ${partner} &middot; +${c.miles} miles + ${c.bonusMiles} bonus</div>
+        <div class="pc-footer">
+          <span class="pc-deadline">${daysLeft} day${daysLeft!==1?'s':''} left</span>
+          ${!myDone?`<button class="pc-claim-btn" onclick="claimPartnerChallenge('${c.id}',${isInitiator})">I did it! \u2713</button>`:'<span style="font-family:\'Inter\',sans-serif;font-size:.65rem;color:var(--teal);">\u2713 Your part done</span>'}
+        </div>
+      </div>`;}).join('');
+  }catch(err){el.innerHTML='';}
+}
+
+// ══════════════════════════════════════════════════
+//  RETURN TO ZION — SECOND JOURNEY
+// ══════════════════════════════════════════════════
+const ZION_WAYPOINTS=[
+  {label:'Nauvoo',     miles:600, bonus:0,   icon:'\u26EA', desc:'The City Beautiful \u2014 where the Saints began their westward journey.'},
+  {label:'Winter\nQtrs',miles:750,bonus:150, icon:'\u2744\uFE0F', desc:'Winter Quarters \u2014 the Saints endured bitter cold here before pressing west.'},
+  {label:'Chimney\nRock',miles:900,bonus:300,icon:'\u{1FAA8}', desc:'Chimney Rock \u2014 a towering landmark that told pioneers they were making real progress.'},
+  {label:'South\nPass', miles:1050,bonus:450,icon:'\u{1F3D4}\uFE0F', desc:'South Pass \u2014 the gateway through the Rockies, nearly halfway home.'},
+  {label:'Salt Lake',  miles:1200,bonus:600, icon:'\u{1F304}', desc:'"This is the right place." The promised Zion, reached at last.'},
+];
+const ZION_LEVEL_TITLES=['Faithful Pilgrim','Desert Walker','Trail Blazer','Mountain Climber','Pioneer','Covenant Keeper','Zion Builder','Saint of Zion'];
+const ZION_BADGES=[
+  {id:'nauvoo',     name:'Nauvoo Exile',        icon:'\u26EA', bonus:0},
+  {id:'winterQtrs', name:'Winter Quarters',     icon:'\u2744\uFE0F', bonus:150},
+  {id:'chimneyRock',name:'Chimney Rock Pilgrim', icon:'\u{1FAA8}', bonus:300},
+  {id:'southPass',  name:'South Pass Crosser',  icon:'\u{1F3D4}\uFE0F', bonus:450},
+  {id:'saltLake',   name:'Zion Arrived',         icon:'\u{1F304}', bonus:600},
+];
+
+function renderZionJourneyCard(){
+  const el=document.getElementById('zionJourneyCard');if(!el||!currentUser)return;
+  const d=db();
+  const totalMiles=d.entries.filter(e=>e.userId===currentUser.id).reduce((s,e)=>s+e.miles,0);
+  if(totalMiles<600){el.innerHTML='';return;}
+  const zionMiles=totalMiles-600;
+  const level=Math.min(ZION_LEVEL_TITLES.length-1,Math.floor(zionMiles/75));
+  const title=ZION_LEVEL_TITLES[level];
+  const xpPct=Math.min(100,Math.round((zionMiles%75)/75*100));
+  const pct=Math.min(100,Math.round(zionMiles/600*100));
+  const wps=ZION_WAYPOINTS.map(wp=>{
+    const reached=zionMiles>=wp.bonus;
+    return `<div class="zion-wp">
+      <div class="zion-wp-icon">${reached?wp.icon:''}</div>
+      <div class="zion-wp-dot ${reached?'reached':''}"></div>
+      <div class="zion-wp-label">${wp.label.replace('\n','<br>')}</div>
+    </div>`;}).join('');
+  el.innerHTML=`<div class="zion-map">
+    <div class="zion-header">
+      <span class="zion-title">\u{1F3D4} Forward to Zion</span>
+      <span class="zion-level">Lvl ${level+1} &middot; ${title}</span>
+    </div>
+    <div class="zion-waypoints">
+      <div class="zion-line-bg"></div>
+      <div class="zion-line-fill" style="width:${pct}%;"></div>
+      ${wps}
+    </div>
+    <div class="xp-label"><span>${zionMiles} beyond-Jerusalem miles</span><span>${pct}% to Salt Lake</span></div>
+    <div class="xp-bar-wrap"><div class="xp-bar-fill" style="width:${xpPct}%;"></div></div>
+    <div class="xp-label"><span>Level ${level+1}: ${title}</span><span>${zionMiles%75}/75 XP to next level</span></div>
+  </div>`;
+}
+function checkZionUnlock(totalMiles){
+  if(!currentUser||totalMiles<600)return;
+  if(hasUF('zionUnlocked_'+currentUser.id))return;
+  setUF('zionUnlocked_'+currentUser.id,'1');
+  setTimeout(showZionUnlock,1000);
+}
+function showZionUnlock(){
+  const overlay=document.getElementById('zionUnlockOverlay');if(!overlay)return;
+  overlay.classList.add('show');
+  const canvas=document.getElementById('zionFireworkCanvas');
+  if(!canvas)return;
+  canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+  const ctx=canvas.getContext('2d');const particles=[];
+  const colors=['#e8b050','#2a7a6e','#c8922a','#ffffff','#5a9a2e','#a0c840'];
+  function burst(x,y){for(let i=0;i<45;i++){const a=Math.random()*Math.PI*2,sp=2+Math.random()*5;particles.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,alpha:1,color:colors[Math.floor(Math.random()*colors.length)],size:2+Math.random()*3});}}
+  let frame=0;
+  function animate(){
+    if(!document.getElementById('zionUnlockOverlay').classList.contains('show'))return;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    if(frame%40===0)burst(Math.random()*canvas.width,Math.random()*canvas.height*.7);
+    for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.x+=p.vx;p.y+=p.vy;p.vy+=.1;p.alpha-=.015;if(p.alpha<=0){particles.splice(i,1);continue;}ctx.globalAlpha=p.alpha;ctx.fillStyle=p.color;ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fill();}
+    ctx.globalAlpha=1;frame++;requestAnimationFrame(animate);
+  }
+  animate();
+  announceAchievement(currentUser.name,'\u{1F3D4}',currentUser.name+' completed Jerusalem and unlocked the Forward to Zion \u2014 a second journey begins!');
+}
+function closeZionUnlock(){document.getElementById('zionUnlockOverlay').classList.remove('show');}
+function checkZionWaypointBadges(totalMiles){
+  if(!currentUser||totalMiles<600)return;
+  const zionMiles=totalMiles-600;
+  ZION_BADGES.forEach(badge=>{
+    const key='zionBadge_'+currentUser.id+'_'+badge.id;
+    if(zionMiles>=badge.bonus&&!hasUF(key)){
+      setUF(key,'1');
+      setTimeout(()=>{
+        showToast('\u{1F3D4} Zion Badge: '+badge.icon+' '+badge.name+'!');
+        fireConfetti();
+        if(badge.bonus>0)announceAchievement(currentUser.name,badge.icon,currentUser.name+' reached '+badge.name+' on the Forward to Zion!');
+      },600);
+    }
+  });
+}
+
+
+// ══ WHAT'S NEW v3.0 MODAL ══
+const CURRENT_VERSION = 'v3.0.0';
+
+function checkWhatsNew(){
+  // Show once per user per version — stored in Firestore userState
+  const key = 'seenWhatsNew_' + CURRENT_VERSION;
+  if(hasUF(key)) return;
+  // Small delay so dashboard renders first
+  setTimeout(()=>{
+    document.getElementById('whatsNewModal').classList.add('open');
+  }, 1200);
+}
+
+function closeWhatsNew(){
+  document.getElementById('whatsNewModal').classList.remove('open');
+  // Mark as seen in Firestore so it never shows again for this user
+  setUF('seenWhatsNew_' + CURRENT_VERSION, '1');
+}
+
 function exportCSV(){
   const d=db();const headers=['Name','Group','Category','Description','Miles','Month','Date','Custom'];
   const rows=d.entries.map(e=>{const u=d.users.find(u=>u.id===e.userId)||{};return[u.name||e.userName,u.group||'',e.cat,'"'+e.desc.replace(/"/g,'""')+'"',e.miles,e.month,new Date(e.ts).toLocaleDateString(),e.custom?'Yes':'No'].join(',');});
@@ -4382,6 +4732,89 @@ buildStars();
     <div class="streak-body" id="streakBody"></div>
     <div class="streak-months" id="streakDots"></div>
     <button class="btn btn-primary" onclick="document.getElementById('streakOverlay').classList.remove('show')">Keep Walking →</button>
+  </div>
+</div>
+
+<!-- PARTNER CHALLENGE MODAL -->
+<div id="partnerModal" onclick="closePartnerModal(event)">
+  <div class="partner-modal-card">
+    <div class="partner-modal-header">
+      <div class="partner-modal-title">&#x1F91D; Send a Partner Challenge</div>
+      <div class="partner-modal-sub">Choose an activity &mdash; both complete it within 7 days</div>
+    </div>
+    <div class="partner-modal-body">
+      <div class="partner-target">
+        <div style="flex:1;">
+          <div class="partner-target-name" id="partnerTargetName">&mdash;</div>
+          <div class="partner-target-group" id="partnerTargetGroup">&mdash;</div>
+        </div>
+        <div style="font-size:1.5rem;">&#x1F91D;</div>
+      </div>
+      <div style="font-family:'Inter',sans-serif;font-size:.7rem;color:var(--ink-soft);margin-bottom:.5rem;">Pick an activity you will both complete:</div>
+      <div class="partner-activity-list" id="partnerActivityList"></div>
+      <div style="background:var(--sand);border-radius:6px;padding:.6rem .75rem;font-family:'Crimson Pro',serif;font-size:.82rem;color:var(--ink-soft);margin-bottom:.5rem;">
+        &#x2726; Both earn <strong style="color:var(--navy);">+5 bonus miles</strong> and a permanent <strong style="color:var(--teal);">&#x1F91D; Partnership Badge</strong> when you both complete it within 7 days.
+      </div>
+    </div>
+    <div class="partner-modal-footer">
+      <button class="partner-send-btn" onclick="sendPartnerChallenge()" id="partnerSendBtn" disabled style="opacity:.5;">Select an activity first</button>
+      <button style="background:none;border:none;font-family:'Inter',sans-serif;font-size:.75rem;color:var(--ink-soft);cursor:pointer;padding:.5rem;" onclick="closePartnerModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- RETURN TO ZION UNLOCK OVERLAY -->
+<div id="zionUnlockOverlay">
+  <canvas id="zionFireworkCanvas" style="position:absolute;inset:0;pointer-events:none;"></canvas>
+  <div class="zion-unlock-eyebrow">&#x2726; Jerusalem Completed &#x2726;</div>
+  <div class="zion-unlock-icon">&#x1F3D4;</div>
+  <div class="zion-unlock-title">Forward to Zion</div>
+  <div class="zion-unlock-sub">Your journey does not end in Jerusalem &mdash; it is just beginning. A new path opens: follow the footsteps of the pioneers from Nauvoo to the Salt Lake Valley.</div>
+  <button class="btn btn-gold" onclick="closeZionUnlock()" style="width:auto;padding:.75rem 2rem;">Begin the Return &#x2192;</button>
+</div>
+
+<!-- WHAT'S NEW v3.0 MODAL -->
+<div id="whatsNewModal">
+  <div class="wn-card">
+    <div class="wn-header">
+      <div class="wn-badge">&#x2726; Version 3.0 &mdash; What&rsquo;s New</div>
+      <div class="wn-title">Walk With Me</div>
+      <div class="wn-sub">Three big updates just dropped &mdash; here&rsquo;s what&rsquo;s new</div>
+    </div>
+    <div class="wn-body">
+      <div class="wn-feature">
+        <div class="wn-icon" style="background:linear-gradient(135deg,#1a3a5c,#0f2540);">&#x1F3D4;</div>
+        <div class="wn-feature-body">
+          <div class="wn-feature-title">Forward to Zion &mdash; A Second Journey</div>
+          <div class="wn-feature-desc">Hit 600 miles? The journey isn&rsquo;t over. A pioneer trail from Nauvoo to Salt Lake Valley unlocks automatically &mdash; with XP levels, new badges, and a second map on your Dashboard.</div>
+        </div>
+      </div>
+      <div class="wn-feature">
+        <div class="wn-icon" style="background:linear-gradient(135deg,#2a7a6e,#1a5a4e);">&#x1F91D;</div>
+        <div class="wn-feature-body">
+          <div class="wn-feature-title">Partner Challenges</div>
+          <div class="wn-feature-desc">Tap any name on the Leaderboard to challenge them to complete an activity together. Both finish within 7 days and you both earn bonus miles + a permanent Partnership Badge.</div>
+        </div>
+      </div>
+      <div class="wn-feature">
+        <div class="wn-icon" style="background:linear-gradient(135deg,#5a7a2a,#3a5a1a);">&#x1F465;</div>
+        <div class="wn-feature-body">
+          <div class="wn-feature-title">Visitor Role</div>
+          <div class="wn-feature-desc">Friends and family from other wards can now join. Select &ldquo;Visitor&rdquo; at registration to cheer on Level Creek without affecting our ward&rsquo;s group miles.</div>
+        </div>
+      </div>
+      <div class="wn-feature">
+        <div class="wn-icon" style="background:linear-gradient(135deg,#7a4a20,#5a3010);">&#x1F4DC;</div>
+        <div class="wn-feature-body">
+          <div class="wn-feature-title">History Tab &mdash; Redesigned</div>
+          <div class="wn-feature-desc">Your mile log now has a bar chart, personal stats, search and category filters, and expandable monthly summary cards with color-coded activity entries.</div>
+        </div>
+      </div>
+    </div>
+    <div class="wn-footer">
+      <button class="wn-cta" onclick="closeWhatsNew()">Let&rsquo;s go! &#x2192;</button>
+      <button class="wn-dismiss" onclick="closeWhatsNew()">Dismiss</button>
+    </div>
   </div>
 </div>
 </body>
