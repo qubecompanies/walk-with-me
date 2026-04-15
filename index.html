@@ -1008,7 +1008,119 @@ textarea.form-input{min-height:72px;resize:vertical;}
       <!-- 4. UPCOMING & FUTURE CHALLENGES TIMELINE -->
       <div id="featuredLogSection" style="margin-top:1.5rem;"></div>
     </div>
-    <!-- HISTORY -->
+    <!-- GROUP MAP -->
+    <div id="tab-group" class="tab-content">
+      <div class="section-heading">Group Journey</div>
+      <div class="section-sub">Level Creek Ward — walking together to Jerusalem</div>
+
+      <!-- HERO MILES CARD -->
+      <div class="group-map-hero">
+        <div class="group-hero-total" id="groupTotalDisp">0 miles</div>
+        <div class="group-hero-label">Combined ward progress</div>
+        <div class="group-hero-prog"><div class="group-hero-prog-fill" id="groupProgressBar" style="width:0%"></div></div>
+        <div class="group-hero-sub" id="groupMapSub">The journey has begun from Egypt</div>
+      </div>
+
+      <!-- STATS ROW -->
+      <div class="group-stats-grid">
+        <div class="group-stat-pill"><div class="group-stat-num" id="groupMilesDisp">0</div><div class="group-stat-label">Miles</div></div>
+        <div class="group-stat-pill"><div class="group-stat-num" id="groupParticipants">0</div><div class="group-stat-label">Walking</div></div>
+        <div class="group-stat-pill"><div class="group-stat-num" id="groupCompletions">0</div><div class="group-stat-label">Finished</div></div>
+        <div class="group-stat-pill"><div class="group-stat-num" id="groupPct">0%</div><div class="group-stat-label">Progress</div></div>
+      </div>
+
+      <!-- WAYPOINTS MAP -->
+      <div class="card journey-map" style="margin-bottom:1rem;padding:1.25rem 1rem;position:relative;">
+        <div id="waypointsContainer" style="display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:2rem;position:relative;">
+          <div id="journeyLine" style="position:absolute;bottom:.8rem;left:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:2px;width:0%;transition:width .8s ease;z-index:0;"></div>
+          <div id="groupTraveler" style="left:0;"></div>
+        </div>
+        <canvas id="mapCanvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;border-radius:4px;" width="400" height="200"></canvas>
+      </div>
+
+      <!-- COUNTDOWN (above shoutouts) -->
+      <div class="countdown-inline" id="partyCountdown"></div>
+      <p style="font-family:'Crimson Pro',serif;font-style:italic;font-size:.82rem;color:var(--ink-soft);text-align:center;margin-bottom:1rem;margin-top:-.5rem;" id="partyMsg">Jerusalem awaits!</p>
+
+      <!-- FEATURED CHALLENGE -->
+      <div id="didYouKnowCard" style="margin-bottom:1rem;"></div>
+      <div id="featuredChallengeCard" style="display:none;margin-bottom:1rem;"></div>
+
+      <!-- LEADER SHOUTOUTS FEED -->
+      <div class="feed-card">
+        <div class="feed-card-header">
+          <span class="feed-card-title">📣 Leader Shoutouts</span>
+          <span class="feed-card-count" id="shoutoutCount"></span>
+        </div>
+        <div class="feed-body" id="shoutoutFeed"><p style="padding:1rem;font-style:italic;font-size:.9rem;color:var(--ink-soft);">No shoutouts yet — check back soon!</p></div>
+        <button class="show-more-btn" id="shoutoutMoreBtn" style="display:none;" onclick="toggleFeedMore('shoutout')">Show more ▼</button>
+      </div>
+
+      <!-- BADGE CELEBRATIONS FEED -->
+      <div class="feed-card">
+        <div class="feed-card-header">
+          <span class="feed-card-title">🏅 Badge Celebrations</span>
+          <span class="feed-card-count" id="badgeCount"></span>
+        </div>
+        <div class="feed-body" id="badgeAnnounceFeed"><p style="padding:1rem;font-style:italic;font-size:.9rem;color:var(--ink-soft);">No badge announcements yet.</p></div>
+        <button class="show-more-btn" id="badgeMoreBtn" style="display:none;" onclick="toggleFeedMore('badge')">Show more ▼</button>
+      </div>
+    </div>
+
+    <!-- LEADERBOARD -->
+    <div id="tab-leaderboard" class="tab-content">
+      <div class="section-heading">Leaderboard</div>
+      <div class="section-sub">Honoring every pilgrim on the journey</div>
+
+      <!-- Sub-tab nav -->
+      <div style="display:flex;gap:.4rem;margin-bottom:1.25rem;flex-wrap:wrap;" id="lbSubTabs">
+        <button class="lb-sub-tab active" onclick="switchLBTab('youth',this)">🏃 Youth</button>
+        <button class="lb-sub-tab" onclick="switchLBTab('adults',this)">★ Leaders</button>
+        <button class="lb-sub-tab" onclick="switchLBTab('ymvsyw',this)">⚡ vs 🌸</button>
+        <button class="lb-sub-tab" onclick="switchLBTab('youthvsleader',this)">Youth vs Adults</button>
+        <button class="lb-sub-tab" onclick="switchLBTab('monthly',this)">📅 This Month</button>
+      </div>
+
+      <!-- YOUTH BOARD -->
+      <div id="lb-pane-youth" class="lb-pane">
+        <div class="card neutral" style="padding:0;overflow:hidden;margin-bottom:.75rem;">
+          <div class="lb-section-divider"><span class="lb-section-divider-label">⚡ Young Men</span><span id="ymTotal" style="float:right;font-family:'Cinzel',serif;font-size:.68rem;color:var(--ink-soft);"></span></div>
+          <div id="leaderboardYM"></div>
+        </div>
+        <div class="card neutral" style="padding:0;overflow:hidden;">
+          <div class="lb-section-divider"><span class="lb-section-divider-label">🌸 Young Women</span><span id="ywTotal" style="float:right;font-family:'Cinzel',serif;font-size:.68rem;color:var(--ink-soft);"></span></div>
+          <div id="leaderboardYW"></div>
+        </div>
+      </div>
+
+      <!-- ADULTS BOARD -->
+      <div id="lb-pane-adults" class="lb-pane" style="display:none;">
+        <div class="card neutral" style="padding:0;overflow:hidden;" id="leaderLBCard">
+          <div class="lb-section-divider"><span class="lb-section-divider-label">★ Leaders &amp; Adults</span></div>
+          <div id="leaderboardLeaders"></div>
+        </div>
+      </div>
+
+      <!-- YM vs YW VERSUS BOARD -->
+      <div id="lb-pane-ymvsyw" class="lb-pane" style="display:none;">
+        <div id="lbVersusYMYW"></div>
+      </div>
+
+      <!-- YOUTH vs LEADER VERSUS BOARD -->
+      <div id="lb-pane-youthvsleader" class="lb-pane" style="display:none;">
+        <div id="lbVersusYouthLeader"></div>
+      </div>
+
+      <!-- THIS MONTH BOARD -->
+      <div id="lb-pane-monthly" class="lb-pane" style="display:none;">
+        <div class="card neutral" style="padding:0;overflow:hidden;">
+          <div class="lb-section-divider"><span class="lb-section-divider-label">📅 <span id="lbMonthLabel">This Month</span> — All Youth</span></div>
+          <div id="leaderboardMonthly"></div>
+        </div>
+      </div>
+    </div>
+
+        <!-- HISTORY -->
     <div id="tab-history" class="tab-content">
       <div class="section-heading">My Mile Log</div>
       <div class="section-sub">Your complete journey record</div>
