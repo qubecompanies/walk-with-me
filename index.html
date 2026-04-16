@@ -855,7 +855,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
 .dash-greeting-badge-wrap{position:relative;display:inline-block;flex-shrink:0;}
 .dash-inline-badge{display:inline-flex;align-items:center;gap:.35rem;background:linear-gradient(135deg,#1a3a5c,#0f2540);border:1.5px solid var(--gold);border-radius:30px;padding:.3rem .85rem;font-family:'Cinzel',serif;font-size:.72rem;color:var(--gold-light);cursor:pointer;position:relative;animation:titlePulse 3s ease-in-out infinite;}
 .dash-inline-badge::before{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);animation:titleShimmer 3s ease-in-out infinite;border-radius:30px;overflow:hidden;}
-.dash-badge-tooltip{position:absolute;top:calc(100% + 8px);right:0;transform:scaleY(0);transform-origin:top right;background:var(--parchment);border:1.5px solid var(--gold);border-radius:8px;padding:.75rem 1rem;min-width:230px;max-width:290px;box-shadow:0 8px 24px rgba(0,0,0,.2);z-index:200;transition:transform .2s cubic-bezier(.4,0,.2,1),opacity .2s;opacity:0;pointer-events:none;text-align:left;}
+.dash-badge-tooltip{position:absolute;top:calc(100% + 8px);right:0;left:auto;transform:scaleY(0);transform-origin:top right;background:var(--parchment);border:1.5px solid var(--gold);border-radius:8px;padding:.75rem 1rem;min-width:200px;max-width:min(280px,calc(100vw - 1.5rem));box-shadow:0 8px 24px rgba(0,0,0,.2);z-index:200;transition:transform .2s cubic-bezier(.4,0,.2,1),opacity .2s;opacity:0;pointer-events:none;text-align:left;}
 .dash-greeting-badge-wrap.open .dash-badge-tooltip,.dash-greeting-badge-wrap:hover .dash-badge-tooltip{transform:scaleY(1);opacity:1;pointer-events:all;}
 
 /* ══ PUSH NOTIFICATIONS ══ */
@@ -1198,7 +1198,6 @@ textarea.form-input{min-height:72px;resize:vertical;}
         <div class="card neutral" style="padding:0;overflow:hidden;">
           <div class="lb-section-divider"><span class="lb-section-divider-label">📅 <span id="lbMonthLabel">This Month</span> — All Youth</span></div>
           <div id="leaderboardMonthly"></div>
-          <div id="lbStreaks" style="display:none;"></div>
         </div>
       </div>
 
@@ -5336,25 +5335,36 @@ function initNotifications(){
 //  ACTIVITY STREAKS LEADERBOARD TAB
 // ══════════════════════════════════════════════════
 function renderStreakLeaderboard(){
-  // Inject a streak sub-tab into leaderboard if not present
   const lbPane=document.getElementById('lbStreaks');
   if(!lbPane||!currentUser)return;
   const d=db();
   const allUsers=d.users.filter(u=>!u.isVisitor);
-  // Calculate daily streak for each user (simplified: count days with entries in last 60 days)
-  const now=Date.now();
-  const dayMs=86400000;
+
+  // Per-user streak using YYYYMMDD dayStamp keying (matches wasActiveOnDay logic)
+  function getDayStampFor(daysBack){
+    const dt=new Date();dt.setDate(dt.getDate()-daysBack);dt.setHours(0,0,0,0);
+    return dt.getFullYear()*10000+(dt.getMonth()+1)*100+dt.getDate();
+  }
+  function wasActiveForUser(userId, dayStamp, userEntries){
+    const d0=new Date(Math.floor(dayStamp/10000),Math.floor((dayStamp%10000)/100)-1,dayStamp%100);
+    const start=d0.getTime(); const end=start+86399999;
+    return userEntries.some(e=>e.ts>=start&&e.ts<=end);
+  }
   function userStreak(user){
-    const entries=d.entries.filter(e=>e.userId===user.id);
-    let streak=0; let grace=false;
+    const entries=d.entries.filter(e=>e.userId===user.id&&e.ts);
+    // Also check month-keyed entries (no ts) — count current month as active today
+    const noTsEntries=d.entries.filter(e=>e.userId===user.id&&!e.ts);
+    const today=getDayStampFor(0);
+    let streak=0; let graceUsed=false;
     for(let i=0;i<60;i++){
-      const dayStart=new Date();dayStart.setHours(0,0,0,0);dayStart.setDate(dayStart.getDate()-i);
-      const dayEnd=dayStart.getTime()+dayMs;
-      const active=entries.some(e=>e.ts>=dayStart.getTime()&&e.ts<dayEnd);
-      if(i===0&&!active){continue;} // today not yet logged, don't penalize
-      if(active){streak++;grace=false;}
-      else if(!grace){grace=true;} // one grace day
-      else{break;}
+      const ds=getDayStampFor(i);
+      let active=wasActiveForUser(user.id,ds,entries);
+      // Fallback: if no ts entries at all but has entries this month, count today as active
+      if(!active&&i===0&&noTsEntries.some(e=>e.month===getCurrentMonth())) active=true;
+      if(i===0&&!active) continue; // don't penalize for today not yet logged
+      if(active){streak++;graceUsed=false;}
+      else if(!graceUsed){graceUsed=true;} // one grace day
+      else break;
     }
     return streak;
   }
