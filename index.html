@@ -818,6 +818,51 @@ textarea.form-input{min-height:72px;resize:vertical;}
 @keyframes titlePulse{0%,100%{box-shadow:0 0 8px rgba(200,146,42,.3);}50%{box-shadow:0 0 24px rgba(200,146,42,.65),0 0 48px rgba(200,146,42,.2);}}
 @keyframes titleShimmer{0%{left:-100%;}60%,100%{left:150%;}}
 .title-badge-icon{font-size:1rem;}
+
+/* ══ ADMIN ROSTER SEARCH ══ */
+.roster-search{width:100%;border:1.5px solid var(--sand-dark);border-radius:6px;padding:.5rem .85rem;font-family:'Crimson Pro',serif;font-size:.95rem;color:var(--ink);background:white;margin-bottom:.75rem;box-sizing:border-box;}
+.roster-search:focus{outline:none;border-color:var(--teal);}
+.show-more-row{text-align:center;padding:.6rem;border-top:1px solid var(--sand-dark);margin-top:.25rem;}
+.show-more-link{font-family:'Inter',sans-serif;font-size:.72rem;color:var(--teal);cursor:pointer;background:none;border:none;text-decoration:underline;text-underline-offset:2px;}
+
+/* ══ TITLE BADGE TOOLTIP ══ */
+.title-badge-wrap{position:relative;display:inline-block;}
+.title-badge-tooltip{position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%) scaleY(0);transform-origin:top center;background:var(--parchment);border:1.5px solid var(--gold);border-radius:8px;padding:.75rem 1rem;min-width:220px;max-width:280px;box-shadow:0 8px 24px rgba(0,0,0,.2);z-index:200;transition:transform .2s cubic-bezier(.4,0,.2,1),opacity .2s;opacity:0;pointer-events:none;text-align:left;}
+.title-badge-wrap:hover .title-badge-tooltip,
+.title-badge-wrap.open .title-badge-tooltip{transform:translateX(-50%) scaleY(1);opacity:1;pointer-events:all;}
+.tbt-title{font-family:'Cinzel',serif;font-size:.82rem;color:var(--navy);margin-bottom:.2rem;}
+.tbt-miles{font-family:'Inter',sans-serif;font-size:.65rem;color:var(--gold);letter-spacing:.06em;margin-bottom:.4rem;}
+.tbt-scripture{font-family:'Crimson Pro',serif;font-style:italic;font-size:.78rem;color:var(--ink-soft);line-height:1.45;margin-bottom:.2rem;}
+.tbt-ref{font-family:'Inter',sans-serif;font-size:.58rem;color:var(--ink-soft);opacity:.7;}
+
+/* ══ PLANNER CAT TABS (match Log Miles style) ══ */
+.planner-cat-tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem;}
+.planner-cat-tab{flex:1;min-width:72px;background:white;border:1.5px solid var(--sand-dark);border-radius:6px;padding:.55rem .3rem;text-align:center;cursor:pointer;transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:.2rem;}
+.planner-cat-tab:hover{border-color:var(--navy);background:var(--sand);}
+.planner-cat-tab.active{border-color:transparent;color:white;}
+.planner-cat-tab.active.all{background:var(--navy);}
+.planner-cat-tab.active.spiritual{background:var(--spiritual);}
+.planner-cat-tab.active.physical{background:var(--physical);}
+.planner-cat-tab.active.intellectual{background:var(--intellectual);}
+.planner-cat-tab.active.social{background:var(--social);}
+.planner-tab-icon{font-size:1.2rem;}
+.planner-tab-label{font-family:'Inter',sans-serif;font-size:.58rem;letter-spacing:.06em;text-transform:uppercase;}
+.planner-tab-count{font-family:'Cinzel',serif;font-size:.65rem;}
+
+/* ══ DASHBOARD GREETING + BADGE ROW ══ */
+.dash-greeting-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:.2rem;flex-wrap:wrap;gap:.5rem;}
+.dash-greeting-text{font-family:'Cinzel',serif;font-size:1.3rem;color:var(--navy);}
+.dash-greeting-badge-wrap{position:relative;display:inline-block;flex-shrink:0;}
+.dash-inline-badge{display:inline-flex;align-items:center;gap:.35rem;background:linear-gradient(135deg,#1a3a5c,#0f2540);border:1.5px solid var(--gold);border-radius:30px;padding:.3rem .85rem;font-family:'Cinzel',serif;font-size:.72rem;color:var(--gold-light);cursor:pointer;position:relative;animation:titlePulse 3s ease-in-out infinite;}
+.dash-inline-badge::before{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);animation:titleShimmer 3s ease-in-out infinite;border-radius:30px;overflow:hidden;}
+.dash-badge-tooltip{position:absolute;top:calc(100% + 8px);right:0;transform:scaleY(0);transform-origin:top right;background:var(--parchment);border:1.5px solid var(--gold);border-radius:8px;padding:.75rem 1rem;min-width:230px;max-width:290px;box-shadow:0 8px 24px rgba(0,0,0,.2);z-index:200;transition:transform .2s cubic-bezier(.4,0,.2,1),opacity .2s;opacity:0;pointer-events:none;text-align:left;}
+.dash-greeting-badge-wrap.open .dash-badge-tooltip,.dash-greeting-badge-wrap:hover .dash-badge-tooltip{transform:scaleY(1);opacity:1;pointer-events:all;}
+
+/* ══ PUSH NOTIFICATIONS ══ */
+.notif-opt-in-card{background:linear-gradient(135deg,rgba(42,122,110,.1),rgba(42,122,110,.04));border:1.5px solid var(--teal);border-radius:6px;padding:.75rem 1rem;margin-bottom:.75rem;display:flex;align-items:center;gap:.75rem;}
+.notif-opt-in-text{flex:1;font-family:'Crimson Pro',serif;font-size:.9rem;color:var(--ink);line-height:1.4;}
+.notif-opt-in-btn{background:var(--teal);color:white;border:none;border-radius:20px;padding:.3rem .85rem;font-family:'Inter',sans-serif;font-size:.72rem;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.notif-opt-in-dismiss{background:none;border:none;color:var(--ink-soft);cursor:pointer;font-size:.8rem;padding:.25rem;}
 </style>
 </head>
 <body>
@@ -922,13 +967,17 @@ textarea.form-input{min-height:72px;resize:vertical;}
 
     <!-- DASHBOARD -->
     <div id="tab-dashboard" class="tab-content active">
-      <div class="section-heading" id="dashGreeting">My Journey</div>
-      <div class="section-sub">Keep walking — Jerusalem awaits.</div>
+      <div class="dash-greeting-row">
+        <div class="dash-greeting-text" id="dashGreeting">My Journey</div>
+        <div class="dash-greeting-badge-wrap" id="dashInlineBadgeWrap" onclick="this.classList.toggle('open')" style="display:none;"></div>
+      </div>
+      <div class="section-sub" id="dashSubtitle">Keep walking &#x2014; Jerusalem awaits.</div>
+      <div id="notifOptInCard"></div>
       <div id="monthRecapCard"></div>
       <div id="monthNudgeCard"></div>
       <div id="dailySparkCard"></div>
       <div id="mtwiCard"></div>
-      <div class="title-badge-row" id="titleBadgeRow"></div>
+      <div id="titleBadgeRow" style="display:none;"></div>
       <div id="zionJourneyCard"></div>
       <div id="partnerChallengesCard"></div>
       <div id="todaysChallengeCard"></div>
@@ -993,7 +1042,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
         <div style="font-size:.8rem;color:var(--ink-soft);font-style:italic;" id="plannerMilesPreview"></div>
       </div>
       <div id="plannerPlanned" style="margin-bottom:1.5rem;"></div>
-      <div class="planner-category-grid" id="plannerCatGrid"></div>
+      <div class="planner-cat-tabs" id="plannerCatGrid"></div>
       <div style="font-size:.85rem;color:var(--ink-soft);font-style:italic;margin-bottom:.75rem;">Tap a category above to filter, then tap any activity below to add it to your plan.</div>
       <div id="plannerActivityList"></div>
     </div>
@@ -1111,6 +1160,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
         <button class="lb-sub-tab" onclick="switchLBTab('ymvsyw',this)">⚡ vs 🌸</button>
         <button class="lb-sub-tab" onclick="switchLBTab('youthvsleader',this)">Youth vs Adults</button>
         <button class="lb-sub-tab" onclick="switchLBTab('monthly',this)">📅 This Month</button>
+        <button class="lb-sub-tab" onclick="switchLBTab('streaks',this)">&#x26A1; Streaks</button>
       </div>
 
       <!-- YOUTH BOARD -->
@@ -1148,7 +1198,13 @@ textarea.form-input{min-height:72px;resize:vertical;}
         <div class="card neutral" style="padding:0;overflow:hidden;">
           <div class="lb-section-divider"><span class="lb-section-divider-label">📅 <span id="lbMonthLabel">This Month</span> — All Youth</span></div>
           <div id="leaderboardMonthly"></div>
+          <div id="lbStreaks" style="display:none;"></div>
         </div>
+      </div>
+
+      <!-- STREAKS LEADERBOARD -->
+      <div id="lb-pane-streaks" class="lb-pane" style="display:none;">
+        <div id="lbStreaks"></div>
       </div>
     </div>
 
@@ -1273,10 +1329,11 @@ textarea.form-input{min-height:72px;resize:vertical;}
       </div>
       <!-- FULL ROSTER -->
       <div class="card neutral">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;">
           <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);">Full Roster</strong>
           <button class="btn btn-ghost btn-sm no-print" onclick="printRoster()">🖨 Print Roster</button>
         </div>
+        <input type="text" class="roster-search" id="rosterSearch" placeholder="Search by name…" oninput="renderAdmin()"/>
         <div id="adminRoster"></div>
       </div>
       <div class="card neutral">
@@ -1748,6 +1805,7 @@ function enterApp(){
     silentRecalcOnLogin();
     renderMonthlyTrophyRow();
     checkWhatsNew();
+    initNotifications();
   });
   document.getElementById('loginScreen').classList.remove('active');
   document.getElementById('appScreen').classList.add('active');
@@ -1944,7 +2002,7 @@ function renderDashboard(){
   document.getElementById('dashJourneyBar').style.width=pct+'%';document.getElementById('dashMonthBar').style.width=mPct+'%';
   document.getElementById('dashStreak').textContent=calcStreak(my);
   renderStreakRow(my);renderBadges(total);renderMonthlyBadges();renderMonthlyTrophyRow();updateMiniMap(total);checkAndAwardMonthlyTrophies();renderDashHypeCard();renderTodaysChallenge();
-  renderZionJourneyCard();renderTitleBadge();renderPartnerChallenges();renderDailySpark();renderMtwiCard();renderThisWeekCard();renderDailyStreakCard();renderMasteryRings();renderMonthNudge();renderMonthRecap();
+  renderZionJourneyCard();renderTitleBadge();renderInlineTitleBadge();renderPartnerChallenges();renderBestMonthCard();renderNotifOptIn();renderDailySpark();renderMtwiCard();renderThisWeekCard();renderDailyStreakCard();renderMasteryRings();renderMonthNudge();renderMonthRecap();
   checkDailyStreakMilestones();
   const streak=calcStreak(my);checkStreakCelebration(streak);
   const catColors={spiritual:'var(--spiritual)',physical:'var(--physical)',intellectual:'var(--intellectual)',social:'var(--social)'};
@@ -2158,9 +2216,16 @@ function renderAdmin(){
   document.getElementById('leaderCatBars').innerHTML=Object.entries(catMiles).map(([cat,m])=>`<div class="cat-bar-row"><div class="cat-bar-label">${cap(cat)}</div><div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:${Math.round(m/maxCat*100)}%;background:${catColors[cat]};"></div></div><div class="cat-bar-miles">${m}</div></div>`).join('');
   const cur=getCurrentMonth();
   document.getElementById('leaderMonthStatus').innerHTML=!monthGroup.length?'<p style="font-size:.9rem;font-style:italic;color:var(--ink-soft);">No youth registered yet.</p>':monthGroup.map(u=>{const m=d.entries.filter(e=>e.userId===u.id&&e.month===cur).reduce((s,e)=>s+e.miles,0);const p=Math.min(100,Math.round(m/60*100));const color=m>=60?'var(--teal)':m>0?'var(--gold)':'var(--sand-dark)';return`<div class="admin-user-row"><div class="admin-user-name">${u.name}</div><div style="flex:1;padding:0 .75rem;"><div class="progress-wrap" style="height:5px;margin:0;"><div class="progress-fill" style="width:${p}%;background:${color};"></div></div></div><div style="font-size:.85rem;font-family:'Cinzel',serif;color:${color};min-width:60px;text-align:right;">${m} mi ${m>=60?'✓':'…'}</div></div>`;}).join('');
-  // Full roster with role editing
-  const allSorted=[...d.users].sort((a,b)=>a.name.localeCompare(b.name));
-  document.getElementById('adminRoster').innerHTML=allSorted.length?allSorted.map(u=>`
+  // Full roster with role editing — search + 10 limit + show more
+  const rosterQ=(document.getElementById('rosterSearch')||{}).value?.toLowerCase()||'';
+  let allSorted=[...d.users].sort((a,b)=>a.name.localeCompare(b.name));
+  if(rosterQ) allSorted=allSorted.filter(u=>u.name.toLowerCase().includes(rosterQ));
+  const rosterLimit=10;
+  const rosterEl=document.getElementById('adminRoster');
+  const rosterShowAll=rosterEl?.dataset.showAll==='1';
+  const rosterVisible=rosterShowAll?allSorted:allSorted.slice(0,rosterLimit);
+  const rosterMore=allSorted.length>rosterLimit;
+  rosterEl.innerHTML=(rosterVisible.length?rosterVisible.map(u=>`
     <div class="admin-user-row">
       <div class="admin-user-name">${u.name}</div>
       <select class="role-select" onchange="updateUserRole('${u.id}',this.value)">
@@ -2171,7 +2236,8 @@ function renderAdmin(){
         <option value="Visitor" ${u.group==='Visitor'?'selected':''}>Visitor</option>
       </select>
       <div class="admin-user-miles" style="min-width:50px;text-align:right;">${score(u)} mi</div>
-    </div>`).join(''):'<p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);">No users yet.</p>';
+    </div>`).join(''):'<p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);">No users found.</p>')
+    +(rosterMore?`<div class="show-more-row"><button class="show-more-link" onclick="toggleRosterAll()">${rosterShowAll?'Show less ▲':'Show all '+allSorted.length+' members ▼'}</button></div>`:'');
   // Group miles log with edit/delete
   const gmLog=document.getElementById('adminGroupMilesList');
   if(gmLog){const gmSorted=[...d.groupMiles].sort((a,b)=>b.ts-a.ts);gmLog.innerHTML=gmSorted.length?gmSorted.map(g=>`<div class="group-mile-row"><div><div style="font-size:.9rem;">${g.desc}</div><div class="history-meta">${g.month}</div></div><div class="history-miles">${g.miles} mi</div><button class="btn btn-ghost btn-sm" style="padding:.3rem .6rem;font-size:.7rem;" onclick="editGroupMiles('${g.id}','${(g.desc||'').replace(/'/g,"\'")}',${g.miles},'${g.month}')">Edit</button><button class="btn btn-danger" onclick="deleteGroupMiles('${g.id}')">✕</button></div>`).join(''):'<p style="font-size:.85rem;font-style:italic;color:var(--ink-soft);">No group miles added yet.</p>';}
@@ -2200,7 +2266,18 @@ function renderAdmin(){
     if(catF&&e.cat!==catF)return false;
     return true;
   });
-  document.getElementById('adminEntries').innerHTML=all.length?all.map(e=>`<div class="history-entry" style="grid-template-columns:1fr auto auto auto;"><div><div style="font-size:.85rem;">${e.userName} — ${e.desc.length>55?e.desc.slice(0,55)+'…':e.desc}</div><div class="history-meta">${e.month} · <span class="tag tag-${e.cat}">${cap(e.cat)}</span>${e.custom?' · custom':''}</div></div><div class="history-miles">${e.miles} mi</div><button class="btn btn-danger" onclick="deleteEntry('${e.id}')">Remove</button></div>`).join(''):'<p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);">No entries yet.</p>';
+    const entriesEl=document.getElementById('adminEntries');
+  const entriesShowAll=entriesEl?.dataset.showAll==='1';
+  const entLimit=10;
+  const entVisible=entriesShowAll?all:all.slice(0,entLimit);
+  const entMore=all.length>entLimit;
+  entriesEl.innerHTML=(entVisible.length?entVisible.map(e=>`<div class="history-entry" style="grid-template-columns:1fr auto auto;gap:.5rem;">
+    <div><div style="font-size:.85rem;">${e.desc.length>55?e.desc.slice(0,55)+'…':e.desc}</div>
+    <div class="history-meta">${e.userName||''} · ${e.month} · <span class="tag tag-${e.cat}">${cap(e.cat)}</span>${e.custom?' · custom':''}</div></div>
+    <div style="font-family:'Cinzel',serif;font-size:.9rem;color:var(--navy);white-space:nowrap;">${e.miles} mi</div>
+    <button class="btn btn-danger btn-sm" onclick="deleteEntry('${e.id}')">Remove</button>
+  </div>`).join(''):'<p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);padding:.5rem 0;">No entries match.</p>')
+  +(entMore?`<div class="show-more-row"><button class="show-more-link" onclick="toggleEntriesAll()">${entriesShowAll?'Show less ▲':'Show all '+all.length+' entries ▼'}</button></div>`:'');
 }
 
 async function addGroupMiles(){
@@ -2937,7 +3014,21 @@ function renderBadgeAnnouncements(){
   const ann=d.badgeAnnouncements||[];
   const el=document.getElementById('badgeAnnounceFeed');
   if(!el) return;
-  const all=[...ann].sort((a,b)=>b.ts-a.ts);
+  // Filter to approved celebration types only (reduce noise)
+  const ALLOWED_BADGE_PATTERNS=[
+    /milestone badge/i,           // 1. milestone badges
+    /monthly challenge/i,         // 2. monthly challenge badge
+    /MONTHLY CHAMPION/i,          // 3. monthly champion
+    /Walk to Jerusalem.*600/i,    // 4. Jerusalem arrival
+    /Forward to Zion/i,           // 4b. Zion unlock
+    /reached.*on the Forward/i,   // 4c. Zion waypoints
+    /leading the.*leaderboard/i,  // 7. monthly trophy
+    /Daily Champion.*30 days/i,   // 9. 30-day badge
+    /challenged.*together/i,      // partner challenge sent
+    /Partner Challenge together/i,// partner completion
+  ];
+  const filtered=[...ann].filter(a=>ALLOWED_BADGE_PATTERNS.some(p=>p.test(a.text||a.icon||'')));
+  const all=filtered.sort((a,b)=>b.ts-a.ts);
   const limit=10; const showAll=_feedState.badge;
   const visible=showAll?all:all.slice(0,limit);
   const countEl=document.getElementById('badgeCount');
@@ -3060,41 +3151,24 @@ function buildPlannerCatGrid(){
   const pct=Math.min(100,Math.round(plannedMiles/goal*100));
   const circ=2*Math.PI*18; // r=18
 
-  // "All" summary ring card
-  let html=`<div class="planner-cat-card ${_plannerActiveCat==='all'?'selected':''}" onclick="setPlannerCat('all',this)"
-    style="background:var(--parchment);border-color:${_plannerActiveCat==='all'?'var(--navy)':'transparent'};grid-column:span 2;">
-    <div style="display:flex;align-items:center;gap:.75rem;">
-      <div class="planner-ring-wrap" style="position:relative;width:48px;height:48px;flex-shrink:0;">
-        <svg width="48" height="48" viewBox="0 0 48 48" class="progress-ring">
-          <circle class="progress-ring-bg" cx="24" cy="24" r="18" stroke="rgba(201,185,154,.4)"/>
-          <circle class="progress-ring-fill" cx="24" cy="24" r="18" stroke="var(--navy)"
-            stroke-dasharray="${circ}"
-            stroke-dashoffset="${circ-(circ*pct/100)}"/>
-        </svg>
-        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:.7rem;color:var(--navy);">${pct}%</div>
-      </div>
-      <div>
-        <div style="font-family:'Cinzel',serif;font-size:.95rem;color:var(--navy);">All Activities</div>
-        <div style="font-family:'Inter',sans-serif;font-size:.7rem;color:var(--ink-soft);">${plan.length} planned · ${plannedMiles} / ${goal} miles</div>
-      </div>
-    </div>
-  </div>`;
-
-  // Category cards
-  Object.entries(CAT_META).forEach(([cat,meta])=>{
-    const catPlan=plan.filter(p=>p.cat===cat);
+  // Tab-style category selector matching Log Miles
+  const cats=[
+    {key:'all',         label:'All',          icon:'&#x2726;', cls:'all'},
+    {key:'spiritual',   label:'Spiritual',    icon:'&#x1F64F;',cls:'spiritual'},
+    {key:'physical',    label:'Physical',     icon:'&#x1F4AA;',cls:'physical'},
+    {key:'intellectual',label:'Intellectual', icon:'&#x1F4DA;',cls:'intellectual'},
+    {key:'social',      label:'Social',       icon:'&#x1F91D;',cls:'social'},
+  ];
+  grid.innerHTML=cats.map(c=>{
+    const catPlan=c.key==='all'?plan:plan.filter(p=>p.cat===c.key);
     const catMiles=catPlan.reduce((s,p)=>s+p.miles,0);
-    const catDone=catPlan.filter(p=>done.has(p.id)||p.done).length;
-    const isSelected=_plannerActiveCat===cat;
-    html+=`<div class="planner-cat-card ${isSelected?'selected':''}" onclick="setPlannerCat('${cat}',this)"
-      style="background:${meta.bg};border-color:${isSelected?meta.border:'transparent'};color:${meta.text};">
-      <div class="planner-cat-icon">${meta.icon}</div>
-      <div class="planner-cat-name">${meta.label}</div>
-      <div class="planner-cat-count">${catPlan.length} planned${catDone>0?' · '+catDone+' done':''}</div>
-      ${catMiles>0?`<div style="font-size:.65rem;margin-top:.2rem;">+${catMiles} mi</div>`:''}
-    </div>`;
-  });
-  grid.innerHTML=html;
+    const isActive=_plannerActiveCat===c.key;
+    return '<div class="planner-cat-tab '+(isActive?'active ':'')+c.cls+'" onclick="setPlannerCat(\''+c.key+'\',this)">'
+      +'<span class="planner-tab-icon">'+c.icon+'</span>'
+      +'<span class="planner-tab-label">'+c.label+'</span>'
+      +(catMiles>0?'<span class="planner-tab-count">+'+catMiles+'mi</span>':'')
+      +'</div>';
+  }).join('');
 }
 
 function setPlannerCat(cat, el){
@@ -3196,6 +3270,7 @@ function renderLeaderboard(){
     renderVersusYouthLeader(d,score,avgMonthScore,catScore,youth,ldr);
   }
 
+  if(_lbActivePane==='streaks'){renderStreakLeaderboard();return;}
   if(_lbActivePane==='monthly'){
     const cur=getCurrentMonth();
     const lbMonthLabel=document.getElementById('lbMonthLabel');
@@ -4842,10 +4917,21 @@ function renderTitleBadge(){
   const total=d.entries.filter(e=>e.userId===currentUser.id).reduce((s,e)=>s+e.miles,0);
   if(total<1){el.innerHTML='';return;}
   const badge=getCurrentTitleBadge(total);
+  // Find next badge
+  const nextBadge=TITLE_BADGES.find(b=>b.miles>total&&b.miles<=1201);
+  const milesLabel=badge.miles<=1?'First mile logged':badge.miles+' miles reached';
+  const scripture=MILESTONE_SCRIPTURES[badge.id]||MILESTONE_SCRIPTURES.jerusalem||{};
   el.innerHTML=`<div class="title-badge-row">
-    <div class="title-badge">
-      <span class="title-badge-icon">${badge.icon}</span>
-      <span>${badge.title}</span>
+    <div class="title-badge-wrap" onclick="this.classList.toggle('open')">
+      <div class="title-badge">
+        <span class="title-badge-icon">${badge.icon}</span>
+        <span>${badge.title}</span>
+      </div>
+      <div class="title-badge-tooltip">
+        <div class="tbt-title">${badge.icon} ${badge.title}</div>
+        <div class="tbt-miles">${milesLabel}${nextBadge?' · Next: '+nextBadge.title+' at '+nextBadge.miles+' mi':' · Maximum title!'}</div>
+        ${scripture.text?`<div class="tbt-scripture">“${scripture.text}”</div><div class="tbt-ref">— ${scripture.ref}</div>`:''}
+      </div>
     </div>
   </div>`;
 }
@@ -5121,6 +5207,221 @@ function showZionWaypointCelebration(badge, zionMiles){
     titleBadge:newTitleBadge,
     theme:'green',
   });
+}
+
+
+
+function toggleEntriesAll(){
+  const el=document.getElementById('adminEntries');
+  if(!el)return;
+  el.dataset.showAll=el.dataset.showAll==='1'?'0':'1';
+  renderAdmin();
+}
+
+function toggleRosterAll(){
+  const el=document.getElementById('adminRoster');
+  if(!el)return;
+  el.dataset.showAll=el.dataset.showAll==='1'?'0':'1';
+  renderAdmin();
+}
+
+
+// ══════════════════════════════════════════════════
+//  INLINE DASHBOARD TITLE BADGE (right of greeting)
+// ══════════════════════════════════════════════════
+function renderInlineTitleBadge(){
+  const wrap=document.getElementById('dashInlineBadgeWrap');
+  if(!wrap||!currentUser)return;
+  const d=db();
+  const total=d.entries.filter(e=>e.userId===currentUser.id).reduce((s,e)=>s+e.miles,0);
+  if(total<1){wrap.style.display='none';return;}
+  wrap.style.display='inline-block';
+  const badge=getCurrentTitleBadge(total);
+  const nextBadge=TITLE_BADGES.find(b=>b.miles>total&&b.miles<=1201);
+  const milesLabel=badge.miles<=1?'First mile logged':badge.miles+' miles reached';
+  const scripture=MILESTONE_SCRIPTURES[badge.id]||{};
+  wrap.innerHTML=`<div class="dash-inline-badge">
+      <span>${badge.icon}</span><span>${badge.title}</span>
+    </div>
+    <div class="dash-badge-tooltip">
+      <div class="tbt-title">${badge.icon} ${badge.title}</div>
+      <div class="tbt-miles">${milesLabel}${nextBadge?' \u00b7 Next: '+nextBadge.title+' at '+nextBadge.miles+' mi':' \u00b7 Maximum title!'}</div>
+      ${scripture.text?`<div class="tbt-scripture" style="margin-top:.4rem;">\u201c${scripture.text}\u201d</div><div class="tbt-ref">\u2014 ${scripture.ref}</div>`:''}
+    </div>`;
+  // Also update dynamic subtitle
+  const sub=document.getElementById('dashSubtitle');
+  if(sub){
+    if(total>=1200) sub.textContent='Translated in Spirit \u2014 the City of Zion awaits!';
+    else if(total>=600) sub.textContent='Forward to Zion \u2014 walking in Enoch\u2019s footsteps.';
+    else sub.textContent='Keep walking \u2014 Jerusalem awaits.';
+  }
+}
+
+// ══════════════════════════════════════════════════
+//  PUSH NOTIFICATIONS (opt-in)
+// ══════════════════════════════════════════════════
+const NOTIF_MESSAGES = [
+  {title:'Walk With Me', body:'Have you logged your miles today? Keep your streak alive! \u{1F525}'},
+  {title:'Walk With Me', body:'The ward is walking to Jerusalem \u2014 every mile counts. Log one today! \u{1F3BA}'},
+  {title:'Minute to Win It', body:'Today\u2019s 1-mile challenge is waiting for you. Can you do it? \u26A1'},
+  {title:'Walk With Me', body:'Don\u2019t forget to log your miles before the month ends! \u23F0'},
+  {title:'Daily Spark', body:'Open the app for today\u2019s Daily Spark and Minute to Win It \u2728'},
+];
+
+function renderNotifOptIn(){
+  const el=document.getElementById('notifOptInCard');
+  if(!el||!currentUser)return;
+  // Already granted or denied
+  if(!('Notification' in window)||Notification.permission==='granted'||Notification.permission==='denied'){
+    el.innerHTML='';return;
+  }
+  // Already dismissed
+  if(hasUF('notifOptInDismissed')){el.innerHTML='';return;}
+  el.innerHTML=`<div class="notif-opt-in-card">
+    <div style="font-size:1.2rem;">&#x1F514;</div>
+    <div class="notif-opt-in-text">Get gentle reminders to log your miles and keep your streak alive.</div>
+    <button class="notif-opt-in-btn" onclick="requestNotifPermission()">Turn on reminders</button>
+    <button class="notif-opt-in-dismiss" onclick="dismissNotifOptIn()" title="Dismiss">&#x2715;</button>
+  </div>`;
+}
+
+function dismissNotifOptIn(){
+  setUF('notifOptInDismissed','1');
+  const el=document.getElementById('notifOptInCard');
+  if(el)el.innerHTML='';
+}
+
+async function requestNotifPermission(){
+  if(!('Notification' in window)){showToast('Your browser doesn\u2019t support notifications.');return;}
+  const permission=await Notification.requestPermission();
+  const el=document.getElementById('notifOptInCard');
+  if(permission==='granted'){
+    if(el)el.innerHTML='';
+    showToast('\u{1F514} Reminders enabled! We\u2019ll nudge you to keep your streak alive.');
+    scheduleNotifications();
+    setUF('notifEnabled','1');
+  } else {
+    if(el)el.innerHTML='';
+    setUF('notifOptInDismissed','1');
+  }
+}
+
+function scheduleNotifications(){
+  // Send a welcome notification immediately
+  if(Notification.permission!=='granted')return;
+  const msg=NOTIF_MESSAGES[Math.floor(Math.random()*NOTIF_MESSAGES.length)];
+  // Schedule via service worker if available, otherwise just show one
+  if('serviceWorker' in navigator&&navigator.serviceWorker.controller){
+    navigator.serviceWorker.controller.postMessage({type:'SCHEDULE_NOTIF',msg});
+  } else {
+    // Fallback: show one in-session reminder after 4 hours if app stays open
+    setTimeout(()=>{
+      if(Notification.permission==='granted'){
+        const m=NOTIF_MESSAGES[Math.floor(Math.random()*NOTIF_MESSAGES.length)];
+        new Notification(m.title,{body:m.body,icon:'https://qubecompanies.github.io/walk-with-me/icon.png'});
+      }
+    }, 4*60*60*1000);
+  }
+}
+
+// Check if notifications were previously granted and re-schedule
+function initNotifications(){
+  if(!('Notification' in window))return;
+  if(Notification.permission==='granted'&&hasUF('notifEnabled')){
+    scheduleNotifications();
+  }
+}
+
+// ══════════════════════════════════════════════════
+//  ACTIVITY STREAKS LEADERBOARD TAB
+// ══════════════════════════════════════════════════
+function renderStreakLeaderboard(){
+  // Inject a streak sub-tab into leaderboard if not present
+  const lbPane=document.getElementById('lbStreaks');
+  if(!lbPane||!currentUser)return;
+  const d=db();
+  const allUsers=d.users.filter(u=>!u.isVisitor);
+  // Calculate daily streak for each user (simplified: count days with entries in last 60 days)
+  const now=Date.now();
+  const dayMs=86400000;
+  function userStreak(user){
+    const entries=d.entries.filter(e=>e.userId===user.id);
+    let streak=0; let grace=false;
+    for(let i=0;i<60;i++){
+      const dayStart=new Date();dayStart.setHours(0,0,0,0);dayStart.setDate(dayStart.getDate()-i);
+      const dayEnd=dayStart.getTime()+dayMs;
+      const active=entries.some(e=>e.ts>=dayStart.getTime()&&e.ts<dayEnd);
+      if(i===0&&!active){continue;} // today not yet logged, don't penalize
+      if(active){streak++;grace=false;}
+      else if(!grace){grace=true;} // one grace day
+      else{break;}
+    }
+    return streak;
+  }
+  const ranked=allUsers.map(u=>({...u,streak:userStreak(u)}))
+    .filter(u=>u.streak>0).sort((a,b)=>b.streak-a.streak);
+  const max=ranked[0]?.streak||1;
+  lbPane.innerHTML=ranked.length?`
+    <div class="monthly-lb-note">Longest active daily streak</div>
+    ${ranked.map((u,i)=>{
+      const isMe=u.id===currentUser.id;
+      const medal=i===0?'&#x1F947;':i===1?'&#x1F948;':i===2?'&#x1F949;':'';
+      const fire=u.streak>=7?'&#x1F525;':u.streak>=3?'&#x26A1;':'';
+      return `<div class="lb-card ${isMe?'rank-me':''}" style="${isMe?'background:rgba(42,122,110,.08);':''}">
+        <div style="width:32px;text-align:center;font-size:1.1rem;">${medal||'<span style="font-family:Cinzel,serif;font-size:.8rem;color:var(--ink-soft);">'+(i+1)+'</span>'}</div>
+        <div class="lb-info">
+          <div class="lb-card-name">${u.name}${isMe?' (you)':''} ${fire}</div>
+          <div class="lb-card-group">${u.group}</div>
+          <div class="lb-prog-wrap" style="margin-top:.3rem;">
+            <div class="lb-prog-fill" style="width:${Math.round(u.streak/max*100)}%;background:linear-gradient(90deg,var(--teal),var(--teal-light));"></div>
+          </div>
+        </div>
+        <div class="lb-card-miles">${u.streak}<span style="font-size:.65rem;font-family:Inter,sans-serif;color:var(--sand-dark);">d</span></div>
+      </div>`;
+    }).join('')}`
+  :'<p style="padding:1rem;font-style:italic;font-size:.9rem;color:var(--ink-soft);">No active streaks yet. Log daily to start one!</p>';
+}
+
+// ══════════════════════════════════════════════════
+//  BEST MONTH HIGHLIGHT CARD
+// ══════════════════════════════════════════════════
+function renderBestMonthCard(){
+  // Add to dashboard after week card
+  const weekEl=document.getElementById('thisWeekCard');
+  if(!weekEl||!currentUser)return;
+  const d=db();
+  const my=d.entries.filter(e=>e.userId===currentUser.id);
+  if(!my.length)return;
+  const byMonth={};
+  MONTHS.forEach(m=>byMonth[m]=0);
+  my.forEach(e=>{if(byMonth[e.month]!==undefined)byMonth[e.month]+=e.miles;});
+  const entries=Object.entries(byMonth).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]);
+  if(!entries.length)return;
+  const [bestMonth,bestMiles]=entries[0];
+  const curMonth=getCurrentMonth();
+  const curMiles=byMonth[curMonth]||0;
+  const isBestMonth=bestMonth===curMonth;
+  let el=document.getElementById('bestMonthCard');
+  if(!el){
+    el=document.createElement('div');el.id='bestMonthCard';
+    weekEl.parentNode.insertBefore(el,weekEl.nextSibling);
+  }
+  if(isBestMonth){
+    el.innerHTML=`<div class="week-card" style="border-color:var(--gold);background:linear-gradient(135deg,rgba(200,146,42,.08),white);">
+      <div class="week-stat"><div class="week-num" style="color:var(--gold);">${curMiles}</div><div class="week-label">This month &#x1F3C6;</div></div>
+      <div class="week-divider"></div>
+      <div class="week-stat"><div style="font-size:1.1rem;">&#x1F31F;</div><div class="week-label" style="color:var(--gold);">Personal best!</div></div>
+    </div>`;
+  } else {
+    const diff=bestMiles-curMiles;
+    el.innerHTML=`<div class="week-card">
+      <div class="week-stat"><div class="week-num">${curMiles}</div><div class="week-label">This month</div></div>
+      <div class="week-divider"></div>
+      <div class="week-stat"><div class="week-num" style="font-size:1.1rem;color:var(--gold);">${bestMiles}</div><div class="week-label">Best (${bestMonth})</div></div>
+      <div class="week-divider"></div>
+      <div class="week-stat"><div class="week-trend">&#x1F3AF;</div><div class="week-trend-label" style="font-family:Inter,sans-serif;font-size:.6rem;color:var(--ink-soft);">+${diff} to beat it</div></div>
+    </div>`;
+  }
 }
 
 function exportCSV(){
