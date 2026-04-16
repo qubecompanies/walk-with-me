@@ -787,6 +787,37 @@ textarea.form-input{min-height:72px;resize:vertical;}
 .wn-cta{width:100%;background:linear-gradient(135deg,var(--navy),#2a5080);color:white;font-family:'Cinzel',serif;font-size:.85rem;letter-spacing:.06em;border:none;border-radius:30px;padding:.75rem;cursor:pointer;transition:opacity .15s;}
 .wn-cta:hover{opacity:.88;}
 .wn-dismiss{display:block;font-family:'Inter',sans-serif;font-size:.7rem;color:var(--ink-soft);margin-top:.6rem;cursor:pointer;background:none;border:none;width:100%;}
+
+/* ══ UNIVERSAL CELEBRATION ENGINE ══ */
+#universalCelebrationOverlay{position:fixed;inset:0;z-index:9999;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;overflow:hidden;}
+#universalCelebrationOverlay.show{display:flex;animation:celebPulse .5s cubic-bezier(.4,0,.2,1) both;}
+@keyframes celebPulse{0%{opacity:0;transform:scale(1.04);}100%{opacity:1;transform:scale(1);}}
+.celeb-canvas{position:absolute;inset:0;pointer-events:none;}
+.celeb-content{position:relative;z-index:2;max-width:400px;width:100%;}
+.celeb-icon-wrap{font-size:5rem;margin-bottom:.5rem;animation:celebIconBounce .7s cubic-bezier(.34,1.56,.64,1) .25s both;display:block;}
+@keyframes celebIconBounce{0%{transform:scale(0) rotate(-20deg);opacity:0;}60%{transform:scale(1.35) rotate(5deg);}100%{transform:scale(1) rotate(0);opacity:1;}}
+.celeb-eyebrow{font-family:'Inter',sans-serif;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:.4rem;animation:celebSlideUp .5s ease .7s both;}
+.celeb-title{font-family:'Cinzel',serif;font-size:clamp(1.8rem,5vw,2.8rem);color:white;line-height:1.1;margin-bottom:.4rem;animation:celebSlideUp .5s ease .9s both;}
+.celeb-subtitle{font-family:'Cinzel',serif;font-size:1rem;margin-bottom:.75rem;animation:celebSlideUp .5s ease 1.1s both;}
+.celeb-stats-row{display:flex;gap:.75rem;justify-content:center;margin-bottom:.9rem;animation:celebSlideUp .5s ease 1.3s both;}
+.celeb-stat{background:rgba(255,255,255,.12);border-radius:8px;padding:.5rem .9rem;backdrop-filter:blur(4px);}
+.celeb-stat-num{font-family:'Cinzel',serif;font-size:1.4rem;color:white;line-height:1;}
+.celeb-stat-label{font-family:'Inter',sans-serif;font-size:.55rem;color:rgba(255,255,255,.55);letter-spacing:.08em;text-transform:uppercase;}
+.celeb-scripture{font-family:'Crimson Pro',serif;font-style:italic;font-size:1rem;color:rgba(255,255,255,.8);max-width:360px;margin:0 auto .9rem;line-height:1.6;animation:celebFadeIn .8s ease 1.7s both;}
+.celeb-scripture-ref{font-family:'Inter',sans-serif;font-size:.65rem;color:rgba(255,255,255,.45);letter-spacing:.08em;margin-bottom:1.5rem;animation:celebFadeIn .6s ease 2s both;display:block;}
+.celeb-title-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(200,146,42,.25);border:1px solid var(--gold);border-radius:30px;padding:.3rem .9rem;font-family:'Cinzel',serif;font-size:.72rem;color:var(--gold-light);margin-bottom:1.1rem;animation:celebFadeIn .6s ease 2.2s both;}
+.celeb-btn{background:linear-gradient(135deg,rgba(255,255,255,.2),rgba(255,255,255,.1));border:1.5px solid rgba(255,255,255,.5);color:white;font-family:'Cinzel',serif;font-size:.85rem;letter-spacing:.06em;padding:.75rem 2.25rem;border-radius:30px;cursor:pointer;backdrop-filter:blur(4px);transition:all .2s;animation:celebFadeIn .5s ease 2.5s both;}
+.celeb-btn:hover{background:rgba(255,255,255,.25);}
+@keyframes celebSlideUp{0%{transform:translateY(28px);opacity:0;}100%{transform:translateY(0);opacity:1;}}
+@keyframes celebFadeIn{0%{opacity:0;}100%{opacity:1;}}
+
+/* ══ ANIMATED TITLE BADGE ══ */
+.title-badge-row{text-align:center;margin-bottom:.75rem;}
+.title-badge{display:inline-flex;align-items:center;gap:.45rem;background:linear-gradient(135deg,#1a3a5c,#0f2540);border:2px solid var(--gold);border-radius:30px;padding:.4rem 1.1rem;font-family:'Cinzel',serif;font-size:.82rem;color:var(--gold-light);position:relative;overflow:hidden;animation:titlePulse 3s ease-in-out infinite;}
+.title-badge::before{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);animation:titleShimmer 3s ease-in-out infinite;}
+@keyframes titlePulse{0%,100%{box-shadow:0 0 8px rgba(200,146,42,.3);}50%{box-shadow:0 0 24px rgba(200,146,42,.65),0 0 48px rgba(200,146,42,.2);}}
+@keyframes titleShimmer{0%{left:-100%;}60%,100%{left:150%;}}
+.title-badge-icon{font-size:1rem;}
 </style>
 </head>
 <body>
@@ -897,6 +928,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
       <div id="monthNudgeCard"></div>
       <div id="dailySparkCard"></div>
       <div id="mtwiCard"></div>
+      <div class="title-badge-row" id="titleBadgeRow"></div>
       <div id="zionJourneyCard"></div>
       <div id="partnerChallengesCard"></div>
       <div id="todaysChallengeCard"></div>
@@ -1083,13 +1115,13 @@ textarea.form-input{min-height:72px;resize:vertical;}
 
       <!-- YOUTH BOARD -->
       <div id="lb-pane-youth" class="lb-pane">
-        <div class="card neutral" style="padding:0;overflow:hidden;margin-bottom:.75rem;">
-          <div class="lb-section-divider"><span class="lb-section-divider-label">⚡ Young Men</span><span id="ymTotal" style="float:right;font-family:'Cinzel',serif;font-size:.68rem;color:var(--ink-soft);"></span></div>
-          <div id="leaderboardYM"></div>
-        </div>
         <div class="card neutral" style="padding:0;overflow:hidden;">
           <div class="lb-section-divider"><span class="lb-section-divider-label">🌸 Young Women</span><span id="ywTotal" style="float:right;font-family:'Cinzel',serif;font-size:.68rem;color:var(--ink-soft);"></span></div>
           <div id="leaderboardYW"></div>
+        </div>
+        <div class="card neutral" style="padding:0;overflow:hidden;margin-bottom:.75rem;">
+          <div class="lb-section-divider"><span class="lb-section-divider-label">⚡ Young Men</span><span id="ymTotal" style="float:right;font-family:'Cinzel',serif;font-size:.68rem;color:var(--ink-soft);"></span></div>
+          <div id="leaderboardYM"></div>
         </div>
       </div>
 
@@ -1912,7 +1944,7 @@ function renderDashboard(){
   document.getElementById('dashJourneyBar').style.width=pct+'%';document.getElementById('dashMonthBar').style.width=mPct+'%';
   document.getElementById('dashStreak').textContent=calcStreak(my);
   renderStreakRow(my);renderBadges(total);renderMonthlyBadges();renderMonthlyTrophyRow();updateMiniMap(total);checkAndAwardMonthlyTrophies();renderDashHypeCard();renderTodaysChallenge();
-  renderZionJourneyCard();renderPartnerChallenges();renderDailySpark();renderMtwiCard();renderThisWeekCard();renderDailyStreakCard();renderMasteryRings();renderMonthNudge();renderMonthRecap();
+  renderZionJourneyCard();renderTitleBadge();renderPartnerChallenges();renderDailySpark();renderMtwiCard();renderThisWeekCard();renderDailyStreakCard();renderMasteryRings();renderMonthNudge();renderMonthRecap();
   checkDailyStreakMilestones();
   const streak=calcStreak(my);checkStreakCelebration(streak);
   const catColors={spiritual:'var(--spiritual)',physical:'var(--physical)',intellectual:'var(--intellectual)',social:'var(--social)'};
@@ -2136,6 +2168,7 @@ function renderAdmin(){
         <option value="Young Women" ${u.group==='Young Women'?'selected':''}>Young Women</option>
         <option value="Adult" ${u.group==='Adult'?'selected':''}>Adult</option>
         <option value="Leader" ${u.group==='Leader'?'selected':''}>Leader</option>
+        <option value="Visitor" ${u.group==='Visitor'?'selected':''}>Visitor</option>
       </select>
       <div class="admin-user-miles" style="min-width:50px;text-align:right;">${score(u)} mi</div>
     </div>`).join(''):'<p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);">No users yet.</p>';
@@ -2294,22 +2327,7 @@ function showCertificate(){
   document.getElementById('certDate').textContent='Completed '+new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
   document.getElementById('certOverlay').classList.add('show');
 }
-function startFireworks(){
-  const canvas=document.getElementById('fireworkCanvas');if(!canvas)return;
-  const ctx=canvas.getContext('2d');
-  canvas.width=window.innerWidth;canvas.height=window.innerHeight;
-  const particles=[];const colors=['#e8b050','#2a7a6e','#c8922a','#ffffff','#3a9a8a','#f5e4c0'];
-  function burst(x,y){for(let i=0;i<60;i++){const a=Math.random()*Math.PI*2,sp=2+Math.random()*5;particles.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,alpha:1,color:colors[Math.floor(Math.random()*colors.length)],size:2+Math.random()*3});}}
-  let frame=0;
-  function animate(){
-    if(!document.getElementById('celebrationOverlay').classList.contains('show'))return;
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    if(frame%40===0)burst(Math.random()*canvas.width,Math.random()*canvas.height*.6);
-    for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.x+=p.vx;p.y+=p.vy;p.vy+=.12;p.alpha-=.018;if(p.alpha<=0){particles.splice(i,1);continue;}ctx.globalAlpha=p.alpha;ctx.fillStyle=p.color;ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fill();}
-    ctx.globalAlpha=1;frame++;requestAnimationFrame(animate);
-  }
-  animate();
-}
+function startFireworks(){startDualFireworks('fireworkCanvas','celebrationOverlay');}
 
 // ── HOME SCREEN PROMPT ──
 function initHomeScreenPrompt(){
@@ -3150,14 +3168,14 @@ function renderLeaderboard(){
   const none = '<p style="padding:1rem 1rem .5rem;font-style:italic;font-size:.9rem;color:var(--ink-soft);">No one registered in this group yet.</p>';
 
   if(_lbActivePane==='youth'){
-    // YM section
-    const ymTot = document.getElementById('ymTotal');
-    if(ymTot) ymTot.textContent = ym.length ? ym.reduce((s,u)=>s+u.miles,0)+' total mi' : '';
-    document.getElementById('leaderboardYM').innerHTML = ym.length ? ym.map((u,i)=>lbCardHTML(u,i+1,ym[0]?.miles||1,false)).join('') : none;
-    // YW section
+    // YW section first
     const ywTot = document.getElementById('ywTotal');
     if(ywTot) ywTot.textContent = yw.length ? yw.reduce((s,u)=>s+u.miles,0)+' total mi' : '';
     document.getElementById('leaderboardYW').innerHTML = yw.length ? yw.map((u,i)=>lbCardHTML(u,i+1,yw[0]?.miles||1,false)).join('') : none;
+    // YM section second
+    const ymTot = document.getElementById('ymTotal');
+    if(ymTot) ymTot.textContent = ym.length ? ym.reduce((s,u)=>s+u.miles,0)+' total mi' : '';
+    document.getElementById('leaderboardYM').innerHTML = ym.length ? ym.map((u,i)=>lbCardHTML(u,i+1,ym[0]?.miles||1,false)).join('') : none;
   }
 
   if(_lbActivePane==='adults'){
@@ -4539,11 +4557,26 @@ function openPartnerModal(e,userId,userName,userGroup){
   _partnerTargetId=userId;_partnerTargetName=userName;_partnerSelectedActivity=null;
   document.getElementById('partnerTargetName').textContent=userName;
   document.getElementById('partnerTargetGroup').textContent=userGroup;
-  const allActs=[];
-  ['spiritual','physical','intellectual','social'].forEach(cat=>{
-    (ACTIVITIES[cat]||[]).forEach((a,i)=>allActs.push({cat,idx:i,...a}));
-  });
-  const picks=allActs.filter((_,i)=>i%10===0).slice(0,16);
+  // Curated partner-friendly activities — easier, social, doable together
+  const PARTNER_ACTS=[
+    {cat:'social',    miles:5,  text:'Call or text each other and share one thing you are grateful for today.'},
+    {cat:'social',    miles:5,  text:'Send each other an encouraging note or voice message this week.'},
+    {cat:'social',    miles:10, text:'Take a walk together — even a short one counts. Just go.'},
+    {cat:'physical',  miles:10, text:'Do a workout on the same day this week. Share a photo when done.'},
+    {cat:'social',    miles:10, text:'Eat a meal together — at school, at church, or at home.'},
+    {cat:'spiritual', miles:10, text:'Read the same scripture chapter this week and discuss it briefly.'},
+    {cat:'spiritual', miles:10, text:'Pray for each other by name for 7 days in a row.'},
+    {cat:'social',    miles:15, text:'Attend church together and sit with each other for at least one meeting.'},
+    {cat:'intellectual',miles:15,text:'Read the same article or book chapter and share your favorite takeaway.'},
+    {cat:'physical',  miles:15, text:'Go on a hike, bike ride, or outdoor activity together.'},
+    {cat:'social',    miles:15, text:'Do a service project together — anything counts, big or small.'},
+    {cat:'spiritual', miles:20, text:'Attend the temple or do family history research together.'},
+    {cat:'social',    miles:20, text:'Write each other a sincere letter of appreciation. Deliver it in person.'},
+    {cat:'intellectual',miles:20,text:'Learn something new together — watch a documentary, take a class, or visit somewhere educational.'},
+    {cat:'physical',  miles:20, text:'Complete a physical challenge together — 5K, hike, fitness goal.'},
+    {cat:'spiritual', miles:25, text:'Fast together on the same fast Sunday and share your testimonies.'},
+  ];
+  const picks=PARTNER_ACTS;
   _partnerActivityList=picks;
   const catColors={spiritual:'var(--spiritual)',physical:'var(--physical)',intellectual:'var(--intellectual)',social:'var(--social)'};
   document.getElementById('partnerActivityList').innerHTML=picks.map((a,i)=>
@@ -4586,6 +4619,16 @@ async function sendPartnerChallenge(){
 }
 async function claimPartnerChallenge(challengeId,isInitiator){
   try{
+    // Guard: fetch first to ensure not already claimed and status still active
+    const docCheck=await _db().collection('partnerChallenges').doc(challengeId).get();
+    if(!docCheck.exists){showToast('Challenge not found.');return;}
+    const dataCheck=docCheck.data();
+    if(dataCheck.status!=='active'){showToast('This challenge is already complete!');return;}
+    const alreadyDone=isInitiator?dataCheck.initiatorDone:dataCheck.targetDone;
+    if(alreadyDone){showToast('You already completed your part!');return;}
+    // Verify the claimer is actually a participant
+    if(isInitiator&&dataCheck.initiatorId!==currentUser.id){showToast('You are not part of this challenge.');return;}
+    if(!isInitiator&&dataCheck.targetId!==currentUser.id){showToast('You are not part of this challenge.');return;}
     const field=isInitiator?'initiatorDone':'targetDone';
     await _db().collection('partnerChallenges').doc(challengeId).update({[field]:true});
     const doc=await _db().collection('partnerChallenges').doc(challengeId).get();
@@ -4596,8 +4639,7 @@ async function claimPartnerChallenge(challengeId,isInitiator){
       await fbAdd('entries',{userId:data.targetId,userName:data.targetName,cat:data.cat,desc:'\u{1F91D} Partner Bonus w/ '+data.initiatorName,miles:data.bonusMiles,month:getCurrentMonth(),ts:Date.now(),custom:true});
       setUF('partnerBadge_'+data.initiatorId+'_'+data.targetId,{partner:data.targetName,activity:data.desc,ts:Date.now()});
       announceAchievement(data.initiatorName,'\u{1F91D}',data.initiatorName+' & '+data.targetName+' completed a Partner Challenge together! +'+data.bonusMiles+' bonus miles each!');
-      showToast('\u{1F389} Partnership complete! Both earned +'+data.bonusMiles+' bonus miles!');
-      fireConfetti();
+      showPartnerCelebration(isInitiator?data.targetName:data.initiatorName, data.desc, data.bonusMiles);
     }else{
       showToast('\u2713 Your part done! Waiting on '+(isInitiator?data.targetName:data.initiatorName)+'\u2026');
     }
@@ -4634,20 +4676,20 @@ async function renderPartnerChallenges(){
 //  RETURN TO ZION — SECOND JOURNEY
 // ══════════════════════════════════════════════════
 const ZION_WAYPOINTS=[
-  {label:'Nauvoo',     miles:600, bonus:0,   icon:'\u26EA', desc:'The City Beautiful \u2014 where the Saints began their westward journey.'},
-  {label:'Winter\nQtrs',miles:750,bonus:150, icon:'\u2744\uFE0F', desc:'Winter Quarters \u2014 the Saints endured bitter cold here before pressing west.'},
-  {label:'Chimney\nRock',miles:900,bonus:300,icon:'\u{1FAA8}', desc:'Chimney Rock \u2014 a towering landmark that told pioneers they were making real progress.'},
-  {label:'South\nPass', miles:1050,bonus:450,icon:'\u{1F3D4}\uFE0F', desc:'South Pass \u2014 the gateway through the Rockies, nearly halfway home.'},
-  {label:'Salt Lake',  miles:1200,bonus:600, icon:'\u{1F304}', desc:'"This is the right place." The promised Zion, reached at last.'},
-];
-const ZION_LEVEL_TITLES=['Faithful Pilgrim','Desert Walker','Trail Blazer','Mountain Climber','Pioneer','Covenant Keeper','Zion Builder','Saint of Zion'];
+  {label:"Enoch's\nCall",   miles:600, bonus:0,   icon:'🎙', desc:'Enoch is called of God to preach repentance — and though he was slow of speech, he walked with God.'},
+  {label:'City\nBuilt',     miles:750, bonus:150,  icon:'🏙', desc:'The people hearken and the City of Holiness is established — a community set apart for righteousness.'},
+  {label:'One\nHeart',      miles:900, bonus:300,  icon:'♥', desc:'"And the Lord called his people Zion, because they were of one heart and one mind." — Moses 7:18'},
+  {label:'No Poor\nAmong',  miles:1050,bonus:450,  icon:'🤝', desc:'"And there was no poor among them" — the defining mark of a Zion people.'},
+  {label:'City\nTranslated',miles:1200,bonus:600,  icon:'✨',    desc:'"And Enoch and all his people walked with God, and he dwelt in the midst of Zion." — Moses 7:69'},
+]
+const ZION_LEVEL_TITLES=['Seeker of Zion','Keeper of the Word','Builder of Holiness','One in Heart','Pure in Heart','Consecrated Saint','Enoch\'s Disciple','Translated in Spirit'];
 const ZION_BADGES=[
-  {id:'nauvoo',     name:'Nauvoo Exile',        icon:'\u26EA', bonus:0},
-  {id:'winterQtrs', name:'Winter Quarters',     icon:'\u2744\uFE0F', bonus:150},
-  {id:'chimneyRock',name:'Chimney Rock Pilgrim', icon:'\u{1FAA8}', bonus:300},
-  {id:'southPass',  name:'South Pass Crosser',  icon:'\u{1F3D4}\uFE0F', bonus:450},
-  {id:'saltLake',   name:'Zion Arrived',         icon:'\u{1F304}', bonus:600},
-];
+  {id:'enochs_call', name:"Enoch's Call",       icon:'🎙', bonus:0},
+  {id:'city_built',  name:'City of Holiness',    icon:'🏙', bonus:150},
+  {id:'one_heart',   name:'One Heart, One Mind', icon:'♥',    bonus:300},
+  {id:'no_poor',     name:'No Poor Among Them',  icon:'🤝', bonus:450},
+  {id:'translated',  name:'City Translated',     icon:'✨',    bonus:600},
+]
 
 function renderZionJourneyCard(){
   const el=document.getElementById('zionJourneyCard');if(!el||!currentUser)return;
@@ -4676,7 +4718,7 @@ function renderZionJourneyCard(){
       <div class="zion-line-fill" style="width:${pct}%;"></div>
       ${wps}
     </div>
-    <div class="xp-label"><span>${zionMiles} beyond-Jerusalem miles</span><span>${pct}% to Salt Lake</span></div>
+    <div class="xp-label"><span>${zionMiles} miles toward the Translated City</span><span>${pct}% to Zion</span></div>
     <div class="xp-bar-wrap"><div class="xp-bar-fill" style="width:${xpPct}%;"></div></div>
     <div class="xp-label"><span>Level ${level+1}: ${title}</span><span>${zionMiles%75}/75 XP to next level</span></div>
   </div>`;
@@ -4705,7 +4747,7 @@ function showZionUnlock(){
     ctx.globalAlpha=1;frame++;requestAnimationFrame(animate);
   }
   animate();
-  announceAchievement(currentUser.name,'\u{1F3D4}',currentUser.name+' completed Jerusalem and unlocked the Forward to Zion \u2014 a second journey begins!');
+  announceAchievement(currentUser.name,'\u{1F3D4}',currentUser.name+' completed the Walk to Jerusalem and unlocked Forward to Zion \u2014 Enoch\'s City awaits!');
 }
 function closeZionUnlock(){document.getElementById('zionUnlockOverlay').classList.remove('show');}
 function checkZionWaypointBadges(totalMiles){
@@ -4716,9 +4758,9 @@ function checkZionWaypointBadges(totalMiles){
     if(zionMiles>=badge.bonus&&!hasUF(key)){
       setUF(key,'1');
       setTimeout(()=>{
-        showToast('\u{1F3D4} Zion Badge: '+badge.icon+' '+badge.name+'!');
-        fireConfetti();
-        if(badge.bonus>0)announceAchievement(currentUser.name,badge.icon,currentUser.name+' reached '+badge.name+' on the Forward to Zion!');
+        const totalNow=db().entries.filter(e=>e.userId===currentUser.id).reduce((s,e)=>s+e.miles,0);
+        showZionWaypointCelebration(badge, Math.max(0,totalNow-600));
+        if(badge.bonus>0)announceAchievement(currentUser.name,badge.icon,currentUser.name+' reached '+badge.name+' on the Forward to Zion journey!');
       },600);
     }
   });
@@ -4726,7 +4768,7 @@ function checkZionWaypointBadges(totalMiles){
 
 
 // ══ WHAT'S NEW v3.0 MODAL ══
-const CURRENT_VERSION = 'v3.0.0';
+const CURRENT_VERSION = 'v3.0.1';
 
 function checkWhatsNew(){
   // Show once per user per version — stored in Firestore userState
@@ -4742,6 +4784,343 @@ function closeWhatsNew(){
   document.getElementById('whatsNewModal').classList.remove('open');
   // Mark as seen in Firestore so it never shows again for this user
   setUF('seenWhatsNew_' + CURRENT_VERSION, '1');
+}
+
+
+// ══════════════════════════════════════════════════
+//  UNIVERSAL CELEBRATION ENGINE
+// ══════════════════════════════════════════════════
+
+const MILESTONE_SCRIPTURES = {
+  egypt:      {text:'Fear ye not, stand still, and see the salvation of the Lord.',                                ref:'Exodus 14:13'},
+  redsea:     {text:'By faith they passed through the Red sea as by dry land.',                                    ref:'Hebrews 11:29'},
+  sinai:      {text:'Be strong and courageous. Do not be afraid; for the Lord thy God is with thee.',              ref:'Joshua 1:9'},
+  paran:      {text:'As thy days, so shall thy strength be.',                                                      ref:'Deuteronomy 33:25'},
+  jordan:     {text:'The waters which came down from above stood and rose up upon an heap.',                       ref:'Joshua 3:16'},
+  jerusalem:  {text:'Beautiful for situation, the joy of the whole earth, is mount Zion.',                        ref:'Psalm 48:2'},
+  enochs_call:{text:'And Enoch walked with God; and he was not; for God took him.',                               ref:'Genesis 5:24'},
+  city_built: {text:'And the Lord called his people Zion, because they were of one heart and one mind.',          ref:'Moses 7:18'},
+  one_heart:  {text:'And there was no poor among them; and all things were common among them.',                    ref:'Moses 7:18'},
+  no_poor:    {text:'The Lord called his people Zion because they dwelt in righteousness.',                        ref:'Moses 7:18'},
+  translated: {text:'And Enoch and all his people walked with God, and he dwelt in the midst of Zion.',           ref:'Moses 7:69'},
+  monthly_challenge:{text:'By small and simple things are great things brought to pass.',                          ref:'Alma 37:6'},
+  champion:   {text:'Well done, thou good and faithful servant.',                                                  ref:'Matthew 25:21'},
+  streak3:    {text:'By small and simple things are great things brought to pass.',                                ref:'Alma 37:6'},
+  streak7:    {text:'Run with patience the race that is set before us.',                                           ref:'Hebrews 12:1'},
+  streak14:   {text:'I can do all things through Christ which strengtheneth me.',                                  ref:'Philippians 4:13'},
+  streak30:   {text:'Well done, thou good and faithful servant: thou hast been faithful over a few things.',       ref:'Matthew 25:21'},
+  partner:    {text:'Where two or three are gathered together in my name, there am I in the midst of them.',       ref:'Matthew 18:20'},
+  zion_unlock:{text:'Press forward with a steadfastness in Christ, having a perfect brightness of hope.',         ref:'2 Nephi 31:20'},
+};
+
+const TITLE_BADGES = [
+  {id:'start',     title:'Faithful Traveler',      icon:'\u{1F3BA}', miles:1},
+  {id:'redsea',    title:'Wanderer of Faith',          icon:'\u{1F30A}', miles:60},
+  {id:'sinai',     title:'Seeker of Truth',         icon:'\u26F0',    miles:180},
+  {id:'paran',     title:'Walker with God',       icon:'\u{1F335}', miles:300},
+  {id:'jordan',    title:'Covenant Crosser',           icon:'\u{1F3DE}', miles:480},
+  {id:'jerusalem', title:'Jerusalem Pilgrim',       icon:'\u2728',    miles:600},
+  {id:'zion1',     title:"Called of God",        icon:'\u{1F399}', miles:750},
+  {id:'zion2',     title:'Builder of Holiness',     icon:'\u{1F3D9}', miles:900},
+  {id:'zion3',     title:'One in Heart',            icon:'\u2665',    miles:1050},
+  {id:'zion4',     title:'Consecrated Saint',       icon:'\u{1F91D}', miles:1200},
+  {id:'translated',title:'Translated in Spirit',    icon:'\u{1F304}', miles:1201},
+];
+
+function getCurrentTitleBadge(totalMiles){
+  const earned = [...TITLE_BADGES].reverse().find(b=>totalMiles>=b.miles);
+  // Override for special badges
+  if(hasChampBadge&&hasChampBadge())
+    return {title:'\u2605 Monthly Champion', icon:'\u{1F3C6}', id:'champion'};
+  return earned || TITLE_BADGES[0];
+}
+
+function renderTitleBadge(){
+  const el=document.getElementById('titleBadgeRow');
+  if(!el||!currentUser)return;
+  const d=db();
+  const total=d.entries.filter(e=>e.userId===currentUser.id).reduce((s,e)=>s+e.miles,0);
+  if(total<1){el.innerHTML='';return;}
+  const badge=getCurrentTitleBadge(total);
+  el.innerHTML=`<div class="title-badge-row">
+    <div class="title-badge">
+      <span class="title-badge-icon">${badge.icon}</span>
+      <span>${badge.title}</span>
+    </div>
+  </div>`;
+}
+
+// ── DUAL-LAYER FIREWORKS ENGINE ───────────────────────────────────────────────
+function startDualFireworks(canvasId, checkId){
+  const canvas=document.getElementById(canvasId);
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+
+  const COLORS=['#e8b050','#c8922a','#2a7a6e','#ffffff','#5abcb0','#f5e4c0','#ff9f43','#54a0ff','#5f27cd','#00d2d3','#ff6b6b','#ffd93d'];
+  const particles=[];
+  const rain=[];
+  let frame=0;
+
+  // Burst schedule — 14 timed explosions over 12 seconds
+  const BURST_SCHEDULE=[0,300,650,1050,1500,2050,2700,3450,4300,5300,6500,8000,9800,11800];
+  const startTime=Date.now();
+
+  function burst(x,y,count){
+    count=count||100;
+    for(let i=0;i<count;i++){
+      const a=Math.random()*Math.PI*2;
+      const sp=3+Math.random()*9;
+      const size=2+Math.random()*4;
+      particles.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,alpha:1,
+        color:COLORS[Math.floor(Math.random()*COLORS.length)],
+        size,gravity:.09+Math.random()*.06,
+        trail:[],shape:Math.random()>.7?'star':'circle'});
+    }
+  }
+
+  function spawnRain(){
+    const shape=['circle','rect','triangle'][Math.floor(Math.random()*3)];
+    rain.push({
+      x:Math.random()*canvas.width,y:-12,
+      vx:(Math.random()-.5)*3,vy:2+Math.random()*4,
+      alpha:.9,color:COLORS[Math.floor(Math.random()*COLORS.length)],
+      size:4+Math.random()*6,rotation:Math.random()*Math.PI*2,
+      rotSpeed:(Math.random()-.5)*.25,shape,
+      decay:.004+Math.random()*.003
+    });
+  }
+
+  const rainTimer=setInterval(spawnRain,40);
+
+  function drawStar(ctx,x,y,r,c){
+    ctx.beginPath();
+    for(let i=0;i<5;i++){
+      const a=i*Math.PI*2/5-Math.PI/2;
+      const ai=a+Math.PI/5;
+      ctx.lineTo(x+Math.cos(a)*r,y+Math.sin(a)*r);
+      ctx.lineTo(x+Math.cos(ai)*r*.4,y+Math.sin(ai)*r*.4);
+    }
+    ctx.closePath();ctx.fillStyle=c;ctx.fill();
+  }
+
+  function animate(){
+    const checkEl=document.getElementById(checkId);
+    if(!checkEl||!checkEl.classList.contains('show')){clearInterval(rainTimer);return;}
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    // Schedule bursts
+    const elapsed=Date.now()-startTime;
+    BURST_SCHEDULE.forEach(t=>{
+      if(elapsed>t&&elapsed<t+60){
+        const x=canvas.width*(.15+Math.random()*.7);
+        const y=canvas.height*(.1+Math.random()*.55);
+        burst(x,y,120);
+      }
+    });
+    // After schedule, keep occasional bursts going
+    if(elapsed>12000&&frame%80===0){
+      burst(canvas.width*(.2+Math.random()*.6),canvas.height*(.1+Math.random()*.5),80);
+    }
+
+    // Layer 1: explosion particles
+    for(let i=particles.length-1;i>=0;i--){
+      const p=particles[i];
+      p.x+=p.vx;p.y+=p.vy;p.vy+=p.gravity;p.alpha-=.011;p.vx*=.99;
+      if(p.alpha<=0){particles.splice(i,1);continue;}
+      ctx.globalAlpha=p.alpha;ctx.fillStyle=p.color;
+      if(p.shape==='star'){drawStar(ctx,p.x,p.y,p.size,p.color);}
+      else{ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fill();}
+    }
+
+    // Layer 2: rain confetti
+    for(let i=rain.length-1;i>=0;i--){
+      const r=rain[i];
+      r.x+=r.vx;r.y+=r.vy;r.vy+=.04;
+      r.rotation+=r.rotSpeed;r.alpha-=r.decay;
+      if(r.y>canvas.height+20||r.alpha<=0){rain.splice(i,1);continue;}
+      ctx.globalAlpha=r.alpha;ctx.fillStyle=r.color;
+      ctx.save();ctx.translate(r.x,r.y);ctx.rotate(r.rotation);
+      if(r.shape==='rect'){ctx.fillRect(-r.size/2,-r.size/2,r.size,r.size*1.6);}
+      else if(r.shape==='triangle'){ctx.beginPath();ctx.moveTo(0,-r.size);ctx.lineTo(r.size*.8,r.size*.6);ctx.lineTo(-r.size*.8,r.size*.6);ctx.closePath();ctx.fill();}
+      else{ctx.beginPath();ctx.arc(0,0,r.size/2,0,Math.PI*2);ctx.fill();}
+      ctx.restore();
+    }
+    ctx.globalAlpha=1;frame++;requestAnimationFrame(animate);
+  }
+  animate();
+}
+
+// ── UNIVERSAL CELEBRATION SHOW / CLOSE ────────────────────────────────────────
+function showUniversalCelebration(cfg){
+  const overlay=document.getElementById('universalCelebrationOverlay');if(!overlay)return;
+
+  // Set background color based on theme
+  const themes={
+    gold:   'linear-gradient(160deg,#1a2a00 0%,#1a3a00 40%,#2a1a00 100%)',
+    navy:   'linear-gradient(160deg,#0a1525 0%,#1a3a5c 55%,#0a1520 100%)',
+    teal:   'linear-gradient(160deg,#001a18 0%,#0a3530 55%,#001a10 100%)',
+    purple: 'linear-gradient(160deg,#1a0a2a 0%,#2a1a5c 55%,#1a0a2a 100%)',
+    green:  'linear-gradient(160deg,#0a1a05 0%,#1a3a10 55%,#0a1a05 100%)',
+  };
+  overlay.style.background = themes[cfg.theme||'navy']||themes.navy;
+
+  // Populate content
+  document.getElementById('celebIcon').textContent     = cfg.icon||'\u2728';
+  document.getElementById('celebEyebrow').textContent  = cfg.eyebrow||'Achievement Unlocked';
+  document.getElementById('celebTitle').textContent    = cfg.title||'Amazing!';
+
+  const subEl=document.getElementById('celebSubtitle');
+  if(cfg.subtitle){subEl.textContent=cfg.subtitle;subEl.style.color=cfg.subtitleColor||'var(--gold-light)';subEl.style.display='block';}
+  else subEl.style.display='none';
+
+  const statsEl=document.getElementById('celebStatsRow');
+  if(cfg.stats&&cfg.stats.length){
+    statsEl.innerHTML=cfg.stats.map(s=>`<div class="celeb-stat"><div class="celeb-stat-num">${s.value}</div><div class="celeb-stat-label">${s.label}</div></div>`).join('');
+    statsEl.style.display='flex';
+  } else statsEl.style.display='none';
+
+  const scrEl=document.getElementById('celebScripture');
+  const refEl=document.getElementById('celebScriptureRef');
+  if(cfg.scripture){
+    scrEl.textContent='\u201c'+cfg.scripture.text+'\u201d';scrEl.style.display='block';
+    refEl.textContent='\u2014 '+cfg.scripture.ref;refEl.style.display='block';
+  } else {scrEl.style.display='none';refEl.style.display='none';}
+
+  const tbEl=document.getElementById('celebTitleBadge');
+  if(cfg.titleBadge){
+    tbEl.innerHTML=cfg.titleBadge.icon+' New Title: <strong>'+cfg.titleBadge.title+'</strong>';
+    tbEl.style.display='inline-flex';
+  } else tbEl.style.display='none';
+
+  overlay.classList.add('show');
+  document.body.style.overflow='hidden';
+  startDualFireworks('celebFireworkCanvas','universalCelebrationOverlay');
+}
+
+function closeUniversalCelebration(){
+  const overlay=document.getElementById('universalCelebrationOverlay');
+  if(overlay)overlay.classList.remove('show');
+  document.body.style.overflow='';
+  renderTitleBadge();
+}
+
+// ── REWIRED CELEBRATION FUNCTIONS ─────────────────────────────────────────────
+
+function showCelebration(){
+  const d=db();
+  const total=currentUser?d.entries.filter(e=>e.userId===currentUser.id).reduce((s,e)=>s+e.miles,0):600;
+  const newBadge=TITLE_BADGES.find(b=>b.miles===600);
+  showUniversalCelebration({
+    icon:'\u2728',eyebrow:'You have arrived!',
+    title:'Jerusalem!',
+    subtitle:currentUser?currentUser.name+' \u2014 '+total+' miles walked':'The journey is complete',
+    subtitleColor:'#e8b050',
+    stats:[{value:total,label:'Total Miles'},{value:'600',label:'Goal'},{value:'100%',label:'Complete'}],
+    scripture:MILESTONE_SCRIPTURES.jerusalem,
+    titleBadge:newBadge,
+    theme:'gold',
+  });
+  // Still generate certificate
+  setTimeout(()=>{const cb=document.getElementById('certBtn');if(cb)cb.style.display='inline-block';},3000);
+}
+
+function showWaypointCelebration(wp, total){
+  const factData=WAYPOINT_FACTS[wp.label.replace('\n',' ')]||WAYPOINT_FACTS[wp.label]||{};
+  const scriptureKeys={
+    'Red Sea':'redsea','Mt. Sinai':'sinai','Paran':'paran',
+    'Jordan River':'jordan','Jerusalem':'jerusalem','Egypt':'egypt'
+  };
+  const sKey=scriptureKeys[wp.label.replace('\n',' ')]||'redsea';
+  const newBadge=TITLE_BADGES.find(b=>b.miles===wp.miles);
+  showUniversalCelebration({
+    icon:factData.emoji||wp.icon||'\u2728',
+    eyebrow:'Waypoint Reached \u2014 '+wp.miles+' miles',
+    title:wp.label.replace('\n',' '),
+    subtitle:factData.fact||'Another milestone on the road to Jerusalem!',
+    subtitleColor:'rgba(255,255,255,.7)',
+    stats:[{value:total,label:'Your Miles'},{value:wp.miles,label:'Milestone'},{value:Math.round(total/600*100)+'%',label:'Journey'}],
+    scripture:MILESTONE_SCRIPTURES[sKey],
+    titleBadge:newBadge||null,
+    theme:'navy',
+  });
+}
+
+function showZionUnlock(){
+  showUniversalCelebration({
+    icon:'\u{1F3D4}',eyebrow:'Jerusalem Complete \u2014 A New Path Opens',
+    title:'Forward to Zion',
+    subtitle:'Follow in the footsteps of Enoch',
+    subtitleColor:'#e8b050',
+    stats:[{value:'600',label:'Miles Done'},{value:'+600',label:'Zion Miles'},{value:'8',label:'New Levels'}],
+    scripture:MILESTONE_SCRIPTURES.zion_unlock,
+    titleBadge:TITLE_BADGES.find(b=>b.id==='zion1')||null,
+    theme:'green',
+  });
+  announceAchievement(currentUser?currentUser.name:'A ward member','\u{1F3D4}',
+    (currentUser?currentUser.name:'Someone')+' completed the Walk to Jerusalem and unlocked Forward to Zion \u2014 Enoch\'s City awaits!');
+}
+
+function showStreakCelebration(streak){
+  const titles={3:'Three Months Strong!',4:'Four Months In!',5:'Halfway There!',
+    6:'Six Month Warrior!',7:'Seven Months of Faith!',8:'Eight Months Done!',9:'Almost There!',10:'Ten Month Champion!'};
+  const sKeys={3:'streak3',7:'streak7',14:'streak14',30:'streak30'};
+  showUniversalCelebration({
+    icon:'\u{1F525}',eyebrow:'Monthly Streak Milestone',
+    title:titles[streak]||streak+' Month Streak!',
+    subtitle:'You have logged miles for '+streak+' consecutive months',
+    subtitleColor:'#e8b050',
+    stats:[{value:streak,label:'Month Streak'},{value:10-streak,label:'Months Left'},{value:Math.round(streak/10*100)+'%',label:'Of Journey'}],
+    scripture:MILESTONE_SCRIPTURES[sKeys[streak]]||MILESTONE_SCRIPTURES.streak7,
+    theme:'gold',
+  });
+  fireConfetti();
+}
+
+function showDailyStreakMilestone(msg, days){
+  const sKeys={3:'streak3',7:'streak7',14:'streak14',30:'streak30'};
+  showUniversalCelebration({
+    icon:'\u26A1',eyebrow:'Daily Streak Milestone',
+    title:msg.title,
+    subtitle:msg.body,
+    subtitleColor:'rgba(255,255,255,.75)',
+    stats:[{value:days,label:'Day Streak'},{value:days>=30?'\u{1F3C6}':'Keep going!',label:days>=30?'Champion!':'Next: '+[3,7,14,30].find(m=>m>days)+' days'}],
+    scripture:MILESTONE_SCRIPTURES[sKeys[days]]||MILESTONE_SCRIPTURES.streak7,
+    titleBadge:days>=30?{icon:'\u{1F3C6}',title:'Daily Champion'}:null,
+    theme:'teal',
+  });
+}
+
+// Also called for partner completion
+function showPartnerCelebration(partnerName, activity, bonusMiles){
+  showUniversalCelebration({
+    icon:'\u{1F91D}',eyebrow:'Partner Challenge Complete!',
+    title:'You Did It Together!',
+    subtitle:'You and '+partnerName+' completed: '+activity.slice(0,50)+(activity.length>50?'\u2026':''),
+    subtitleColor:'rgba(255,255,255,.8)',
+    stats:[{value:bonusMiles,label:'Bonus Miles'},{value:'\u{1F91D}',label:'Partnership'},{value:'Earned!',label:'Badge'}],
+    scripture:MILESTONE_SCRIPTURES.partner,
+    theme:'teal',
+  });
+}
+
+// Zion waypoint celebrations
+function showZionWaypointCelebration(badge, zionMiles){
+  const scriptureKeys={
+    enochs_call:'enochs_call',city_built:'city_built',
+    one_heart:'one_heart',no_poor:'no_poor',translated:'translated'
+  };
+  const newTitleBadge=TITLE_BADGES.find(b=>b.miles===(600+badge.bonus))||null;
+  showUniversalCelebration({
+    icon:badge.icon,eyebrow:'Forward to Zion \u2014 Waypoint Reached',
+    title:badge.name,
+    subtitle:ZION_WAYPOINTS.find(w=>w.bonus===badge.bonus)?.desc||'',
+    subtitleColor:'rgba(255,255,255,.75)',
+    stats:[{value:zionMiles,label:'Zion Miles'},{value:badge.bonus,label:'Milestone'},{value:Math.round(zionMiles/600*100)+'%',label:'To Zion'}],
+    scripture:MILESTONE_SCRIPTURES[scriptureKeys[badge.id]]||MILESTONE_SCRIPTURES.zion_unlock,
+    titleBadge:newTitleBadge,
+    theme:'green',
+  });
 }
 
 function exportCSV(){
@@ -4881,7 +5260,7 @@ buildStars();
   <div class="zion-unlock-eyebrow">&#x2726; Jerusalem Completed &#x2726;</div>
   <div class="zion-unlock-icon">&#x1F3D4;</div>
   <div class="zion-unlock-title">Forward to Zion</div>
-  <div class="zion-unlock-sub">Your journey does not end in Jerusalem &mdash; it is just beginning. A new path opens: follow the footsteps of the pioneers from Nauvoo to the Salt Lake Valley.</div>
+  <div class="zion-unlock-sub">Jerusalem is not the end &mdash; it is an invitation. Walk now in the footsteps of Enoch: build a people of one heart and one mind, consecrate all you have, and press toward a city worthy of translation.</div>
   <button class="btn btn-gold" onclick="closeZionUnlock()" style="width:auto;padding:.75rem 2rem;">Begin the Return &#x2192;</button>
 </div>
 
@@ -4891,35 +5270,42 @@ buildStars();
     <div class="wn-header">
       <div class="wn-badge">&#x2726; Version 3.0 &mdash; What&rsquo;s New</div>
       <div class="wn-title">Walk With Me</div>
-      <div class="wn-sub">Three big updates just dropped &mdash; here&rsquo;s what&rsquo;s new</div>
+      <div class="wn-sub">Big updates &mdash; here&rsquo;s everything that&rsquo;s new</div>
     </div>
     <div class="wn-body">
       <div class="wn-feature">
-        <div class="wn-icon" style="background:linear-gradient(135deg,#1a3a5c,#0f2540);">&#x1F3D4;</div>
+        <div class="wn-icon" style="background:linear-gradient(135deg,#1a3a10,#2a5a20);">&#x2728;</div>
         <div class="wn-feature-body">
-          <div class="wn-feature-title">Forward to Zion &mdash; A Second Journey</div>
-          <div class="wn-feature-desc">Hit 600 miles? The journey isn&rsquo;t over. A pioneer trail from Nauvoo to Salt Lake Valley unlocks automatically &mdash; with XP levels, new badges, and a second map on your Dashboard.</div>
+          <div class="wn-feature-title">Forward to Zion &mdash; Enoch&rsquo;s City</div>
+          <div class="wn-feature-desc">Hit 600 miles and a second journey unlocks: walk in Enoch&rsquo;s footsteps toward the City of Holiness. Five milestones rooted in Moses 7, 8 XP levels from &ldquo;Seeker of Zion&rdquo; to &ldquo;Translated in Spirit,&rdquo; and an animated title badge that lives on your Dashboard permanently.</div>
+        </div>
+      </div>
+      <div class="wn-feature">
+        <div class="wn-icon" style="background:linear-gradient(135deg,#3a1a5c,#5a2a8a);">&#x1F3C6;</div>
+        <div class="wn-feature-body">
+          <div class="wn-feature-title">Spectacular Celebrations</div>
+          <div class="wn-feature-desc">Every milestone now fires a full-screen cinematic celebration &mdash; dual-layer fireworks (explosions from center + rain from top), staggered crescendo animations, personalized stats, and a scripture relevant to that exact milestone.</div>
         </div>
       </div>
       <div class="wn-feature">
         <div class="wn-icon" style="background:linear-gradient(135deg,#2a7a6e,#1a5a4e);">&#x1F91D;</div>
         <div class="wn-feature-body">
           <div class="wn-feature-title">Partner Challenges</div>
-          <div class="wn-feature-desc">Tap any name on the Leaderboard to challenge them to complete an activity together. Both finish within 7 days and you both earn bonus miles + a permanent Partnership Badge.</div>
+          <div class="wn-feature-desc">Challenge any ward member from the Leaderboard to complete an activity together. Both finish within 7 days and earn bonus miles + a permanent Partnership Badge. 16 cooperative activities designed for two.</div>
         </div>
       </div>
       <div class="wn-feature">
         <div class="wn-icon" style="background:linear-gradient(135deg,#5a7a2a,#3a5a1a);">&#x1F465;</div>
         <div class="wn-feature-body">
           <div class="wn-feature-title">Visitor Role</div>
-          <div class="wn-feature-desc">Friends and family from other wards can now join. Select &ldquo;Visitor&rdquo; at registration to cheer on Level Creek without affecting our ward&rsquo;s group miles.</div>
+          <div class="wn-feature-desc">Friends and family from other wards can now join as Visitors &mdash; they see the leaderboard, cheer you on, and react to shoutouts without affecting Level Creek&rsquo;s group miles.</div>
         </div>
       </div>
       <div class="wn-feature">
         <div class="wn-icon" style="background:linear-gradient(135deg,#7a4a20,#5a3010);">&#x1F4DC;</div>
         <div class="wn-feature-body">
           <div class="wn-feature-title">History Tab &mdash; Redesigned</div>
-          <div class="wn-feature-desc">Your mile log now has a bar chart, personal stats, search and category filters, and expandable monthly summary cards with color-coded activity entries.</div>
+          <div class="wn-feature-desc">Now with a miles-by-month chart, personal stats bar, keyword search, category filters, and expandable monthly summary cards with color-coded entries and journal notes.</div>
         </div>
       </div>
     </div>
@@ -4927,6 +5313,22 @@ buildStars();
       <button class="wn-cta" onclick="closeWhatsNew()">Let&rsquo;s go! &#x2192;</button>
       <button class="wn-dismiss" onclick="closeWhatsNew()">Dismiss</button>
     </div>
+  </div>
+</div>
+
+<!-- UNIVERSAL CELEBRATION OVERLAY -->
+<div id="universalCelebrationOverlay">
+  <canvas class="celeb-canvas" id="celebFireworkCanvas"></canvas>
+  <div class="celeb-content">
+    <span class="celeb-icon-wrap" id="celebIcon">&#x2728;</span>
+    <div class="celeb-eyebrow" id="celebEyebrow">Achievement Unlocked</div>
+    <div class="celeb-title" id="celebTitle">Amazing!</div>
+    <div class="celeb-subtitle" id="celebSubtitle" style="display:none;"></div>
+    <div class="celeb-stats-row" id="celebStatsRow" style="display:none;"></div>
+    <div class="celeb-scripture" id="celebScripture" style="display:none;"></div>
+    <span class="celeb-scripture-ref" id="celebScriptureRef" style="display:none;"></span>
+    <div class="celeb-title-badge" id="celebTitleBadge" style="display:none;"></div>
+    <button class="celeb-btn" onclick="closeUniversalCelebration()">Continue the Journey &#x2192;</button>
   </div>
 </div>
 </body>
