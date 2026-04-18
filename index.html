@@ -247,8 +247,6 @@ textarea.form-input{min-height:72px;resize:vertical;}
 /* ── FLAME ── */
 .lb-flame{font-size:.85rem;margin-left:.2rem;}
 /* ── CELEBRATION ── */
-#celebrationOverlay{position:fixed;inset:0;background:linear-gradient(160deg,#0d2035 0%,#1a3a5c 60%,#0d2820 100%);z-index:9998;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;}
-#celebrationOverlay.show{display:flex;}
 .celeb-title{font-family:'Cinzel',serif;font-size:2.2rem;color:var(--gold-light);letter-spacing:.08em;margin-bottom:.5rem;animation:glowPulse 2s ease-in-out infinite;}
 .celeb-sub{font-family:'Crimson Pro',serif;font-size:1.2rem;color:rgba(255,255,255,.85);font-style:italic;margin-bottom:2rem;}
 .celeb-badge{font-size:5rem;margin-bottom:1.5rem;animation:badgeBounce .6s ease both;}
@@ -369,16 +367,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
 
 /* ══ PLANNER VISUAL UPGRADE ══ */
 .planner-category-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem;margin-bottom:1.5rem;}
-.planner-cat-card{border-radius:4px;padding:1rem;cursor:pointer;border:2px solid transparent;transition:all .2s;position:relative;overflow:hidden;}
-.planner-cat-card.selected{border-color:currentColor;box-shadow:0 4px 16px rgba(0,0,0,.12);}
-.planner-cat-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1);}
-.planner-cat-icon{font-size:1.8rem;margin-bottom:.4rem;}
-.planner-cat-name{font-family:'Cinzel',serif;font-size:.9rem;margin-bottom:.2rem;}
-.planner-cat-count{font-family:'Inter',sans-serif;font-size:.7rem;opacity:.75;}
-.progress-ring{transform:rotate(-90deg);}
-.progress-ring-bg{fill:none;stroke-width:4;}
-.progress-ring-fill{fill:none;stroke-width:4;stroke-linecap:round;transition:stroke-dashoffset .6s ease;}
-.planner-ring-wrap{position:absolute;top:.6rem;right:.6rem;}
+
 
 /* ══ LOG MILES ICON TABS ══ */
 .cat-icon-tabs{display:flex;gap:.5rem;margin-bottom:1.25rem;flex-wrap:wrap;}
@@ -539,232 +528,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
 .login-quote-ref{font-family:'Inter',sans-serif;font-size:.6rem;letter-spacing:.1em;color:#c8922a;display:block;margin-top:.35rem;font-weight:500;}
 
 /* ══ WAYPOINT CELEBRATION OVERLAY ══ */
-#waypointOverlay{position:fixed;inset:0;background:linear-gradient(160deg,#0d2035 0%,#1a3a5c 55%,#0d2820 100%);z-index:9997;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;}
-#waypointOverlay.show{display:flex;}
-.wp-celeb-icon{font-size:4.5rem;margin-bottom:.75rem;animation:wpBounce .7s cubic-bezier(.34,1.56,.64,1) both;}
-.wp-celeb-eyebrow{font-family:'Inter',sans-serif;font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-light);margin-bottom:.5rem;opacity:.8;}
-.wp-celeb-title{font-family:'Cinzel',serif;font-size:2rem;color:white;letter-spacing:.06em;margin-bottom:.4rem;line-height:1.15;}
-.wp-celeb-miles{font-family:'Cinzel',serif;font-size:1rem;color:var(--gold-light);margin-bottom:.75rem;}
-.wp-celeb-fact{font-family:'Crimson Pro',serif;font-style:italic;font-size:1rem;color:rgba(255,255,255,.7);max-width:380px;margin:0 auto 1.75rem;line-height:1.6;}
-@keyframes wpBounce{0%{transform:scale(0) rotate(-15deg);}60%{transform:scale(1.25) rotate(5deg);}100%{transform:scale(1) rotate(0deg);}}
 
-/* ══ TODAY'S CHALLENGE CARD ══ */
-.todays-challenge{background:linear-gradient(135deg,rgba(42,80,128,.12),rgba(42,80,128,.05));border:1.5px solid var(--spiritual);border-radius:6px;padding:.9rem 1rem;margin-bottom:1rem;position:relative;cursor:pointer;transition:all .2s;}
-.todays-challenge:hover{transform:translateX(3px);}
-.todays-challenge.physical{background:linear-gradient(135deg,rgba(90,122,42,.12),rgba(90,122,42,.05));border-color:var(--physical);}
-.todays-challenge.intellectual{background:linear-gradient(135deg,rgba(122,74,32,.12),rgba(122,74,32,.05));border-color:var(--intellectual);}
-.todays-challenge.social{background:linear-gradient(135deg,rgba(106,42,106,.12),rgba(106,42,106,.05));border-color:var(--social);}
-.tc-eyebrow{font-family:'Inter',sans-serif;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.3rem;}
-.tc-title{font-family:'Cinzel',serif;font-size:.9rem;color:var(--navy);margin-bottom:.25rem;}
-.tc-desc{font-family:'Crimson Pro',serif;font-size:.85rem;color:var(--ink-soft);line-height:1.4;margin-bottom:.4rem;}
-.tc-footer{display:flex;align-items:center;justify-content:space-between;}
-.tc-miles{font-family:'Cinzel',serif;font-size:.85rem;color:var(--gold);}
-.tc-log-btn{font-family:'Inter',sans-serif;font-size:.65rem;font-weight:600;color:var(--navy);background:var(--gold-pale);border:1px solid var(--gold);border-radius:20px;padding:.2rem .65rem;}
-
-/* ══ STREAK CELEBRATION ══ */
-#streakOverlay{position:fixed;inset:0;background:rgba(10,20,35,.85);z-index:9996;display:none;align-items:center;justify-content:center;padding:1.5rem;}
-#streakOverlay.show{display:flex;}
-.streak-card{background:var(--parchment);border-radius:12px;max-width:360px;width:100%;padding:2rem 1.75rem;text-align:center;border:2px solid var(--gold);box-shadow:0 20px 60px rgba(0,0,0,.5);}
-.streak-icon{font-size:3rem;margin-bottom:.5rem;}
-.streak-title{font-family:'Cinzel',serif;font-size:1.3rem;color:var(--navy);margin-bottom:.4rem;}
-.streak-body{font-family:'Crimson Pro',serif;font-size:.95rem;color:var(--ink-soft);line-height:1.6;margin-bottom:1.25rem;}
-.streak-months{display:flex;justify-content:center;gap:.4rem;margin-bottom:1.25rem;flex-wrap:wrap;}
-.streak-dot{width:28px;height:28px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:.6rem;font-family:'Cinzel',serif;color:white;}
-
-/* ══ DID YOU KNOW ══ */
-.did-you-know{background:linear-gradient(135deg,rgba(26,58,92,.06),rgba(26,58,92,.02));border:1px solid var(--sand-dark);border-left:3px solid var(--navy);border-radius:0 6px 6px 0;padding:.75rem 1rem;margin-top:.75rem;}
-.dyk-label{font-family:'Inter',sans-serif;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);margin-bottom:.3rem;}
-.dyk-text{font-family:'Crimson Pro',serif;font-size:.88rem;color:var(--ink-soft);line-height:1.5;font-style:italic;}
-
-/* ══ DAILY SPARK ══ */
-.daily-spark{background:linear-gradient(135deg,rgba(42,122,110,.1),rgba(42,122,110,.04));border:1.5px solid var(--teal);border-radius:6px;padding:.85rem 1rem;margin-bottom:.75rem;display:flex;align-items:flex-start;gap:.75rem;}
-.spark-icon{font-size:1.3rem;flex-shrink:0;margin-top:.05rem;}
-.spark-body{flex:1;}
-.spark-label{font-family:'Inter',sans-serif;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:.25rem;}
-.spark-text{font-family:'Crimson Pro',serif;font-style:italic;font-size:.95rem;color:var(--ink);line-height:1.5;}
-.spark-ref{font-family:'Inter',sans-serif;font-size:.62rem;color:var(--teal);opacity:.7;margin-top:.2rem;}
-
-/* ══ MINUTE TO WIN IT ══ */
-.mtwi-card{border-radius:6px;padding:.85rem 1rem;margin-bottom:.75rem;position:relative;overflow:hidden;border:1.5px solid;}
-.mtwi-card.available{background:linear-gradient(135deg,rgba(200,146,42,.12),rgba(200,146,42,.04));border-color:var(--gold);cursor:pointer;transition:all .2s;}
-.mtwi-card.available:hover{transform:translateX(3px);}
-.mtwi-card.done{background:rgba(42,122,110,.06);border-color:var(--teal);opacity:.75;}
-.mtwi-eyebrow{font-family:'Inter',sans-serif;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.3rem;}
-.mtwi-challenge{font-family:'Cinzel',serif;font-size:.9rem;color:var(--navy);margin-bottom:.4rem;}
-.mtwi-footer{display:flex;align-items:center;justify-content:space-between;}
-.mtwi-miles{font-family:'Cinzel',serif;font-size:.85rem;color:var(--gold);}
-.mtwi-btn{font-family:'Inter',sans-serif;font-size:.68rem;font-weight:600;padding:.25rem .75rem;border-radius:20px;border:none;cursor:pointer;transition:all .15s;}
-.mtwi-btn.claim{background:var(--gold);color:white;}
-.mtwi-btn.claimed{background:var(--teal);color:white;cursor:default;}
-
-/* ══ THIS WEEK CARD ══ */
-.week-card{background:white;border-radius:6px;border:1px solid var(--sand-dark);padding:.75rem 1rem;margin-bottom:.75rem;display:flex;align-items:center;gap:1rem;}
-.week-stat{flex:1;text-align:center;}
-.week-num{font-family:'Cinzel',serif;font-size:1.5rem;color:var(--navy);line-height:1;}
-.week-label{font-family:'Inter',sans-serif;font-size:.6rem;color:var(--ink-soft);letter-spacing:.08em;text-transform:uppercase;margin-top:.2rem;}
-.week-divider{width:1px;height:36px;background:var(--sand-dark);}
-.week-trend{font-size:1.2rem;text-align:center;}
-.week-trend-label{font-family:'Inter',sans-serif;font-size:.6rem;text-align:center;margin-top:.1rem;}
-
-/* ══ MASTERY RINGS ══ */
-.mastery-rings{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin-bottom:.75rem;}
-.mastery-ring-wrap{display:flex;flex-direction:column;align-items:center;gap:.3rem;}
-.mastery-ring-label{font-family:'Inter',sans-serif;font-size:.58rem;text-align:center;letter-spacing:.04em;}
-.mastery-ring-miles{font-family:'Cinzel',serif;font-size:.65rem;color:var(--navy);}
-
-/* ══ MONTH-END NUDGE ══ */
-.month-nudge{background:linear-gradient(135deg,#1a3a5c,#0f2540);border-radius:6px;padding:.85rem 1rem;margin-bottom:.75rem;display:flex;align-items:flex-start;gap:.75rem;position:relative;}
-.nudge-body{flex:1;}
-.nudge-title{font-family:'Cinzel',serif;font-size:.85rem;color:var(--gold-light);margin-bottom:.2rem;}
-.nudge-text{font-family:'Crimson Pro',serif;font-size:.88rem;color:rgba(255,255,255,.8);line-height:1.4;}
-.nudge-close{background:none;border:none;color:rgba(255,255,255,.4);cursor:pointer;font-size:.9rem;padding:.1rem .3rem;flex-shrink:0;}
-
-/* ══ END-OF-MONTH RECAP ══ */
-.recap-card{background:linear-gradient(160deg,var(--navy-deep),var(--navy),#1a2a18);border-radius:8px;padding:1.25rem;margin-bottom:.75rem;text-align:center;position:relative;overflow:hidden;}
-.recap-card::before{content:'';position:absolute;top:-30px;right:-30px;width:120px;height:120px;background:radial-gradient(circle,rgba(200,146,42,.15),transparent 70%);pointer-events:none;}
-.recap-eyebrow{font-family:'Inter',sans-serif;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-light);margin-bottom:.4rem;opacity:.8;}
-.recap-month{font-family:'Cinzel',serif;font-size:1.3rem;color:white;margin-bottom:.75rem;}
-.recap-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-bottom:.75rem;}
-.recap-stat{background:rgba(255,255,255,.08);border-radius:4px;padding:.5rem .25rem;}
-.recap-stat-num{font-family:'Cinzel',serif;font-size:1.1rem;color:var(--gold-light);}
-.recap-stat-label{font-family:'Inter',sans-serif;font-size:.52rem;color:rgba(255,255,255,.5);letter-spacing:.06em;text-transform:uppercase;margin-top:.15rem;}
-.recap-msg{font-family:'Crimson Pro',serif;font-style:italic;font-size:.9rem;color:rgba(255,255,255,.7);line-height:1.5;margin-bottom:.75rem;}
-.recap-dismiss{background:none;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.6);font-family:'Inter',sans-serif;font-size:.7rem;padding:.3rem .8rem;border-radius:20px;cursor:pointer;}
-
-/* ══ JOURNEY JOURNAL ══ */
-.journal-note-input{width:100%;border:1px solid var(--sand-dark);border-radius:4px;padding:.5rem .75rem;font-family:'Crimson Pro',serif;font-style:italic;font-size:.9rem;color:var(--ink);background:white;resize:none;margin-top:.4rem;}
-.journal-entry{font-family:'Crimson Pro',serif;font-style:italic;font-size:.82rem;color:var(--ink-soft);margin-top:.25rem;padding:.3rem .5rem;background:rgba(201,185,154,.1);border-radius:3px;border-left:2px solid var(--sand-dark);}
-
-/* ══ DAILY STREAK ══ */
-.daily-streak-card{background:white;border:1.5px solid var(--sand-dark);border-radius:6px;padding:.75rem 1rem;margin-bottom:.75rem;}
-.daily-streak-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem;}
-.daily-streak-count{display:flex;align-items:center;gap:.4rem;}
-.daily-streak-num{font-family:'Cinzel',serif;font-size:1.6rem;color:var(--navy);line-height:1;}
-.daily-streak-label{font-family:'Inter',sans-serif;font-size:.6rem;color:var(--ink-soft);letter-spacing:.08em;text-transform:uppercase;}
-.daily-streak-fire{font-size:1.3rem;}
-.daily-streak-status{font-family:'Inter',sans-serif;font-size:.65rem;border-radius:20px;padding:.15rem .6rem;font-weight:500;}
-.daily-streak-status.active{background:rgba(42,122,110,.1);color:var(--teal);}
-.daily-streak-status.grace{background:rgba(200,146,42,.1);color:var(--gold);}
-.daily-streak-status.broken{background:rgba(168,74,42,.1);color:var(--terracotta);}
-.daily-week-grid{display:flex;gap:.35rem;justify-content:space-between;}
-.daily-week-day{flex:1;display:flex;flex-direction:column;align-items:center;gap:.25rem;}
-.daily-week-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-family:'Inter',sans-serif;font-weight:600;border:1.5px solid;}
-.daily-week-dot.hit{background:var(--gold);border-color:var(--gold);color:white;}
-.daily-week-dot.grace-used{background:rgba(200,146,42,.15);border-color:var(--gold);color:var(--gold);}
-.daily-week-dot.today-empty{background:rgba(42,122,110,.08);border-color:var(--teal);color:var(--teal);}
-.daily-week-dot.missed{background:rgba(168,74,42,.08);border-color:var(--terracotta);color:var(--terracotta);}
-.daily-week-dot.future{background:var(--sand);border-color:var(--sand-dark);color:var(--sand-dark);}
-.daily-week-day-label{font-family:'Inter',sans-serif;font-size:.52rem;color:var(--ink-soft);letter-spacing:.04em;}
-.daily-streak-msg{font-family:'Crimson Pro',serif;font-style:italic;font-size:.82rem;color:var(--ink-soft);margin-top:.5rem;text-align:center;}
-/* Badge row addition */
-.daily-badge{display:inline-flex;align-items:center;gap:.3rem;background:linear-gradient(135deg,var(--gold-pale),var(--sand));border:1.5px solid var(--gold);border-radius:4px;padding:.4rem .75rem;font-family:'Cinzel',serif;font-size:.7rem;color:var(--navy);}
-
-/* ══ ADMIN TOGGLE TABS ══ */
-.admin-toggle-tabs{display:flex;gap:.35rem;margin-bottom:.75rem;}
-.admin-toggle-tab{padding:.3rem .85rem;border:1.5px solid var(--sand-dark);border-radius:20px;background:white;cursor:pointer;font-family:'Inter',sans-serif;font-size:.7rem;font-weight:500;color:var(--ink-soft);transition:all .15s;}
-.admin-toggle-tab:hover{border-color:var(--navy);}
-.admin-toggle-tab.active{background:var(--navy);border-color:var(--navy);color:white;}
-
-/* ══ TRAVELER ICONS ══ */
-#miniTraveler{position:absolute;bottom:-.2rem;transform:translateX(-50%);transition:left .9s cubic-bezier(.4,0,.2,1);z-index:10;pointer-events:none;filter:drop-shadow(0 2px 4px rgba(0,0,0,.3));}
-#groupTraveler{position:absolute;bottom:.4rem;transform:translateX(-50%);transition:left .9s cubic-bezier(.4,0,.2,1);z-index:10;pointer-events:none;filter:drop-shadow(0 3px 6px rgba(0,0,0,.35));}
-.mini-waypoints{position:relative;}
-
-/* ══ HISTORY REDESIGN ══ */
-.history-stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin-bottom:1rem;}
-.history-stat-card{background:white;border:1px solid var(--sand-dark);border-radius:6px;padding:.65rem .5rem;text-align:center;}
-.history-stat-num{font-family:'Cinzel',serif;font-size:1.2rem;color:var(--navy);line-height:1;}
-.history-stat-label{font-family:'Inter',sans-serif;font-size:.55rem;color:var(--ink-soft);letter-spacing:.06em;text-transform:uppercase;margin-top:.2rem;}
-.history-chart-wrap{background:white;border:1px solid var(--sand-dark);border-radius:6px;padding:.75rem 1rem;margin-bottom:1rem;}
-.history-chart-label{font-family:'Cinzel',serif;font-size:.78rem;color:var(--navy);margin-bottom:.6rem;}
-.history-bars{display:flex;align-items:flex-end;gap:.25rem;height:64px;}
-.history-bar-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:.2rem;height:100%;}
-.history-bar{width:100%;border-radius:3px 3px 0 0;min-height:3px;transition:height .4s ease;}
-.history-bar-month{font-family:'Inter',sans-serif;font-size:.45rem;color:var(--ink-soft);}
-.history-bar-miles{font-family:'Cinzel',serif;font-size:.45rem;color:var(--navy);}
-.history-search{width:100%;border:1.5px solid var(--sand-dark);border-radius:6px;padding:.55rem .85rem;font-family:'Crimson Pro',serif;font-size:.95rem;color:var(--ink);background:white;margin-bottom:.75rem;box-sizing:border-box;}
-.history-search:focus{outline:none;border-color:var(--teal);}
-.history-filter-row{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:.75rem;}
-.history-filter-btn{padding:.25rem .7rem;border:1.5px solid var(--sand-dark);border-radius:20px;background:white;cursor:pointer;font-family:'Inter',sans-serif;font-size:.68rem;color:var(--ink-soft);transition:all .15s;}
-.history-filter-btn.active{background:var(--navy);border-color:var(--navy);color:white;}
-.month-summary-card{background:white;border:1px solid var(--sand-dark);border-radius:6px;overflow:hidden;margin-bottom:.5rem;}
-.month-summary-header{display:flex;align-items:center;justify-content:space-between;padding:.65rem 1rem;cursor:pointer;user-select:none;}
-.month-summary-title{font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);}
-.month-summary-meta{display:flex;align-items:center;gap:.6rem;}
-.month-summary-miles{font-family:'Cinzel',serif;font-size:.85rem;color:var(--gold);}
-.month-summary-count{font-family:'Inter',sans-serif;font-size:.65rem;color:var(--ink-soft);}
-.month-summary-chevron{font-size:.7rem;color:var(--ink-soft);transition:transform .2s;}
-.month-summary-chevron.open{transform:rotate(180deg);}
-.month-summary-prog{height:4px;background:var(--sand-dark);}
-.month-summary-prog-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-light));transition:width .4s;}
-.month-summary-entries{border-top:1px solid var(--sand-dark);display:none;}
-.month-summary-entries.open{display:block;}
-.history-entry-v2{display:flex;align-items:flex-start;gap:.75rem;padding:.65rem 1rem;border-bottom:1px solid #f8f4ee;}
-.history-entry-v2:last-child{border-bottom:none;}
-.history-entry-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:.35rem;}
-.history-entry-body{flex:1;}
-.history-entry-desc{font-size:.88rem;color:var(--ink);line-height:1.4;}
-.history-entry-meta{font-family:'Inter',sans-serif;font-size:.65rem;color:var(--ink-soft);margin-top:.2rem;}
-.history-entry-note{font-family:'Crimson Pro',serif;font-style:italic;font-size:.8rem;color:var(--ink-soft);margin-top:.2rem;padding:.25rem .5rem;background:rgba(201,185,154,.12);border-radius:3px;border-left:2px solid var(--sand-dark);}
-.history-entry-miles{font-family:'Cinzel',serif;font-size:.9rem;color:var(--navy);flex-shrink:0;}
-
-/* ══ VISITOR ══ */
-/* ward name shown inline in leaderboard group label */
-
-/* ══ PARTNER CHALLENGES ══ */
-.partner-btn{display:inline-flex;align-items:center;gap:.3rem;background:rgba(42,122,110,.1);border:1px solid var(--teal);color:var(--teal);border-radius:20px;padding:.2rem .65rem;font-family:'Inter',sans-serif;font-size:.65rem;font-weight:500;cursor:pointer;transition:all .15s;margin-top:.35rem;}
-.partner-btn:hover{background:var(--teal);color:white;}
-#partnerModal{position:fixed;inset:0;z-index:9994;display:flex;align-items:flex-end;justify-content:center;padding:1rem;pointer-events:none;opacity:0;transition:opacity .25s;}
-#partnerModal.open{opacity:1;pointer-events:all;}
-#partnerModal::before{content:'';position:absolute;inset:0;background:rgba(10,20,35,.7);backdrop-filter:blur(3px);}
-.partner-modal-card{position:relative;background:var(--parchment);border-radius:12px 12px 8px 8px;max-width:460px;width:100%;box-shadow:0 -8px 40px rgba(0,0,0,.4);transform:translateY(40px);transition:transform .3s cubic-bezier(.4,0,.2,1);overflow:hidden;}
-#partnerModal.open .partner-modal-card{transform:translateY(0);}
-.partner-modal-header{background:linear-gradient(135deg,var(--teal),#1a5a4e);padding:1.1rem 1.25rem;}
-.partner-modal-title{font-family:'Cinzel',serif;font-size:1rem;color:white;margin-bottom:.2rem;}
-.partner-modal-sub{font-family:'Crimson Pro',serif;font-size:.85rem;color:rgba(255,255,255,.7);font-style:italic;}
-.partner-modal-body{padding:1rem 1.25rem;}
-.partner-target{display:flex;align-items:center;gap:.75rem;background:var(--sand);border-radius:6px;padding:.75rem 1rem;margin-bottom:.75rem;}
-.partner-target-name{font-family:'Cinzel',serif;font-size:.9rem;color:var(--navy);}
-.partner-target-group{font-family:'Inter',sans-serif;font-size:.65rem;color:var(--ink-soft);}
-.partner-activity-list{max-height:200px;overflow-y:auto;margin-bottom:.75rem;}
-.partner-activity-item{display:flex;align-items:center;gap:.6rem;padding:.5rem .75rem;border-radius:4px;cursor:pointer;transition:background .1s;}
-.partner-activity-item:hover{background:var(--sand);}
-.partner-activity-item.selected{background:rgba(42,122,110,.1);border:1px solid var(--teal);}
-.partner-activity-miles{font-family:'Cinzel',serif;font-size:.8rem;color:var(--navy);min-width:28px;}
-.partner-activity-desc{font-size:.85rem;color:var(--ink-soft);flex:1;line-height:1.3;}
-.partner-modal-footer{padding:.75rem 1.25rem 1rem;border-top:1px solid var(--sand-dark);display:flex;gap:.75rem;}
-.partner-send-btn{flex:1;background:var(--teal);color:white;font-family:'Cinzel',serif;font-size:.8rem;border:none;border-radius:30px;padding:.65rem;cursor:pointer;transition:opacity .15s;}
-.partner-challenge-card{background:linear-gradient(135deg,rgba(42,122,110,.1),rgba(42,122,110,.04));border:1.5px solid var(--teal);border-radius:6px;padding:.85rem 1rem;margin-bottom:.75rem;}
-.pc-eyebrow{font-family:'Inter',sans-serif;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:.3rem;}
-.pc-title{font-family:'Cinzel',serif;font-size:.9rem;color:var(--navy);margin-bottom:.25rem;}
-.pc-partners{font-family:'Crimson Pro',serif;font-size:.88rem;color:var(--ink-soft);margin-bottom:.4rem;}
-.pc-footer{display:flex;align-items:center;justify-content:space-between;}
-.pc-deadline{font-family:'Inter',sans-serif;font-size:.65rem;color:var(--ink-soft);}
-.pc-claim-btn{background:var(--teal);color:white;border:none;border-radius:20px;padding:.25rem .85rem;font-family:'Inter',sans-serif;font-size:.68rem;font-weight:600;cursor:pointer;}
-
-/* ══ RETURN TO ZION ══ */
-.zion-map{background:linear-gradient(160deg,#1a3a5c 0%,#0f2540 55%,#2a1a0a 100%);border-radius:8px;padding:1rem;margin-bottom:.75rem;position:relative;overflow:hidden;}
-.zion-map::before{content:'';position:absolute;top:-30px;right:-30px;width:120px;height:120px;background:radial-gradient(circle,rgba(232,176,80,.12),transparent 70%);pointer-events:none;}
-.zion-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem;}
-.zion-title{font-family:'Cinzel',serif;font-size:.85rem;color:var(--gold-light);letter-spacing:.06em;}
-.zion-level{background:rgba(200,146,42,.2);border:1px solid var(--gold);border-radius:20px;font-family:'Cinzel',serif;font-size:.65rem;color:var(--gold-light);padding:.15rem .6rem;}
-.zion-waypoints{display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:1.5rem;position:relative;margin-bottom:.25rem;}
-.zion-line-bg{position:absolute;bottom:.55rem;left:0;right:0;height:2px;background:rgba(255,255,255,.1);border-radius:2px;}
-.zion-line-fill{position:absolute;bottom:.55rem;left:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:2px;transition:width .8s ease;}
-.zion-wp{display:flex;flex-direction:column;align-items:center;gap:.25rem;position:relative;z-index:2;}
-.zion-wp-dot{width:10px;height:10px;border-radius:50%;border:2px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);transition:all .3s;}
-.zion-wp-dot.reached{background:var(--gold);border-color:var(--gold-light);box-shadow:0 0 6px rgba(200,146,42,.5);}
-.zion-wp-icon{font-size:.9rem;}
-.zion-wp-label{font-family:'Cinzel',serif;font-size:.38rem;color:rgba(255,255,255,.55);text-align:center;max-width:30px;line-height:1.2;}
-.xp-bar-wrap{height:6px;background:rgba(255,255,255,.1);border-radius:10px;margin:.4rem 0;overflow:hidden;}
-.xp-bar-fill{height:100%;border-radius:10px;background:linear-gradient(90deg,#c8922a,#e8b050);transition:width .6s ease;}
-.xp-label{font-family:'Inter',sans-serif;font-size:.58rem;color:rgba(255,255,255,.45);display:flex;justify-content:space-between;}
-#zionUnlockOverlay{position:fixed;inset:0;background:linear-gradient(160deg,#1a2a0a,#2a3a15,#1a2a0a);z-index:9998;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;}
-#zionUnlockOverlay.show{display:flex;}
-.zion-unlock-icon{font-size:4rem;margin-bottom:.75rem;animation:wpBounce .7s cubic-bezier(.34,1.56,.64,1) both;}
-.zion-unlock-eyebrow{font-family:'Inter',sans-serif;font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-light);margin-bottom:.5rem;}
-.zion-unlock-title{font-family:'Cinzel',serif;font-size:2.2rem;color:white;margin-bottom:.5rem;line-height:1.1;}
-.zion-unlock-sub{font-family:'Crimson Pro',serif;font-style:italic;font-size:1.1rem;color:rgba(255,255,255,.7);max-width:380px;margin:0 auto 2rem;line-height:1.6;}
 
 /* ══ WHAT'S NEW MODAL ══ */
 #whatsNewModal{position:fixed;inset:0;z-index:9993;display:flex;align-items:center;justify-content:center;padding:1.25rem;pointer-events:none;opacity:0;transition:opacity .3s;}
@@ -857,10 +621,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
 .dash-inline-badge::before{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);animation:titleShimmer 3s ease-in-out infinite;border-radius:30px;overflow:hidden;}
 .dash-badge-tooltip{position:absolute;top:calc(100% + 8px);right:0;left:auto;transform:scaleY(0);transform-origin:top right;background:var(--parchment);border:1.5px solid var(--gold);border-radius:8px;padding:.75rem 1rem;min-width:200px;max-width:min(280px,calc(100vw - 1.5rem));box-shadow:0 8px 24px rgba(0,0,0,.2);z-index:200;transition:transform .2s cubic-bezier(.4,0,.2,1),opacity .2s;opacity:0;pointer-events:none;text-align:left;}
 .dash-greeting-badge-wrap.open .dash-badge-tooltip,.dash-greeting-badge-wrap:hover .dash-badge-tooltip{transform:scaleY(1);opacity:1;pointer-events:all;}
-@media(max-width:520px){
-  .dash-badge-tooltip{position:fixed;top:auto;bottom:auto;left:1rem;right:1rem;max-width:none;transform:scaleY(0);transform-origin:top center;margin-top:0;}
-  .dash-greeting-badge-wrap.open .dash-badge-tooltip,.dash-greeting-badge-wrap:hover .dash-badge-tooltip{transform:scaleY(1);}
-}
+
 
 /* ══ PUSH NOTIFICATIONS ══ */
 .notif-opt-in-card{background:linear-gradient(135deg,rgba(42,122,110,.1),rgba(42,122,110,.04));border:1.5px solid var(--teal);border-radius:6px;padding:.75rem 1rem;margin-bottom:.75rem;display:flex;align-items:center;gap:.75rem;}
@@ -899,6 +660,11 @@ textarea.form-input{min-height:72px;resize:vertical;}
 .year-modal-card{position:relative;background:var(--parchment);border-radius:12px;max-width:420px;width:100%;max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.5);}
 .year-modal-inner{padding:0;}
 .year-modal-close{position:absolute;top:.75rem;right:.75rem;background:rgba(255,255,255,.15);border:none;color:white;border-radius:50%;width:28px;height:28px;font-size:.9rem;cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center;}
+
+/* mobile badge tooltip — body-level, avoids transform stacking context */
+#mobileBadgeTooltip{position:fixed;left:1rem;right:1rem;top:160px;background:var(--parchment);border:1.5px solid var(--gold);border-radius:8px;padding:.85rem 1rem;box-shadow:0 8px 32px rgba(0,0,0,.25);z-index:9999;display:none;}
+#mobileBadgeTooltip.show{display:block;animation:tooltipFadeIn .2s ease both;}
+@keyframes tooltipFadeIn{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);}}
 </style>
 </head>
 <body>
@@ -1411,16 +1177,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
 </div>
 
 
-<!-- CELEBRATION OVERLAY -->
-<div id="celebrationOverlay">
-  <canvas id="fireworkCanvas"></canvas>
-  <div class="celeb-badge">✨</div>
-  <div class="celeb-title">You've Arrived!</div>
-  <div class="celeb-sub">Jerusalem — 600 miles completed</div>
-  <button class="btn btn-gold" onclick="showCertificate()" style="margin-bottom:1rem;">View Your Certificate →</button>
-  <button class="btn" onclick="document.getElementById('celebrationOverlay').classList.remove('show');" style="color:rgba(255,255,255,.7);border:1.5px solid rgba(255,255,255,.3);background:transparent;">Continue to App</button>
-</div>
-<!-- CERTIFICATE OVERLAY -->
+<!-- CELEBRATION OVERLAY --><!-- CERTIFICATE OVERLAY -->
 <div id="certOverlay">
   <div class="cert-card">
     <div class="cert-ward">Level Creek Ward · 2026</div>
@@ -1559,7 +1316,6 @@ function overlay(on) {
 }
 
 // Planner + badge prev-miles stay in localStorage (personal device pref)
-function getPlannerKey(){return 'planner_'+currentUser.id+'_'+currentPlanMonth;}
 // getPlanner, savePlanner, getBadgePrev, setBadgePrev — defined in userState layer above
 
 
@@ -1911,21 +1667,6 @@ function buildMonthSelector(){
   MONTHS.forEach(m=>{const btn=document.createElement('button');btn.className='month-btn'+(m===currentLogMonth?' active':'');btn.textContent=m.slice(0,3);btn.onclick=()=>{currentLogMonth=m;document.querySelectorAll('#monthSelector .month-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');};c.appendChild(btn);});
 }
 
-function buildActivityList(){
-  const container=document.getElementById('activityList');container.innerHTML='';
-  ['spiritual','physical','intellectual','social'].forEach(cat=>{
-    const section=document.createElement('div');section.className='accordion';section.dataset.cat=cat;
-    section.innerHTML=`<div class="accordion-header" onclick="toggleAccordion(this.parentElement)"><h3><span class="cat-dot dot-${cat}"></span> ${cap(cat)}</h3><svg class="accordion-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="accordion-body" id="actBody-${cat}"></div>`;
-    container.appendChild(section);
-    const body=section.querySelector('.accordion-body');
-    ACTIVITIES[cat].forEach((act,i)=>{
-      const id=makeActId(cat,i);const item=document.createElement('div');item.className='activity-item';item.id='logAct-'+id;
-      item.innerHTML=`<div class="activity-miles">${act.miles}<span>miles</span></div><div class="activity-text">${act.text}</div>`;
-      item.onclick=()=>logActivity(cat,act,i,item);body.appendChild(item);
-    });
-  });
-  refreshActivityDoneStates();
-}
 
 function refreshActivityDoneStates(){
   const done=getCompletedIds();
@@ -2162,11 +1903,6 @@ function updateMiniMap(total){
 // ════════════════════════════════════════════════════
 //  GROUP MAP
 // ════════════════════════════════════════════════════
-function buildGroupWaypoints(){
-  const container=document.getElementById('waypointsContainer');const line=document.getElementById('journeyLine');
-  WAYPOINTS.forEach((wp,i)=>{const div=document.createElement('div');div.className='waypoint';div.id='grp-wp-'+i;div.innerHTML=`<div class="waypoint-icon">${wp.icon}</div><div class="waypoint-dot"></div><div class="waypoint-label">${wp.label.replace('\n','<br>')}</div><div class="waypoint-miles">${wp.miles>0?wp.miles+' mi':'Start'}</div>`;container.appendChild(div);});
-  container.appendChild(line);setTimeout(drawMapCanvas,150);
-}
 
 function drawMapCanvas(){
   const canvas=document.getElementById('mapCanvas');if(!canvas)return;
@@ -2231,18 +1967,64 @@ function renderGroup(){
 // ════════════════════════════════════════════════════
 //  HISTORY
 // ════════════════════════════════════════════════════
-function renderHistory(){
-  const d=db();const my=d.entries.filter(e=>e.userId===currentUser.id);
-  const grid=document.getElementById('monthlyGrid');grid.innerHTML='';
-  MONTHS.forEach(m=>{const miles=my.filter(e=>e.month===m).reduce((s,e)=>s+e.miles,0);const cls=miles>=60?'on-track':miles>0?'behind':'';grid.innerHTML+=`<div class="month-card"><div class="month-name">${m}</div><div class="month-miles ${cls}">${miles} <span style="font-family:'Crimson Pro',serif;font-size:1rem;font-weight:300;">mi</span></div><div class="progress-wrap" style="margin-top:.5rem;height:5px;"><div class="progress-fill" style="width:${Math.min(100,miles/60*100)}%;"></div></div></div>`;});
-  const list=document.getElementById('historyList');const sorted=[...my].sort((a,b)=>b.ts-a.ts);
-  if(!sorted.length){list.innerHTML='<p style="font-style:italic;color:var(--ink-soft);font-size:.9rem;text-align:center;padding:1rem;">No entries yet.</p>';return;}
-  list.innerHTML=sorted.map(e=>`<div class="history-entry"><div><div>${e.desc}</div><div class="history-meta">${e.month} · <span class="tag tag-${e.cat}">${cap(e.cat)}</span>${e.custom?' · personal goal':''}</div></div><div class="history-miles">${e.miles}</div><div style="font-size:.68rem;color:var(--sand-dark);font-family:'Inter',sans-serif;">mi</div></div>`).join('');
-}
 
 // ════════════════════════════════════════════════════
 //  ADMIN
 // ════════════════════════════════════════════════════
+
+function renderAdminRoster(d, score){
+  const rosterQ=(document.getElementById('rosterSearch')||{}).value?.toLowerCase()||'';
+  let allSorted=[...d.users].sort((a,b)=>a.name.localeCompare(b.name));
+  if(rosterQ) allSorted=allSorted.filter(u=>u.name.toLowerCase().includes(rosterQ));
+  const rosterLimit=10;
+  const rosterEl=document.getElementById('adminRoster');
+  if(!rosterEl)return;
+  const rosterShowAll=rosterEl.dataset.showAll==='1';
+  const rosterVisible=rosterShowAll?allSorted:allSorted.slice(0,rosterLimit);
+  const rosterMore=allSorted.length>rosterLimit;
+  rosterEl.innerHTML=(rosterVisible.length?rosterVisible.map(u=>
+    '<div class="admin-user-row">'
+    +'<div class="admin-user-name">'+u.name+'</div>'
+    +'<select class="role-select" onchange="updateUserRole(\''+u.id+'\',this.value)">'
+    +'<option value="Young Men" '+(u.group==='Young Men'?'selected':'')+'>Young Men</option>'
+    +'<option value="Young Women" '+(u.group==='Young Women'?'selected':'')+'>Young Women</option>'
+    +'<option value="Adult" '+(u.group==='Adult'?'selected':'')+'>Adult</option>'
+    +'<option value="Leader" '+(u.group==='Leader'?'selected':'')+'>Leader</option>'
+    +'<option value="Visitor" '+(u.group==='Visitor'?'selected':'')+'>Visitor</option>'
+    +'</select>'
+    +'<div class="admin-user-miles" style="min-width:50px;text-align:right;">'+score(u)+' mi</div>'
+    +'</div>').join('')
+    :'<p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);">No users found.</p>')
+    +(rosterMore?'<div class="show-more-row"><button class="show-more-link" onclick="toggleRosterAll()">'+(rosterShowAll?'Show less \u25b2':'Show all '+allSorted.length+' members \u25bc')+'</button></div>':'');
+}
+
+function renderAdminEntries(d){
+  const nameF=(document.getElementById('filterName')||{}).value?.toLowerCase()||'';
+  const monthF=(document.getElementById('filterMonth')||{}).value||'';
+  const catF=(document.getElementById('filterCat')||{}).value||'';
+  const all=[...d.entries].sort((a,b)=>b.ts-a.ts).filter(e=>{
+    if(nameF&&!(e.userName||'').toLowerCase().includes(nameF))return false;
+    if(monthF&&e.month!==monthF)return false;
+    if(catF&&e.cat!==catF)return false;
+    return true;
+  });
+  const entriesEl=document.getElementById('adminEntries');
+  if(!entriesEl)return;
+  const entriesShowAll=entriesEl.dataset.showAll==='1';
+  const entLimit=10;
+  const entVisible=entriesShowAll?all:all.slice(0,entLimit);
+  const entMore=all.length>entLimit;
+  entriesEl.innerHTML=(entVisible.length?entVisible.map(e=>
+    '<div class="history-entry" style="grid-template-columns:1fr auto auto;gap:.5rem;">'
+    +'<div><div style="font-size:.85rem;">'+(e.desc.length>55?e.desc.slice(0,55)+'\u2026':e.desc)+'</div>'
+    +'<div class="history-meta">'+(e.userName||'')+' \u00b7 '+e.month+' \u00b7 <span class="tag tag-'+e.cat+'">'+cap(e.cat)+'</span>'+(e.custom?' \u00b7 custom':'')+'</div></div>'
+    +'<div style="font-family:\'Cinzel\',serif;font-size:.9rem;color:var(--navy);white-space:nowrap;">'+e.miles+' mi</div>'
+    +'<button class="btn btn-danger btn-sm" onclick="deleteEntry(\''+e.id+'\')">Remove</button>'
+    +'</div>').join('')
+    :'<p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);padding:.5rem 0;">No entries match.</p>')
+    +(entMore?'<div class="show-more-row"><button class="show-more-link" onclick="toggleEntriesAll()">'+(entriesShowAll?'Show less \u25b2':'Show all '+all.length+' entries \u25bc')+'</button></div>':'');
+}
+
 function renderAdmin(){
   updateNudgePreview();
   const d=db();const score=u=>d.entries.filter(e=>e.userId===u.id).reduce((s,e)=>s+e.miles,0);
@@ -2258,28 +2040,7 @@ function renderAdmin(){
   document.getElementById('leaderCatBars').innerHTML=Object.entries(catMiles).map(([cat,m])=>`<div class="cat-bar-row"><div class="cat-bar-label">${cap(cat)}</div><div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:${Math.round(m/maxCat*100)}%;background:${catColors[cat]};"></div></div><div class="cat-bar-miles">${m}</div></div>`).join('');
   const cur=getCurrentMonth();
   document.getElementById('leaderMonthStatus').innerHTML=!monthGroup.length?'<p style="font-size:.9rem;font-style:italic;color:var(--ink-soft);">No youth registered yet.</p>':monthGroup.map(u=>{const m=d.entries.filter(e=>e.userId===u.id&&e.month===cur).reduce((s,e)=>s+e.miles,0);const p=Math.min(100,Math.round(m/60*100));const color=m>=60?'var(--teal)':m>0?'var(--gold)':'var(--sand-dark)';return`<div class="admin-user-row"><div class="admin-user-name">${u.name}</div><div style="flex:1;padding:0 .75rem;"><div class="progress-wrap" style="height:5px;margin:0;"><div class="progress-fill" style="width:${p}%;background:${color};"></div></div></div><div style="font-size:.85rem;font-family:'Cinzel',serif;color:${color};min-width:60px;text-align:right;">${m} mi ${m>=60?'✓':'…'}</div></div>`;}).join('');
-  // Full roster with role editing — search + 10 limit + show more
-  const rosterQ=(document.getElementById('rosterSearch')||{}).value?.toLowerCase()||'';
-  let allSorted=[...d.users].sort((a,b)=>a.name.localeCompare(b.name));
-  if(rosterQ) allSorted=allSorted.filter(u=>u.name.toLowerCase().includes(rosterQ));
-  const rosterLimit=10;
-  const rosterEl=document.getElementById('adminRoster');
-  const rosterShowAll=rosterEl?.dataset.showAll==='1';
-  const rosterVisible=rosterShowAll?allSorted:allSorted.slice(0,rosterLimit);
-  const rosterMore=allSorted.length>rosterLimit;
-  rosterEl.innerHTML=(rosterVisible.length?rosterVisible.map(u=>`
-    <div class="admin-user-row">
-      <div class="admin-user-name">${u.name}</div>
-      <select class="role-select" onchange="updateUserRole('${u.id}',this.value)">
-        <option value="Young Men" ${u.group==='Young Men'?'selected':''}>Young Men</option>
-        <option value="Young Women" ${u.group==='Young Women'?'selected':''}>Young Women</option>
-        <option value="Adult" ${u.group==='Adult'?'selected':''}>Adult</option>
-        <option value="Leader" ${u.group==='Leader'?'selected':''}>Leader</option>
-        <option value="Visitor" ${u.group==='Visitor'?'selected':''}>Visitor</option>
-      </select>
-      <div class="admin-user-miles" style="min-width:50px;text-align:right;">${score(u)} mi</div>
-    </div>`).join(''):'<p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);">No users found.</p>')
-    +(rosterMore?`<div class="show-more-row"><button class="show-more-link" onclick="toggleRosterAll()">${rosterShowAll?'Show less ▲':'Show all '+allSorted.length+' members ▼'}</button></div>`:'');
+  renderAdminRoster(d, score);
   // Group miles log with edit/delete
   const gmLog=document.getElementById('adminGroupMilesList');
   if(gmLog){const gmSorted=[...d.groupMiles].sort((a,b)=>b.ts-a.ts);gmLog.innerHTML=gmSorted.length?gmSorted.map(g=>`<div class="group-mile-row"><div><div style="font-size:.9rem;">${g.desc}</div><div class="history-meta">${g.month}</div></div><div class="history-miles">${g.miles} mi</div><button class="btn btn-ghost btn-sm" style="padding:.3rem .6rem;font-size:.7rem;" onclick="editGroupMiles('${g.id}','${(g.desc||'').replace(/'/g,"\'")}',${g.miles},'${g.month}')">Edit</button><button class="btn btn-danger" onclick="deleteGroupMiles('${g.id}')">✕</button></div>`).join(''):'<p style="font-size:.85rem;font-style:italic;color:var(--ink-soft);">No group miles added yet.</p>';}
@@ -2436,12 +2197,8 @@ function checkJerusalemArrival(total){
     }
   }
 }
-function showCelebration(){
-  document.getElementById('celebrationOverlay').classList.add('show');
-  startFireworks();
-}
 function showCertificate(){
-  document.getElementById('celebrationOverlay').classList.remove('show');
+  closeUniversalCelebration();
   document.getElementById('certName').textContent=currentUser.name;
   document.getElementById('certDate').textContent='Completed '+new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
   document.getElementById('certOverlay').classList.add('show');
@@ -3666,41 +3423,10 @@ function checkWaypointCelebrations(total){
   });
 }
 
-function showWaypointCelebration(wp, total){
-  const overlay = document.getElementById('waypointOverlay');
-  if(!overlay) return;
-  const factData = WAYPOINT_FACTS[wp.label.replace('\n',' ')] || WAYPOINT_FACTS[wp.label] || {};
-  document.getElementById('wpIcon').textContent = factData.emoji || wp.icon || '\u2728';
-  document.getElementById('wpName').textContent = 'Reached ' + wp.label.replace('\n',' ') + '!';
-  document.getElementById('wpMiles').textContent = wp.miles + ' miles \u2014 ' + Math.round(wp.miles/600*100) + '% of the journey';
-  document.getElementById('wpFact').textContent = factData.fact || 'Another waypoint on the road to Jerusalem!';
-  overlay.classList.add('show');
-  startWaypointFireworks();
 
-}
 
-function closeWaypointOverlay(){
-  document.getElementById('waypointOverlay').classList.remove('show');
-}
 
-function startWaypointFireworks(){
-  const canvas = document.getElementById('waypointFireworkCanvas');
-  if(!canvas) return;
-  const ctx = canvas.getContext('2d');
-  canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-  const particles = [];
-  const colors = ['#e8b050','#2a7a6e','#c8922a','#ffffff','#5abcb0','#f5e4c0'];
-  function burst(x,y){for(let i=0;i<50;i++){const a=Math.random()*Math.PI*2,sp=2+Math.random()*5;particles.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,alpha:1,color:colors[Math.floor(Math.random()*colors.length)],size:2+Math.random()*3});}}
-  let frame=0;
-  function animate(){
-    if(!document.getElementById('waypointOverlay').classList.contains('show'))return;
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    if(frame%35===0)burst(Math.random()*canvas.width,Math.random()*canvas.height*.6);
-    for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.x+=p.vx;p.y+=p.vy;p.vy+=.1;p.alpha-=.016;if(p.alpha<=0){particles.splice(i,1);continue;}ctx.globalAlpha=p.alpha;ctx.fillStyle=p.color;ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fill();}
-    ctx.globalAlpha=1;frame++;requestAnimationFrame(animate);
-  }
-  animate();
-}
+
 
 // ══════════════════════════════════════════════════
 //  STREAK CELEBRATION
@@ -3712,22 +3438,6 @@ function checkStreakCelebration(streak){
   setTimeout(()=>showStreakCelebration(streak), 1200);
 }
 
-function showStreakCelebration(streak){
-  const overlay = document.getElementById('streakOverlay');
-  if(!overlay) return;
-  const titles = {3:'Three Months Strong!',4:'Four Months In!',5:'Halfway There!',6:'Six Month Warrior!',7:'Seven Months of Faith!',8:'Eight Months Done!',9:'Almost to Jerusalem!',10:'Ten Month Champion!'};
-  document.getElementById('streakTitle').textContent = titles[streak] || streak+' Month Streak!';
-  document.getElementById('streakBody').textContent =
-    'You\'ve logged miles for ' + streak + ' consecutive months! '
-    + (streak>=5 ? 'That kind of consistency is truly remarkable. ' : 'You\'re building a powerful habit. ')
-    + 'Keep walking \u2014 Jerusalem is waiting!';
-  // Show filled dots for each streak month
-  const dots = document.getElementById('streakDots');
-  const monthNames = MONTHS.slice(0, streak);
-  dots.innerHTML = monthNames.map(m=>`<div class="streak-dot" title="${m}">${m.slice(0,1)}</div>`).join('');
-  overlay.classList.add('show');
-  fireConfetti();
-}
 
 // ══════════════════════════════════════════════════
 //  DID YOU KNOW — GROUP MAP
@@ -4392,23 +4102,6 @@ function checkDailyStreakMilestones(){
   });
 }
 
-function showDailyStreakMilestone(msg, days){
-  // Reuse streak overlay
-  const overlay = document.getElementById('streakOverlay');
-  if(!overlay) return;
-  document.getElementById('streakTitle').textContent = msg.title;
-  document.getElementById('streakBody').textContent = msg.body;
-  // Show day dots
-  const dots = document.getElementById('streakDots');
-  dots.innerHTML = Array.from({length:Math.min(days,14)},(_,i)=>
-    `<div class="streak-dot" title="Day ${i+1}">${i+1}</div>`
-  ).join('') + (days>14?`<div class="streak-dot" style="font-size:.55rem;">+${days-14}</div>`:'');
-  overlay.classList.add('show');
-  fireConfetti();
-  if(days===30){
-    announceAchievement(currentUser.name,'🏆',currentUser.name+' earned the Daily Champion badge — 30 days of consecutive activity!');
-  }
-}
 
 
 // ══ ADMIN VIEW STATE ══
@@ -4847,26 +4540,6 @@ function checkZionUnlock(totalMiles){
   setUF('zionUnlocked_'+currentUser.id,'1');
   setTimeout(showZionUnlock,1000);
 }
-function showZionUnlock(){
-  const overlay=document.getElementById('zionUnlockOverlay');if(!overlay)return;
-  overlay.classList.add('show');
-  const canvas=document.getElementById('zionFireworkCanvas');
-  if(!canvas)return;
-  canvas.width=window.innerWidth;canvas.height=window.innerHeight;
-  const ctx=canvas.getContext('2d');const particles=[];
-  const colors=['#e8b050','#2a7a6e','#c8922a','#ffffff','#5a9a2e','#a0c840'];
-  function burst(x,y){for(let i=0;i<45;i++){const a=Math.random()*Math.PI*2,sp=2+Math.random()*5;particles.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,alpha:1,color:colors[Math.floor(Math.random()*colors.length)],size:2+Math.random()*3});}}
-  let frame=0;
-  function animate(){
-    if(!document.getElementById('zionUnlockOverlay').classList.contains('show'))return;
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    if(frame%40===0)burst(Math.random()*canvas.width,Math.random()*canvas.height*.7);
-    for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.x+=p.vx;p.y+=p.vy;p.vy+=.1;p.alpha-=.015;if(p.alpha<=0){particles.splice(i,1);continue;}ctx.globalAlpha=p.alpha;ctx.fillStyle=p.color;ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fill();}
-    ctx.globalAlpha=1;frame++;requestAnimationFrame(animate);
-  }
-  animate();
-  announceAchievement(currentUser.name,'\u{1F3D4}',currentUser.name+' completed the Walk to Jerusalem and unlocked Forward to Zion \u2014 Enoch\'s City awaits!');
-}
 function closeZionUnlock(){document.getElementById('zionUnlockOverlay').classList.remove('show');}
 function checkZionWaypointBadges(totalMiles){
   if(!currentUser||totalMiles<600)return;
@@ -5283,14 +4956,12 @@ function renderInlineTitleBadge(){
   const nextBadge=TITLE_BADGES.find(b=>b.miles>total&&b.miles<=1201);
   const milesLabel=badge.miles<=1?'First mile logged':badge.miles+' miles reached';
   const scripture=MILESTONE_SCRIPTURES[badge.id]||{};
-  wrap.innerHTML=`<div class="dash-inline-badge">
-      <span>${badge.icon}</span><span>${badge.title}</span>
-    </div>
-    <div class="dash-badge-tooltip">
-      <div class="tbt-title">${badge.icon} ${badge.title}</div>
-      <div class="tbt-miles">${milesLabel}${nextBadge?' \u00b7 Next: '+nextBadge.title+' at '+nextBadge.miles+' mi':' \u00b7 Maximum title!'}</div>
-      ${scripture.text?`<div class="tbt-scripture" style="margin-top:.4rem;">\u201c${scripture.text}\u201d</div><div class="tbt-ref">\u2014 ${scripture.ref}</div>`:''}
-    </div>`;
+  const _tipHTML='<div class="tbt-title">'+badge.icon+' '+badge.title+'</div>'
+    +'<div class="tbt-miles">'+milesLabel+(nextBadge?' · Next: '+nextBadge.title+' at '+nextBadge.miles+' mi':' · Maximum title!')+'</div>'
+    +(scripture.text?'<div class="tbt-scripture" style="margin-top:.4rem;">“'+scripture.text+'”</div><div class="tbt-ref">— '+scripture.ref+'</div>':'');
+  wrap.innerHTML='<div class="dash-inline-badge" onclick="toggleBadgeTooltip(event)"><span>'+badge.icon+'</span><span>'+badge.title+'</span></div>'
+    +'<div class="dash-badge-tooltip">'+_tipHTML+'</div>';
+  wrap._tipHTML=_tipHTML;
   // Also update dynamic subtitle
   const sub=document.getElementById('dashSubtitle');
   if(sub){
@@ -5674,6 +5345,36 @@ function previewYearEnd(){
   showYearEndModal(buildYearSummaryData());
 }
 
+
+// badge tooltip — mobile: body-level fixed, auto-close 4s; desktop: CSS hover
+let _badgeTooltipTimer=null;
+function toggleBadgeTooltip(e){
+  if(e)e.stopPropagation();
+  const isMobile=window.innerWidth<=600;
+  if(isMobile){
+    const mob=document.getElementById('mobileBadgeTooltip');
+    if(!mob)return;
+    if(mob.classList.contains('show')){closeBadgeTooltip();return;}
+    const wrap=document.getElementById('dashInlineBadgeWrap');
+    mob.innerHTML=wrap&&wrap._tipHTML?wrap._tipHTML:'';
+    mob.classList.add('show');
+    clearTimeout(_badgeTooltipTimer);
+    _badgeTooltipTimer=setTimeout(closeBadgeTooltip,4000);
+  } else {
+    const wrap=document.getElementById('dashInlineBadgeWrap');
+    if(wrap)wrap.classList.toggle('open');
+  }
+}
+function closeBadgeTooltip(){
+  const mob=document.getElementById('mobileBadgeTooltip');
+  if(mob)mob.classList.remove('show');
+  clearTimeout(_badgeTooltipTimer);
+}
+document.addEventListener('click',function(e){
+  const mob=document.getElementById('mobileBadgeTooltip');
+  if(mob&&mob.classList.contains('show')&&!mob.contains(e.target))closeBadgeTooltip();
+});
+
 function exportCSV(){
   const d=db();const headers=['Name','Group','Category','Description','Miles','Month','Date','Custom'];
   const rows=d.entries.map(e=>{const u=d.users.find(u=>u.id===e.userId)||{};return[u.name||e.userName,u.group||'',e.cat,'"'+e.desc.replace(/"/g,'""')+'"',e.miles,e.month,new Date(e.ts).toLocaleDateString(),e.custom?'Yes':'No'].join(',');});
@@ -5756,27 +5457,7 @@ buildStars();
   </div>
 </div>
 
-<!-- WAYPOINT CELEBRATION OVERLAY -->
-<div id="waypointOverlay">
-  <canvas id="waypointFireworkCanvas" style="position:absolute;inset:0;pointer-events:none;"></canvas>
-  <div class="wp-celeb-eyebrow">You have reached a waypoint!</div>
-  <div class="wp-celeb-icon" id="wpIcon">🌊</div>
-  <div class="wp-celeb-title" id="wpName">Red Sea</div>
-  <div class="wp-celeb-miles" id="wpMiles">60 miles</div>
-  <div class="wp-celeb-fact" id="wpFact"></div>
-  <button class="btn btn-gold" onclick="closeWaypointOverlay()" style="width:auto;padding:.75rem 2rem;">Continue the Journey →</button>
-</div>
-<!-- STREAK CELEBRATION OVERLAY -->
-<div id="streakOverlay" onclick="this.classList.remove('show')">
-  <div class="streak-card" onclick="event.stopPropagation()">
-    <div class="streak-icon">🔥</div>
-    <div class="streak-title" id="streakTitle">On Fire!</div>
-    <div class="streak-body" id="streakBody"></div>
-    <div class="streak-months" id="streakDots"></div>
-    <button class="btn btn-primary" onclick="document.getElementById('streakOverlay').classList.remove('show')">Keep Walking →</button>
-  </div>
-</div>
-
+<!-- WAYPOINT CELEBRATION OVERLAY --><!-- STREAK CELEBRATION OVERLAY -->
 <!-- PARTNER CHALLENGE MODAL -->
 <div id="partnerModal" onclick="closePartnerModal(event)">
   <div class="partner-modal-card">
@@ -5889,5 +5570,7 @@ buildStars();
     <div id="yearEndModalContent"></div>
   </div>
 </div>
+
+<div id="mobileBadgeTooltip"></div>
 </body>
 </html>
