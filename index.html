@@ -678,7 +678,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
 .history-chart-wrap{background:white;border:1px solid var(--sand-dark);border-radius:6px;padding:.75rem 1rem;margin-bottom:1rem;}
 .history-chart-label{font-family:'Cinzel',serif;font-size:.78rem;color:var(--navy);margin-bottom:.6rem;}
 .history-bars{display:flex;align-items:flex-end;gap:.25rem;height:64px;}
-.history-bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:.2rem;}
+.history-bar-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:.2rem;height:100%;}
 .history-bar{width:100%;border-radius:3px 3px 0 0;min-height:3px;transition:height .4s ease;}
 .history-bar-month{font-family:'Inter',sans-serif;font-size:.45rem;color:var(--ink-soft);}
 .history-bar-miles{font-family:'Cinzel',serif;font-size:.45rem;color:var(--navy);}
@@ -857,6 +857,10 @@ textarea.form-input{min-height:72px;resize:vertical;}
 .dash-inline-badge::before{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);animation:titleShimmer 3s ease-in-out infinite;border-radius:30px;overflow:hidden;}
 .dash-badge-tooltip{position:absolute;top:calc(100% + 8px);right:0;left:auto;transform:scaleY(0);transform-origin:top right;background:var(--parchment);border:1.5px solid var(--gold);border-radius:8px;padding:.75rem 1rem;min-width:200px;max-width:min(280px,calc(100vw - 1.5rem));box-shadow:0 8px 24px rgba(0,0,0,.2);z-index:200;transition:transform .2s cubic-bezier(.4,0,.2,1),opacity .2s;opacity:0;pointer-events:none;text-align:left;}
 .dash-greeting-badge-wrap.open .dash-badge-tooltip,.dash-greeting-badge-wrap:hover .dash-badge-tooltip{transform:scaleY(1);opacity:1;pointer-events:all;}
+@media(max-width:520px){
+  .dash-badge-tooltip{position:fixed;top:auto;bottom:auto;left:1rem;right:1rem;max-width:none;transform:scaleY(0);transform-origin:top center;margin-top:0;}
+  .dash-greeting-badge-wrap.open .dash-badge-tooltip,.dash-greeting-badge-wrap:hover .dash-badge-tooltip{transform:scaleY(1);}
+}
 
 /* ══ PUSH NOTIFICATIONS ══ */
 .notif-opt-in-card{background:linear-gradient(135deg,rgba(42,122,110,.1),rgba(42,122,110,.04));border:1.5px solid var(--teal);border-radius:6px;padding:.75rem 1rem;margin-bottom:.75rem;display:flex;align-items:center;gap:.75rem;}
@@ -4556,9 +4560,10 @@ function renderHistoryChart(){
   el.innerHTML=MONTHS.map(m=>{
     const miles=byMonth[m]||0;const pct=miles/max*100;
     const isCur=m===getCurrentMonth();
+    const barPx=miles>0?Math.max(4,Math.round(pct/100*52)):0;
     return `<div class="history-bar-col" title="${m}: ${miles} mi">
       <div class="history-bar-miles">${miles>0?miles:''}</div>
-      <div class="history-bar" style="height:${Math.max(pct,0)}%;background:${isCur?'var(--gold)':'var(--navy)'};opacity:${miles>0?1:.2};"></div>
+      <div class="history-bar" style="height:${barPx}px;background:${isCur?'var(--gold)':'var(--navy)'};opacity:${miles>0?1:.2};"></div>
       <div class="history-bar-month">${m.slice(0,3)}</div>
     </div>`;}).join('');
 }
