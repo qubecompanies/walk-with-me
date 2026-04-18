@@ -867,6 +867,38 @@ textarea.form-input{min-height:72px;resize:vertical;}
 .notif-opt-in-text{flex:1;font-family:'Crimson Pro',serif;font-size:.9rem;color:var(--ink);line-height:1.4;}
 .notif-opt-in-btn{background:var(--teal);color:white;border:none;border-radius:20px;padding:.3rem .85rem;font-family:'Inter',sans-serif;font-size:.72rem;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;}
 .notif-opt-in-dismiss{background:none;border:none;color:var(--ink-soft);cursor:pointer;font-size:.8rem;padding:.25rem;}
+
+/* ══ WARD COLLECTIVE MILESTONE BANNER ══ */
+.ward-milestone-banner{background:linear-gradient(135deg,rgba(42,80,128,.12),rgba(42,80,128,.04));border:1.5px solid var(--navy);border-radius:8px;padding:.75rem 1rem;margin-bottom:1rem;display:flex;align-items:center;gap:.75rem;}
+.ward-milestone-icon{font-size:1.6rem;flex-shrink:0;}
+.ward-milestone-body{flex:1;}
+.ward-milestone-eyebrow{font-family:'Inter',sans-serif;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:.15rem;}
+.ward-milestone-title{font-family:'Cinzel',serif;font-size:.9rem;color:var(--navy);}
+.ward-milestone-miles{font-family:'Inter',sans-serif;font-size:.65rem;color:var(--ink-soft);margin-top:.1rem;}
+.ward-milestone-btn{background:var(--navy);color:white;border:none;border-radius:20px;padding:.25rem .75rem;font-family:'Inter',sans-serif;font-size:.65rem;cursor:pointer;flex-shrink:0;}
+
+/* ══ YEAR-END SUMMARY CARD ══ */
+.year-card{background:linear-gradient(160deg,#1a3a5c 0%,#0f2540 55%,#1a2a18 100%);border-radius:10px;padding:1.25rem;margin-bottom:1rem;color:white;overflow:hidden;position:relative;}
+.year-card::before{content:'2026';position:absolute;right:-10px;top:-10px;font-family:'Cinzel',serif;font-size:5rem;color:rgba(255,255,255,.04);line-height:1;pointer-events:none;}
+.year-card-eyebrow{font-family:'Inter',sans-serif;font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(200,146,42,.8);margin-bottom:.35rem;}
+.year-card-title{font-family:'Cinzel',serif;font-size:1.15rem;color:white;margin-bottom:.9rem;}
+.year-stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.85rem;}
+.year-stat{background:rgba(255,255,255,.08);border-radius:6px;padding:.6rem .75rem;text-align:center;}
+.year-stat-num{font-family:'Cinzel',serif;font-size:1.4rem;color:var(--gold-light);line-height:1;}
+.year-stat-label{font-family:'Inter',sans-serif;font-size:.52rem;color:rgba(255,255,255,.5);letter-spacing:.06em;text-transform:uppercase;margin-top:.15rem;}
+.year-cat-row{display:flex;gap:.35rem;margin-bottom:.85rem;flex-wrap:wrap;}
+.year-cat-pill{font-family:'Inter',sans-serif;font-size:.62rem;padding:.2rem .55rem;border-radius:20px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);}
+.year-badge-row{display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.85rem;}
+.year-badge-chip{background:rgba(200,146,42,.2);border:1px solid rgba(200,146,42,.4);border-radius:20px;padding:.2rem .55rem;font-family:'Inter',sans-serif;font-size:.6rem;color:var(--gold-light);}
+.year-scripture{font-family:'Crimson Pro',serif;font-style:italic;font-size:.85rem;color:rgba(255,255,255,.6);line-height:1.5;border-top:1px solid rgba(255,255,255,.1);padding-top:.75rem;margin-top:.1rem;}
+.year-card-toggle{width:100%;background:rgba(255,255,255,.1);border:none;color:rgba(255,255,255,.6);font-family:'Inter',sans-serif;font-size:.7rem;padding:.45rem;border-radius:6px;cursor:pointer;margin-top:.5rem;}
+/* Year-end modal */
+#yearEndModal{position:fixed;inset:0;z-index:9990;display:none;align-items:center;justify-content:center;padding:1.25rem;}
+#yearEndModal.open{display:flex;}
+#yearEndModal::before{content:'';position:absolute;inset:0;background:rgba(10,20,35,.8);backdrop-filter:blur(4px);}
+.year-modal-card{position:relative;background:var(--parchment);border-radius:12px;max-width:420px;width:100%;max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.5);}
+.year-modal-inner{padding:0;}
+.year-modal-close{position:absolute;top:.75rem;right:.75rem;background:rgba(255,255,255,.15);border:none;color:white;border-radius:50%;width:28px;height:28px;font-size:.9rem;cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center;}
 </style>
 </head>
 <body>
@@ -977,6 +1009,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
       </div>
       <div class="section-sub" id="dashSubtitle">Keep walking &#x2014; Jerusalem awaits.</div>
       <div id="notifOptInCard"></div>
+      <div id="myYearCard"></div>
       <div id="monthRecapCard"></div>
       <div id="monthNudgeCard"></div>
       <div id="dailySparkCard"></div>
@@ -1097,6 +1130,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
     <div id="tab-group" class="tab-content">
       <div class="section-heading">Group Journey</div>
       <div class="section-sub">Level Creek Ward — walking together to Jerusalem</div>
+      <div id="wardMilestoneBanner"></div>
 
       <!-- HERO MILES CARD -->
       <div class="group-map-hero">
@@ -1300,6 +1334,8 @@ textarea.form-input{min-height:72px;resize:vertical;}
         <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.5rem;">🔄 Recalculate All Badges</strong>
         <p style="font-size:.85rem;color:var(--ink-soft);margin-bottom:.75rem;">Award any milestone, monthly challenge, or waypoint badges that were earned before the badge system was added.</p>
         <button class="btn btn-teal btn-sm" onclick="recalcAllBadges()">Run Badge Recalculation for All Users</button>
+        <button class="btn btn-gold btn-sm" onclick="triggerWardCelebration()" style="margin-top:.5rem;">&#x1F389; Trigger Ward Celebration</button>
+        <button class="btn btn-ghost btn-sm" onclick="previewYearEnd()" style="margin-top:.5rem;">&#x1F4C5; Preview Year Summary</button>
         <div id="recalcStatus" style="font-size:.8rem;color:var(--teal);margin-top:.5rem;font-style:italic;"></div>
       </div>
       <!-- GROUP DIVISOR -->
@@ -1809,6 +1845,7 @@ function enterApp(){
     renderMonthlyTrophyRow();
     checkWhatsNew();
     initNotifications();
+    checkYearEndModal();
   });
   document.getElementById('loginScreen').classList.remove('active');
   document.getElementById('appScreen').classList.add('active');
@@ -2005,7 +2042,7 @@ function renderDashboard(){
   document.getElementById('dashJourneyBar').style.width=pct+'%';document.getElementById('dashMonthBar').style.width=mPct+'%';
   document.getElementById('dashStreak').textContent=calcStreak(my);
   renderStreakRow(my);renderBadges(total);renderMonthlyBadges();renderMonthlyTrophyRow();updateMiniMap(total);checkAndAwardMonthlyTrophies();renderDashHypeCard();renderTodaysChallenge();
-  renderZionJourneyCard();renderTitleBadge();renderInlineTitleBadge();renderPartnerChallenges();renderBestMonthCard();renderNotifOptIn();renderDailySpark();renderMtwiCard();renderThisWeekCard();renderDailyStreakCard();renderMasteryRings();renderMonthNudge();renderMonthRecap();
+  renderMyYearCard();renderZionJourneyCard();renderTitleBadge();renderInlineTitleBadge();renderPartnerChallenges();renderBestMonthCard();renderNotifOptIn();renderDailySpark();renderMtwiCard();renderThisWeekCard();renderDailyStreakCard();renderMasteryRings();renderMonthNudge();renderMonthRecap();
   checkDailyStreakMilestones();
   const streak=calcStreak(my);checkStreakCelebration(streak);
   const catColors={spiritual:'var(--spiritual)',physical:'var(--physical)',intellectual:'var(--intellectual)',social:'var(--social)'};
@@ -2172,6 +2209,8 @@ function renderGroup(){
   line.style.width=(Math.min(100,total/600*100)/100*(container.offsetWidth-32))+'px';
   const cur=[...WAYPOINTS].reverse().find(wp=>total>=wp.miles);const nxt=WAYPOINTS.find(wp=>total<wp.miles);
   document.getElementById('groupMapSub').textContent=total>=600?'🎉 We have arrived in Jerusalem!':cur&&nxt?'Passed '+cur.label.replace('\n',' ')+' — heading toward '+nxt.label.replace('\n',' '):'The journey has begun from Egypt';
+  renderWardMilestoneBanner();
+  checkWardMilestones();
   renderShoutouts();renderBadgeAnnouncements();renderCountdown();
   if(!window._countdownInterval)window._countdownInterval=setInterval(renderCountdown,1000);
   // Featured challenge
@@ -5439,6 +5478,202 @@ function renderBestMonthCard(){
   }
 }
 
+
+// ══════════════════════════════════════════════════
+//  WARD COLLECTIVE MILESTONE CELEBRATIONS
+// ══════════════════════════════════════════════════
+
+const WARD_MILESTONES = [
+  {id:'ward_redsea',    miles:60,  label:'Red Sea',      icon:'\u{1F30A}', eyebrow:'The Ward Crosses the Red Sea',    scripture:{text:'By faith they passed through the Red sea as by dry land.',ref:'Hebrews 11:29'}},
+  {id:'ward_sinai',     miles:180, label:'Mt. Sinai',    icon:'\u26F0',    eyebrow:'The Ward Reaches Mt. Sinai',      scripture:{text:'Be strong and courageous. The Lord thy God is with thee.',ref:'Joshua 1:9'}},
+  {id:'ward_paran',     miles:300, label:'Paran',        icon:'\u{1F335}', eyebrow:'The Ward Passes Through Paran',   scripture:{text:'As thy days, so shall thy strength be.',ref:'Deuteronomy 33:25'}},
+  {id:'ward_jordan',    miles:480, label:'Jordan River', icon:'\u{1F3DE}', eyebrow:'The Ward Crosses the Jordan',     scripture:{text:'The waters which came down from above stood and rose up upon an heap.',ref:'Joshua 3:16'}},
+  {id:'ward_jerusalem', miles:600, label:'Jerusalem',    icon:'\u2728',    eyebrow:'The Ward Arrives in Jerusalem!',  scripture:{text:'Beautiful for situation, the joy of the whole earth, is mount Zion.',ref:'Psalm 48:2'}},
+];
+
+function getWardTotal(){
+  const d=db();
+  const youth=d.users.filter(u=>!u.isLeader&&!u.isVisitor);
+  const divisor=getDivisor();
+  const rawYouthMiles=d.entries.filter(e=>youth.find(u=>u.id===e.userId)).reduce((s,e)=>s+e.miles,0);
+  const scaledYouthMiles=rawYouthMiles/divisor;
+  const gMiles=d.groupMiles.reduce((s,e)=>s+e.miles,0);
+  return Math.round(scaledYouthMiles+gMiles);
+}
+
+function checkWardMilestones(){
+  if(!currentUser)return;
+  const total=getWardTotal();
+  for(const ms of WARD_MILESTONES){
+    if(total>=ms.miles){
+      const key='seenWardCeleb_'+ms.id;
+      if(!hasUF(key)){
+        setUF(key,'1');
+        setTimeout(()=>showWardMilestoneCelebration(ms,total),900);
+        return; // one at a time
+      }
+    }
+  }
+}
+
+function showWardMilestoneCelebration(ms,wardTotal){
+  const d=db();
+  const youth=d.users.filter(u=>!u.isLeader&&!u.isVisitor);
+  const participating=youth.filter(u=>d.entries.some(e=>e.userId===u.id)).length;
+  showUniversalCelebration({
+    icon:ms.icon,
+    eyebrow:ms.eyebrow,
+    title:'Level Creek Ward',
+    subtitle:ms.label+' \u2014 '+wardTotal+' collective miles!',
+    subtitleColor:'#e8b050',
+    stats:[
+      {value:wardTotal, label:'Ward Miles'},
+      {value:participating, label:'Walkers'},
+      {value:youth.length, label:'Ward Members'},
+    ],
+    scripture:ms.scripture,
+    theme:'navy',
+  });
+  announceAchievement('Level Creek Ward',ms.icon,'The ward has reached '+ms.label+' with '+wardTotal+' collective miles! \u{1F3BA}');
+}
+
+function renderWardMilestoneBanner(){
+  const el=document.getElementById('wardMilestoneBanner');if(!el)return;
+  const total=getWardTotal();
+  const reached=WARD_MILESTONES.filter(m=>total>=m.miles);
+  const latest=reached[reached.length-1];
+  const next=WARD_MILESTONES.find(m=>total<m.miles);
+  if(!latest){el.innerHTML='';return;}
+  const toNext=next?next.miles-total:0;
+  el.innerHTML=`<div class="ward-milestone-banner">
+    <div class="ward-milestone-icon">${latest.icon}</div>
+    <div class="ward-milestone-body">
+      <div class="ward-milestone-eyebrow">&#x2726; Ward Milestone Reached</div>
+      <div class="ward-milestone-title">${latest.label} \u2014 ${total} collective miles</div>
+      ${next?`<div class="ward-milestone-miles">${toNext} miles to ${next.label}</div>`:'<div class="ward-milestone-miles">Jerusalem achieved! \u2728</div>'}
+    </div>
+    ${currentUser?.isLeader?`<button class="ward-milestone-btn" onclick="triggerWardCelebration()">&#x1F389; Celebrate</button>`:''}
+  </div>`;
+}
+
+async function triggerWardCelebration(){
+  const total=getWardTotal();
+  const reached=WARD_MILESTONES.filter(m=>total>=m.miles);
+  const latest=reached[reached.length-1];
+  if(!latest){showToast('No ward milestone reached yet!');return;}
+  // Reset everyone's seen flag for this milestone so all users see it next login
+  try{
+    await _db().collection('appConfig').doc('wardCelebTrigger').set({
+      milestoneId:latest.id,ts:Date.now(),triggeredBy:currentUser.name
+    });
+    showWardMilestoneCelebration(latest,total);
+    showToast('\u{1F389} Ward celebration fired for: '+latest.label);
+  }catch(err){showToast('Error: '+err.message);}
+}
+
+// ══════════════════════════════════════════════════
+//  YEAR-END SUMMARY
+// ══════════════════════════════════════════════════
+
+function buildYearSummaryData(){
+  if(!currentUser)return null;
+  const d=db();
+  const my=d.entries.filter(e=>e.userId===currentUser.id);
+  const total=my.reduce((s,e)=>s+e.miles,0);
+  if(!total)return null;
+  const byMonth={};MONTHS.forEach(m=>byMonth[m]=0);
+  my.forEach(e=>{if(byMonth[e.month]!==undefined)byMonth[e.month]+=e.miles;});
+  const monthEntries=Object.entries(byMonth).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]);
+  const bestMonth=monthEntries[0];
+  const activeMonths=monthEntries.length;
+  const byCat={spiritual:0,physical:0,intellectual:0,social:0};
+  my.forEach(e=>{if(byCat[e.cat]!==undefined)byCat[e.cat]+=e.miles;});
+  const catEmoji={spiritual:'\u{1F64F}',physical:'\u{1F4AA}',intellectual:'\u{1F4DA}',social:'\u{1F91D}'};
+  const catParts=Object.entries(byCat).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1])
+    .map(([c,v])=>`<div class="year-cat-pill">${catEmoji[c]} ${cap(c)}: ${v} mi</div>`).join('');
+  const badge=getCurrentTitleBadge(total);
+  const monthsOver60=Object.values(byMonth).filter(v=>v>=60).length;
+  const partnerEntries=my.filter(e=>e.isPartner||e.isPartnerBonus).length;
+  const scripture=total>=600?MILESTONE_SCRIPTURES.jerusalem:MILESTONE_SCRIPTURES.redsea;
+  return {total,activities:my.length,bestMonth,activeMonths,catParts,badge,monthsOver60,partnerEntries,scripture,byMonth};
+}
+
+function yearSummaryHTML(data, forModal=false){
+  if(!data)return '';
+  const wrapClass=forModal?'':'year-card';
+  return `<div class="${wrapClass}">
+    <div class="year-card-eyebrow">&#x2726; 2026 Walk to Jerusalem</div>
+    <div class="year-card-title">Your Year in Miles, ${currentUser.name.split(' ')[0]}</div>
+    <div class="year-stats-grid">
+      <div class="year-stat"><div class="year-stat-num">${data.total}</div><div class="year-stat-label">Total Miles</div></div>
+      <div class="year-stat"><div class="year-stat-num">${data.activities}</div><div class="year-stat-label">Activities</div></div>
+      <div class="year-stat"><div class="year-stat-num">${data.bestMonth?data.bestMonth[1]:0}</div><div class="year-stat-label">Best Month</div></div>
+      <div class="year-stat"><div class="year-stat-num">${data.monthsOver60}</div><div class="year-stat-label">Months at 60mi+</div></div>
+      ${data.partnerEntries?`<div class="year-stat"><div class="year-stat-num">${data.partnerEntries}</div><div class="year-stat-label">Partner Acts</div></div>`:''}
+      <div class="year-stat"><div class="year-stat-num">${data.badge.icon}</div><div class="year-stat-label">${data.badge.title}</div></div>
+    </div>
+    <div class="year-cat-row">${data.catParts}</div>
+    ${data.bestMonth?`<div style="font-family:'Crimson Pro',serif;font-size:.88rem;color:rgba(255,255,255,.7);margin-bottom:.6rem;">\u{1F31F} Best month: <strong style="color:var(--gold-light);">${data.bestMonth[0]} \u2014 ${data.bestMonth[1]} miles</strong></div>`:''}
+    <div class="year-scripture">\u201c${data.scripture.text}\u201d<br><span style="font-family:'Inter',sans-serif;font-size:.6rem;opacity:.6;">\u2014 ${data.scripture.ref}</span></div>
+    ${forModal?`<button onclick="closeYearEndModal()" style="width:100%;margin-top:1rem;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.4);color:white;font-family:'Cinzel',serif;font-size:.8rem;border-radius:30px;padding:.65rem;cursor:pointer;">Keep Walking \u2192</button>`:''}
+  </div>`;
+}
+
+// OPTION A — Dashboard card (always available)
+function renderMyYearCard(){
+  const el=document.getElementById('myYearCard');if(!el||!currentUser)return;
+  const month=new Date().getMonth(); // 0=Jan
+  // Show from October onward (month 9+) or in the challenge window
+  // Actually show always — Philip wants to see both options
+  const data=buildYearSummaryData();
+  if(!data){el.innerHTML='';return;}
+  const isOpen=el.dataset.open==='1';
+  el.innerHTML=`<div style="margin-bottom:.75rem;">
+    <button onclick="document.getElementById('myYearCard').dataset.open=document.getElementById('myYearCard').dataset.open==='1'?'0':'1';renderMyYearCard();"
+      style="width:100%;background:linear-gradient(135deg,#1a3a5c,#0f2540);color:var(--gold-light);font-family:'Cinzel',serif;font-size:.82rem;border:none;border-radius:8px;padding:.65rem 1rem;cursor:pointer;display:flex;align-items:center;justify-content:space-between;">
+      <span>&#x2726; My 2026 Year in Miles</span>
+      <span>${isOpen?'\u25b2':'\u25bc'}</span>
+    </button>
+    ${isOpen?yearSummaryHTML(data,false):''}
+  </div>`;
+}
+
+// OPTION B — Year-end modal (auto-appears in December, or manually)
+function checkYearEndModal(){
+  if(!currentUser)return;
+  const month=new Date().getMonth(); // 11=December
+  if(month!==11)return; // Only in December
+  const key='seenYearEnd_2026';
+  if(hasUF(key))return;
+  const data=buildYearSummaryData();
+  if(!data)return;
+  setUF(key,'1');
+  setTimeout(()=>showYearEndModal(data),1500);
+}
+
+function showYearEndModal(data){
+  if(!data)data=buildYearSummaryData();
+  if(!data)return;
+  const modal=document.getElementById('yearEndModal');
+  const content=document.getElementById('yearEndModalContent');
+  if(!modal||!content)return;
+  content.innerHTML=`<div class="year-card" style="border-radius:12px;margin:0;">
+    <button onclick="closeYearEndModal()" style="position:absolute;top:.75rem;right:.75rem;background:rgba(255,255,255,.15);border:none;color:white;border-radius:50%;width:28px;height:28px;font-size:.9rem;cursor:pointer;">&#x2715;</button>
+    ${yearSummaryHTML(data,true)}
+  </div>`;
+  modal.classList.add('open');
+}
+
+function closeYearEndModal(){
+  const modal=document.getElementById('yearEndModal');
+  if(modal)modal.classList.remove('open');
+}
+
+// Allow leaders to preview the year-end modal any time from Admin
+function previewYearEnd(){
+  showYearEndModal(buildYearSummaryData());
+}
+
 function exportCSV(){
   const d=db();const headers=['Name','Group','Category','Description','Miles','Month','Date','Custom'];
   const rows=d.entries.map(e=>{const u=d.users.find(u=>u.id===e.userId)||{};return[u.name||e.userName,u.group||'',e.cat,'"'+e.desc.replace(/"/g,'""')+'"',e.miles,e.month,new Date(e.ts).toLocaleDateString(),e.custom?'Yes':'No'].join(',');});
@@ -5645,6 +5880,13 @@ buildStars();
     <span class="celeb-scripture-ref" id="celebScriptureRef" style="display:none;"></span>
     <div class="celeb-title-badge" id="celebTitleBadge" style="display:none;"></div>
     <button class="celeb-btn" onclick="closeUniversalCelebration()">Continue the Journey &#x2192;</button>
+  </div>
+</div>
+
+<!-- YEAR-END SUMMARY MODAL -->
+<div id="yearEndModal">
+  <div class="year-modal-card">
+    <div id="yearEndModalContent"></div>
   </div>
 </div>
 </body>
