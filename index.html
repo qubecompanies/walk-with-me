@@ -491,7 +491,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
 .tut-full-btn{flex:1;display:block;background:linear-gradient(135deg,var(--navy),#2a5080);color:white;font-family:'Cinzel',serif;font-size:.8rem;letter-spacing:.06em;text-decoration:none;padding:.65rem 1rem;border-radius:30px;text-align:center;transition:opacity .15s;}
 .tut-full-btn:hover{opacity:.9;}
 .tut-dismiss-btn{background:none;border:none;font-family:'Inter',sans-serif;font-size:.75rem;color:var(--ink-soft);cursor:pointer;white-space:nowrap;padding:.5rem;}
-.how-it-works-link{display:block;text-align:center;margin-top:1rem;font-family:'Inter',sans-serif;font-size:.75rem;color:var(--ink-soft);cursor:pointer;opacity:.7;transition:opacity .15s;}
+.how-it-works-link{background:none;border:none;cursor:pointer;width:100%;display:block;text-align:center;margin-top:1rem;font-family:'Inter',sans-serif;font-size:.75rem;color:var(--ink-soft);cursor:pointer;opacity:.7;transition:opacity .15s;}
 .how-it-works-link:hover{opacity:1;color:var(--teal);}
 .how-it-works-link span{text-decoration:underline;text-underline-offset:2px;}
 
@@ -1098,7 +1098,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
       <div class="form-group"><label class="form-label">PIN (4 digits)</label><input type="password" id="loginPin" class="form-input" placeholder="••••" maxlength="4" inputmode="numeric"></div>
       <button class="btn btn-primary" onclick="handleLogin()">Begin the Journey →</button>
       <div class="login-toggle">New here? <a onclick="showRegister()">Create your account</a></div>
-      <div class="how-it-works-link" onclick="openTutorialModal()"><span>? How it works</span></div>
+      <button class="how-it-works-link" onclick="openTutorialModal()">How it works?</button>
     </div>
     <div id="registerForm" style="display:none">
       <div class="form-group"><label class="form-label">Full Name</label><input type="text" id="regName" class="form-input" placeholder="First Last" autocomplete="name"></div>
@@ -1110,7 +1110,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
       <div class="form-group"><label class="form-label">Confirm PIN</label><input type="password" id="regPin2" class="form-input" placeholder="••••" maxlength="4" inputmode="numeric"></div>
       <button class="btn btn-primary" onclick="handleRegister()">Join the Journey →</button>
       <div class="login-toggle">Already joined? <a onclick="showLogin()">Sign in</a></div>
-      <div class="how-it-works-link" onclick="openTutorialModal()"><span>? How it works</span></div>
+      <button class="how-it-works-link" onclick="openTutorialModal()">How it works?</button>
     </div>
   </div>
 </div>
@@ -1827,7 +1827,10 @@ const ACTIVITIES={
     {text:"Organize and lead a peer gospel study group. Invite at least three friends (not family) and meet at least four times to study a chapter, discuss a talk, or explore a gospel question together.",miles:30},
     {text:"Attend a youth fireside and write a one-paragraph journal entry about what you felt or learned.",miles:15},
     {text:"Attend three separate firesides this year. Write something you learned from each one.",miles:30},
-    {text:"Attend For the Strength of Youth (FSY) or a similar multi-day LDS youth program.",miles:50}
+    {text:"Attend For the Strength of Youth (FSY) or a similar multi-day LDS youth program.",miles:50},
+    {text:"Contact each of your assigned ministering families this month — by visit, call, or text. Record how it went.",miles:20},
+    {text:"Learn something meaningful about each family you minister to. Find one specific way to serve them this month based on what you learn.",miles:25},
+    {text:"Fast and pray specifically for one of your assigned families. Act on any impression you receive.",miles:20}
   ],
   physical:[
     {text:"Set an earlier bedtime. Stick to it for two weeks.",miles:45},
@@ -1871,7 +1874,8 @@ const ACTIVITIES={
     {text:"Attend Stake Camp this summer! Go for the full camp experience — participate in every activity, serve your fellow campers, and come home with your testimony strengthened and new friends made.",miles:50},
     {text:"Try an aquatic or adventure sport you have never done — kayaking, paddleboarding, rock climbing, or canoeing. Complete at least three sessions.",miles:30},
     {text:"Attend a ward or stake camp and complete the full experience — food, hikes, devotionals. Don't go home early.",miles:40},
-    {text:"Plan and lead a family campout or overnight activity. Handle the food, setup, and lead a short devotional.",miles:35}
+    {text:"Plan and lead a family campout or overnight activity. Handle the food, setup, and lead a short devotional.",miles:35},
+    {text:"Help a family you minister to with a physical need — moving, yard work, a repair, or an errand. Show up and do the work.",miles:15}
   ],
   intellectual:[
     {text:"Read a book for fun.",miles:30},
@@ -1969,7 +1973,11 @@ const ACTIVITIES={
     {text:"Find someone outside your family who is 60 or older and build a real connection. Visit or spend time with them at least twice — listen to their stories, share a meal or activity, and write about what their life has taught you.",miles:25},
     {text:"Assemble and send a meaningful care package to someone who is far from home — a missionary, a college student, a soldier, or a friend who has moved away. Include a handwritten personal letter.",miles:20},
     {text:"Help plan or lead part of a fireside, devotional, or youth activity. Handle a section from start to finish.",miles:30},
-    {text:"Attend a youth conference or multi-stake event. Participate fully and introduce yourself to someone new.",miles:35}
+    {text:"Attend a youth conference or multi-stake event. Participate fully and introduce yourself to someone new.",miles:35},
+    {text:"Make a personal visit (not just a text) to each assigned ministering family once this month. Bring something — a treat, a note, or just your time.",miles:30},
+    {text:"Organize a joint activity or outing with one of your ministering families.",miles:20},
+    {text:"Write a handwritten note to each family you minister to telling them one specific thing you appreciate about them.",miles:15},
+    {text:"Serve a meal or provide dinner for a family you minister to during a hard week.",miles:20}
   ]
 };
 
@@ -2158,7 +2166,7 @@ async function handleRegister(){
   try{
     const snap=await COL.users().get();
     if(snap.docs.find(d=>d.data().name.toLowerCase()===name.toLowerCase())){showError('That name is already registered. Try signing in instead.');overlay(false);return;}
-    const isPrivileged=group==='Leader'||group==='Adult';
+    const isPrivileged=group==='Leader'; // Only Leaders get admin access
     const wardName=(document.getElementById('regWard')||{}).value||'';
     const userData={name,group,pin,isLeader:isPrivileged,isVisitor:group==='Visitor'||group==='Visitor (other ward)',isPrimary:group==='Primary',wardName,ts:Date.now()};
     const ref=await COL.users().add(userData);
@@ -2183,10 +2191,13 @@ function enterApp(){
   document.getElementById('loginScreen').classList.remove('active');
   document.getElementById('appScreen').classList.add('active');
   document.getElementById('headerName').textContent=currentUser.name;
-  if(currentUser.isLeader){
+  // Show badge for Adults (no admin) and Leaders (with admin)
+  if(currentUser.isLeader||currentUser.group==='Adult'){
     const badge=document.getElementById('leaderBadge');
-    badge.textContent=currentUser.group==='Adult'?'Adult':'Leader';
+    badge.textContent=currentUser.group==='Adult'?'Adult':currentUser.group==='Leader'?'Leader':'Leader';
     badge.style.display='inline';
+  }
+  if(currentUser.isLeader){
     document.getElementById('adminTab').style.display='block';
   }
   buildMonthSelector();buildPlannerMonthSelector();buildActivityList();buildPlannerActivityList();buildGroupWaypoints();buildMiniMap();
@@ -2497,9 +2508,20 @@ const PRIMARY_MONTHLY_BADGE = {icon:'🕊️', name:'Little Pilgrim', color:'#7a
 //  MINI MAP
 // ════════════════════════════════════════════════════
 function buildMiniMap(){
-  const container=document.getElementById('miniWaypoints');const line=document.getElementById('miniJourneyLine');
-  WAYPOINTS.forEach((wp,i)=>{const div=document.createElement('div');div.className='mini-wp';div.id='mini-wp-'+i;div.innerHTML=`<div class="mini-wp-dot"></div><div class="mini-wp-label">${wp.label.replace('\n','<br>')}</div>`;container.appendChild(div);});
-  container.appendChild(line);
+  const container=document.getElementById('miniWaypoints');
+  const line=document.getElementById('miniJourneyLine');
+  const traveler=document.getElementById('miniTraveler');
+  if(!container) return;
+  // Clear existing waypoint divs (but keep line and traveler)
+  Array.from(container.querySelectorAll('.mini-wp')).forEach(el=>el.remove());
+  WAYPOINTS.forEach((wp,i)=>{
+    const div=document.createElement('div');
+    div.className='mini-wp';div.id='mini-wp-'+i;
+    div.innerHTML='<div class="mini-wp-dot"></div><div class="mini-wp-label">'+wp.label.replace('\n','<br>')+'</div>';
+    container.appendChild(div);
+  });
+  if(line) container.appendChild(line);
+  if(traveler) container.appendChild(traveler);
 }
 
 function updateMiniMap(total){
@@ -5846,16 +5868,35 @@ function getWardTotal(){
   return Math.round(scaledYouthMiles+gMiles);
 }
 
+function getGroupTotal(group){
+  const d=db();
+  const users=(d.users||[]).filter(u=>{
+    if(group==='youth') return !u.isLeader&&!u.isVisitor&&!u.isPrimary;
+    if(group==='adults') return !u.isVisitor&&!u.isPrimary&&(u.isLeader||u.group==='Adult');
+    if(group==='primary') return !!u.isPrimary;
+    return false;
+  });
+  const divKey={youth:'groupDivisor',adults:'adultsDivisor',primary:'primaryDivisor'}[group]||'groupDivisor';
+  const div=parseInt(CACHE.appConfig?.[divKey]||'35');
+  const raw=(d.entries||[]).filter(e=>users.find(u=>u.id===e.userId)).reduce((s,e)=>s+e.miles,0);
+  const gm=group==='youth'?(d.groupMiles||[]).reduce((s,e)=>s+e.miles,0):0;
+  return Math.round(raw/div+gm);
+}
+
 function checkWardMilestones(){
   if(!currentUser)return;
-  const total=getWardTotal();
+  // Check milestone for the currently visible group map
+  const group=_groupMapActive||'youth';
+  const total=getGroupTotal(group);
+  const groupLabel={youth:'Youth',adults:'Adults',primary:'Primary'}[group]||'Youth';
   for(const ms of WARD_MILESTONES){
     if(total>=ms.miles){
-      const key='seenWardCeleb_'+ms.id;
+      const key='seenWardCeleb_'+group+'_'+ms.id;
       if(!hasUF(key)){
         setUF(key,'1');
-        setTimeout(()=>showWardMilestoneCelebration(ms,total),900);
-        return; // one at a time
+        const msWithGroup={...ms,eyebrow:groupLabel+' Ward — '+ms.eyebrow};
+        setTimeout(()=>showWardMilestoneCelebration(msWithGroup,total),900);
+        return;
       }
     }
   }
@@ -6733,6 +6774,7 @@ function switchGroupMap(pane, btn){
   const view = document.getElementById('group-view-'+pane);
   if(view) view.classList.add('active');
   renderGroupMaps();
+  setTimeout(checkWardMilestones, 500);
 }
 
 function autoDiv(members){
@@ -6786,7 +6828,13 @@ function renderGroupMaps(){
     const nextWP=WAYPOINTS.find(w=>yTotal<w.miles);
     gs.textContent=nextWP?'Next waypoint: '+nextWP.label.replace('\n',' ')+' at '+nextWP.miles+' miles':'Jerusalem reached!';
   }
-  buildGroupWaypointBar('waypointsContainer', yPct);
+  // Youth map uses existing waypointsContainer with buildGroupWaypoints — just update progress
+  const jl=document.getElementById('journeyLine');
+  const wc=document.getElementById('waypointsContainer');
+  if(jl&&wc) jl.style.width=(yPct/100*(wc.offsetWidth-32))+'px';
+  WAYPOINTS.forEach((wp,i)=>{const el=document.getElementById('grp-wp-'+i);
+    if(el){if(yTotal>=wp.miles)el.classList.add('reached');else el.classList.remove('reached');}});
+  setTimeout(()=>updateGroupTraveler(yTotal),120);
 
   // ── ADULTS MAP ────────────────────────────────────────────────────────────
   const adultUsers = (d.users||[]).filter(u=>!u.isVisitor&&!u.isPrimary&&(u.isLeader||u.group==='Adult'));
