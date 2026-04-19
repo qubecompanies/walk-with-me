@@ -1021,6 +1021,15 @@ textarea.form-input{min-height:72px;resize:vertical;}
 .intel-spark-card{background:white;border:.5px solid var(--sand-dark);border-radius:6px;padding:8px 10px;}
 .intel-spark-name{font-family:'Cinzel',serif;font-size:.72rem;color:var(--navy);}
 .intel-spark-mi{font-family:'Inter',sans-serif;font-size:.6rem;color:var(--ink-soft);margin-bottom:6px;}
+
+/* ══ GROUP MAP SUB-TABS ══ */
+.group-sub-tabs{display:flex;gap:.4rem;margin-bottom:1rem;flex-wrap:wrap;}
+.group-sub-tab{padding:.3rem .9rem;border:1.5px solid var(--sand-dark);border-radius:20px;
+  background:white;cursor:pointer;font-family:'Inter',sans-serif;font-size:.72rem;color:var(--ink-soft);transition:all .15s;}
+.group-sub-tab:hover{border-color:var(--navy);}
+.group-sub-tab.active{background:var(--navy);border-color:var(--navy);color:white;}
+.group-map-view{display:none;}
+.group-map-view.active{display:block;}
 </style>
 </head>
 <body>
@@ -1087,7 +1096,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
     <div id="registerForm" style="display:none">
       <div class="form-group"><label class="form-label">Full Name</label><input type="text" id="regName" class="form-input" placeholder="First Last" autocomplete="name"></div>
       <div class="form-group"><label class="form-label">Group</label>
-        <select id="regGroup" class="form-input" onchange="showWardNameField()"><option value="Young Men">Young Men</option><option value="Young Women">Young Women</option><option value="Adult">Adult</option><option value="Leader">Leader</option><option value="Visitor">Visitor (other ward)</option></select>
+        <select id="regGroup" class="form-input" onchange="showWardNameField()"><option value="Young Men">Young Men</option><option value="Young Women">Young Women</option><option value="Adult">Adult</option><option value="Leader">Leader</option><option value="Primary">Primary (age 4-11)</option><option value="Visitor">Visitor (other ward)</option></select>
       </div>
       <div class="form-group" id="wardNameGroup" style="display:none;"><label class="form-label">Your Ward Name (optional)</label><input type="text" id="regWard" class="form-input" placeholder="e.g. Forsyth 2nd Ward"></div>
       <div class="form-group"><label class="form-label">Choose a PIN (4 digits)</label><input type="password" id="regPin" class="form-input" placeholder="••••" maxlength="4" inputmode="numeric"></div>
@@ -1255,6 +1264,12 @@ textarea.form-input{min-height:72px;resize:vertical;}
       <div class="section-heading">Group Journey</div>
       <div class="section-sub">Level Creek Ward — walking together to Jerusalem</div>
       <div id="wardMilestoneBanner"></div>
+      <div class="group-sub-tabs">
+        <button class="group-sub-tab active" onclick="switchGroupMap('youth',this)">&#x1F3C3; Youth</button>
+        <button class="group-sub-tab" onclick="switchGroupMap('adults',this)">&#x2605; Adults</button>
+        <button class="group-sub-tab" onclick="switchGroupMap('primary',this)">&#x1F4A8; Primary</button>
+      </div>
+      <div id="group-view-youth" class="group-map-view active">
 
       <!-- HERO MILES CARD -->
       <div class="group-map-hero">
@@ -1309,6 +1324,49 @@ textarea.form-input{min-height:72px;resize:vertical;}
         <button class="show-more-btn" id="badgeMoreBtn" style="display:none;" onclick="toggleFeedMore('badge')">Show more ▼</button>
       </div>
     </div>
+        </div><!-- /group-view-youth -->
+
+      <div id="group-view-adults" class="group-map-view">
+        <div class="group-map-hero">
+          <div class="group-hero-total" id="adultsGroupTotal">0 miles</div>
+          <div class="group-hero-label">Adults &amp; Leaders combined progress</div>
+          <div class="group-hero-prog"><div class="group-hero-prog-fill" id="adultsProgressBar" style="width:0%"></div></div>
+          <div class="group-hero-sub" id="adultsGroupSub">Walking together to Jerusalem</div>
+        </div>
+        <div class="group-stats-grid">
+          <div class="group-stat-pill"><div class="group-stat-num" id="adultsMiles">0</div><div class="group-stat-lbl">miles</div></div>
+          <div class="group-stat-pill"><div class="group-stat-num" id="adultsCount">0</div><div class="group-stat-lbl">members</div></div>
+          <div class="group-stat-pill"><div class="group-stat-num" id="adultsComplete">0</div><div class="group-stat-lbl">complete</div></div>
+          <div class="group-stat-pill"><div class="group-stat-num" id="adultsPct">0%</div><div class="group-stat-lbl">journey</div></div>
+        </div>
+        <div class="card journey-map" style="margin-bottom:1rem;padding:1.25rem 1rem;min-height:90px;position:relative;">
+          <div id="adultsWaypointsContainer" style="display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:1.5rem;position:relative;"></div>
+        </div>
+      </div><!-- /group-view-adults -->
+
+      <div id="group-view-primary" class="group-map-view">
+        <div class="group-map-hero">
+          <div class="group-hero-total" id="primaryGroupTotal">0 miles</div>
+          <div class="group-hero-label">Primary children combined progress</div>
+          <div class="group-hero-prog"><div class="group-hero-prog-fill" id="primaryProgressBar" style="width:0%"></div></div>
+          <div class="group-hero-sub" id="primaryGroupSub">Little pilgrims on the journey</div>
+        </div>
+        <div class="group-stats-grid">
+          <div class="group-stat-pill"><div class="group-stat-num" id="primaryMiles">0</div><div class="group-stat-lbl">miles</div></div>
+          <div class="group-stat-pill"><div class="group-stat-num" id="primaryCount">0</div><div class="group-stat-lbl">children</div></div>
+          <div class="group-stat-pill"><div class="group-stat-num" id="primaryComplete">0</div><div class="group-stat-lbl">complete</div></div>
+          <div class="group-stat-pill"><div class="group-stat-num" id="primaryPct">0%</div><div class="group-stat-lbl">journey</div></div>
+        </div>
+        <div class="card journey-map" style="margin-bottom:1rem;padding:1.25rem 1rem;min-height:90px;position:relative;">
+          <div id="primaryWaypointsContainer" style="display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:1.5rem;position:relative;"></div>
+        </div>
+        <div class="card neutral" style="padding:.75rem 1rem;margin-bottom:1rem;text-align:center;">
+          <div style="font-family:'Crimson Pro',serif;font-style:italic;font-size:.88rem;color:var(--ink-soft);">
+            &#x201C;Let the little children come unto me.&#x201D; &#x2014; Matthew 19:14
+          </div>
+        </div>
+      </div><!-- /group-view-primary -->
+
 
     <!-- LEADERBOARD -->
     <div id="tab-leaderboard" class="tab-content">
@@ -1319,6 +1377,8 @@ textarea.form-input{min-height:72px;resize:vertical;}
       <div style="display:flex;gap:.4rem;margin-bottom:1.25rem;flex-wrap:wrap;" id="lbSubTabs">
         <button class="lb-sub-tab active" onclick="switchLBTab('youth',this)">🏃 Youth</button>
         <button class="lb-sub-tab" onclick="switchLBTab('adults',this)">★ Leaders</button>
+        <button class="lb-sub-tab" onclick="switchLBTab('primary',this)">🕊 Primary</button>
+        <button class="lb-sub-tab" onclick="switchLBTab('visitors',this)">🌍 Visitors</button>
         <button class="lb-sub-tab" onclick="switchLBTab('ymvsyw',this)">⚡ vs 🌸</button>
         <button class="lb-sub-tab" onclick="switchLBTab('youthvsleader',this)">Youth vs Adults</button>
         <button class="lb-sub-tab" onclick="switchLBTab('monthly',this)">📅 This Month</button>
@@ -1364,6 +1424,16 @@ textarea.form-input{min-height:72px;resize:vertical;}
       </div>
 
       <!-- STREAKS LEADERBOARD -->
+      <!-- PRIMARY LEADERBOARD -->
+      <div id="lb-pane-primary" class="lb-pane" style="display:none;">
+        <div id="leaderboardPrimary"></div>
+      </div>
+
+      <!-- VISITORS LEADERBOARD -->
+      <div id="lb-pane-visitors" class="lb-pane" style="display:none;">
+        <div id="leaderboardVisitors"></div>
+      </div>
+
       <div id="lb-pane-streaks" class="lb-pane" style="display:none;">
         <div id="lbStreaks"></div>
       </div>
@@ -1738,7 +1808,10 @@ const ACTIVITIES={
     {text:"Learn about a pivotal moment in LDS church history — read, watch a documentary, or visit a historic site (Liberty Jail, Nauvoo, the Sacred Grove). Write a journal entry about what it taught you about faith under trial.",miles:25},
     {text:"Study Preach My Gospel for three weeks — at least 20 minutes a day. Each week choose one principle you learned and find a way to apply it in your life or share it with a friend.",miles:35},
     {text:"Keep a Spiritual Promptings Journal for one full month. Every time you feel the Spirit, write what you were doing, what you felt, and what you did about it. Share one experience with your family at the end.",miles:20},
-    {text:"Organize and lead a peer gospel study group. Invite at least three friends (not family) and meet at least four times to study a chapter, discuss a talk, or explore a gospel question together.",miles:30}
+    {text:"Organize and lead a peer gospel study group. Invite at least three friends (not family) and meet at least four times to study a chapter, discuss a talk, or explore a gospel question together.",miles:30},
+    {text:"Attend a youth fireside and write a one-paragraph journal entry about what you felt or learned.",miles:15},
+    {text:"Attend three separate firesides this year. Write something you learned from each one.",miles:30},
+    {text:"Attend Especially for Youth (EFY) or a similar multi-day LDS youth program.",miles:50}
   ],
   physical:[
     {text:"Set an earlier bedtime. Stick to it for two weeks.",miles:45},
@@ -1780,7 +1853,9 @@ const ACTIVITIES={
     {text:"Learn a dance style you have never tried — line dancing, ballroom basics, hip-hop, or Latin. Follow tutorials or take a class. Practice until you can perform two minutes without stopping.",miles:25},
     {text:"Master a brand new physical skill from scratch — juggling, skateboarding basics, archery, hacky sack, or similar. Practice every day for two weeks until you can demonstrate it to someone.",miles:20},
     {text:"Attend Stake Camp this summer! Go for the full camp experience — participate in every activity, serve your fellow campers, and come home with your testimony strengthened and new friends made.",miles:50},
-    {text:"Try an aquatic or adventure sport you have never done — kayaking, paddleboarding, rock climbing, or canoeing. Complete at least three sessions.",miles:30}
+    {text:"Try an aquatic or adventure sport you have never done — kayaking, paddleboarding, rock climbing, or canoeing. Complete at least three sessions.",miles:30},
+    {text:"Attend a ward or stake camp and complete the full experience — food, hikes, devotionals. Don't go home early.",miles:40},
+    {text:"Plan and lead a family campout or overnight activity. Handle the food, setup, and lead a short devotional.",miles:35}
   ],
   intellectual:[
     {text:"Read a book for fun.",miles:30},
@@ -1876,7 +1951,81 @@ const ACTIVITIES={
     {text:"Start and run a collection drive from scratch — food, clothing, books, or school supplies. Promote it, collect for two weeks, and personally deliver the items to a local charity or family in need.",miles:35},
     {text:"Identify someone at school, church, or in your neighborhood who is often alone or left out. Intentionally spend time with them at least three separate times over two weeks. Journal about what you learned.",miles:20},
     {text:"Find someone outside your family who is 60 or older and build a real connection. Visit or spend time with them at least twice — listen to their stories, share a meal or activity, and write about what their life has taught you.",miles:25},
-    {text:"Assemble and send a meaningful care package to someone who is far from home — a missionary, a college student, a soldier, or a friend who has moved away. Include a handwritten personal letter.",miles:20}
+    {text:"Assemble and send a meaningful care package to someone who is far from home — a missionary, a college student, a soldier, or a friend who has moved away. Include a handwritten personal letter.",miles:20},
+    {text:"Help plan or lead part of a fireside, devotional, or youth activity. Handle a section from start to finish.",miles:30},
+    {text:"Attend a youth conference or multi-stake event. Participate fully and introduce yourself to someone new.",miles:35}
+  ]
+};
+
+
+const PRIMARY_ACTIVITIES={
+  spiritual:[
+    {text:"Say your personal prayers every morning and night for one week.",miles:15},
+    {text:"Memorize the Articles of Faith #1. Recite it to your family.",miles:10},
+    {text:"Learn to sing a Primary song all the way through from memory.",miles:10},
+    {text:"Read 10 chapters from the Book of Mormon with a parent.",miles:20},
+    {text:"Memorize the Articles of Faith #1 through 4. Recite them to someone.",miles:20},
+    {text:"Learn one scripture story and tell it to your family at dinner.",miles:10},
+    {text:"Draw or paint a picture of the Temple. Tell your family why the Temple is important.",miles:10},
+    {text:"Attend Primary every Sunday for one full month and pay attention.",miles:20},
+    {text:"Read a book about a prophet or church history figure with a parent.",miles:15},
+    {text:"Learn the first verse of a hymn by heart and sing it for your family.",miles:10},
+    {text:"Ask a parent to teach you about baptism. Draw a picture of what you learned.",miles:10},
+    {text:"Fast one meal with your family and say a prayer about something important to you.",miles:15},
+    {text:"Memorize all 13 Articles of Faith. Recite them all in order to your family.",miles:40},
+    {text:"Keep a gratitude journal for two weeks — write one thing you are grateful for each day.",miles:15},
+    {text:"Watch or listen to a General Conference talk with a parent. Draw a picture about what you learned.",miles:10},
+    {text:"Learn what tithing is and why we pay it. Help your parent pay tithing or put some of your own money in the offering.",miles:15},
+    {text:"Read the entire Book of Mormon with a parent — one chapter at a time until you finish.",miles:60}
+  ],
+  physical:[
+    {text:"Do 10 jumping jacks, 10 sit-ups, and run in place for 1 minute, three days in a row.",miles:10},
+    {text:"Go on a nature walk and find 3 different plants, bugs, or birds. Draw what you found.",miles:10},
+    {text:"Help your parent with a house chore every day for one full week.",miles:15},
+    {text:"Go to bed on time every night for two weeks without being reminded.",miles:20},
+    {text:"Make your bed every morning for two weeks in a row.",miles:15},
+    {text:"Play outside for at least 30 minutes every day for one week.",miles:15},
+    {text:"Drink a glass of water every morning for two weeks. No skipping.",miles:10},
+    {text:"Help plant something in a garden or pot. Water it every day for two weeks.",miles:15},
+    {text:"Ride a bike, scooter, or skateboard every day for one week.",miles:10},
+    {text:"Learn to swim or improve your swimming. Complete at least three swimming lessons or practice sessions.",miles:20},
+    {text:"Attend Stake Camp with your family or Primary. Participate in every activity and make a new friend.",miles:30},
+    {text:"Try a new sport or physical activity you have never done before with a parent or friend.",miles:10},
+    {text:"Do a 30-day healthy habit challenge with a parent. Pick something good and do it together every day.",miles:25},
+    {text:"Help your family prepare a 72-hour emergency kit. Learn what goes in it and why it matters.",miles:20}
+  ],
+  intellectual:[
+    {text:"Read a picture book or chapter book with a parent. Tell them your favorite part.",miles:10},
+    {text:"Learn to tie your shoes or another basic life skill. Practice until you can do it alone.",miles:10},
+    {text:"Practice writing your full name and home address from memory.",miles:10},
+    {text:"Learn to count to 20 in another language. Teach it to a friend or sibling.",miles:10},
+    {text:"Learn your family phone number by heart. Say it to your parent without looking.",miles:10},
+    {text:"Draw a map of your neighborhood. Include your house, a friend house, and your church.",miles:10},
+    {text:"Read 5 different books this month. Draw a picture for each one.",miles:20},
+    {text:"Learn to tell time on a clock with hands. Show your parent you can do it.",miles:10},
+    {text:"Build or make something with your hands — a birdhouse, craft project, or simple recipe. Share what you made.",miles:15},
+    {text:"Learn 10 interesting facts about a country, animal, or topic you love. Teach them to your family.",miles:10},
+    {text:"Start a collection of rocks, stamps, coins, or stickers. Organize and label each item.",miles:10},
+    {text:"Write and illustrate your own short story or book. Read it out loud to your family.",miles:15},
+    {text:"Learn the names of all 50 US states or all 10 commandments. Say them without any help.",miles:15},
+    {text:"Learn a simple magic trick or juggling skill. Practice until you can perform it for an audience.",miles:10},
+    {text:"Read a book about an animal, place, or science topic. Build or draw something based on what you learned.",miles:15}
+  ],
+  social:[
+    {text:"Write a thank-you note to someone you love. Draw a picture on it.",miles:10},
+    {text:"Help set the table or clean up after dinner every day for one week.",miles:15},
+    {text:"Do something kind for a sibling every day for one week without being asked.",miles:15},
+    {text:"Collect and donate toys or clothes you no longer need to someone who needs them.",miles:15},
+    {text:"Draw a picture of your family and write one nice thing about each person.",miles:10},
+    {text:"Write a letter or draw a picture for a missionary your family knows.",miles:10},
+    {text:"Share something you own with a friend or sibling for one whole day without complaining.",miles:10},
+    {text:"Help a younger child learn something you already know how to do.",miles:10},
+    {text:"Surprise your mom or dad by doing a chore they did not ask you to do, three times this week.",miles:15},
+    {text:"Attend Primary activity days or a special ward event at least three times this month. Be friendly to everyone.",miles:15},
+    {text:"Make a birthday card for every family member this year. Give it to them on their actual birthday.",miles:15},
+    {text:"Visit or call a grandparent or older family member. Ask them to tell you about their childhood.",miles:10},
+    {text:"Plan and host a simple playdate or activity for a friend. You choose the game and get it ready yourself.",miles:15},
+    {text:"Be a peacemaker for one whole week. When a disagreement happens near you, try to help fix it with kindness.",miles:15}
   ]
 };
 
@@ -1995,7 +2144,7 @@ async function handleRegister(){
     if(snap.docs.find(d=>d.data().name.toLowerCase()===name.toLowerCase())){showError('That name is already registered. Try signing in instead.');overlay(false);return;}
     const isPrivileged=group==='Leader'||group==='Adult';
     const wardName=(document.getElementById('regWard')||{}).value||'';
-    const userData={name,group,pin,isLeader:isPrivileged,isVisitor:group==='Visitor',wardName,ts:Date.now()};
+    const userData={name,group,pin,isLeader:isPrivileged,isVisitor:group==='Visitor'||group==='Visitor (other ward)',isPrimary:group==='Primary',wardName,ts:Date.now()};
     const ref=await COL.users().add(userData);
     currentUser={id:ref.id,...userData};
     CACHE.users.push(currentUser);
@@ -2218,7 +2367,11 @@ function renderStreakRow(entries){
 }
 
 function renderBadges(total){
-  document.getElementById('badgesRow').innerHTML=BADGES.map(b=>{
+  const isPrim = currentUser&&currentUser.isPrimary;
+  const badgeList = isPrim
+    ? [{id:'first_steps',name:'First Steps',sub:'10 miles',miles:10,icon:'👣'},...BADGES]
+    : BADGES;
+  document.getElementById('badgesRow').innerHTML=badgeList.map(b=>{
     const earned=total>=b.miles;
     const left=b.miles-total;
     const click=earned
@@ -2261,7 +2414,11 @@ function checkMonthlyChallengeBadges(){
     ) || monthMiles >= challenge.miles;
     if(hasChallenge){
       const isNew=earnMonthlyBadge(month);
-      if(isNew){showToast('🗓️ Monthly Challenge Badge Earned: '+month+'!');fireConfetti();announceAchievement(currentUser.name,'🗓️',currentUser.name+' completed the '+month+' Monthly Challenge and earned a badge!');}
+      if(isNew){
+        const isPrim=currentUser&&currentUser.isPrimary;
+        const badgeName=isPrim?'🕊️ Little Pilgrim Badge':'🗓️ Monthly Challenge Badge';
+        showToast(badgeName+' Earned: '+month+'!');fireConfetti();
+        announceAchievement(currentUser.name,'🗓️',currentUser.name+' completed the '+month+' Monthly Challenge and earned a badge!');}
     }
   });
   // Champion badge: earned all available monthly challenges
@@ -2294,13 +2451,19 @@ function renderMonthlyBadges(){
     const mbClick=isEarned
       ?'onclick="replayMonthlyBadge(\''+month+'\')"'
       :'onclick="showLockedTip(event,\'Complete '+month+' challenge to unlock\')'+'"';
+    const isPrimUser=currentUser&&currentUser.isPrimary;
+    const badgeIcon=isEarned&&isPrimUser?PRIMARY_MONTHLY_BADGE.icon:b.icon;
+    const badgeLbl=isEarned&&isPrimUser?'Little Pilgrim ✓':isEarned?'Earned ✓':'Locked';
     html+='<div class="monthly-badge '+(isEarned?'earned':'locked')+'" '+mbClick+'>'
-      +'<div class="monthly-badge-icon">'+b.icon+'</div>'
+      +'<div class="monthly-badge-icon">'+badgeIcon+'</div>'
       +'<div class="monthly-badge-name">'+month+'</div>'
-      +'<div class="monthly-badge-sub">'+(isEarned?'Earned ✓':'Locked')+'</div>'
+      +'<div class="monthly-badge-sub">'+badgeLbl+'</div>'
       +'</div>';
   });
-  // Champion badge
+  
+// Primary 'Little Pilgrim' monthly badge variant
+const PRIMARY_MONTHLY_BADGE = {icon:'🕊️', name:'Little Pilgrim', color:'#7a4a20'};
+// Champion badge
   const champClass=hasChamp?'earned champion-badge':'locked champion-badge';
   const cbClick=hasChamp
     ?'onclick="replayChampionBadge()"'
@@ -2351,7 +2514,7 @@ function drawMapCanvas(){
 // getDivisor — defined in userState layer above
 
 function renderGroup(){
-  const d=db();const youth=d.users.filter(u=>!u.isLeader&&!u.isVisitor);
+  const d=db();const youth=d.users.filter(u=>!u.isLeader&&!u.isVisitor&&!u.isPrimary);
   const divisor=getDivisor();
   const rawYouthMiles=d.entries.filter(e=>youth.find(u=>u.id===e.userId)).reduce((s,e)=>s+e.miles,0);
   const scaledYouthMiles=rawYouthMiles/divisor;
@@ -2378,6 +2541,7 @@ function renderGroup(){
   document.getElementById('groupMapSub').textContent=total>=600?'🎉 We have arrived in Jerusalem!':cur&&nxt?'Passed '+cur.label.replace('\n',' ')+' — heading toward '+nxt.label.replace('\n',' '):'The journey has begun from Egypt';
   renderWardMilestoneBanner();
   checkWardMilestones();
+  renderGroupMaps();
   renderShoutouts();renderBadgeAnnouncements();renderCountdown();
   if(!window._countdownInterval)window._countdownInterval=setInterval(renderCountdown,1000);
   // Featured challenge
@@ -2421,6 +2585,7 @@ function renderAdminRoster(d, score){
     +'<option value="Young Women" '+(u.group==='Young Women'?'selected':'')+'>Young Women</option>'
     +'<option value="Adult" '+(u.group==='Adult'?'selected':'')+'>Adult</option>'
     +'<option value="Leader" '+(u.group==='Leader'?'selected':'')+'>Leader</option>'
+    +'<option value="Primary" '+(u.group==='Primary'?'selected':'')+'>Primary</option>'
     +'<option value="Visitor" '+(u.group==='Visitor'?'selected':'')+'>Visitor</option>'
     +'</select>'
     +'<div class="admin-user-miles" style="min-width:50px;text-align:right;">'+score(u)+' mi</div>'
@@ -2458,10 +2623,13 @@ function renderAdminEntries(d){
 
 function renderAdmin(){
   updateNudgePreview();
+  const _dy=document.getElementById('divisorYouth');if(_dy)_dy.value=CACHE.appConfig?.groupDivisor||35;
+  const _da=document.getElementById('divisorAdults');if(_da)_da.value=CACHE.appConfig?.adultsDivisor||10;
+  const _dp=document.getElementById('divisorPrimary');if(_dp)_dp.value=CACHE.appConfig?.primaryDivisor||10;
   const d=db();const score=u=>d.entries.filter(e=>e.userId===u.id).reduce((s,e)=>s+e.miles,0);
   const overviewGroup = getAdminUsers(_adminView||'youth');
   const monthGroup = getAdminUsers(_monthView||'youth');
-  const youth=d.users.filter(u=>!u.isLeader&&!u.isVisitor); // keep for other sections
+  const youth=d.users.filter(u=>!u.isLeader&&!u.isVisitor&&!u.isPrimary); // keep for other sections
   const totalYouth=overviewGroup.length;const participating=overviewGroup.filter(u=>d.entries.some(e=>e.userId===u.id)).length;
   const onTrack=overviewGroup.filter(u=>d.entries.filter(e=>e.userId===u.id&&e.month===getCurrentMonth()).reduce((s,e)=>s+e.miles,0)>=60).length;
   const completions=overviewGroup.filter(u=>score(u)>=600).length;const allMiles=d.entries.filter(e=>overviewGroup.find(u=>u.id===e.userId)).reduce((s,e)=>s+e.miles,0);
@@ -2532,33 +2700,15 @@ async function deleteEntry(id){
 
 
 // ── GROUP DIVISOR ──
-async function saveDivisor(){
-  const v=parseInt(document.getElementById('divisorInput').value);
-  if(!v||v<1){showToast('Enter a valid divisor.');return;}
-  await saveDivisorToFirestore(v);
-  const s=document.getElementById('divisorStatus');if(s){s.textContent='Saved! (÷'+v+')';setTimeout(()=>{if(s)s.textContent='';},3000);}
-  showToast('Group divisor set to ÷'+v);
-}
-
-// ── USER ROLE EDIT ──
-async function updateUserRole(userId,newGroup){
-  const isPrivileged=newGroup==='Leader'||newGroup==='Adult';
+async function saveDivisors(){
+  const y=parseInt(document.getElementById('divisorYouth')?.value)||35;
+  const a=parseInt(document.getElementById('divisorAdults')?.value)||10;
+  const p=parseInt(document.getElementById('divisorPrimary')?.value)||10;
   try{
-    await _db().collection('users').doc(userId).update({group:newGroup,isLeader:isPrivileged});
-    const u=CACHE.users.find(u=>u.id===userId);
-    if(u){u.group=newGroup;u.isLeader=isPrivileged;}
-    showToast('Role updated to '+newGroup);
-    renderAdmin();
-  }catch(err){showToast('Error: '+err.message);}
-}
-
-// ── GROUP MILES EDIT/DELETE ──
-async function deleteGroupMiles(id){
-  if(!confirm('Remove this group miles entry?'))return;
-  try{
-    await _db().collection('groupMiles').doc(id).delete();
-    CACHE.groupMiles=CACHE.groupMiles.filter(g=>g.id!==id);
-    renderAdmin();showToast('Entry removed.');
+    await _db().collection('appConfig').doc('settings').update({groupDivisor:y,adultsDivisor:a,primaryDivisor:p});
+    if(CACHE.appConfig){CACHE.appConfig.groupDivisor=y;CACHE.appConfig.adultsDivisor=a;CACHE.appConfig.primaryDivisor=p;}
+    const s=document.getElementById('divisorStatus');if(s){s.textContent='Saved!';setTimeout(()=>{s.textContent='';},2500);}
+    renderGroup();
   }catch(err){showToast('Error: '+err.message);}
 }
 
@@ -3020,7 +3170,7 @@ function renderMonthlyTrophyRow(){
 async function checkAndAwardMonthlyTrophies(){
   // Awards monthly top-miles trophy — called after any miles are logged
   const d=db();
-  const youth=d.users.filter(u=>!u.isLeader&&!u.isVisitor);
+  const youth=d.users.filter(u=>!u.isLeader&&!u.isVisitor&&!u.isPrimary);
   const leaders=d.users.filter(u=>u.isLeader);
   const score=(uid,month)=>d.entries.filter(e=>e.userId===uid&&e.month===month).reduce((s,e)=>s+e.miles,0);
   MONTHS.forEach(month=>{
@@ -3083,7 +3233,7 @@ function renderCountdown(){
     +(i<3?'<div class="ci-sep">:</div>':'')
   ).join('');
   if(msg){
-    const d=db();const youth=d.users.filter(u=>!u.isLeader&&!u.isVisitor);
+    const d=db();const youth=d.users.filter(u=>!u.isLeader&&!u.isVisitor&&!u.isPrimary);
     const comps=youth.filter(u=>d.entries.filter(e=>e.userId===u.id).reduce((s,e)=>s+e.miles,0)>=600).length;
     const pct=youth.length?Math.round(comps/youth.length*100):0;
     msg.textContent=`${comps} of ${youth.length} youth (${pct}%) have completed the journey. Jerusalem awaits!`;
@@ -3098,7 +3248,7 @@ function updateNudgePreview(){
   const d=db();
   const curMonth=getCurrentMonth();
   const builtIn=MONTHLY_CHALLENGES[curMonth];
-  const youth=d.users.filter(u=>!u.isLeader&&!u.isVisitor);
+  const youth=d.users.filter(u=>!u.isLeader&&!u.isVisitor&&!u.isPrimary);
   const onTrack=youth.filter(u=>d.entries.filter(e=>e.userId===u.id&&e.month===curMonth).reduce((s,e)=>s+e.miles,0)>=60).length;
   const groupMi=d.entries.reduce((s,e)=>s+e.miles,0);
   const msgs={
@@ -3313,7 +3463,7 @@ function lbCardHTML(u, rank, maxMiles, isAdultRow){
     </div>
     <div class="lb-card-miles">${u.miles}<span style="font-size:.65rem;font-family:'Inter',sans-serif;color:var(--sand-dark);"> mi</span></div>
   </div>
-  ${!isMe&&!u.isVisitor?`<div style="padding:.1rem .75rem .5rem;"><button class="partner-btn" onclick="openPartnerModal(event,'${u.id}','${u.name}','${u.group}')">&#x1F91D; Challenge ${u.name.split(' ')[0]}</button></div>`:''}`;
+  ${!isMe&&!u.isVisitor?`<div style="padding:.1rem .75rem .5rem;"><button class="partner-btn" onclick="openPartnerModal(event,'${u.id}','${u.name}','${u.group}')">&#x1F91D; Partner with ${u.name.split(' ')[0]}</button></div>`:''}`;
 }
 
 // renderLeaderboard — full version with sub-tabs defined above
@@ -3342,6 +3492,7 @@ function filterActivitiesIcon(cat, btn){
 const _origBuildActivityList = buildActivityList;
 function buildActivityList(){
   const container=document.getElementById('activityList');container.innerHTML='';
+  const actSrc=currentUser&&currentUser.isPrimary?PRIMARY_ACTIVITIES:ACTIVITIES;
   ['spiritual','physical','intellectual','social'].forEach(cat=>{
     const section=document.createElement('div');section.className='accordion';section.dataset.cat=cat;
     section.innerHTML=`<div class="accordion-header" onclick="toggleAccordion(this.parentElement)">
@@ -3464,7 +3615,7 @@ function renderLeaderboard(){
   };
   const catScore = (u,cat) => d.entries.filter(e=>e.userId===u.id&&e.cat===cat).reduce((s,e)=>s+e.miles,0);
 
-  const allUsers = (d.users||[]).filter(u=>!u.isVisitor);
+  const allUsers = (d.users||[]).filter(u=>!u.isVisitor&&!u.isPrimary);
   const ym  = allUsers.filter(u=>!u.isLeader&&u.group==='Young Men').map(u=>({...u,miles:score(u)})).sort((a,b)=>b.miles-a.miles);
   const yw  = allUsers.filter(u=>!u.isLeader&&u.group==='Young Women').map(u=>({...u,miles:score(u)})).sort((a,b)=>b.miles-a.miles);
   const ldr = allUsers.filter(u=>u.isLeader).map(u=>({...u,miles:score(u)})).sort((a,b)=>b.miles-a.miles);
@@ -3501,6 +3652,22 @@ function renderLeaderboard(){
   }
 
   if(_lbActivePane==='streaks'){renderStreakLeaderboard();return;}
+  if(_lbActivePane==='primary'){
+    const primUsers=allUsers.filter(u=>u.isPrimary).map(u=>({...u,miles:score(u)})).sort((a,b)=>b.miles-a.miles);
+    const maxP=primUsers[0]?.miles||1;
+    document.getElementById('leaderboardPrimary').innerHTML=primUsers.length
+      ?'<div class="monthly-lb-note">Primary pilgrims — ages 4-11</div>'+primUsers.map((u,i)=>lbCardHTML(u,i+1,maxP,false)).join('')
+      :'<p style="padding:1rem;font-style:italic;font-size:.9rem;color:var(--ink-soft);">No Primary members registered yet.</p>';
+    return;
+  }
+  if(_lbActivePane==='visitors'){
+    const visUsers=(d.users||[]).filter(u=>u.isVisitor).map(u=>({...u,miles:score(u)})).sort((a,b)=>b.miles-a.miles);
+    const maxV=visUsers[0]?.miles||1;
+    document.getElementById('leaderboardVisitors').innerHTML=visUsers.length
+      ?'<div class="monthly-lb-note">Visiting friends from other wards</div>'+visUsers.map((u,i)=>lbCardHTML(u,i+1,maxV,false)).join('')
+      :'<p style="padding:1rem;font-style:italic;font-size:.9rem;color:var(--ink-soft);">No visitors registered yet.</p>';
+    return;
+  }
   if(_lbActivePane==='monthly'){
     const cur=getCurrentMonth();
     const lbMonthLabel=document.getElementById('lbMonthLabel');
@@ -4120,6 +4287,36 @@ const MTWI_CHALLENGES = [
   {cat:'social',    text:'Do one small thing to help your family at home today.'},
   {cat:'social',    text:'Check in on a friend you haven\'t talked to in a while.'},
   {cat:'social',    text:'Put your phone away during your next meal with family.'},
+  {cat:'spiritual',   text:'Write down one thing that made you happy today.'},
+  {cat:'social',      text:'Do something kind for someone in your family without being asked.'},
+  {cat:'spiritual',   text:'Memorize one verse of a hymn or primary song right now.'},
+  {cat:'physical',    text:'Put your phone away for the next hour. Go do something real.'},
+  {cat:'intellectual',text:'Write down one goal you want to accomplish this week.'},
+  {cat:'physical',    text:'Do 3 sets of 10 squats right now. Do not skip it.'},
+  {cat:'social',      text:'Think of someone you owe an apology to. Send it today.'},
+  {cat:'spiritual',   text:'Read one full chapter of scripture before the day ends.'},
+  {cat:'physical',    text:'Drink 3 full glasses of water today. Start the first one now.'},
+  {cat:'social',      text:'Call or text a grandparent or older relative today.'},
+  {cat:'spiritual',   text:'Write down 5 things you are grateful for. Be specific.'},
+  {cat:'physical',    text:'Do 2 minutes of stretching right now. Head, shoulders, legs.'},
+  {cat:'intellectual',text:'Look up one word you do not know and use it in a sentence today.'},
+  {cat:'physical',    text:'Go outside and take 10 deep breaths of fresh air right now.'},
+  {cat:'social',      text:'Tell someone in your family you love them before the day ends.'},
+  {cat:'social',      text:'Do a random act of service for a neighbor today without telling them it was you.'},
+  {cat:'spiritual',   text:'Open your scriptures to a random page and read until something speaks to you.'},
+  {cat:'intellectual',text:'Write a one-paragraph journal entry about today.'},
+  {cat:'physical',    text:'Do 25 jumping jacks and 10 push-ups right now before you scroll anything else.'},
+  {cat:'physical',    text:'Eat a fruit or vegetable today that you would not normally choose.'},
+  {cat:'intellectual',text:'Plan tomorrow. Write down 3 things you want to accomplish.'},
+  {cat:'social',      text:'Smile at and greet 3 strangers or acquaintances today.'},
+  {cat:'spiritual',   text:'Sing a hymn out loud. Does not matter if you are off-key.'},
+  {cat:'intellectual',text:'Spend 10 minutes doing something creative: draw, build, write, or create.'},
+  {cat:'social',      text:'Find a way to serve at home today: dishes, laundry, trash, or yard. Just pick one.'},
+  {cat:'physical',    text:'Stand up and walk around for 5 minutes before you sit back down.'},
+  {cat:'intellectual',text:'Watch or read one news story and form your own opinion about it.'},
+  {cat:'spiritual',   text:'Write a short prayer of gratitude today: not asking for anything, just thanking.'},
+  {cat:'intellectual',text:'Do something today you have been putting off. Even just start it.'},
+  {cat:'spiritual',   text:'Before bed, read one talk from the last General Conference.'}
 ];
 
 const RECAP_MESSAGES = [
@@ -4798,6 +4995,8 @@ function openPartnerModal(e,userId,userName,userGroup){
   if(e)e.stopPropagation();
   _partnerTargetId=userId;_partnerTargetName=userName;_partnerSelectedActivity=null;
   document.getElementById('partnerTargetName').textContent=userName;
+  const ptitle=document.getElementById('partnerModalTitle');
+  if(ptitle) ptitle.textContent='🤝 Partner with '+userName.split(' ')[0];
   document.getElementById('partnerTargetGroup').textContent=userGroup;
   // Curated partner-friendly activities — easier, social, doable together
   const PARTNER_ACTS=[
@@ -4834,12 +5033,7 @@ function selectPartnerActivity(listIdx,cat,actIdx){
   document.querySelectorAll('.partner-activity-item').forEach(el=>el.classList.remove('selected'));
   document.getElementById('pai-'+listIdx)?.classList.add('selected');
   _partnerSelectedActivity={cat,actIdx,text:_partnerActivityList[listIdx].text,miles:_partnerActivityList[listIdx].miles};
-  const btn=document.getElementById('partnerSendBtn');btn.disabled=false;btn.style.opacity='1';btn.textContent='Send Challenge \u2192';
-}
-function closePartnerModal(e){
-  if(e&&e.target!==document.getElementById('partnerModal'))return;
-  document.getElementById('partnerModal').classList.remove('open');
-  document.body.style.overflow='';
+  const btn=document.getElementById('partnerSendBtn');btn.disabled=false;btn.style.opacity='1';btn.textContent='Partner Up!';
 }
 async function sendPartnerChallenge(){
   if(!_partnerSelectedActivity||!_partnerTargetId)return;
@@ -4854,9 +5048,9 @@ async function sendPartnerChallenge(){
   try{
     await _db().collection('partnerChallenges').add(challenge);
     closePartnerModal();
-    showToast('\u{1F91D} Challenge sent to '+_partnerTargetName+'! You have 7 days.');
+    showToast('\u{1F91D} Partnered with '+_partnerTargetName+'! You have 7 days to complete it together.');
     fireConfetti();
-    announceAchievement(currentUser.name,'\u{1F91D}',currentUser.name+' challenged '+_partnerTargetName+' to "'+challenge.desc.slice(0,40)+'\u2026" together!');
+    announceAchievement(currentUser.name,'\u{1F91D}',currentUser.name+' partnered with '+_partnerTargetName+' to "'+challenge.desc.slice(0,40)+'\u2026" together!');
   }catch(err){showToast('Error: '+err.message);}
 }
 async function claimPartnerChallenge(challengeId,isInitiator){
@@ -4903,7 +5097,7 @@ async function renderPartnerChallenges(){
       const partner=isInitiator?c.targetName:c.initiatorName;
       const daysLeft=Math.ceil((c.deadline-Date.now())/86400000);
       return `<div class="partner-challenge-card">
-        <div class="pc-eyebrow">\u{1F91D} Active Partner Challenge</div>
+        <div class="pc-eyebrow">\u{1F91D} Active Partner Activity</div>
         <div class="pc-title">${c.desc.length>60?c.desc.slice(0,60)+'\u2026':c.desc}</div>
         <div class="pc-partners">With ${partner} &middot; +${c.miles} miles + ${c.bonusMiles} bonus</div>
         <div class="pc-footer">
@@ -5617,7 +5811,7 @@ const WARD_MILESTONES = [
 
 function getWardTotal(){
   const d=db();
-  const youth=d.users.filter(u=>!u.isLeader&&!u.isVisitor);
+  const youth=d.users.filter(u=>!u.isLeader&&!u.isVisitor&&!u.isPrimary);
   const divisor=getDivisor();
   const rawYouthMiles=d.entries.filter(e=>youth.find(u=>u.id===e.userId)).reduce((s,e)=>s+e.miles,0);
   const scaledYouthMiles=rawYouthMiles/divisor;
@@ -5642,7 +5836,7 @@ function checkWardMilestones(){
 
 function showWardMilestoneCelebration(ms,wardTotal){
   const d=db();
-  const youth=d.users.filter(u=>!u.isLeader&&!u.isVisitor);
+  const youth=d.users.filter(u=>!u.isLeader&&!u.isVisitor&&!u.isPrimary);
   const participating=youth.filter(u=>d.entries.some(e=>e.userId===u.id)).length;
   showUniversalCelebration({
     icon:ms.icon,
@@ -5853,6 +6047,14 @@ function showLockedTip(e, msg){
 
 // ── Waypoint badge replay ─────────────────────────────────────────────────────
 function replayWaypointBadge(badgeId, total){
+  if(badgeId==='first_steps'){
+    showUniversalCelebration({icon:'👣',eyebrow:'✦ Primary Milestone',title:'First Steps!',
+      subtitle:'10 miles on the journey — every great pilgrimage begins with a single step.',
+      subtitleColor:'rgba(255,255,255,.75)',
+      stats:[{value:total,label:'Total Miles'},{value:'👣',label:'First Steps'}],
+      scripture:{text:'Trust in the Lord with all thine heart.',ref:'Proverbs 3:5'},theme:'gold'});
+    return;
+  }
   const wp = WAYPOINTS.find(w=>w.id===badgeId||w.label===badgeId)||BADGES.find(b=>b.id===badgeId);
   if(!wp) return;
   const scriptureKeys={egypt:'egypt',redsea:'redsea',sinai:'sinai',paran:'paran',jordan:'jordan',jerusalem:'jerusalem'};
@@ -5880,12 +6082,13 @@ function replayWaypointBadge(badgeId, total){
 
 // ── Monthly challenge badge replay ───────────────────────────────────────────
 function replayMonthlyBadge(month){
+  const isPrim=currentUser&&currentUser.isPrimary;
   const challenge = MONTHLY_CHALLENGES[month];
   if(!challenge) return;
   const d = db();
   const monthMiles = d.entries.filter(e=>e.userId===currentUser.id&&e.month===month).reduce((s,e)=>s+e.miles,0);
   showUniversalCelebration({
-    icon: challenge.badge.icon,
+    icon: isPrim?PRIMARY_MONTHLY_BADGE.icon:challenge.badge.icon,
     eyebrow: '\u2605 Reliving: ' + month + ' Challenge',
     title: challenge.title,
     subtitle: month + ' — challenge complete!',
@@ -6025,7 +6228,8 @@ function toggleIntelSection(id){
   // Re-render charts after accordion opens — canvases now have real dimensions
   if(!isOpen && _intelData){
     setTimeout(()=>renderIntelCharts(
-      _intelData.d, _intelData.allActive, _intelData.atRisk, _intelData.top5
+      _intelData.d, _intelData.allActive, _intelData.atRisk,
+      _intelData.top5, _intelData.ranked, _intelData.mostImproved
     ), 60);
   }
 }
@@ -6130,8 +6334,18 @@ function renderLeaderIntel(){
     .sort((a,b)=>a.monthMi-b.monthMi);
 
   // Top 5 for chart 4
-  const top5=allActive.map(u=>({...u,total:score(u)}))
-    .sort((a,b)=>b.total-a.total).slice(0,5);
+  const ranked=allActive.map(u=>({...u,total:score(u)})).sort((a,b)=>b.total-a.total);
+  const top5=ranked.slice(0,5);
+  // Most improved: highest miles gained in current month vs avg previous months
+  const mostImproved=(()=>{
+    const curMonth=getCurrentMonth();
+    return allActive.map(u=>{
+      const cur=monthScore(u,curMonth);
+      const prev=MONTHS.filter(m=>m!==curMonth).map(m=>monthScore(u,m));
+      const avg=prev.length?prev.reduce((s,v)=>s+v,0)/prev.length:0;
+      return{...u,improvement:cur-avg};
+    }).sort((a,b)=>b.improvement-a.improvement)[0]||null;
+  })();
 
   const initOpen=(id)=>_intelOpen[id]!==undefined?_intelOpen[id]:false;
 
@@ -6336,8 +6550,8 @@ function renderLeaderIntel(){
   `;
 
   // Cache data for accordion re-renders, then render charts
-  _intelData = {d, allActive, atRisk, top5};
-  setTimeout(()=>renderIntelCharts(d, allActive, atRisk, top5), 80);
+  _intelData = {d, allActive, atRisk, top5, ranked, mostImproved};
+  setTimeout(()=>renderIntelCharts(d, allActive, atRisk, top5, ranked, mostImproved), 80);
 }
 
 function isCanvasVisible(el){
@@ -6345,7 +6559,7 @@ function isCanvasVisible(el){
   return el && el.offsetWidth > 0 && el.offsetHeight > 0;
 }
 
-function renderIntelCharts(d, allActive, atRisk, top5){
+function renderIntelCharts(d, allActive, atRisk, top5, ranked, mostImproved){
   if(typeof Chart === 'undefined') return;
 
   // Destroy old instances
@@ -6437,13 +6651,31 @@ function renderIntelCharts(d, allActive, atRisk, top5){
       type:'line',
       data:{
         labels:MONTHS.map(m=>m.slice(0,3)),
-        datasets:(top5||[]).map((u,i)=>{
-          const byMonth=MONTHS.map(m=>(d.entries||[]).filter(e=>e.userId===u.id&&e.month===m).reduce((s,e)=>s+e.miles,0));
-          const cum=byMonth.reduce((acc,v)=>[...acc,(acc[acc.length-1]||0)+v],[]);
-          return{label:u.name.split(' ')[0],data:cum,borderColor:colors4[i],borderWidth:i===0?2:1.5,
-            pointRadius:cum.map((_,j)=>j===cum.length-1?3:0),pointBackgroundColor:colors4[i],
-            fill:false,tension:.4};
-        })
+        datasets:[
+          // All members as thin gray lines
+          ...(ranked||[]).filter(u=>!top5.find(t=>t.id===u.id)).map(u=>{
+            const byMonth=MONTHS.map(m=>(d.entries||[]).filter(e=>e.userId===u.id&&e.month===m).reduce((s,e)=>s+e.miles,0));
+            const cum=byMonth.reduce((acc,v)=>[...acc,(acc[acc.length-1]||0)+v],[]);
+            return{data:cum,borderColor:'rgba(150,150,140,.25)',borderWidth:1,
+              pointRadius:0,fill:false,tension:.4,label:''};
+          }),
+          // Top 5 colored
+          ...(top5||[]).map((u,i)=>{
+            const byMonth=MONTHS.map(m=>(d.entries||[]).filter(e=>e.userId===u.id&&e.month===m).reduce((s,e)=>s+e.miles,0));
+            const cum=byMonth.reduce((acc,v)=>[...acc,(acc[acc.length-1]||0)+v],[]);
+            return{label:u.name.split(' ')[0],data:cum,borderColor:colors4[i],borderWidth:i===0?2.5:1.5,
+              pointRadius:cum.map((_,j)=>j===cum.length-1?4:0),pointBackgroundColor:colors4[i],
+              fill:false,tension:.4};
+          }),
+          // Most improved — dashed accent
+          ...(mostImproved&&!top5.find(t=>t.id===mostImproved.id)?[{
+            label:mostImproved.name.split(' ')[0]+' (most improved)',
+            data:MONTHS.map(m=>(d.entries||[]).filter(e=>e.userId===mostImproved.id&&e.month===m).reduce((s,e)=>s+e.miles,0))
+              .reduce((acc,v)=>[...acc,(acc[acc.length-1]||0)+v],[]),
+            borderColor:'#e8b050',borderWidth:1.5,borderDash:[5,4],
+            pointRadius:0,fill:false,tension:.4
+          }]:[])
+        ]
       },
       options:{responsive:true,maintainAspectRatio:false,
         plugins:{legend:{display:false},tooltip:{mode:'index',intersect:false,
@@ -6455,6 +6687,117 @@ function renderIntelCharts(d, allActive, atRisk, top5){
   }
 }
 
+
+
+// ══════════════════════════════════════════════════
+//  GROUP MAP SUB-TABS + PER-GROUP MAPS
+// ══════════════════════════════════════════════════
+
+let _groupMapActive = 'youth';
+
+function switchGroupMap(pane, btn){
+  _groupMapActive = pane;
+  document.querySelectorAll('.group-sub-tab').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  document.querySelectorAll('.group-map-view').forEach(v=>v.classList.remove('active'));
+  const view = document.getElementById('group-view-'+pane);
+  if(view) view.classList.add('active');
+  renderGroupMaps();
+}
+
+function autoDiv(members){
+  // Auto-divisor = group size, minimum 1
+  return Math.max(1, members.length);
+}
+
+function buildGroupWaypointBar(containerId, pct){
+  const el = document.getElementById(containerId);
+  if(!el) return;
+  const wps = WAYPOINTS.filter(w=>w.miles>0);
+  el.style.position = 'relative';
+  const lineHTML = '<div style="position:absolute;bottom:.55rem;left:0;right:0;height:3px;background:rgba(0,0,0,.08);border-radius:2px;"></div>'
+    + '<div style="position:absolute;bottom:.55rem;left:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:2px;width:'+Math.min(100,pct)+'%;transition:width .9s;"></div>';
+  const wpHTML = [
+    {label:'Egypt',miles:0,icon:'🏺'},
+    ...wps,
+  ].map(wp=>{
+    const wpPct = wp.miles===0?0:Math.min(100,wp.miles/600*100);
+    const reached = pct >= wpPct;
+    return '<div style="position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:4px;">'
+      +'<div style="font-size:.9rem;">'+wp.icon+'</div>'
+      +'<div style="width:10px;height:10px;border-radius:50%;border:2px solid '+(reached?'var(--gold)':'rgba(0,0,0,.15)')+';background:'+(reached?'var(--gold)':'white')+';"></div>'
+      +'<div style="font-family:\'Cinzel\',serif;font-size:.45rem;color:var(--ink-soft);text-align:center;max-width:32px;line-height:1.2;">'+(wp.label||'').replace('\n',' ')+'</div>'
+      +'</div>';
+  }).join('');
+  el.innerHTML = lineHTML
+    + '<div style="display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:1.5rem;">'
+    + wpHTML + '</div>';
+}
+
+function renderGroupMaps(){
+  const d = db();
+  const entries = d.entries||[];
+  const score = u => entries.filter(e=>e.userId===u.id).reduce((s,e)=>s+e.miles,0);
+
+  // ── YOUTH MAP (existing logic, refreshed) ─────────────────────────────────
+  const youthUsers = (d.users||[]).filter(u=>!u.isLeader&&!u.isVisitor&&!u.isPrimary);
+  const yDiv = parseInt(CACHE.appConfig?.groupDivisor||'35');
+  const yRaw = entries.filter(e=>youthUsers.find(u=>u.id===e.userId)).reduce((s,e)=>s+e.miles,0);
+  const gMiles = (d.groupMiles||[]).reduce((s,e)=>s+e.miles,0);
+  const yTotal = Math.round(yRaw/yDiv + gMiles);
+  const yPct = Math.min(100, yTotal/600*100);
+  const yParticipating = youthUsers.filter(u=>entries.some(e=>e.userId===u.id)).length;
+  const yComplete = youthUsers.filter(u=>score(u)>=600).length;
+
+  const gtd=document.getElementById('groupTotalDisp'); if(gtd) gtd.textContent=yTotal+' miles';
+  const gmd=document.getElementById('groupMilesDisp'); if(gmd) gmd.textContent=yTotal;
+  const gpb=document.getElementById('groupProgressBar'); if(gpb) gpb.style.width=Math.min(100,yPct)+'%';
+  const gp=document.getElementById('groupParticipants'); if(gp) gp.textContent=yParticipating;
+  const gc=document.getElementById('groupCompletions'); if(gc) gc.textContent=yComplete;
+  const gpct=document.getElementById('groupPct'); if(gpct) gpct.textContent=Math.round(yPct)+'%';
+  const gs=document.getElementById('groupMapSub');
+  if(gs){
+    const nextWP=WAYPOINTS.find(w=>yTotal<w.miles);
+    gs.textContent=nextWP?'Next waypoint: '+nextWP.label.replace('\n',' ')+' at '+nextWP.miles+' miles':'Jerusalem reached!';
+  }
+  buildGroupWaypointBar('waypointsContainer', yPct);
+
+  // ── ADULTS MAP ────────────────────────────────────────────────────────────
+  const adultUsers = (d.users||[]).filter(u=>!u.isVisitor&&!u.isPrimary&&(u.isLeader||u.group==='Adult'));
+  const aDiv = parseInt(CACHE.appConfig?.adultsDivisor||'10');
+  const aRaw = entries.filter(e=>adultUsers.find(u=>u.id===e.userId)).reduce((s,e)=>s+e.miles,0);
+  const aTotal = Math.round(aRaw/aDiv);
+  const aPct = Math.min(100, aTotal/600*100);
+  const aComplete = adultUsers.filter(u=>score(u)>=600).length;
+
+  const atd=document.getElementById('adultsGroupTotal'); if(atd) atd.textContent=aTotal+' miles';
+  const am=document.getElementById('adultsMiles'); if(am) am.textContent=aTotal;
+  const ac=document.getElementById('adultsCount'); if(ac) ac.textContent=adultUsers.length;
+  const acp=document.getElementById('adultsComplete'); if(acp) acp.textContent=aComplete;
+  const ap=document.getElementById('adultsPct'); if(ap) ap.textContent=Math.round(aPct)+'%';
+  const apb=document.getElementById('adultsProgressBar'); if(apb) apb.style.width=Math.min(100,aPct)+'%';
+  const as=document.getElementById('adultsGroupSub');
+  if(as){const nw=WAYPOINTS.find(w=>aTotal<w.miles);as.textContent=nw?'Next: '+nw.label.replace('\n',' ')+' at '+nw.miles+' miles':'Jerusalem reached!';}
+  buildGroupWaypointBar('adultsWaypointsContainer', aPct);
+
+  // ── PRIMARY MAP ───────────────────────────────────────────────────────────
+  const primaryUsers = (d.users||[]).filter(u=>u.isPrimary);
+  const pDiv = parseInt(CACHE.appConfig?.primaryDivisor||'10');
+  const pRaw = entries.filter(e=>primaryUsers.find(u=>u.id===e.userId)).reduce((s,e)=>s+e.miles,0);
+  const pTotal = Math.round(pRaw/pDiv);
+  const pPct = Math.min(100, pTotal/600*100);
+  const pComplete = primaryUsers.filter(u=>score(u)>=600).length;
+
+  const ptd=document.getElementById('primaryGroupTotal'); if(ptd) ptd.textContent=pTotal+' miles';
+  const pm=document.getElementById('primaryMiles'); if(pm) pm.textContent=pTotal;
+  const pmc=document.getElementById('primaryCount'); if(pmc) pmc.textContent=primaryUsers.length;
+  const pcp=document.getElementById('primaryComplete'); if(pcp) pcp.textContent=pComplete;
+  const pp=document.getElementById('primaryPct'); if(pp) pp.textContent=Math.round(pPct)+'%';
+  const ppb=document.getElementById('primaryProgressBar'); if(ppb) ppb.style.width=Math.min(100,pPct)+'%';
+  const ps=document.getElementById('primaryGroupSub');
+  if(ps){const nw=WAYPOINTS.find(w=>pTotal<w.miles);ps.textContent=nw?'Next: '+nw.label.replace('\n',' ')+' at '+nw.miles+' miles':'Jerusalem reached!';}
+  buildGroupWaypointBar('primaryWaypointsContainer', pPct);
+}
 
 function exportCSV(){
   const d=db();const headers=['Name','Group','Category','Description','Miles','Month','Date','Custom'];
@@ -6543,7 +6886,7 @@ buildStars();
 <div id="partnerModal" onclick="closePartnerModal(event)">
   <div class="partner-modal-card">
     <div class="partner-modal-header">
-      <div class="partner-modal-title">&#x1F91D; Send a Partner Challenge</div>
+      <div class="partner-modal-title" id="partnerModalTitle">&#x1F91D; Partner with</div>
       <div class="partner-modal-sub">Choose an activity &mdash; both complete it within 7 days</div>
     </div>
     <div class="partner-modal-body">
