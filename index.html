@@ -3339,7 +3339,7 @@ function renderLeaderboard(){
   };
   const catScore = (u,cat) => d.entries.filter(e=>e.userId===u.id&&e.cat===cat).reduce((s,e)=>s+e.miles,0);
 
-  const allUsers = d.users||[];
+  const allUsers = (d.users||[]).filter(u=>!u.isVisitor);
   const ym  = allUsers.filter(u=>!u.isLeader&&u.group==='Young Men').map(u=>({...u,miles:score(u)})).sort((a,b)=>b.miles-a.miles);
   const yw  = allUsers.filter(u=>!u.isLeader&&u.group==='Young Women').map(u=>({...u,miles:score(u)})).sort((a,b)=>b.miles-a.miles);
   const ldr = allUsers.filter(u=>u.isLeader).map(u=>({...u,miles:score(u)})).sort((a,b)=>b.miles-a.miles);
@@ -5372,20 +5372,36 @@ function renderStreakLeaderboard(){
     return userEntries.some(e=>e.ts>=start&&e.ts<=end);
   }
   function userStreak(user){
-    const entries=d.entries.filter(e=>e.userId===user.id&&e.ts);
-    // Also check month-keyed entries (no ts) — count current month as active today
-    const noTsEntries=d.entries.filter(e=>e.userId===user.id&&!e.ts);
-    const today=getDayStampFor(0);
-    let streak=0; let graceUsed=false;
+    // Uses same logic as calcDailyStreak but for any user
+    // Build active-day set for this user
+    const userEntries=d.entries.filter(e=>e.userId===user.id);
+    const activeDays=new Set();
     for(let i=0;i<60;i++){
-      const ds=getDayStampFor(i);
-      let active=wasActiveForUser(user.id,ds,entries);
-      // Fallback: if no ts entries at all but has entries this month, count today as active
-      if(!active&&i===0&&noTsEntries.some(e=>e.month===getCurrentMonth())) active=true;
-      if(i===0&&!active) continue; // don't penalize for today not yet logged
-      if(active){streak++;graceUsed=false;}
-      else if(!graceUsed){graceUsed=true;} // one grace day
-      else break;
+      const ds=getDayStampOffset(i);
+      const startOfDay=new Date(
+        Math.floor(ds/10000),Math.floor((ds%10000)/100)-1,ds%100
+      ).getTime();
+      const endOfDay=startOfDay+86399999;
+      const active=userEntries.some(e=>e.ts>=startOfDay&&e.ts<=endOfDay);
+      if(active) activeDays.add(ds);
+    }
+    // Walk backward with weekly-grace rule (matches calcDailyStreak exactly)
+    let streak=0,graceUsedThisWeek=false,consecutiveMisses=0;
+    for(let i=0;i<60;i++){
+      const day=getDayStampOffset(i);
+      const isActive=activeDays.has(day);
+      if(i>0&&i%7===0) graceUsedThisWeek=false;
+      if(isActive){
+        streak++;consecutiveMisses=0;
+      } else {
+        if(i===0) continue; // today not yet logged — don't penalize
+        consecutiveMisses++;
+        if(consecutiveMisses===1&&!graceUsedThisWeek){
+          graceUsedThisWeek=true; // use grace, keep counting
+        } else {
+          break; // two consecutive misses or grace used — streak broken
+        }
+      }
     }
     return streak;
   }
