@@ -936,6 +936,32 @@ textarea.form-input{min-height:72px;resize:vertical;}
 .partner-replay-chip{display:inline-flex;align-items:center;gap:.35rem;background:rgba(42,122,110,.08);border:1.5px solid var(--teal);border-radius:20px;padding:.25rem .75rem;font-family:'Inter',sans-serif;font-size:.68rem;color:var(--teal);cursor:pointer;margin:.25rem .2rem;transition:all .15s;}
 .partner-replay-chip:hover{background:var(--teal);color:white;}
 .replay-section-label{font-family:'Cinzel',serif;font-size:.82rem;color:var(--navy);margin:.75rem 0 .35rem;}
+
+/* ══ LEADER INTELLIGENCE TAB ══ */
+.intel-section{margin-bottom:1.25rem;}
+.intel-section-title{font-family:'Cinzel',serif;font-size:.9rem;color:var(--navy);margin-bottom:.6rem;display:flex;align-items:center;gap:.5rem;}
+.intel-card{background:white;border:1px solid var(--sand-dark);border-radius:8px;overflow:hidden;margin-bottom:.5rem;}
+.intel-card-header{display:flex;align-items:center;justify-content:space-between;padding:.6rem .9rem;border-bottom:1px solid var(--sand-dark);}
+.intel-card-name{font-family:'Cinzel',serif;font-size:.82rem;color:var(--navy);}
+.intel-card-meta{font-family:'Inter',sans-serif;font-size:.65rem;color:var(--ink-soft);}
+.intel-card-body{padding:.5rem .9rem;}
+.intel-action{font-family:'Crimson Pro',serif;font-style:italic;font-size:.82rem;color:var(--teal);line-height:1.4;}
+.intel-action::before{content:'→ ';}
+.intel-pill{display:inline-block;font-family:'Inter',sans-serif;font-size:.6rem;padding:.15rem .5rem;border-radius:20px;font-weight:600;margin-left:.4rem;}
+.intel-pill.danger{background:rgba(220,50,50,.1);color:#c03030;}
+.intel-pill.warn{background:rgba(200,146,42,.15);color:#9a6010;}
+.intel-pill.good{background:rgba(42,122,110,.12);color:var(--teal);}
+.intel-pill.info{background:rgba(42,80,128,.1);color:var(--navy);}
+.intel-stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-bottom:.75rem;}
+.intel-stat{background:var(--sand);border-radius:6px;padding:.5rem .6rem;text-align:center;}
+.intel-stat-num{font-family:'Cinzel',serif;font-size:1.1rem;color:var(--navy);}
+.intel-stat-label{font-family:'Inter',sans-serif;font-size:.55rem;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em;margin-top:.1rem;}
+.intel-pace-bar{height:8px;background:var(--sand-dark);border-radius:10px;overflow:hidden;margin:.4rem 0;}
+.intel-pace-fill{height:100%;border-radius:10px;transition:width .6s ease;}
+.intel-empty{font-family:'Crimson Pro',serif;font-style:italic;font-size:.88rem;color:var(--ink-soft);padding:.5rem 0;text-align:center;}
+.intel-sub-tabs{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:1rem;}
+.intel-sub-tab{padding:.3rem .85rem;border:1.5px solid var(--sand-dark);border-radius:20px;background:white;cursor:pointer;font-family:'Inter',sans-serif;font-size:.7rem;color:var(--ink-soft);transition:all .15s;}
+.intel-sub-tab.active{background:var(--navy);border-color:var(--navy);color:white;}
 </style>
 </head>
 <body>
@@ -1309,6 +1335,14 @@ textarea.form-input{min-height:72px;resize:vertical;}
     <div id="tab-admin" class="tab-content">
       <div class="section-heading">Leader Dashboard</div>
       <div class="section-sub">Ward overview, group miles, shoutouts, and entry management</div>
+      <div class="intel-sub-tabs" id="adminSubTabs">
+        <button class="intel-sub-tab active" onclick="switchAdminPane('overview',this)">&#x1F4CA; Overview</button>
+        <button class="intel-sub-tab" onclick="switchAdminPane('intel',this)">&#x1F9E0; Intelligence</button>
+      </div>
+      <div id="adminPaneIntel" style="display:none;">
+        <div id="intelContent"></div>
+      </div>
+      <div id="adminPaneOverview">
       <div class="card neutral">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;">
           <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);">📊 Ward Overview</strong>
@@ -5894,6 +5928,263 @@ function renderStreakMilestoneChips(){
     +earned.map(m=>'<span class="streak-milestone-chip" onclick="replayStreakMilestone('+m+')">'
       +'\u{1F525} '+labels[m]+' \u25BA Relive</span>').join('');
 }
+
+// ══════════════════════════════════════════════════
+//  LEADER INTELLIGENCE TAB
+// ══════════════════════════════════════════════════
+
+let _adminPane = 'overview';
+
+function switchAdminPane(pane, btn){
+  _adminPane = pane;
+  document.querySelectorAll('.intel-sub-tab').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  const overview = document.getElementById('adminPaneOverview');
+  const intel    = document.getElementById('adminPaneIntel');
+  if(overview) overview.style.display = pane==='overview' ? 'block' : 'none';
+  if(intel)    intel.style.display    = pane==='intel'    ? 'block' : 'none';
+  if(pane==='intel') renderLeaderIntel();
+}
+
+function renderLeaderIntel(){
+  const el = document.getElementById('intelContent');
+  if(!el || !currentUser) return;
+  const d = db();
+  const now = Date.now();
+  const today = new Date();
+  const curMonth = getCurrentMonth();
+  const challenge = MONTHLY_CHALLENGES[curMonth];
+
+  // Only non-visitor non-leader youth + adults for most metrics
+  const youth  = (d.users||[]).filter(u=>!u.isLeader&&!u.isVisitor);
+  const allActive = (d.users||[]).filter(u=>!u.isVisitor);
+  const score  = u => (d.entries||[]).filter(e=>e.userId===u.id).reduce((s,e)=>s+e.miles,0);
+  const monthScore = (u,m) => (d.entries||[]).filter(e=>e.userId===u.id&&e.month===m).reduce((s,e)=>s+e.miles,0);
+  const lastEntry  = u => {
+    const ents = (d.entries||[]).filter(e=>e.userId===u.id&&e.ts);
+    return ents.length ? Math.max(...ents.map(e=>e.ts)) : 0;
+  };
+
+  // ── 1. AT-RISK WALKERS ─────────────────────────────────────────────────────
+  const sevenDaysAgo = now - 7*24*60*60*1000;
+  const atRisk = allActive.map(u=>({...u, last:lastEntry(u), total:score(u)}))
+    .filter(u=>u.last < sevenDaysAgo || u.last===0)
+    .sort((a,b)=>a.last-b.last);
+
+  // Behind pace: need 60mi/month, check current month
+  const monthIdx = MONTHS.indexOf(curMonth);
+  const daysInMonth = new Date(today.getFullYear(), today.getMonth()+1, 0).getDate();
+  const dayOfMonth  = today.getDate();
+  const pacePct = dayOfMonth/daysInMonth;
+  const expectedByNow = Math.round(60 * pacePct);
+  const behindPace = allActive.map(u=>({...u, monthMi:monthScore(u,curMonth)}))
+    .filter(u=>u.monthMi < expectedByNow * 0.6 && u.monthMi < 55)
+    .sort((a,b)=>a.monthMi-b.monthMi);
+
+  // ── 2. MILESTONE PROXIMITY ─────────────────────────────────────────────────
+  const nonJerusalem = WAYPOINTS.filter(w=>w.miles>0);
+  const closeToMilestone = allActive.map(u=>{
+    const tot = score(u);
+    const next = nonJerusalem.find(w=>tot<w.miles);
+    if(!next) return null;
+    const gap = next.miles - tot;
+    return gap<=20 ? {...u, total:tot, nextWp:next, gap} : null;
+  }).filter(Boolean).sort((a,b)=>a.gap-b.gap);
+
+  // ── 3. WARD PACE TRACKER ───────────────────────────────────────────────────
+  const endDate   = new Date(today.getFullYear(), 10, 30); // Nov 30
+  const startDate = new Date(today.getFullYear(), 1, 1);   // Feb 1
+  const totalDays = Math.round((endDate-startDate)/86400000);
+  const elapsedDays = Math.round((today-startDate)/86400000);
+  const wardTotal = (() => {
+    const y = youth;
+    const divisor = getDivisor();
+    const raw = (d.entries||[]).filter(e=>y.find(u=>u.id===e.userId)).reduce((s,e)=>s+e.miles,0);
+    const gm  = (d.groupMiles||[]).reduce((s,e)=>s+e.miles,0);
+    return Math.round(raw/divisor + gm);
+  })();
+  const wardPct    = Math.min(100, Math.round(wardTotal/600*100));
+  const timePct    = Math.min(100, Math.round(elapsedDays/totalDays*100));
+  const daysLeft   = Math.max(0, Math.round((endDate-today)/86400000));
+  const milesLeft  = Math.max(0, 600-wardTotal);
+  const miPerDay   = daysLeft>0 ? (milesLeft/daysLeft).toFixed(1) : 0;
+  const onTrack    = wardPct >= timePct - 10;
+
+  // ── 4. MONTHLY CHALLENGE COMPLETION ────────────────────────────────────────
+  const monthDaysLeft = daysInMonth - dayOfMonth;
+  const challengeCompleted = challenge ? allActive.filter(u=>{
+    const mi = monthScore(u, curMonth);
+    return mi >= (challenge.miles||30);
+  }) : [];
+  const challengeNotDone = challenge ? allActive.filter(u=>{
+    const mi = monthScore(u, curMonth);
+    return mi < (challenge.miles||30);
+  }).sort((a,b)=>monthScore(b,curMonth)-monthScore(a,curMonth)) : [];
+
+  // ── 5. ENGAGEMENT PATTERNS ─────────────────────────────────────────────────
+  const dayNames = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const dayCounts = new Array(7).fill(0);
+  (d.entries||[]).filter(e=>e.ts).forEach(e=>{
+    dayCounts[new Date(e.ts).getDay()]++;
+  });
+  const peakDayIdx = dayCounts.indexOf(Math.max(...dayCounts));
+  const peakDay    = dayNames[peakDayIdx];
+  const activeStreakCount = allActive.filter(u=>{
+    const last = lastEntry(u);
+    return last > now - 2*24*60*60*1000;
+  }).length;
+  const streakHealth = Math.round(activeStreakCount/Math.max(allActive.length,1)*100);
+  const avgMilesPerUser = allActive.length ? Math.round(
+    allActive.reduce((s,u)=>s+score(u),0)/allActive.length
+  ) : 0;
+  const zeroThisMonth = allActive.filter(u=>monthScore(u,curMonth)===0).length;
+
+  // ── BUILD HTML ─────────────────────────────────────────────────────────────
+  const paceColor = onTrack ? 'var(--teal)' : wardPct >= timePct-20 ? 'var(--gold)' : '#c03030';
+  const paceLabel = onTrack ? 'On Track ✓' : wardPct >= timePct-20 ? 'Slightly Behind' : 'Behind Pace';
+  const paceClass = onTrack ? 'good' : wardPct >= timePct-20 ? 'warn' : 'danger';
+
+  el.innerHTML = `
+
+    <!-- WARD PACE TRACKER -->
+    <div class="intel-section">
+      <div class="intel-section-title">&#x1F4CD; Ward Pace to Jerusalem
+        <span class="intel-pill ${paceClass}">${paceLabel}</span>
+      </div>
+      <div class="card neutral" style="padding:.85rem 1rem;">
+        <div class="intel-stat-row">
+          <div class="intel-stat"><div class="intel-stat-num">${wardTotal}</div><div class="intel-stat-label">Ward Miles</div></div>
+          <div class="intel-stat"><div class="intel-stat-num">${wardPct}%</div><div class="intel-stat-label">Complete</div></div>
+          <div class="intel-stat"><div class="intel-stat-num">${daysLeft}</div><div class="intel-stat-label">Days Left</div></div>
+        </div>
+        <div style="font-family:'Inter',sans-serif;font-size:.68rem;color:var(--ink-soft);margin-bottom:.3rem;">
+          Ward progress vs time elapsed
+        </div>
+        <div class="intel-pace-bar">
+          <div class="intel-pace-fill" style="width:${wardPct}%;background:${paceColor};"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-family:'Inter',sans-serif;font-size:.62rem;color:var(--ink-soft);">
+          <span>&#x23F1; Time: ${timePct}% elapsed</span>
+          <span>${miPerDay} mi/day needed</span>
+        </div>
+        <div class="intel-action" style="margin-top:.5rem;">
+          ${onTrack
+            ? 'Ward is on pace — keep the momentum going with a shoutout this Sunday.'
+            : 'Ward needs '+milesLeft+' more miles in '+daysLeft+' days. Consider a group challenge or shoutout push.'}
+        </div>
+      </div>
+    </div>
+
+    <!-- AT-RISK WALKERS -->
+    <div class="intel-section">
+      <div class="intel-section-title">&#x26A0; At-Risk Walkers
+        <span class="intel-pill ${atRisk.length>0?'danger':'good'}">${atRisk.length} members</span>
+      </div>
+      ${atRisk.length===0
+        ? '<div class="intel-empty">Everyone has logged recently — great engagement!</div>'
+        : atRisk.slice(0,8).map(u=>{
+            const daysAgo = u.last===0 ? 'Never logged' : Math.round((now-u.last)/86400000)+' days ago';
+            const badge = u.last===0 ? 'danger' : (now-u.last)>14*86400000 ? 'danger' : 'warn';
+            return `<div class="intel-card">
+              <div class="intel-card-header">
+                <span class="intel-card-name">${u.name} <span class="intel-pill ${badge}">${daysAgo}</span></span>
+                <span class="intel-card-meta">${u.group} &middot; ${u.total} mi total</span>
+              </div>
+              <div class="intel-card-body">
+                <div class="intel-action">Send ${u.name.split(' ')[0]} a personal text or shoutout — they may need encouragement.</div>
+              </div>
+            </div>`;
+          }).join('')
+      }
+    </div>
+
+    <!-- MILESTONE PROXIMITY -->
+    <div class="intel-section">
+      <div class="intel-section-title">&#x1F3AF; Close to a Milestone
+        <span class="intel-pill info">${closeToMilestone.length} members</span>
+      </div>
+      ${closeToMilestone.length===0
+        ? '<div class="intel-empty">No one is within 20 miles of a waypoint right now.</div>'
+        : closeToMilestone.slice(0,8).map(u=>
+            `<div class="intel-card">
+              <div class="intel-card-header">
+                <span class="intel-card-name">${u.name} <span class="intel-pill info">${u.gap} mi away</span></span>
+                <span class="intel-card-meta">${u.nextWp.icon} ${u.nextWp.label.replace('\n',' ')} &mdash; ${u.nextWp.miles} mi</span>
+              </div>
+              <div class="intel-card-body">
+                <div class="intel-action">Post a shoutout for ${u.name.split(' ')[0]} — they are just ${u.gap} miles from ${u.nextWp.label.replace('\n',' ')}!</div>
+              </div>
+            </div>`
+          ).join('')
+      }
+    </div>
+
+    <!-- MONTHLY CHALLENGE -->
+    <div class="intel-section">
+      <div class="intel-section-title">&#x1F4C5; ${curMonth} Challenge: ${challenge?challenge.title:'N/A'}
+        <span class="intel-pill ${challengeNotDone.length===0?'good':challengeNotDone.length<5?'warn':'danger'}">${challengeCompleted.length}/${allActive.length} done</span>
+      </div>
+      ${challenge ? `
+      <div class="card neutral" style="padding:.75rem 1rem;margin-bottom:.5rem;">
+        <div style="font-family:'Inter',sans-serif;font-size:.68rem;color:var(--ink-soft);margin-bottom:.3rem;">${monthDaysLeft} days left this month &middot; Goal: ${challenge.miles} miles in ${curMonth}</div>
+        <div class="intel-pace-bar">
+          <div class="intel-pace-fill" style="width:${Math.round(challengeCompleted.length/Math.max(allActive.length,1)*100)}%;background:var(--teal);"></div>
+        </div>
+        <div class="intel-action">
+          ${challengeNotDone.length===0
+            ? 'Everyone has completed the '+curMonth+' challenge — celebrate this Sunday!'
+            : challengeNotDone.length+' member'+(challengeNotDone.length>1?'s':'')+' still need to finish. '+(monthDaysLeft<=7?'Final week — time to encourage them.':'Plenty of time — a mid-month shoutout could help.')}
+        </div>
+      </div>
+      ${challengeNotDone.length>0 ? '<div style="font-family:\'Inter\',sans-serif;font-size:.65rem;color:var(--ink-soft);margin-bottom:.35rem;">Still needs completion:</div>'
+        + challengeNotDone.slice(0,6).map(u=>`<span style="display:inline-block;background:var(--sand);border-radius:20px;padding:.15rem .6rem;font-family:'Inter',sans-serif;font-size:.68rem;margin:.15rem;">${u.name.split(' ')[0]} (${monthScore(u,curMonth)} mi)</span>`).join('')
+        : ''}
+      ` : '<div class="intel-empty">No challenge defined for this month.</div>'}
+    </div>
+
+    <!-- ENGAGEMENT PATTERNS -->
+    <div class="intel-section">
+      <div class="intel-section-title">&#x1F4CA; Engagement Patterns</div>
+      <div class="card neutral" style="padding:.85rem 1rem;">
+        <div class="intel-stat-row">
+          <div class="intel-stat"><div class="intel-stat-num">${streakHealth}%</div><div class="intel-stat-label">Active This Week</div></div>
+          <div class="intel-stat"><div class="intel-stat-num">${avgMilesPerUser}</div><div class="intel-stat-label">Avg Miles/Member</div></div>
+          <div class="intel-stat"><div class="intel-stat-num">${zeroThisMonth}</div><div class="intel-stat-label">Zero This Month</div></div>
+        </div>
+        <div style="font-family:'Inter',sans-serif;font-size:.72rem;color:var(--ink-soft);margin-bottom:.3rem;">
+          Most active day of week: <strong style="color:var(--navy);">${peakDay}</strong>
+          &nbsp;&middot;&nbsp; ${activeStreakCount} of ${allActive.length} members active in last 48 hrs
+        </div>
+        <div class="intel-action">
+          ${zeroThisMonth>0
+            ? zeroThisMonth+' member'+(zeroThisMonth>1?'s have':' has')+' not logged anything this month. Consider reaching out before the month ends.'
+            : streakHealth>=70
+              ? 'Strong engagement — '+streakHealth+'% of members are active. Keep it up!'
+              : 'Engagement is below 70%. A Sunday announcement or group shoutout on '+peakDay+' could help.'}
+        </div>
+      </div>
+    </div>
+
+    <!-- BEHIND PACE THIS MONTH -->
+    ${behindPace.length>0 ? `
+    <div class="intel-section">
+      <div class="intel-section-title">&#x1F422; Behind Monthly Pace
+        <span class="intel-pill warn">${behindPace.length} members</span>
+      </div>
+      ${behindPace.slice(0,6).map(u=>`<div class="intel-card">
+        <div class="intel-card-header">
+          <span class="intel-card-name">${u.name}</span>
+          <span class="intel-card-meta">${monthScore(u,curMonth)} of ~${expectedByNow} expected mi</span>
+        </div>
+        <div class="intel-card-body">
+          <div class="intel-action">Encourage ${u.name.split(' ')[0]} — they need about ${expectedByNow - monthScore(u,curMonth)} more miles to be on pace.</div>
+        </div>
+      </div>`).join('')}
+    </div>` : ''}
+
+  `;
+}
+
 function exportCSV(){
   const d=db();const headers=['Name','Group','Category','Description','Miles','Month','Date','Custom'];
   const rows=d.entries.map(e=>{const u=d.users.find(u=>u.id===e.userId)||{};return[u.name||e.userName,u.group||'',e.cat,'"'+e.desc.replace(/"/g,'""')+'"',e.miles,e.month,new Date(e.ts).toLocaleDateString(),e.custom?'Yes':'No'].join(',');});
