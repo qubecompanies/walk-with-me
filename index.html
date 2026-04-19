@@ -6008,9 +6008,11 @@ function switchAdminPane(pane, btn){
 // ──────────────────────────────────────────────────────────────────────────────
 //  LEADER INTELLIGENCE — Mix A+C redesign with Chart.js
 // ──────────────────────────────────────────────────────────────────────────────
-let _intelCharts = {};
-let _intelOpen   = {}; // track open sections
-let _intelData   = null; // cached for accordion re-renders
+let _intelCharts      = {};
+let _intelOpen        = {};
+let _intelData        = null;
+let _intelGroupFilter = 'all';   // all | youth | leaders
+let _intelZeroFilter  = 'none';  // none | never | month
 
 function toggleIntelSection(id){
   const body = document.getElementById('intel-body-'+id);
@@ -6028,6 +6030,23 @@ function toggleIntelSection(id){
   }
 }
 
+
+function setIntelGroupFilter(val){
+  _intelGroupFilter=val;
+  renderLeaderIntel();
+}
+function setIntelZeroFilter(val){
+  _intelZeroFilter=val;
+  renderLeaderIntel();
+}
+function applyIntelFilters(users, scoreF, monthScoreF, curMonth){
+  let f=[...users];
+  if(_intelGroupFilter==='youth')   f=f.filter(u=>!u.isLeader);
+  else if(_intelGroupFilter==='leaders') f=f.filter(u=>u.isLeader);
+  if(_intelZeroFilter==='never')  f=f.filter(u=>scoreF(u)>0);
+  else if(_intelZeroFilter==='month') f=f.filter(u=>monthScoreF(u,curMonth)>0);
+  return f;
+}
 function renderLeaderIntel(){
   const el = document.getElementById('intelContent');
   if(!el || !currentUser) return;
@@ -6037,8 +6056,12 @@ function renderLeaderIntel(){
   const today = new Date();
   const curMonth = getCurrentMonth();
   const challenge = MONTHLY_CHALLENGES[curMonth];
-  const youth  = (d.users||[]).filter(u=>!u.isLeader&&!u.isVisitor);
-  const allActive = (d.users||[]).filter(u=>!u.isVisitor);
+  // Base pools — always unfiltered for ward-total calculation
+  const wardYouth  = (d.users||[]).filter(u=>!u.isLeader&&!u.isVisitor);
+  const baseActive = (d.users||[]).filter(u=>!u.isVisitor);
+  // Apply group + zero-use filters to analytics pools
+  const allActive  = applyIntelFilters(baseActive, score, monthScore, curMonth);
+  const youth      = allActive.filter(u=>!u.isLeader);
   const score  = u=>(d.entries||[]).filter(e=>e.userId===u.id).reduce((s,e)=>s+e.miles,0);
   const monthScore=(u,m)=>(d.entries||[]).filter(e=>e.userId===u.id&&e.month===m).reduce((s,e)=>s+e.miles,0);
   const lastTs = u=>{const ents=(d.entries||[]).filter(e=>e.userId===u.id&&e.ts);return ents.length?Math.max(...ents.map(e=>e.ts)):0;};
@@ -6046,7 +6069,7 @@ function renderLeaderIntel(){
   // Ward total (scaled)
   const wardTotal=(()=>{
     const divisor=getDivisor();
-    const raw=(d.entries||[]).filter(e=>youth.find(u=>u.id===e.userId)).reduce((s,e)=>s+e.miles,0);
+    const raw=(d.entries||[]).filter(e=>wardYouth.find(u=>u.id===e.userId)).reduce((s,e)=>s+e.miles,0);
     return Math.round(raw/divisor+(d.groupMiles||[]).reduce((s,e)=>s+e.miles,0));
   })();
 
@@ -6113,9 +6136,23 @@ function renderLeaderIntel(){
 
   el.innerHTML=`
 
+    <!-- FILTER BAR -->
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;background:#f8f5ef;border-radius:8px;padding:.6rem .85rem;margin-bottom:10px;">
+      <div style="display:flex;gap:.35rem;">
+        <button class="admin-toggle-tab ${_intelGroupFilter==='all'?'active':''}" onclick="setIntelGroupFilter('all')">All</button>
+        <button class="admin-toggle-tab ${_intelGroupFilter==='youth'?'active':''}" onclick="setIntelGroupFilter('youth')">Youth</button>
+        <button class="admin-toggle-tab ${_intelGroupFilter==='leaders'?'active':''}" onclick="setIntelGroupFilter('leaders')">Leaders</button>
+      </div>
+      <div style="display:flex;gap:.35rem;flex-wrap:wrap;">
+        <button class="admin-toggle-tab ${_intelZeroFilter==='none'?'active':''}" style="${_intelZeroFilter==='none'?'':'background:white;'}" onclick="setIntelZeroFilter('none')">Show all</button>
+        <button class="admin-toggle-tab ${_intelZeroFilter==='never'?'active':''}" style="${_intelZeroFilter==='never'?'':'background:white;color:#2a7a6e;border-color:#2a7a6e;'}" onclick="setIntelZeroFilter('never')">Excl. never-used</button>
+        <button class="admin-toggle-tab ${_intelZeroFilter==='month'?'active':''}" style="${_intelZeroFilter==='month'?'':'background:white;color:#2a7a6e;border-color:#2a7a6e;'}" onclick="setIntelZeroFilter('month')">Excl. zero this month</button>
+      </div>
+    </div>
+
     <!-- DARK COMMAND HEADER -->
     <div class="intel-dark-header">
-      <div class="intel-dark-eyebrow">✦ LEADER INTELLIGENCE — ${curMonth.toUpperCase()} ${today.getFullYear()}</div>
+      <div class="intel-dark-eyebrow">✦ LEADER INTELLIGENCE — ${curMonth.toUpperCase()} ${today.getFullYear()} &nbsp;·&nbsp; ${ _intelGroupFilter==='all'?'All members':_intelGroupFilter==='youth'?'Youth only':'Leaders only' }${_intelZeroFilter!=='none'?' · '+(_intelZeroFilter==='never'?'Excl. never-used':'Excl. zero this month'):''}</div>
       <div class="intel-kpi-grid">
         <div class="intel-kpi"><div class="intel-kpi-num">${wardTotal}</div><div class="intel-kpi-lbl">Ward miles</div></div>
         <div class="intel-kpi"><div class="intel-kpi-num">${wardPct}%</div><div class="intel-kpi-lbl">Complete</div></div>
