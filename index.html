@@ -962,6 +962,65 @@ textarea.form-input{min-height:72px;resize:vertical;}
 .intel-sub-tabs{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:1rem;}
 .intel-sub-tab{padding:.3rem .85rem;border:1.5px solid var(--sand-dark);border-radius:20px;background:white;cursor:pointer;font-family:'Inter',sans-serif;font-size:.7rem;color:var(--ink-soft);transition:all .15s;}
 .intel-sub-tab.active{background:var(--navy);border-color:var(--navy);color:white;}
+
+/* ══ INTEL TAB — MIX A+C REDESIGN ══ */
+.intel-dark-header{background:#0f2540;border-radius:10px;padding:14px 16px;margin-bottom:12px;}
+.intel-dark-eyebrow{font-family:'Inter',sans-serif;font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(200,146,42,.85);margin-bottom:10px;}
+.intel-kpi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px;}
+.intel-kpi{background:rgba(255,255,255,.08);border-radius:6px;padding:10px 12px;text-align:center;}
+.intel-kpi-num{font-family:'Cinzel',serif;font-size:1.3rem;color:#fff;line-height:1;}
+.intel-kpi-lbl{font-family:'Inter',sans-serif;font-size:.55rem;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.06em;margin-top:.25rem;}
+.intel-pace-track{height:6px;background:rgba(255,255,255,.1);border-radius:10px;overflow:hidden;margin:.4rem 0;}
+.intel-pace-bar-fill{height:100%;border-radius:10px;transition:width .6s ease;}
+.intel-pace-labels{display:flex;justify-content:space-between;font-family:'Inter',sans-serif;font-size:.58rem;color:rgba(255,255,255,.4);}
+.intel-acc{border-radius:8px;overflow:hidden;margin-bottom:8px;border-left:3px solid;}
+.intel-acc-hdr{display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;transition:opacity .15s;}
+.intel-acc-hdr:hover{opacity:.85;}
+.intel-acc-icon{font-size:16px;flex-shrink:0;}
+.intel-acc-titles{flex:1;}
+.intel-acc-name{font-size:13px;font-weight:500;}
+.intel-acc-meta{font-size:11px;margin-top:1px;}
+.intel-acc-badge{font-size:10px;font-weight:600;padding:2px 9px;border-radius:20px;flex-shrink:0;}
+.intel-acc-chevron{font-size:10px;flex-shrink:0;transition:transform .2s;}
+.intel-acc-chevron.open{transform:rotate(180deg);}
+.intel-acc-body{padding:12px 14px;border-top:1px solid rgba(0,0,0,.06);display:none;}
+.intel-acc-body.open{display:block;}
+/* Color variants */
+.intel-acc-red{background:#FCEBEB;border-color:#E24B4A;}
+.intel-acc-red .intel-acc-name{color:#791F1F;}
+.intel-acc-red .intel-acc-meta{color:#A32D2D;}
+.intel-acc-red .intel-acc-badge{background:#F09595;color:#501313;}
+.intel-acc-amber{background:#FAEEDA;border-color:#EF9F27;}
+.intel-acc-amber .intel-acc-name{color:#633806;}
+.intel-acc-amber .intel-acc-meta{color:#854F0B;}
+.intel-acc-amber .intel-acc-badge{background:#FAC775;color:#412402;}
+.intel-acc-teal{background:#E1F5EE;border-color:#1D9E75;}
+.intel-acc-teal .intel-acc-name{color:#085041;}
+.intel-acc-teal .intel-acc-meta{color:#0F6E56;}
+.intel-acc-teal .intel-acc-badge{background:#9FE1CB;color:#04342C;}
+.intel-acc-blue{background:#E6F1FB;border-color:#378ADD;}
+.intel-acc-blue .intel-acc-name{color:#0C447C;}
+.intel-acc-blue .intel-acc-meta{color:#185FA5;}
+.intel-acc-blue .intel-acc-badge{background:#B5D4F4;color:#042C53;}
+.intel-acc-green{background:#EAF3DE;border-color:#639922;}
+.intel-acc-green .intel-acc-name{color:#27500A;}
+.intel-acc-green .intel-acc-meta{color:#3B6D11;}
+.intel-acc-green .intel-acc-badge{background:#C0DD97;color:#173404;}
+.intel-action-text{font-family:'Crimson Pro',serif;font-style:italic;font-size:.83rem;line-height:1.45;margin-top:8px;padding-top:8px;border-top:1px solid rgba(0,0,0,.07);}
+.intel-action-text::before{content:'→ ';}
+.intel-person-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(0,0,0,.06);}
+.intel-person-row:last-child{border-bottom:none;}
+.intel-person-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0;}
+.intel-person-name{font-size:13px;color:var(--ink);flex:1;}
+.intel-person-tag{font-size:10px;padding:1px 7px;border-radius:20px;flex-shrink:0;}
+.intel-chart-wrap{margin-top:10px;}
+.intel-chart-lbl{font-family:'Inter',sans-serif;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px;}
+.intel-legend{display:flex;gap:10px;flex-wrap:wrap;font-family:'Inter',sans-serif;font-size:.62rem;color:var(--ink-soft);margin-top:6px;}
+.intel-legend-dot{width:9px;height:9px;border-radius:2px;flex-shrink:0;}
+.intel-sparkline-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;}
+.intel-spark-card{background:white;border:.5px solid var(--sand-dark);border-radius:6px;padding:8px 10px;}
+.intel-spark-name{font-family:'Cinzel',serif;font-size:.72rem;color:var(--navy);}
+.intel-spark-mi{font-family:'Inter',sans-serif;font-size:.6rem;color:var(--ink-soft);margin-bottom:6px;}
 </style>
 </head>
 <body>
@@ -5946,244 +6005,406 @@ function switchAdminPane(pane, btn){
   if(pane==='intel') renderLeaderIntel();
 }
 
+// ──────────────────────────────────────────────────────────────────────────────
+//  LEADER INTELLIGENCE — Mix A+C redesign with Chart.js
+// ──────────────────────────────────────────────────────────────────────────────
+let _intelCharts = {};
+let _intelOpen   = {}; // track open sections
+
+function toggleIntelSection(id){
+  const body = document.getElementById('intel-body-'+id);
+  const chev = document.getElementById('intel-chev-'+id);
+  if(!body) return;
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  if(chev) chev.classList.toggle('open', !isOpen);
+  _intelOpen[id] = !isOpen;
+  if(!isOpen) setTimeout(()=>renderIntelCharts(), 50);
+}
+
 function renderLeaderIntel(){
   const el = document.getElementById('intelContent');
   if(!el || !currentUser) return;
-  const d = db();
+
+  const d   = db();
   const now = Date.now();
   const today = new Date();
   const curMonth = getCurrentMonth();
   const challenge = MONTHLY_CHALLENGES[curMonth];
-
-  // Only non-visitor non-leader youth + adults for most metrics
   const youth  = (d.users||[]).filter(u=>!u.isLeader&&!u.isVisitor);
   const allActive = (d.users||[]).filter(u=>!u.isVisitor);
-  const score  = u => (d.entries||[]).filter(e=>e.userId===u.id).reduce((s,e)=>s+e.miles,0);
-  const monthScore = (u,m) => (d.entries||[]).filter(e=>e.userId===u.id&&e.month===m).reduce((s,e)=>s+e.miles,0);
-  const lastEntry  = u => {
-    const ents = (d.entries||[]).filter(e=>e.userId===u.id&&e.ts);
-    return ents.length ? Math.max(...ents.map(e=>e.ts)) : 0;
-  };
+  const score  = u=>(d.entries||[]).filter(e=>e.userId===u.id).reduce((s,e)=>s+e.miles,0);
+  const monthScore=(u,m)=>(d.entries||[]).filter(e=>e.userId===u.id&&e.month===m).reduce((s,e)=>s+e.miles,0);
+  const lastTs = u=>{const ents=(d.entries||[]).filter(e=>e.userId===u.id&&e.ts);return ents.length?Math.max(...ents.map(e=>e.ts)):0;};
 
-  // ── 1. AT-RISK WALKERS ─────────────────────────────────────────────────────
-  const sevenDaysAgo = now - 7*24*60*60*1000;
-  const atRisk = allActive.map(u=>({...u, last:lastEntry(u), total:score(u)}))
-    .filter(u=>u.last < sevenDaysAgo || u.last===0)
+  // Ward total (scaled)
+  const wardTotal=(()=>{
+    const divisor=getDivisor();
+    const raw=(d.entries||[]).filter(e=>youth.find(u=>u.id===e.userId)).reduce((s,e)=>s+e.miles,0);
+    return Math.round(raw/divisor+(d.groupMiles||[]).reduce((s,e)=>s+e.miles,0));
+  })();
+
+  const daysInMonth=new Date(today.getFullYear(),today.getMonth()+1,0).getDate();
+  const dayOfMonth=today.getDate();
+  const pacePct=dayOfMonth/daysInMonth;
+  const expectedByNow=Math.round(60*pacePct);
+
+  // End = Nov 30
+  const endDate=new Date(today.getFullYear(),10,30);
+  const startDate=new Date(today.getFullYear(),1,1);
+  const totalDays=Math.round((endDate-startDate)/86400000);
+  const elapsedDays=Math.round((today-startDate)/86400000);
+  const daysLeft=Math.max(0,Math.round((endDate-today)/86400000));
+  const wardPct=Math.min(100,Math.round(wardTotal/600*100));
+  const timePct=Math.min(100,Math.round(elapsedDays/totalDays*100));
+  const onTrack=wardPct>=timePct-10;
+  const miPerDay=daysLeft>0?((600-wardTotal)/daysLeft).toFixed(1):0;
+  const paceColor=onTrack?'#1D9E75':wardPct>=timePct-20?'#EF9F27':'#E24B4A';
+  const paceLabel=onTrack?'On Track':'Slightly Behind';
+
+  // At-risk
+  const sevenDaysAgo=now-7*24*60*60*1000;
+  const atRisk=allActive.map(u=>({...u,last:lastTs(u),total:score(u)}))
+    .filter(u=>u.last<sevenDaysAgo||u.last===0)
     .sort((a,b)=>a.last-b.last);
 
-  // Behind pace: need 60mi/month, check current month
-  const monthIdx = MONTHS.indexOf(curMonth);
-  const daysInMonth = new Date(today.getFullYear(), today.getMonth()+1, 0).getDate();
-  const dayOfMonth  = today.getDate();
-  const pacePct = dayOfMonth/daysInMonth;
-  const expectedByNow = Math.round(60 * pacePct);
-  const behindPace = allActive.map(u=>({...u, monthMi:monthScore(u,curMonth)}))
-    .filter(u=>u.monthMi < expectedByNow * 0.6 && u.monthMi < 55)
-    .sort((a,b)=>a.monthMi-b.monthMi);
-
-  // ── 2. MILESTONE PROXIMITY ─────────────────────────────────────────────────
-  const nonJerusalem = WAYPOINTS.filter(w=>w.miles>0);
-  const closeToMilestone = allActive.map(u=>{
-    const tot = score(u);
-    const next = nonJerusalem.find(w=>tot<w.miles);
-    if(!next) return null;
-    const gap = next.miles - tot;
-    return gap<=20 ? {...u, total:tot, nextWp:next, gap} : null;
+  // Milestone proximity
+  const nonZeroWP=WAYPOINTS.filter(w=>w.miles>0);
+  const closeTo=allActive.map(u=>{
+    const tot=score(u);
+    const next=nonZeroWP.find(w=>tot<w.miles);
+    if(!next)return null;
+    const gap=next.miles-tot;
+    return gap<=20?{...u,total:tot,nextWp:next,gap}:null;
   }).filter(Boolean).sort((a,b)=>a.gap-b.gap);
 
-  // ── 3. WARD PACE TRACKER ───────────────────────────────────────────────────
-  const endDate   = new Date(today.getFullYear(), 10, 30); // Nov 30
-  const startDate = new Date(today.getFullYear(), 1, 1);   // Feb 1
-  const totalDays = Math.round((endDate-startDate)/86400000);
-  const elapsedDays = Math.round((today-startDate)/86400000);
-  const wardTotal = (() => {
-    const y = youth;
-    const divisor = getDivisor();
-    const raw = (d.entries||[]).filter(e=>y.find(u=>u.id===e.userId)).reduce((s,e)=>s+e.miles,0);
-    const gm  = (d.groupMiles||[]).reduce((s,e)=>s+e.miles,0);
-    return Math.round(raw/divisor + gm);
-  })();
-  const wardPct    = Math.min(100, Math.round(wardTotal/600*100));
-  const timePct    = Math.min(100, Math.round(elapsedDays/totalDays*100));
-  const daysLeft   = Math.max(0, Math.round((endDate-today)/86400000));
-  const milesLeft  = Math.max(0, 600-wardTotal);
-  const miPerDay   = daysLeft>0 ? (milesLeft/daysLeft).toFixed(1) : 0;
-  const onTrack    = wardPct >= timePct - 10;
+  // Challenge completion
+  const monthDaysLeft=daysInMonth-dayOfMonth;
+  const challengeDone=challenge?allActive.filter(u=>monthScore(u,curMonth)>=(challenge.miles||30)):[];
+  const challengeNotDone=challenge?allActive.filter(u=>monthScore(u,curMonth)<(challenge.miles||30))
+    .sort((a,b)=>monthScore(b,curMonth)-monthScore(a,curMonth)):[];
+  const chalPct=Math.round(challengeDone.length/Math.max(allActive.length,1)*100);
 
-  // ── 4. MONTHLY CHALLENGE COMPLETION ────────────────────────────────────────
-  const monthDaysLeft = daysInMonth - dayOfMonth;
-  const challengeCompleted = challenge ? allActive.filter(u=>{
-    const mi = monthScore(u, curMonth);
-    return mi >= (challenge.miles||30);
-  }) : [];
-  const challengeNotDone = challenge ? allActive.filter(u=>{
-    const mi = monthScore(u, curMonth);
-    return mi < (challenge.miles||30);
-  }).sort((a,b)=>monthScore(b,curMonth)-monthScore(a,curMonth)) : [];
+  // Engagement
+  const activeStreakCount=allActive.filter(u=>lastTs(u)>now-2*24*60*60*1000).length;
+  const streakHealth=Math.round(activeStreakCount/Math.max(allActive.length,1)*100);
+  const avgMi=allActive.length?Math.round(allActive.reduce((s,u)=>s+score(u),0)/allActive.length):0;
+  const zeroMonth=allActive.filter(u=>monthScore(u,curMonth)===0).length;
+  const dayCounts=new Array(7).fill(0);
+  (d.entries||[]).filter(e=>e.ts).forEach(e=>{dayCounts[new Date(e.ts).getDay()]++;});
+  const peakDay=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][dayCounts.indexOf(Math.max(...dayCounts))];
 
-  // ── 5. ENGAGEMENT PATTERNS ─────────────────────────────────────────────────
-  const dayNames = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  const dayCounts = new Array(7).fill(0);
-  (d.entries||[]).filter(e=>e.ts).forEach(e=>{
-    dayCounts[new Date(e.ts).getDay()]++;
-  });
-  const peakDayIdx = dayCounts.indexOf(Math.max(...dayCounts));
-  const peakDay    = dayNames[peakDayIdx];
-  const activeStreakCount = allActive.filter(u=>{
-    const last = lastEntry(u);
-    return last > now - 2*24*60*60*1000;
-  }).length;
-  const streakHealth = Math.round(activeStreakCount/Math.max(allActive.length,1)*100);
-  const avgMilesPerUser = allActive.length ? Math.round(
-    allActive.reduce((s,u)=>s+score(u),0)/allActive.length
-  ) : 0;
-  const zeroThisMonth = allActive.filter(u=>monthScore(u,curMonth)===0).length;
+  // Behind pace
+  const behindPace=allActive.map(u=>({...u,monthMi:monthScore(u,curMonth)}))
+    .filter(u=>u.monthMi<expectedByNow*0.6&&u.monthMi<55)
+    .sort((a,b)=>a.monthMi-b.monthMi);
 
-  // ── BUILD HTML ─────────────────────────────────────────────────────────────
-  const paceColor = onTrack ? 'var(--teal)' : wardPct >= timePct-20 ? 'var(--gold)' : '#c03030';
-  const paceLabel = onTrack ? 'On Track ✓' : wardPct >= timePct-20 ? 'Slightly Behind' : 'Behind Pace';
-  const paceClass = onTrack ? 'good' : wardPct >= timePct-20 ? 'warn' : 'danger';
+  // Top 5 for chart 4
+  const top5=allActive.map(u=>({...u,total:score(u)}))
+    .sort((a,b)=>b.total-a.total).slice(0,5);
 
-  el.innerHTML = `
+  const initOpen=(id)=>_intelOpen[id]!==undefined?_intelOpen[id]:false;
 
-    <!-- WARD PACE TRACKER -->
-    <div class="intel-section">
-      <div class="intel-section-title">&#x1F4CD; Ward Pace to Jerusalem
-        <span class="intel-pill ${paceClass}">${paceLabel}</span>
+  el.innerHTML=`
+
+    <!-- DARK COMMAND HEADER -->
+    <div class="intel-dark-header">
+      <div class="intel-dark-eyebrow">✦ LEADER INTELLIGENCE — ${curMonth.toUpperCase()} ${today.getFullYear()}</div>
+      <div class="intel-kpi-grid">
+        <div class="intel-kpi"><div class="intel-kpi-num">${wardTotal}</div><div class="intel-kpi-lbl">Ward miles</div></div>
+        <div class="intel-kpi"><div class="intel-kpi-num">${wardPct}%</div><div class="intel-kpi-lbl">Complete</div></div>
+        <div class="intel-kpi"><div class="intel-kpi-num">${atRisk.length}</div><div class="intel-kpi-lbl">At risk</div></div>
+        <div class="intel-kpi"><div class="intel-kpi-num">${daysLeft}</div><div class="intel-kpi-lbl">Days left</div></div>
       </div>
-      <div class="card neutral" style="padding:.85rem 1rem;">
-        <div class="intel-stat-row">
-          <div class="intel-stat"><div class="intel-stat-num">${wardTotal}</div><div class="intel-stat-label">Ward Miles</div></div>
-          <div class="intel-stat"><div class="intel-stat-num">${wardPct}%</div><div class="intel-stat-label">Complete</div></div>
-          <div class="intel-stat"><div class="intel-stat-num">${daysLeft}</div><div class="intel-stat-label">Days Left</div></div>
+      <div class="intel-pace-labels"><span>Ward ${wardPct}%</span><span>Time ${timePct}%</span><span style="color:${paceColor}">${paceLabel}</span></div>
+      <div class="intel-pace-track"><div class="intel-pace-bar-fill" style="width:${wardPct}%;background:${paceColor};"></div></div>
+      <!-- Chart 4: Season Leaders -->
+      <div style="margin-top:12px;">
+        <div class="intel-chart-lbl" style="color:rgba(255,255,255,.4);">Season leaders — cumulative miles</div>
+        <div style="position:relative;width:100%;height:130px;">
+          <canvas id="intelChart4" role="img" aria-label="Line chart of top 5 members cumulative miles across the season">Top 5 cumulative miles</canvas>
         </div>
-        <div style="font-family:'Inter',sans-serif;font-size:.68rem;color:var(--ink-soft);margin-bottom:.3rem;">
-          Ward progress vs time elapsed
-        </div>
-        <div class="intel-pace-bar">
-          <div class="intel-pace-fill" style="width:${wardPct}%;background:${paceColor};"></div>
-        </div>
-        <div style="display:flex;justify-content:space-between;font-family:'Inter',sans-serif;font-size:.62rem;color:var(--ink-soft);">
-          <span>&#x23F1; Time: ${timePct}% elapsed</span>
-          <span>${miPerDay} mi/day needed</span>
-        </div>
-        <div class="intel-action" style="margin-top:.5rem;">
-          ${onTrack
-            ? 'Ward is on pace — keep the momentum going with a shoutout this Sunday.'
-            : 'Ward needs '+milesLeft+' more miles in '+daysLeft+' days. Consider a group challenge or shoutout push.'}
+        <div class="intel-legend" style="margin-top:6px;">
+          ${top5.map((u,i)=>`<span style="display:flex;align-items:center;gap:4px;"><span class="intel-legend-dot" style="background:${['#e8b050','#5DCAA5','#85B7EB','#F0997B','#AFA9EC'][i]};"></span><span style="color:rgba(255,255,255,.55);">${u.name.split(' ')[0]} ${u.total}mi</span></span>`).join('')}
         </div>
       </div>
     </div>
 
-    <!-- AT-RISK WALKERS -->
-    <div class="intel-section">
-      <div class="intel-section-title">&#x26A0; At-Risk Walkers
-        <span class="intel-pill ${atRisk.length>0?'danger':'good'}">${atRisk.length} members</span>
+    <!-- Chart 1: Ward miles per month -->
+    <div style="background:white;border:.5px solid var(--sand-dark);border-radius:8px;padding:12px 14px;margin-bottom:8px;">
+      <div class="intel-chart-lbl">Ward avg miles per month</div>
+      <div style="position:relative;width:100%;height:160px;">
+        <canvas id="intelChart1" role="img" aria-label="Bar chart of average miles logged per month by ward members">Ward miles by month</canvas>
       </div>
-      ${atRisk.length===0
-        ? '<div class="intel-empty">Everyone has logged recently — great engagement!</div>'
-        : atRisk.slice(0,8).map(u=>{
-            const daysAgo = u.last===0 ? 'Never logged' : Math.round((now-u.last)/86400000)+' days ago';
-            const badge = u.last===0 ? 'danger' : (now-u.last)>14*86400000 ? 'danger' : 'warn';
-            return `<div class="intel-card">
-              <div class="intel-card-header">
-                <span class="intel-card-name">${u.name} <span class="intel-pill ${badge}">${daysAgo}</span></span>
-                <span class="intel-card-meta">${u.group} &middot; ${u.total} mi total</span>
-              </div>
-              <div class="intel-card-body">
-                <div class="intel-action">Send ${u.name.split(' ')[0]} a personal text or shoutout — they may need encouragement.</div>
-              </div>
+      <div class="intel-legend">
+        <span style="display:flex;align-items:center;gap:4px;"><span class="intel-legend-dot" style="background:#1a3a5c;"></span>Logged</span>
+        <span style="display:flex;align-items:center;gap:4px;"><span class="intel-legend-dot" style="background:#c8922a;"></span>Current</span>
+        <span style="display:flex;align-items:center;gap:4px;"><span class="intel-legend-dot" style="background:#e5e3db;"></span>Upcoming</span>
+      </div>
+    </div>
+
+    <!-- AT-RISK SECTION -->
+    <div class="intel-acc intel-acc-${atRisk.length>3?'red':atRisk.length>0?'amber':'green'}">
+      <div class="intel-acc-hdr" onclick="toggleIntelSection('atrisk')">
+        <span class="intel-acc-icon">⚠</span>
+        <div class="intel-acc-titles">
+          <div class="intel-acc-name">At-risk walkers</div>
+          <div class="intel-acc-meta">Not logged in 7+ days</div>
+        </div>
+        <span class="intel-acc-badge">${atRisk.length} members</span>
+        <span class="intel-acc-chevron ${initOpen('atrisk')?'open':''}" id="intel-chev-atrisk">▼</span>
+      </div>
+      <div class="intel-acc-body ${initOpen('atrisk')?'open':''}" id="intel-body-atrisk">
+        ${atRisk.length===0?'<div style="font-style:italic;font-size:.85rem;color:var(--ink-soft);text-align:center;padding:.5rem 0;">Everyone has logged recently!</div>'
+          :atRisk.slice(0,8).map(u=>{
+            const dAgo=u.last===0?'Never':Math.round((now-u.last)/86400000)+'d ago';
+            const tag=u.last===0||now-u.last>14*86400000?'background:#F09595;color:#501313':'background:#FAC775;color:#412402';
+            const initials=u.name.split(' ').map(p=>p[0]).join('').slice(0,2);
+            const avatarBg=u.last===0||now-u.last>14*86400000?'#FCEBEB;color:#A32D2D':'#FAEEDA;color:#633806';
+            return `<div class="intel-person-row">
+              <div class="intel-person-avatar" style="background:${avatarBg};">${initials}</div>
+              <div class="intel-person-name">${u.name}</div>
+              <span class="intel-person-tag" style="${tag};">${dAgo}</span>
             </div>`;
           }).join('')
-      }
+        }
+        ${atRisk.length>0?`
+        <div class="intel-chart-wrap">
+          <div class="intel-chart-lbl">Individual pace sparklines</div>
+          <div class="intel-sparkline-grid" id="intelSparkGrid">
+            ${atRisk.slice(0,4).map((u,i)=>`<div class="intel-spark-card">
+              <div class="intel-spark-name">${u.name.split(' ')[0]}</div>
+              <div class="intel-spark-mi">${u.total} mi total</div>
+              <div style="position:relative;width:100%;height:40px;"><canvas id="intelSpark${i}" role="img" aria-label="Sparkline for ${u.name}">${u.name} ${u.total} miles</canvas></div>
+            </div>`).join('')}
+          </div>
+        </div>
+        <div class="intel-action-text">Send a personal check-in to ${atRisk[0]?.name.split(' ')[0]}${atRisk.length>1?' and '+(atRisk.length-1)+' others':''} this week.</div>`:''}
+      </div>
     </div>
 
     <!-- MILESTONE PROXIMITY -->
-    <div class="intel-section">
-      <div class="intel-section-title">&#x1F3AF; Close to a Milestone
-        <span class="intel-pill info">${closeToMilestone.length} members</span>
+    <div class="intel-acc intel-acc-${closeTo.length>0?'blue':'green'}">
+      <div class="intel-acc-hdr" onclick="toggleIntelSection('milestone')">
+        <span class="intel-acc-icon">🎯</span>
+        <div class="intel-acc-titles">
+          <div class="intel-acc-name">Close to a milestone</div>
+          <div class="intel-acc-meta">Within 20 miles of next waypoint</div>
+        </div>
+        <span class="intel-acc-badge">${closeTo.length} members</span>
+        <span class="intel-acc-chevron ${initOpen('milestone')?'open':''}" id="intel-chev-milestone">▼</span>
       </div>
-      ${closeToMilestone.length===0
-        ? '<div class="intel-empty">No one is within 20 miles of a waypoint right now.</div>'
-        : closeToMilestone.slice(0,8).map(u=>
-            `<div class="intel-card">
-              <div class="intel-card-header">
-                <span class="intel-card-name">${u.name} <span class="intel-pill info">${u.gap} mi away</span></span>
-                <span class="intel-card-meta">${u.nextWp.icon} ${u.nextWp.label.replace('\n',' ')} &mdash; ${u.nextWp.miles} mi</span>
-              </div>
-              <div class="intel-card-body">
-                <div class="intel-action">Post a shoutout for ${u.name.split(' ')[0]} — they are just ${u.gap} miles from ${u.nextWp.label.replace('\n',' ')}!</div>
-              </div>
-            </div>`
-          ).join('')
-      }
+      <div class="intel-acc-body ${initOpen('milestone')?'open':''}" id="intel-body-milestone">
+        ${closeTo.length===0?'<div style="font-style:italic;font-size:.85rem;color:var(--ink-soft);text-align:center;padding:.5rem 0;">No one within 20 miles of a waypoint right now.</div>'
+          :closeTo.slice(0,6).map(u=>`<div class="intel-person-row">
+            <div class="intel-person-avatar" style="background:#B5D4F4;color:#042C53;">${u.name.split(' ').map(p=>p[0]).join('').slice(0,2)}</div>
+            <div class="intel-person-name">${u.name}</div>
+            <span class="intel-person-tag" style="background:#B5D4F4;color:#042C53;">${u.gap}mi to ${u.nextWp.icon}</span>
+          </div>`).join('')
+        }
+        ${closeTo.length>0?`<div class="intel-action-text">Post a shoutout for ${closeTo[0].name.split(' ')[0]} — just ${closeTo[0].gap} miles from ${closeTo[0].nextWp.label.replace('\n',' ')}!</div>`:''}
+      </div>
     </div>
 
     <!-- MONTHLY CHALLENGE -->
-    <div class="intel-section">
-      <div class="intel-section-title">&#x1F4C5; ${curMonth} Challenge: ${challenge?challenge.title:'N/A'}
-        <span class="intel-pill ${challengeNotDone.length===0?'good':challengeNotDone.length<5?'warn':'danger'}">${challengeCompleted.length}/${allActive.length} done</span>
-      </div>
-      ${challenge ? `
-      <div class="card neutral" style="padding:.75rem 1rem;margin-bottom:.5rem;">
-        <div style="font-family:'Inter',sans-serif;font-size:.68rem;color:var(--ink-soft);margin-bottom:.3rem;">${monthDaysLeft} days left this month &middot; Goal: ${challenge.miles} miles in ${curMonth}</div>
-        <div class="intel-pace-bar">
-          <div class="intel-pace-fill" style="width:${Math.round(challengeCompleted.length/Math.max(allActive.length,1)*100)}%;background:var(--teal);"></div>
+    <div class="intel-acc intel-acc-${chalPct>=90?'green':chalPct>=60?'amber':'red'}">
+      <div class="intel-acc-hdr" onclick="toggleIntelSection('challenge')">
+        <span class="intel-acc-icon">📅</span>
+        <div class="intel-acc-titles">
+          <div class="intel-acc-name">${challenge?challenge.title:'Monthly challenge'}</div>
+          <div class="intel-acc-meta">${curMonth} · ${monthDaysLeft} days left</div>
         </div>
-        <div class="intel-action">
-          ${challengeNotDone.length===0
-            ? 'Everyone has completed the '+curMonth+' challenge — celebrate this Sunday!'
-            : challengeNotDone.length+' member'+(challengeNotDone.length>1?'s':'')+' still need to finish. '+(monthDaysLeft<=7?'Final week — time to encourage them.':'Plenty of time — a mid-month shoutout could help.')}
-        </div>
+        <span class="intel-acc-badge">${challengeDone.length}/${allActive.length}</span>
+        <span class="intel-acc-chevron ${initOpen('challenge')?'open':''}" id="intel-chev-challenge">▼</span>
       </div>
-      ${challengeNotDone.length>0 ? '<div style="font-family:\'Inter\',sans-serif;font-size:.65rem;color:var(--ink-soft);margin-bottom:.35rem;">Still needs completion:</div>'
-        + challengeNotDone.slice(0,6).map(u=>`<span style="display:inline-block;background:var(--sand);border-radius:20px;padding:.15rem .6rem;font-family:'Inter',sans-serif;font-size:.68rem;margin:.15rem;">${u.name.split(' ')[0]} (${monthScore(u,curMonth)} mi)</span>`).join('')
-        : ''}
-      ` : '<div class="intel-empty">No challenge defined for this month.</div>'}
+      <div class="intel-acc-body ${initOpen('challenge')?'open':''}" id="intel-body-challenge">
+        ${challenge?`
+        <div style="font-family:'Inter',sans-serif;font-size:.68rem;color:var(--ink-soft);margin-bottom:.5rem;">
+          ${challengeDone.length} of ${allActive.length} members completed · ${chalPct}% done
+        </div>
+        <div class="intel-pace-track" style="background:var(--sand-dark);margin-bottom:.75rem;">
+          <div class="intel-pace-bar-fill" style="width:${chalPct}%;background:#1D9E75;"></div>
+        </div>
+        ${challengeNotDone.length>0?'<div style="font-family:\'Inter\',sans-serif;font-size:.65rem;color:var(--ink-soft);margin-bottom:.35rem;">Still needs completion:</div>'
+          +challengeNotDone.slice(0,6).map(u=>`<span style="display:inline-block;background:var(--sand);border-radius:20px;padding:.15rem .6rem;font-size:.68rem;margin:.1rem;">${u.name.split(' ')[0]} (${monthScore(u,curMonth)}mi)</span>`).join(''):''}
+        <div class="intel-action-text">${challengeNotDone.length===0?'Everyone completed the challenge — celebrate on Sunday!'
+          :monthDaysLeft<=7?'Final week — time to encourage the remaining '+challengeNotDone.length+' members.'
+          :'Mid-month push: '+challengeNotDone.length+' members still need to complete the '+curMonth+' challenge.'}</div>
+        `:'<div style="font-style:italic;font-size:.85rem;color:var(--ink-soft);">No challenge defined for this month.</div>'}
+      </div>
     </div>
 
     <!-- ENGAGEMENT PATTERNS -->
-    <div class="intel-section">
-      <div class="intel-section-title">&#x1F4CA; Engagement Patterns</div>
-      <div class="card neutral" style="padding:.85rem 1rem;">
-        <div class="intel-stat-row">
-          <div class="intel-stat"><div class="intel-stat-num">${streakHealth}%</div><div class="intel-stat-label">Active This Week</div></div>
-          <div class="intel-stat"><div class="intel-stat-num">${avgMilesPerUser}</div><div class="intel-stat-label">Avg Miles/Member</div></div>
-          <div class="intel-stat"><div class="intel-stat-num">${zeroThisMonth}</div><div class="intel-stat-label">Zero This Month</div></div>
+    <div class="intel-acc intel-acc-${streakHealth>=70?'green':'amber'}">
+      <div class="intel-acc-hdr" onclick="toggleIntelSection('engage')">
+        <span class="intel-acc-icon">📊</span>
+        <div class="intel-acc-titles">
+          <div class="intel-acc-name">Engagement patterns</div>
+          <div class="intel-acc-meta">${streakHealth}% active this week · peak day: ${peakDay}</div>
         </div>
-        <div style="font-family:'Inter',sans-serif;font-size:.72rem;color:var(--ink-soft);margin-bottom:.3rem;">
-          Most active day of week: <strong style="color:var(--navy);">${peakDay}</strong>
-          &nbsp;&middot;&nbsp; ${activeStreakCount} of ${allActive.length} members active in last 48 hrs
+        <span class="intel-acc-badge">${avgMi} mi avg</span>
+        <span class="intel-acc-chevron ${initOpen('engage')?'open':''}" id="intel-chev-engage">▼</span>
+      </div>
+      <div class="intel-acc-body ${initOpen('engage')?'open':''}" id="intel-body-engage">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px;">
+          <div class="intel-kpi" style="background:var(--sand);"><div class="intel-kpi-num" style="color:var(--navy);font-size:1.1rem;">${streakHealth}%</div><div class="intel-kpi-lbl" style="color:var(--ink-soft);">Active wk</div></div>
+          <div class="intel-kpi" style="background:var(--sand);"><div class="intel-kpi-num" style="color:var(--navy);font-size:1.1rem;">${avgMi}</div><div class="intel-kpi-lbl" style="color:var(--ink-soft);">Avg mi</div></div>
+          <div class="intel-kpi" style="background:var(--sand);"><div class="intel-kpi-num" style="color:var(--navy);font-size:1.1rem;">${zeroMonth}</div><div class="intel-kpi-lbl" style="color:var(--ink-soft);">Zero mo</div></div>
         </div>
-        <div class="intel-action">
-          ${zeroThisMonth>0
-            ? zeroThisMonth+' member'+(zeroThisMonth>1?'s have':' has')+' not logged anything this month. Consider reaching out before the month ends.'
-            : streakHealth>=70
-              ? 'Strong engagement — '+streakHealth+'% of members are active. Keep it up!'
-              : 'Engagement is below 70%. A Sunday announcement or group shoutout on '+peakDay+' could help.'}
+        <!-- Chart 2: Daily active members -->
+        <div class="intel-chart-lbl">Daily active members — last 30 days</div>
+        <div style="position:relative;width:100%;height:130px;">
+          <canvas id="intelChart2" role="img" aria-label="Line chart of daily active members over past 30 days">Daily active members trend</canvas>
         </div>
+        <div class="intel-legend">
+          <span style="display:flex;align-items:center;gap:4px;"><span style="width:9px;height:3px;background:#1a3a5c;display:inline-block;border-radius:2px;"></span>Daily active</span>
+          <span style="display:flex;align-items:center;gap:4px;"><span style="width:9px;height:0;border-top:2px dashed #c8922a;display:inline-block;"></span>7-day avg</span>
+        </div>
+        <div class="intel-action-text">${zeroMonth>0
+          ?zeroMonth+' member'+(zeroMonth>1?'s have':' has')+' not logged this month — reach out before the month ends.'
+          :streakHealth>=70?'Strong engagement! A '+peakDay+' announcement would hit at peak activity.'
+          :'Engagement below 70% — a group shoutout or Sunday push could help.'}</div>
       </div>
     </div>
 
-    <!-- BEHIND PACE THIS MONTH -->
-    ${behindPace.length>0 ? `
-    <div class="intel-section">
-      <div class="intel-section-title">&#x1F422; Behind Monthly Pace
-        <span class="intel-pill warn">${behindPace.length} members</span>
+    <!-- BEHIND MONTHLY PACE -->
+    ${behindPace.length>0?`
+    <div class="intel-acc intel-acc-amber">
+      <div class="intel-acc-hdr" onclick="toggleIntelSection('behind')">
+        <span class="intel-acc-icon">🐢</span>
+        <div class="intel-acc-titles">
+          <div class="intel-acc-name">Behind monthly pace</div>
+          <div class="intel-acc-meta">Below 60% of expected ${curMonth} miles</div>
+        </div>
+        <span class="intel-acc-badge">${behindPace.length} members</span>
+        <span class="intel-acc-chevron ${initOpen('behind')?'open':''}" id="intel-chev-behind">▼</span>
       </div>
-      ${behindPace.slice(0,6).map(u=>`<div class="intel-card">
-        <div class="intel-card-header">
-          <span class="intel-card-name">${u.name}</span>
-          <span class="intel-card-meta">${monthScore(u,curMonth)} of ~${expectedByNow} expected mi</span>
-        </div>
-        <div class="intel-card-body">
-          <div class="intel-action">Encourage ${u.name.split(' ')[0]} — they need about ${expectedByNow - monthScore(u,curMonth)} more miles to be on pace.</div>
-        </div>
-      </div>`).join('')}
-    </div>` : ''}
+      <div class="intel-acc-body ${initOpen('behind')?'open':''}" id="intel-body-behind">
+        ${behindPace.slice(0,6).map(u=>`<div class="intel-person-row">
+          <div class="intel-person-avatar" style="background:#FAEEDA;color:#633806;">${u.name.split(' ').map(p=>p[0]).join('').slice(0,2)}</div>
+          <div class="intel-person-name">${u.name}</div>
+          <span class="intel-person-tag" style="background:#FAC775;color:#412402;">${u.monthMi} mi</span>
+        </div>`).join('')}
+        <div class="intel-action-text">Encourage ${behindPace[0].name.split(' ')[0]} — they need ~${expectedByNow-behindPace[0].monthMi} more miles to be on pace.</div>
+      </div>
+    </div>`:''}
 
   `;
+
+  // Render charts after DOM settles
+  setTimeout(()=>renderIntelCharts(d, allActive, atRisk, top5), 80);
 }
+
+function renderIntelCharts(d, allActive, atRisk, top5){
+  if(typeof Chart === 'undefined') return;
+
+  // Destroy old instances
+  Object.values(_intelCharts).forEach(c=>{try{c.destroy();}catch(e){}});
+  _intelCharts = {};
+
+  const months10 = MONTHS; // Feb–Nov
+  const curMonth = getCurrentMonth();
+  const curIdx   = months10.indexOf(curMonth);
+
+  // ── CHART 1: Ward miles per month (bar) ────────────────────────────────────
+  const c1el = document.getElementById('intelChart1');
+  if(c1el){
+    const wardByMonth = months10.map(m=>{
+      const total=(d.entries||[]).filter(e=>e.month===m).reduce((s,e)=>s+e.miles,0);
+      const count=(allActive||[]).filter(u=>(d.entries||[]).some(e=>e.userId===u.id&&e.month===m)).length||1;
+      return Math.round(total/count);
+    });
+    _intelCharts.c1 = new Chart(c1el,{
+      type:'bar',
+      data:{
+        labels:months10.map(m=>m.slice(0,3)),
+        datasets:[{
+          data:wardByMonth,
+          backgroundColor:months10.map((_,i)=>i<curIdx?'#1a3a5c':i===curIdx?'#c8922a':'#e5e3db'),
+          borderRadius:3,
+          borderSkipped:false,
+        }]
+      },
+      options:{responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.raw+' mi avg'}}},
+        scales:{x:{grid:{display:false},ticks:{font:{size:10},color:'#888'}},
+                y:{grid:{color:'rgba(0,0,0,.05)'},ticks:{font:{size:10},color:'#888',callback:v=>v+'mi'},beginAtZero:true}}}
+    });
+  }
+
+  // ── CHART 2: Daily active members (line) ───────────────────────────────────
+  const c2el = document.getElementById('intelChart2');
+  if(c2el){
+    const actives=Array.from({length:30},(_,i)=>{
+      const ds=getDayStampOffset(29-i);
+      const startOfDay=new Date(Math.floor(ds/10000),Math.floor((ds%10000)/100)-1,ds%100).getTime();
+      const endOfDay=startOfDay+86399999;
+      return new Set((d.entries||[]).filter(e=>e.ts>=startOfDay&&e.ts<=endOfDay).map(e=>e.userId)).size;
+    });
+    const avg7=[null,null,null,null,null,null,...actives.slice(6).map((_,i)=>
+      Math.round(actives.slice(i,i+7).reduce((s,v)=>s+v,0)/7*10)/10)];
+    const dayLabels=Array.from({length:30},(_,i)=>{
+      const d2=new Date();d2.setDate(d2.getDate()-29+i);
+      return i%7===0?['Su','Mo','Tu','We','Th','Fr','Sa'][d2.getDay()]:'';
+    });
+    _intelCharts.c2 = new Chart(c2el,{
+      type:'line',
+      data:{labels:dayLabels,datasets:[
+        {label:'Daily',data:actives,borderColor:'#1a3a5c',backgroundColor:'rgba(26,58,92,.07)',borderWidth:2,pointRadius:0,fill:true,tension:.35},
+        {label:'7-day avg',data:avg7,borderColor:'#c8922a',borderWidth:1.5,borderDash:[4,3],pointRadius:0,fill:false,tension:.35}
+      ]},
+      options:{responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:false}},
+        scales:{x:{grid:{display:false},ticks:{font:{size:10},color:'#888'}},
+                y:{min:0,grid:{color:'rgba(0,0,0,.05)'},ticks:{font:{size:10},color:'#888',stepSize:5},beginAtZero:true}}}
+    });
+  }
+
+  // ── CHART 3: At-risk sparklines ────────────────────────────────────────────
+  const sparkColors=['#E24B4A','#EF9F27','#854F0B','#633806'];
+  (atRisk||[]).slice(0,4).forEach((u,i)=>{
+    const el=document.getElementById('intelSpark'+i);
+    if(!el)return;
+    const byMonth=MONTHS.map(m=>(d.entries||[]).filter(e=>e.userId===u.id&&e.month===m).reduce((s,e)=>s+e.miles,0));
+    // Build cumulative
+    const cum=byMonth.reduce((acc,v)=>[...acc,(acc[acc.length-1]||0)+v],[]);
+    _intelCharts['sp'+i]=new Chart(el,{
+      type:'line',
+      data:{labels:MONTHS.map(m=>m.slice(0,1)),datasets:[{
+        data:cum,borderColor:sparkColors[i],borderWidth:2,pointRadius:0,fill:false,tension:.4
+      }]},
+      options:{responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:false},tooltip:{enabled:false}},
+        scales:{x:{display:false},y:{display:false}}}
+    });
+  });
+
+  // ── CHART 4: Top 5 cumulative (line) ─────────────────────────────────────
+  const c4el=document.getElementById('intelChart4');
+  if(c4el){
+    const colors4=['#e8b050','#5DCAA5','#85B7EB','#F0997B','#AFA9EC'];
+    _intelCharts.c4=new Chart(c4el,{
+      type:'line',
+      data:{
+        labels:MONTHS.map(m=>m.slice(0,3)),
+        datasets:(top5||[]).map((u,i)=>{
+          const byMonth=MONTHS.map(m=>(d.entries||[]).filter(e=>e.userId===u.id&&e.month===m).reduce((s,e)=>s+e.miles,0));
+          const cum=byMonth.reduce((acc,v)=>[...acc,(acc[acc.length-1]||0)+v],[]);
+          return{label:u.name.split(' ')[0],data:cum,borderColor:colors4[i],borderWidth:i===0?2:1.5,
+            pointRadius:cum.map((_,j)=>j===cum.length-1?3:0),pointBackgroundColor:colors4[i],
+            fill:false,tension:.4};
+        })
+      },
+      options:{responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:false},tooltip:{mode:'index',intersect:false,
+          callbacks:{label:c=>`${c.dataset.label}: ${c.raw}mi`}}},
+        scales:{x:{grid:{display:false},ticks:{font:{size:9},color:'rgba(255,255,255,.4)'}},
+                y:{min:0,grid:{color:'rgba(255,255,255,.08)'},
+                   ticks:{font:{size:9},color:'rgba(255,255,255,.4)',callback:v=>v+'mi'},beginAtZero:true}}}
+    });
+  }
+}
+
 
 function exportCSV(){
   const d=db();const headers=['Name','Group','Category','Description','Miles','Month','Date','Custom'];
@@ -6381,6 +6602,7 @@ buildStars();
   </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <div id="mobileBadgeTooltip"></div>
 </body>
 </html>
