@@ -925,6 +925,17 @@ textarea.form-input{min-height:72px;resize:vertical;}
 .partner-btn{display:inline-flex;align-items:center;gap:.3rem;background:rgba(42,122,110,.1);border:1px solid var(--teal);color:var(--teal);border-radius:20px;padding:.2rem .65rem;font-family:'Inter',sans-serif;font-size:.65rem;font-weight:500;cursor:pointer;transition:all .15s;margin-top:.35rem;}
 
 .partner-btn:hover{background:var(--teal);color:white;}
+
+/* ══ BADGE REPLAY ══ */
+.badge[data-earned="true"],.monthly-badge.earned,.trophy-badge.earned{cursor:pointer;transition:transform .15s,box-shadow .15s;}
+.badge[data-earned="true"]:hover,.monthly-badge.earned:hover,.trophy-badge.earned:hover{transform:translateY(-3px) scale(1.06);box-shadow:0 6px 20px rgba(200,146,42,.35);}
+.badge-locked-tip{position:fixed;background:#1a3a5c;color:white;font-family:'Inter',sans-serif;font-size:.72rem;padding:.3rem .7rem;border-radius:20px;pointer-events:none;z-index:9999;white-space:nowrap;opacity:0;transition:opacity .2s;}
+.badge-locked-tip.show{opacity:1;}
+.streak-milestone-chip{display:inline-flex;align-items:center;gap:.35rem;background:rgba(42,122,110,.1);border:1.5px solid var(--teal);border-radius:20px;padding:.25rem .75rem;font-family:'Inter',sans-serif;font-size:.68rem;color:var(--teal);cursor:pointer;margin:.25rem .2rem;transition:all .15s;}
+.streak-milestone-chip:hover{background:var(--teal);color:white;}
+.partner-replay-chip{display:inline-flex;align-items:center;gap:.35rem;background:rgba(42,122,110,.08);border:1.5px solid var(--teal);border-radius:20px;padding:.25rem .75rem;font-family:'Inter',sans-serif;font-size:.68rem;color:var(--teal);cursor:pointer;margin:.25rem .2rem;transition:all .15s;}
+.partner-replay-chip:hover{background:var(--teal);color:white;}
+.replay-section-label{font-family:'Cinzel',serif;font-size:.82rem;color:var(--navy);margin:.75rem 0 .35rem;}
 </style>
 </head>
 <body>
@@ -1076,6 +1087,8 @@ textarea.form-input{min-height:72px;resize:vertical;}
       <div id="masteryRingsRow"></div>
       <div id="thisWeekCard"></div>
       <div id="dailyStreakCard"></div>
+      <div id="streakMilestoneChips"></div>
+      <div id="partnerBadgesSection"></div>
       <div style="font-family:'Cinzel',serif;font-size:.9rem;color:var(--navy);margin-bottom:.75rem;margin-top:.25rem;">✦ Milestone Badges</div>
       <div class="badges-row" id="badgesRow"></div>
       <div style="font-family:'Cinzel',serif;font-size:.9rem;color:var(--navy);margin-bottom:.75rem;margin-top:.25rem;">🗓️ Monthly Challenge Badges</div>
@@ -2088,7 +2101,7 @@ function renderDashboard(){
   document.getElementById('dashPct').textContent=pct+'%';
   document.getElementById('dashJourneyBar').style.width=pct+'%';document.getElementById('dashMonthBar').style.width=mPct+'%';
   document.getElementById('dashStreak').textContent=calcStreak(my);
-  renderStreakRow(my);renderBadges(total);renderMonthlyBadges();renderMonthlyTrophyRow();updateMiniMap(total);checkAndAwardMonthlyTrophies();renderDashHypeCard();renderTodaysChallenge();
+  renderStreakRow(my);renderBadges(total);renderMonthlyBadges();renderMonthlyTrophyRow();renderStreakMilestoneChips();renderPartnerBadgesSection();updateMiniMap(total);checkAndAwardMonthlyTrophies();renderDashHypeCard();renderTodaysChallenge();
   renderMyYearCard();renderZionJourneyCard();renderTitleBadge();renderInlineTitleBadge();renderPartnerChallenges();renderBestMonthCard();renderNotifOptIn();renderDailySpark();renderMtwiCard();renderThisWeekCard();renderDailyStreakCard();renderMasteryRings();renderMonthNudge();renderMonthRecap();
   checkDailyStreakMilestones();
   const streak=calcStreak(my);checkStreakCelebration(streak);
@@ -2111,7 +2124,20 @@ function renderStreakRow(entries){
   const s=calcStreak(entries);document.getElementById('streakMsg').textContent=s===0?'Hit 60 miles this month to start your streak!':s===MONTHS.length?'🏆 Perfect journey — all 10 months on track!':s+' month'+(s>1?'s':'')+' on track — keep it going!';
 }
 
-function renderBadges(total){document.getElementById('badgesRow').innerHTML=BADGES.map(b=>`<div class="badge ${total>=b.miles?'earned':'locked'}"><div class="badge-icon">${b.icon}</div><div class="badge-name">${b.name}</div><div class="badge-miles">${b.sub}</div></div>`).join('');}
+function renderBadges(total){
+  document.getElementById('badgesRow').innerHTML=BADGES.map(b=>{
+    const earned=total>=b.miles;
+    const left=b.miles-total;
+    const click=earned
+      ?'onclick="replayWaypointBadge(\''+b.id+'\','+total+')"'
+      :'onclick="showLockedTip(event,\''+left+' miles to unlock\')'+'"';
+    return '<div class="badge '+(earned?'earned':'locked')+'" '+click+'>'
+      +'<div class="badge-icon">'+b.icon+'</div>'
+      +'<div class="badge-name">'+b.name+'</div>'
+      +'<div class="badge-miles">'+b.sub+'</div>'
+      +'</div>';
+  }).join('');
+}
 
 function checkBadges(){
   const my=CACHE.entries.filter(e=>e.userId===currentUser.id);
@@ -2172,20 +2198,26 @@ function renderMonthlyBadges(){
     if(!challenge)return;
     const isEarned=earned.includes(month);
     const b=challenge.badge;
-    html+=`<div class="monthly-badge ${isEarned?'earned':'locked'}" title="${month}: ${challenge.desc.slice(0,80)}...">
-      <div class="monthly-badge-icon">${b.icon}</div>
-      <div class="monthly-badge-name">${month}</div>
-      <div class="monthly-badge-sub">${isEarned?'Earned':'Locked'}</div>
-    </div>`;
+    const mbClick=isEarned
+      ?'onclick="replayMonthlyBadge(\''+month+'\')"'
+      :'onclick="showLockedTip(event,\'Complete '+month+' challenge to unlock\')'+'"';
+    html+='<div class="monthly-badge '+(isEarned?'earned':'locked')+'" '+mbClick+'>'
+      +'<div class="monthly-badge-icon">'+b.icon+'</div>'
+      +'<div class="monthly-badge-name">'+month+'</div>'
+      +'<div class="monthly-badge-sub">'+(isEarned?'Earned ✓':'Locked')+'</div>'
+      +'</div>';
   });
   // Champion badge
   const champClass=hasChamp?'earned champion-badge':'locked champion-badge';
-  html+=`<div class="monthly-badge ${champClass}" title="Earn all monthly challenge badges">
-    ${hasChamp?'<div class="champion-crown">👑</div>':''}
-    <div class="monthly-badge-icon">${CHAMPION_BADGE.icon}</div>
-    <div class="monthly-badge-name">Monthly<br>Champion</div>
-    <div class="monthly-badge-sub">${hasChamp?'Earned!':'All months'}</div>
-  </div>`;
+  const cbClick=hasChamp
+    ?'onclick="replayChampionBadge()"'
+    :'onclick="showLockedTip(event,\'Earn all monthly challenge badges\')'+'"';
+  html+='<div class="monthly-badge '+champClass+'" '+cbClick+'>'
+    +(hasChamp?'<div class="champion-crown">👑</div>':'')
+    +'<div class="monthly-badge-icon">'+CHAMPION_BADGE.icon+'</div>'
+    +'<div class="monthly-badge-name">Monthly<br>Champion</div>'
+    +'<div class="monthly-badge-sub">'+(hasChamp?'Earned! ★':'All months')+'</div>'
+    +'</div>';
   row.innerHTML=html;
 }
 
@@ -5703,6 +5735,165 @@ document.addEventListener('click',function(e){
   if(mob&&mob.classList.contains('show')&&!mob.contains(e.target))closeBadgeTooltip();
 });
 
+
+// ══════════════════════════════════════════════════
+//  BADGE REPLAY SYSTEM
+// ══════════════════════════════════════════════════
+
+// Locked badge tooltip
+let _lockedTipTimer = null;
+function showLockedTip(e, msg){
+  let tip = document.getElementById('badgeLockedTip');
+  if(!tip){
+    tip = document.createElement('div');
+    tip.id = 'badgeLockedTip';
+    tip.className = 'badge-locked-tip';
+    document.body.appendChild(tip);
+  }
+  tip.textContent = msg;
+  tip.style.left = (e.clientX - 60) + 'px';
+  tip.style.top  = (e.clientY - 36) + 'px';
+  tip.classList.add('show');
+  clearTimeout(_lockedTipTimer);
+  _lockedTipTimer = setTimeout(()=>tip.classList.remove('show'), 2000);
+}
+
+// ── Waypoint badge replay ─────────────────────────────────────────────────────
+function replayWaypointBadge(badgeId, total){
+  const wp = WAYPOINTS.find(w=>w.id===badgeId||w.label===badgeId)||BADGES.find(b=>b.id===badgeId);
+  if(!wp) return;
+  const scriptureKeys={egypt:'egypt',redsea:'redsea',sinai:'sinai',paran:'paran',jordan:'jordan',jerusalem:'jerusalem'};
+  const d = db();
+  const myTotal = d.entries.filter(e=>e.userId===currentUser.id).reduce((s,e)=>s+e.miles,0);
+  const factData = WAYPOINT_FACTS?.[wp.label?.replace('\n',' ')] || WAYPOINT_FACTS?.[wp.label] || {};
+  const scripture = MILESTONE_SCRIPTURES[scriptureKeys[badgeId]] || MILESTONE_SCRIPTURES.redsea;
+  const newBadge = TITLE_BADGES.find(b=>b.miles===wp.miles)||null;
+  showUniversalCelebration({
+    icon: factData.emoji||wp.icon||'\u2728',
+    eyebrow: '\u2605 Reliving: ' + wp.name + ' Milestone',
+    title: wp.name,
+    subtitle: factData.fact || (wp.sub + ' achieved!'),
+    subtitleColor: 'rgba(255,255,255,.75)',
+    stats:[
+      {value: wp.miles, label: 'Milestone Miles'},
+      {value: myTotal,  label: 'Your Total'},
+      {value: Math.round(myTotal/600*100)+'%', label: 'Journey'},
+    ],
+    scripture,
+    titleBadge: newBadge,
+    theme: badgeId==='jerusalem'?'gold':'navy',
+  });
+}
+
+// ── Monthly challenge badge replay ───────────────────────────────────────────
+function replayMonthlyBadge(month){
+  const challenge = MONTHLY_CHALLENGES[month];
+  if(!challenge) return;
+  const d = db();
+  const monthMiles = d.entries.filter(e=>e.userId===currentUser.id&&e.month===month).reduce((s,e)=>s+e.miles,0);
+  showUniversalCelebration({
+    icon: challenge.badge.icon,
+    eyebrow: '\u2605 Reliving: ' + month + ' Challenge',
+    title: challenge.title,
+    subtitle: month + ' — challenge complete!',
+    subtitleColor: 'rgba(255,255,255,.75)',
+    stats:[
+      {value: monthMiles, label: month+' Miles'},
+      {value: challenge.miles, label: 'Goal'},
+      {value: '\u2713', label: 'Completed!'},
+    ],
+    scripture: {text: challenge.scripture.replace(/^"/, '').replace(/"[^"]*$/, ''), ref: (challenge.scripture.match(/\u2014\s*(.+)$/) || ['',''])[1]},
+    theme: 'teal',
+  });
+}
+
+// ── Monthly champion badge replay ────────────────────────────────────────────
+function replayChampionBadge(){
+  showUniversalCelebration({
+    icon: '\u{1F451}',
+    eyebrow: '\u2605 Reliving: Your Greatest Achievement',
+    title: 'Monthly Champion',
+    subtitle: 'All challenges complete — the rarest badge in the journey.',
+    subtitleColor: '#e8b050',
+    stats:[{value:'\u{1F451}',label:'Champion'},{value:'All',label:'Challenges'},{value:'\u2713',label:'Complete'}],
+    scripture: MILESTONE_SCRIPTURES.champion,
+    theme: 'gold',
+  });
+}
+
+// ── Monthly trophy replay ─────────────────────────────────────────────────────
+function replayTrophyBadge(month){
+  const d = db();
+  const monthMiles = d.entries.filter(e=>e.userId===currentUser.id&&e.month===month).reduce((s,e)=>s+e.miles,0);
+  showUniversalCelebration({
+    icon: '\u{1F3C6}',
+    eyebrow: '\u2605 Reliving: ' + month + ' Trophy',
+    title: month + ' Champion',
+    subtitle: 'Top miles in ' + month + ' — the ward leader for the month!',
+    subtitleColor: '#e8b050',
+    stats:[{value: monthMiles, label: month+' Miles'},{value:'\u{1F3C6}',label:'Trophy Won'}],
+    scripture: MILESTONE_SCRIPTURES.champion,
+    theme: 'gold',
+  });
+}
+
+// ── Daily streak milestone replay ─────────────────────────────────────────────
+function replayStreakMilestone(days){
+  const msgs = {
+    3:  {title:'3-Day Streak!',   body:'Three days in a row — the habit is starting.'},
+    7:  {title:'One Full Week!',  body:'Seven consecutive days. A full week of faithful effort.'},
+    14: {title:'Two-Week Warrior!',body:'Fourteen days straight. Your consistency is remarkable.'},
+    30: {title:'30-Day Legend!',  body:'Thirty consecutive days. Daily Champion — the hardest badge earned.'},
+  };
+  const msg = msgs[days] || {title: days+'-Day Streak!', body: 'Incredible consistency.'};
+  showDailyStreakMilestone(msg, days);
+}
+
+// ── Partner badge replay ──────────────────────────────────────────────────────
+function replayPartnerBadge(partnerName, activity){
+  showPartnerCelebration(partnerName, activity||'a cooperative activity', 5);
+}
+
+// ── Render partner badges (earned) ───────────────────────────────────────────
+function renderPartnerBadgesSection(){
+  const el = document.getElementById('partnerBadgesSection');
+  if(!el||!currentUser) return;
+  // Collect all partner badge keys from userState
+  const partnerBadges = [];
+  const ufCache = window._UF_CACHE || {};
+  Object.entries(ufCache).forEach(([key, val])=>{
+    if(key.startsWith('partnerBadge_'+currentUser.id+'_')){
+      try {
+        const data = typeof val==='object'?val:JSON.parse(val);
+        if(data && data.partner) partnerBadges.push(data);
+      } catch(e){}
+    }
+  });
+  if(!partnerBadges.length){ el.innerHTML=''; return; }
+  el.innerHTML = '<div class="replay-section-label">\u{1F91D} Partner Badges</div>'
+    + partnerBadges.map(b=>
+        `<span class="partner-replay-chip" onclick="replayPartnerBadge('${b.partner}','${(b.activity||'').slice(0,40)}')">
+          \u{1F91D} with ${b.partner}
+        </span>`
+      ).join('');
+}
+
+// Expose UF cache for partner badge lookup
+const _origSetUF = typeof setUF === 'function' ? setUF : null;
+// We'll read partner badges from userState doc instead
+
+function renderStreakMilestoneChips(){
+  const el=document.getElementById('streakMilestoneChips');
+  if(!el||!currentUser)return;
+  const streak=calcDailyStreak();
+  const milestones=[3,7,14,30];
+  const earned=milestones.filter(m=>streak>=m);
+  const labels={3:'3-Day Streak',7:'One Full Week',14:'Two-Week Warrior',30:'30-Day Legend'};
+  if(!earned.length){el.innerHTML='';return;}
+  el.innerHTML='<div class="replay-section-label">\u26A1 Streak Milestones</div>'
+    +earned.map(m=>'<span class="streak-milestone-chip" onclick="replayStreakMilestone('+m+')">'
+      +'\u{1F525} '+labels[m]+' \u25BA Relive</span>').join('');
+}
 function exportCSV(){
   const d=db();const headers=['Name','Group','Category','Description','Miles','Month','Date','Custom'];
   const rows=d.entries.map(e=>{const u=d.users.find(u=>u.id===e.userId)||{};return[u.name||e.userName,u.group||'',e.cat,'"'+e.desc.replace(/"/g,'""')+'"',e.miles,e.month,new Date(e.ts).toLocaleDateString(),e.custom?'Yes':'No'].join(',');});
