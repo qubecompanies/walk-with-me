@@ -1030,6 +1030,13 @@ textarea.form-input{min-height:72px;resize:vertical;}
 .group-sub-tab.active{background:var(--navy);border-color:var(--navy);color:white;}
 .group-map-view{display:none;}
 .group-map-view.active{display:block;}
+
+/* ══ VERSUS TOP PERFORMERS ══ */
+.versus-top-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:.75rem;}
+.versus-top-card{background:var(--sand);border-radius:8px;padding:.75rem;text-align:center;}
+.versus-top-label{font-family:'Inter',sans-serif;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:.35rem;}
+.versus-top-name{font-family:'Cinzel',serif;font-size:.9rem;color:var(--navy);margin-bottom:.15rem;}
+.versus-top-miles{font-family:'Inter',sans-serif;font-size:.7rem;color:var(--gold);}
 </style>
 </head>
 <body>
@@ -1221,6 +1228,10 @@ textarea.form-input{min-height:72px;resize:vertical;}
     <div id="tab-log" class="tab-content">
       <div class="section-heading">Log Miles</div>
       <div class="section-sub">Select a completed activity to record your miles.</div>
+      <div style="margin:.5rem 0 .75rem;">
+        <input type="text" id="activitySearch" class="form-input" placeholder="🔍 Search activities (camp, fireside, ministering…)" oninput="filterActivities(this.value)" style="width:100%;box-sizing:border-box;" autocomplete="off">
+      </div>
+      <div id="activitySearchResults" style="display:none;margin-bottom:.75rem;"></div>
 
       <!-- 1. ACTIVE CHALLENGE PINNED TOP -->
       <div id="activeChallengePinned" style="margin-bottom:1rem;"></div>
@@ -1342,6 +1353,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
         <div class="card journey-map" style="margin-bottom:1rem;padding:1.25rem 1rem;min-height:90px;position:relative;">
           <div id="adultsWaypointsContainer" style="display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:1.5rem;position:relative;"></div>
         </div>
+        <div id="adultsMapExtras"></div>
       </div><!-- /group-view-adults -->
 
       <div id="group-view-primary" class="group-map-view">
@@ -1377,12 +1389,12 @@ textarea.form-input{min-height:72px;resize:vertical;}
       <div style="display:flex;gap:.4rem;margin-bottom:1.25rem;flex-wrap:wrap;" id="lbSubTabs">
         <button class="lb-sub-tab active" onclick="switchLBTab('youth',this)">🏃 Youth</button>
         <button class="lb-sub-tab" onclick="switchLBTab('adults',this)">★ Leaders</button>
-        <button class="lb-sub-tab" onclick="switchLBTab('primary',this)">🕊 Primary</button>
-        <button class="lb-sub-tab" onclick="switchLBTab('visitors',this)">🌍 Visitors</button>
         <button class="lb-sub-tab" onclick="switchLBTab('ymvsyw',this)">⚡ vs 🌸</button>
         <button class="lb-sub-tab" onclick="switchLBTab('youthvsleader',this)">Youth vs Adults</button>
         <button class="lb-sub-tab" onclick="switchLBTab('monthly',this)">📅 This Month</button>
         <button class="lb-sub-tab" onclick="switchLBTab('streaks',this)">&#x26A1; Streaks</button>
+        <button class="lb-sub-tab" onclick="switchLBTab('primary',this)">🕊 Primary</button>
+        <button class="lb-sub-tab" onclick="switchLBTab('visitors',this)">🌍 Visitors</button>
       </div>
 
       <!-- YOUTH BOARD -->
@@ -1540,14 +1552,18 @@ textarea.form-input{min-height:72px;resize:vertical;}
         <button class="btn btn-ghost btn-sm" onclick="previewYearEnd()" style="margin-top:.5rem;">&#x1F4C5; Preview Year Summary</button>
         <div id="recalcStatus" style="font-size:.8rem;color:var(--teal);margin-top:.5rem;font-style:italic;"></div>
       </div>
-      <!-- GROUP DIVISOR -->
+      <!-- GROUP DIVISORS -->
       <div class="card neutral">
-        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.5rem;">⚙ Group Map Scaling</strong>
-        <p style="font-size:.85rem;color:var(--ink-soft);margin-bottom:.75rem;">Individual miles ÷ this number = group map miles. At 25, roughly 70% of 35 youth completing = 600 group miles.</p>
-        <div style="display:flex;gap:.5rem;align-items:flex-end;flex-wrap:wrap;">
-          <div style="flex:0 0 auto;"><label class="form-label">Divisor (default 25)</label><input type="number" id="divisorInput" class="form-input" placeholder="25" min="1" max="200" style="width:100px;"></div>
-          <button class="btn btn-teal btn-sm" onclick="saveDivisor()" style="align-self:flex-end;">Save</button>
-          <span id="divisorStatus" style="align-self:flex-end;font-size:.8rem;color:var(--teal);font-style:italic;"></span>
+        <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.35rem;">&#x2699; Group Map Scaling</strong>
+        <p style="font-size:.85rem;color:var(--ink-soft);margin-bottom:.85rem;">Each group's individual miles ÷ divisor = scaled group progress. Default 35 for all groups.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem;margin-bottom:.75rem;">
+          <div><label class="form-label">Youth</label><input type="number" id="divisorYouth" class="form-input" min="1" max="500" placeholder="35"></div>
+          <div><label class="form-label">Adults</label><input type="number" id="divisorAdults" class="form-input" min="1" max="500" placeholder="35"></div>
+          <div><label class="form-label">Primary</label><input type="number" id="divisorPrimary" class="form-input" min="1" max="500" placeholder="35"></div>
+        </div>
+        <div style="display:flex;gap:.5rem;align-items:center;">
+          <button class="btn btn-teal btn-sm" onclick="saveDivisors()">Save All</button>
+          <span id="divisorStatus" style="font-size:.8rem;color:var(--teal);font-style:italic;"></span>
         </div>
       </div>
       <!-- FEATURED MONTHLY CHALLENGE -->
@@ -1811,7 +1827,7 @@ const ACTIVITIES={
     {text:"Organize and lead a peer gospel study group. Invite at least three friends (not family) and meet at least four times to study a chapter, discuss a talk, or explore a gospel question together.",miles:30},
     {text:"Attend a youth fireside and write a one-paragraph journal entry about what you felt or learned.",miles:15},
     {text:"Attend three separate firesides this year. Write something you learned from each one.",miles:30},
-    {text:"Attend Especially for Youth (EFY) or a similar multi-day LDS youth program.",miles:50}
+    {text:"Attend For the Strength of Youth (FSY) or a similar multi-day LDS youth program.",miles:50}
   ],
   physical:[
     {text:"Set an earlier bedtime. Stick to it for two weeks.",miles:45},
@@ -2624,8 +2640,8 @@ function renderAdminEntries(d){
 function renderAdmin(){
   updateNudgePreview();
   const _dy=document.getElementById('divisorYouth');if(_dy)_dy.value=CACHE.appConfig?.groupDivisor||35;
-  const _da=document.getElementById('divisorAdults');if(_da)_da.value=CACHE.appConfig?.adultsDivisor||10;
-  const _dp=document.getElementById('divisorPrimary');if(_dp)_dp.value=CACHE.appConfig?.primaryDivisor||10;
+  const _da=document.getElementById('divisorAdults');if(_da)_da.value=CACHE.appConfig?.adultsDivisor||35;
+  const _dp=document.getElementById('divisorPrimary');if(_dp)_dp.value=CACHE.appConfig?.primaryDivisor||35;
   const d=db();const score=u=>d.entries.filter(e=>e.userId===u.id).reduce((s,e)=>s+e.miles,0);
   const overviewGroup = getAdminUsers(_adminView||'youth');
   const monthGroup = getAdminUsers(_monthView||'youth');
@@ -2702,7 +2718,7 @@ async function deleteEntry(id){
 // ── GROUP DIVISOR ──
 async function saveDivisors(){
   const y=parseInt(document.getElementById('divisorYouth')?.value)||35;
-  const a=parseInt(document.getElementById('divisorAdults')?.value)||10;
+  const a=parseInt(document.getElementById('divisorAdults')?.value)||35;
   const p=parseInt(document.getElementById('divisorPrimary')?.value)||10;
   try{
     await _db().collection('appConfig').doc('settings').update({groupDivisor:y,adultsDivisor:a,primaryDivisor:p});
@@ -3764,6 +3780,17 @@ function renderVersusYMYW(d,score,avgMonthScore,catScore,ym,yw){
       </div>`).join('')}
     </div>
     <div class="versus-winner">${winner}</div>
+    <!-- Top performers row -->
+    <div class="versus-top-row">
+      <div class="versus-top-card">
+        <div class="versus-top-label">&#x26A1; Top Young Man</div>
+        ${ym.length?'<div class="versus-top-name">'+ym[0].name+'</div><div class="versus-top-miles">'+ym[0].miles+' mi</div>':'<div class="versus-top-name" style="color:var(--ink-soft);font-size:.8rem;">None yet</div>'}
+      </div>
+      <div class="versus-top-card">
+        <div class="versus-top-label">&#x1F338; Top Young Woman</div>
+        ${yw.length?'<div class="versus-top-name">'+yw[0].name+'</div><div class="versus-top-miles">'+yw[0].miles+' mi</div>':'<div class="versus-top-name" style="color:var(--ink-soft);font-size:.8rem;">None yet</div>'}
+      </div>
+    </div>
   </div>`;
 }
 
@@ -6379,7 +6406,7 @@ function renderLeaderIntel(){
       <!-- Chart 4: Season Leaders -->
       <div style="margin-top:12px;">
         <div class="intel-chart-lbl" style="color:rgba(255,255,255,.4);">Season leaders — cumulative miles</div>
-        <div style="position:relative;width:100%;height:130px;">
+        <div style="position:relative;width:100%;height:165px;">
           <canvas id="intelChart4" role="img" aria-label="Line chart of top 5 members cumulative miles across the season">Top 5 cumulative miles</canvas>
         </div>
         <div class="intel-legend" style="margin-top:6px;">
@@ -6652,12 +6679,14 @@ function renderIntelCharts(d, allActive, atRisk, top5, ranked, mostImproved){
       data:{
         labels:MONTHS.map(m=>m.slice(0,3)),
         datasets:[
-          // All members as thin gray lines
+          // All members as thin gray lines (with name for tooltip)
           ...(ranked||[]).filter(u=>!top5.find(t=>t.id===u.id)).map(u=>{
             const byMonth=MONTHS.map(m=>(d.entries||[]).filter(e=>e.userId===u.id&&e.month===m).reduce((s,e)=>s+e.miles,0));
             const cum=byMonth.reduce((acc,v)=>[...acc,(acc[acc.length-1]||0)+v],[]);
-            return{data:cum,borderColor:'rgba(150,150,140,.25)',borderWidth:1,
-              pointRadius:0,fill:false,tension:.4,label:''};
+            return{data:cum,borderColor:'rgba(150,150,140,.3)',borderWidth:1.5,
+              pointRadius:cum.map((_,j)=>j===cum.length-1?2:0),
+              pointBackgroundColor:'rgba(150,150,140,.5)',
+              fill:false,tension:.4,label:u.name.split(' ')[0]+' '+u.total+'mi'};
           }),
           // Top 5 colored
           ...(top5||[]).map((u,i)=>{
@@ -6679,7 +6708,8 @@ function renderIntelCharts(d, allActive, atRisk, top5, ranked, mostImproved){
       },
       options:{responsive:true,maintainAspectRatio:false,
         plugins:{legend:{display:false},tooltip:{mode:'index',intersect:false,
-          callbacks:{label:c=>`${c.dataset.label}: ${c.raw}mi`}}},
+          callbacks:{label:c=>c.dataset.label?c.dataset.label+(c.dataset.label.includes('mi')?' ':': '+c.raw+'mi'):'',
+            title:t=>MONTHS[t[0]?.dataIndex]||t[0]?.label||''}}},
         scales:{x:{grid:{display:false},ticks:{font:{size:9},color:'rgba(255,255,255,.4)'}},
                 y:{min:0,grid:{color:'rgba(255,255,255,.08)'},
                    ticks:{font:{size:9},color:'rgba(255,255,255,.4)',callback:v=>v+'mi'},beginAtZero:true}}}
@@ -6713,25 +6743,21 @@ function autoDiv(members){
 function buildGroupWaypointBar(containerId, pct){
   const el = document.getElementById(containerId);
   if(!el) return;
-  const wps = WAYPOINTS.filter(w=>w.miles>0);
-  el.style.position = 'relative';
-  const lineHTML = '<div style="position:absolute;bottom:.55rem;left:0;right:0;height:3px;background:rgba(0,0,0,.08);border-radius:2px;"></div>'
-    + '<div style="position:absolute;bottom:.55rem;left:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:2px;width:'+Math.min(100,pct)+'%;transition:width .9s;"></div>';
-  const wpHTML = [
-    {label:'Egypt',miles:0,icon:'🏺'},
-    ...wps,
-  ].map(wp=>{
-    const wpPct = wp.miles===0?0:Math.min(100,wp.miles/600*100);
-    const reached = pct >= wpPct;
-    return '<div style="position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:4px;">'
-      +'<div style="font-size:.9rem;">'+wp.icon+'</div>'
-      +'<div style="width:10px;height:10px;border-radius:50%;border:2px solid '+(reached?'var(--gold)':'rgba(0,0,0,.15)')+';background:'+(reached?'var(--gold)':'white')+';"></div>'
-      +'<div style="font-family:\'Cinzel\',serif;font-size:.45rem;color:var(--ink-soft);text-align:center;max-width:32px;line-height:1.2;">'+(wp.label||'').replace('\n',' ')+'</div>'
+  const allWPs = [{label:'Egypt',miles:0,icon:'🎺'}, ...WAYPOINTS.filter(w=>w.miles>0)];
+  el.style.cssText = 'position:relative;height:82px;width:100%;';
+  const cp = Math.min(100,Math.max(0,pct));
+  const lineTrack = '<div style="position:absolute;left:0;right:0;bottom:28px;height:3px;background:rgba(0,0,0,.1);border-radius:2px;"></div>'
+    + '<div style="position:absolute;left:0;bottom:28px;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:2px;width:'+cp+'%;transition:width .9s ease;"></div>';
+  const dots = allWPs.map(wp=>{
+    const lp = wp.miles===0?0:Math.min(100,wp.miles/600*100);
+    const reached = cp >= lp;
+    return '<div style="position:absolute;left:'+lp+'%;bottom:0;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:2px;width:36px;">'
+      +'<div style="font-size:.82rem;line-height:1;">'+wp.icon+'</div>'
+      +'<div style="width:10px;height:10px;border-radius:50%;border:2px solid '+(reached?'var(--gold)':'rgba(0,0,0,.18)')+';background:'+(reached?'var(--gold)':'white')+';"></div>'
+      +'<div style="font-family:\'Cinzel\',serif;font-size:.38rem;color:var(--ink-soft);text-align:center;line-height:1.2;white-space:nowrap;">'+(wp.label||'').replace('\n',' ')+'</div>'
       +'</div>';
   }).join('');
-  el.innerHTML = lineHTML
-    + '<div style="display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:1.5rem;">'
-    + wpHTML + '</div>';
+  el.innerHTML = lineTrack + dots;
 }
 
 function renderGroupMaps(){
@@ -6764,7 +6790,7 @@ function renderGroupMaps(){
 
   // ── ADULTS MAP ────────────────────────────────────────────────────────────
   const adultUsers = (d.users||[]).filter(u=>!u.isVisitor&&!u.isPrimary&&(u.isLeader||u.group==='Adult'));
-  const aDiv = parseInt(CACHE.appConfig?.adultsDivisor||'10');
+  const aDiv = parseInt(CACHE.appConfig?.adultsDivisor||'35');
   const aRaw = entries.filter(e=>adultUsers.find(u=>u.id===e.userId)).reduce((s,e)=>s+e.miles,0);
   const aTotal = Math.round(aRaw/aDiv);
   const aPct = Math.min(100, aTotal/600*100);
@@ -6779,10 +6805,11 @@ function renderGroupMaps(){
   const as=document.getElementById('adultsGroupSub');
   if(as){const nw=WAYPOINTS.find(w=>aTotal<w.miles);as.textContent=nw?'Next: '+nw.label.replace('\n',' ')+' at '+nw.miles+' miles':'Jerusalem reached!';}
   buildGroupWaypointBar('adultsWaypointsContainer', aPct);
+  renderAdultMapExtras();
 
   // ── PRIMARY MAP ───────────────────────────────────────────────────────────
   const primaryUsers = (d.users||[]).filter(u=>u.isPrimary);
-  const pDiv = parseInt(CACHE.appConfig?.primaryDivisor||'10');
+  const pDiv = parseInt(CACHE.appConfig?.primaryDivisor||'35');
   const pRaw = entries.filter(e=>primaryUsers.find(u=>u.id===e.userId)).reduce((s,e)=>s+e.miles,0);
   const pTotal = Math.round(pRaw/pDiv);
   const pPct = Math.min(100, pTotal/600*100);
@@ -6797,6 +6824,248 @@ function renderGroupMaps(){
   const ps=document.getElementById('primaryGroupSub');
   if(ps){const nw=WAYPOINTS.find(w=>pTotal<w.miles);ps.textContent=nw?'Next: '+nw.label.replace('\n',' ')+' at '+nw.miles+' miles':'Jerusalem reached!';}
   buildGroupWaypointBar('primaryWaypointsContainer', pPct);
+}
+
+
+// ══ ACTIVITY SEARCH ══
+function filterActivities(query){
+  var q=query.trim().toLowerCase();
+  var resultEl=document.getElementById('activitySearchResults');
+  var listEl=document.getElementById('activityList');
+  if(!q){if(resultEl)resultEl.style.display='none';if(listEl)listEl.style.display='block';return;}
+  if(listEl)listEl.style.display='none';
+  if(!resultEl)return;
+  var actSrc=currentUser&&currentUser.isPrimary?PRIMARY_ACTIVITIES:ACTIVITIES;
+  var matches=[];
+  ['spiritual','physical','intellectual','social'].forEach(function(cat){
+    (actSrc[cat]||[]).forEach(function(act,i){
+      if(act.text.toLowerCase().indexOf(q)>=0) matches.push({cat:cat,act:act,i:i});
+    });
+  });
+  if(!matches.length){
+    resultEl.style.display='block';
+    resultEl.innerHTML='<p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);padding:.5rem 0;">No activities match that search.</p>';
+    return;
+  }
+  var done=getCompletedIds();
+  var rows=matches.map(function(m){
+    var id=makeActId(m.cat,m.i);
+    var isDone=done.has(id);
+    var el=document.createElement('div');
+    el.className='activity-item'+(isDone?' completed':'');
+    el.style.opacity=isDone?'0.6':'1';
+    el.innerHTML='<div class="activity-miles">'+m.act.miles+'<span>miles</span><div class="diff-stars">'+diffStars(m.act.miles)+'</div></div>'
+      +'<div class="activity-text">'+m.act.text
+      +'<span style="font-family:Inter,sans-serif;font-size:.6rem;color:var(--ink-soft);margin-left:.5rem;text-transform:uppercase;">'+cap(m.cat)+'</span></div>';
+    el.onclick=function(){logActivity(m.cat,m.act,m.i,el);};
+    return el.outerHTML;
+  }).join('');
+  resultEl.style.display='block';
+  resultEl.innerHTML='<div style="font-family:Inter,sans-serif;font-size:.65rem;color:var(--ink-soft);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.5rem;">'
+    +matches.length+' result'+(matches.length>1?'s':'')+' — click any to log</div>'+rows;
+}
+
+
+
+// ══ ADULT GROUP MAP — MONTHLY LEADER THEMES ══
+const ADULT_MONTHLY_THEMES = {
+  "February": {
+    topic: "Beginning the Journey",
+    talking_points: [
+      "Ask youth: what does walking to Jerusalem mean to you personally?",
+      "Share why you personally decided to participate.",
+      "Discuss: what habit will you build this month?",
+    ],
+    scripture: {text:"Let us run with patience the race that is set before us.", ref:"Hebrews 12:1"}
+  },
+  "March": {
+    topic: "Crossing the Red Sea — Faith Under Pressure",
+    talking_points: [
+      "Ask: when has faith moved you forward when the way seemed impossible?",
+      "Discuss Egypt to Red Sea: leaving comfort behind.",
+      "Challenge: identify one fear you will walk through this month.",
+    ],
+    scripture: {text:"By faith they passed through the Red sea as by dry land.", ref:"Hebrews 11:29"}
+  },
+  "April": {
+    topic: "Mt. Sinai — Receiving Revelation",
+    talking_points: [
+      "Nature Photography challenge: how does creation testify of God?",
+      "Ask youth: where do you feel closest to God?",
+      "Discuss spiritual gifts — what gifts have you seen in our ward youth?",
+    ],
+    scripture: {text:"The heavens declare the glory of God; the firmament sheweth his handywork.", ref:"Psalm 19:1"}
+  },
+  "May": {
+    topic: "The Wilderness — Enduring Well",
+    talking_points: [
+      "Reading challenge: ask what books are changing them.",
+      "Discuss: what does it look like to press forward in hard months?",
+      "Share a time you kept going when you wanted to stop.",
+    ],
+    scripture: {text:"Press toward the mark for the prize of the high calling of God.", ref:"Philippians 3:14"}
+  },
+  "June": {
+    topic: "Prayer — The Pilgrim's Compass",
+    talking_points: [
+      "Gratitude journal challenge: teach the difference between saying and feeling gratitude.",
+      "Ask: what has your prayer life taught you this year?",
+      "Discuss: how do you keep the Sabbath a delight?",
+    ],
+    scripture: {text:"Pray always, and I will pour out my Spirit upon you.", ref:"D&C 19:38"}
+  },
+  "July": {
+    topic: "Service — The Heart of the Journey",
+    talking_points: [
+      "Community service challenge: what does the Savior teach about finding life by losing it?",
+      "Ask youth: who do you minister to in your daily life?",
+      "Challenge families to do one unexpected act of service together.",
+    ],
+    scripture: {text:"Inasmuch as ye have done it unto one of the least of these my brethren, ye have done it unto me.", ref:"Matthew 25:40"}
+  },
+  "August": {
+    topic: "The Jordan River — Courage at the Threshold",
+    talking_points: [
+      "Adventure challenge: what threshold are youth standing at this fall?",
+      "Discuss back-to-school transitions and courage.",
+      "Ask: where is God calling you to step into deeper water?",
+    ],
+    scripture: {text:"The waters which came down from above stood and rose up upon an heap.", ref:"Joshua 3:16"}
+  },
+  "September": {
+    topic: "Learning — Becoming Like Him",
+    talking_points: [
+      "New skill challenge: intelligence attained here rises with us.",
+      "Ask: what has the Spirit taught you that a classroom never could?",
+      "Discuss D&C 88:118 — seek learning by study AND by faith.",
+    ],
+    scripture: {text:"Whatever principle of intelligence we attain unto in this life, it will rise with us in the resurrection.", ref:"D&C 130:18"}
+  },
+  "October": {
+    topic: "General Conference — Hear Him",
+    talking_points: [
+      "Ask youth: which talk from conference changed something for you?",
+      "Share which talk touched you most and why.",
+      "Challenge: apply one principle from conference this month.",
+    ],
+    scripture: {text:"We believe all that God has revealed, all that He does now reveal.", ref:"Articles of Faith 1:9"}
+  },
+  "November": {
+    topic: "Gratitude — Jerusalem in Sight",
+    talking_points: [
+      "Gratitude outreach challenge: who made a difference in your walk this year?",
+      "Discuss: what has this journey changed in you?",
+      "Challenge: write a personal letter of gratitude — to yourself, your family, or your Heavenly Father.",
+    ],
+    scripture: {text:"In nothing doth man offend God save those who confess not his hand in all things.", ref:"D&C 59:21"}
+  }
+};
+
+function renderAdultMapExtras(){
+  const el = document.getElementById('adultsMapExtras');
+  if(!el) return;
+  const d = db();
+  const curMonth = getCurrentMonth();
+  const theme = ADULT_MONTHLY_THEMES[curMonth];
+  const adultUsers = (d.users||[]).filter(u=>!u.isVisitor&&!u.isPrimary&&(u.isLeader||u.group==='Adult'));
+  const score = u=>(d.entries||[]).filter(e=>e.userId===u.id).reduce((s,e)=>s+e.miles,0);
+
+  // Top stats
+  const byMiles = adultUsers.map(u=>({...u,total:score(u)})).sort((a,b)=>b.total-a.total);
+  const now = Date.now();
+  const activeThisWeek = adultUsers.filter(u=>(d.entries||[]).some(e=>e.userId===u.id&&e.ts>now-7*24*60*60*1000));
+  const shoutouts = (d.shoutouts||[]);
+  const shoutSent = {};
+  shoutouts.forEach(s=>{if(s.authorId)shoutSent[s.authorId]=(shoutSent[s.authorId]||0)+1;});
+  const topShout = adultUsers.map(u=>({...u,sent:shoutSent[u.id]||0})).sort((a,b)=>b.sent-a.sent)[0];
+
+  el.innerHTML = `
+    <!-- Adult stats -->
+    <div class="card neutral" style="margin-bottom:.75rem;">
+      <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">&#x2605; Adult Leaders — This Week</strong>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;">
+        <div style="background:var(--sand);border-radius:8px;padding:.75rem;text-align:center;">
+          <div style="font-family:'Cinzel',serif;font-size:1.3rem;color:var(--navy);">${activeThisWeek.length}</div>
+          <div style="font-family:'Inter',sans-serif;font-size:.6rem;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em;margin-top:.2rem;">Active This Week</div>
+        </div>
+        <div style="background:var(--sand);border-radius:8px;padding:.75rem;text-align:center;">
+          <div style="font-family:'Cinzel',serif;font-size:1.3rem;color:var(--navy);">${byMiles[0]?byMiles[0].total:0}</div>
+          <div style="font-family:'Inter',sans-serif;font-size:.6rem;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em;margin-top:.2rem;">Top Adult Miles</div>
+          ${byMiles[0]?`<div style="font-family:'Crimson Pro',serif;font-size:.78rem;color:var(--ink-soft);">${byMiles[0].name.split(' ')[0]}</div>`:''}
+        </div>
+      </div>
+      ${topShout&&topShout.sent>0?`<div style="font-family:'Crimson Pro',serif;font-style:italic;font-size:.82rem;color:var(--ink-soft);margin-top:.75rem;padding-top:.75rem;border-top:1px solid var(--sand-dark);">
+        &#x1F4E3; Most encouraging: <strong style="color:var(--navy);">${topShout.name}</strong> — ${topShout.sent} shoutout${topShout.sent>1?'s':''} sent
+      </div>`:''}
+    </div>
+
+    ${theme?`
+    <!-- Monthly leader theme -->
+    <div class="card neutral" style="margin-bottom:.75rem;border-left:3px solid var(--gold);border-radius:0 8px 8px 0;">
+      <div style="font-family:'Inter',sans-serif;font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:.35rem;">&#x2726; ${curMonth} Leader Theme</div>
+      <div style="font-family:'Cinzel',serif;font-size:.95rem;color:var(--navy);margin-bottom:.75rem;">${theme.topic}</div>
+      <div style="font-family:'Inter',sans-serif;font-size:.72rem;color:var(--ink-soft);margin-bottom:.6rem;font-weight:500;">Conversation starters for youth:</div>
+      <ul style="margin:0 0 .75rem;padding-left:1.25rem;">
+        ${theme.talking_points.map(p=>'<li style="font-family:\'Crimson Pro\',serif;font-size:.88rem;color:var(--ink);margin-bottom:.35rem;">'+p+'</li>').join('')}
+      </ul>
+      <div style="font-family:'Crimson Pro',serif;font-style:italic;font-size:.85rem;color:var(--ink-soft);border-top:1px solid var(--sand-dark);padding-top:.65rem;line-height:1.5;">
+        &ldquo;${theme.scripture.text}&rdquo;<br>
+        <span style="font-family:'Inter',sans-serif;font-size:.6rem;opacity:.7;">&mdash; ${theme.scripture.ref}</span>
+      </div>
+    </div>
+
+    <!-- Post shoutout + nudge tool (leader-only) -->
+    ${currentUser&&currentUser.isLeader?`
+    <div class="card neutral" style="margin-bottom:.75rem;">
+      <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">&#x1F4E3; Post a Shoutout</strong>
+      <div class="form-group"><label class="form-label">Message</label><textarea id="shoutoutText2" class="form-input" placeholder="Great job this month! Special shoutout to\u2026"></textarea></div>
+      <button class="btn btn-gold btn-sm" onclick="postShoutoutFromGroup()">Post Shoutout</button>
+    </div>
+    <div class="card neutral">
+      <strong style="font-family:'Cinzel',serif;font-size:.85rem;color:var(--navy);display:block;margin-bottom:.75rem;">&#x1F514; Leader Nudge Tool</strong>
+      <div class="form-group"><label class="form-label">Message Type</label>
+        <select id="nudgeType2" class="form-input" onchange="updateNudgePreview2()">
+          <option value="general">General monthly reminder</option>
+          <option value="challenge">Featured challenge reminder</option>
+          <option value="streak">Streak encouragement</option>
+          <option value="group">Group map progress update</option>
+          <option value="jerusalem">Jerusalem &mdash; almost there!</option>
+        </select>
+      </div>
+      <div class="nudge-preview" id="nudgePreview2"></div>
+      <button class="btn btn-teal btn-sm" onclick="copyNudge2()">&#x1F4CB; Copy Message</button>
+    </div>`:''}
+    `:''}
+  `;
+  // Initialize nudge preview
+  if(currentUser&&currentUser.isLeader) updateNudgePreview2();
+}
+
+function postShoutoutFromGroup(){
+  const t=document.getElementById('shoutoutText2');
+  if(!t)return;
+  // Reuse postShoutout logic with the text from the group map textarea
+  const orig=document.getElementById('shoutoutText');
+  if(orig){orig.value=t.value;}
+  postShoutout();
+  t.value='';
+}
+
+function updateNudgePreview2(){
+  const sel=document.getElementById('nudgeType2');
+  const prev=document.getElementById('nudgePreview2');
+  if(!sel||!prev)return;
+  const origSel=document.getElementById('nudgeType');
+  if(origSel)origSel.value=sel.value;
+  updateNudgePreview();
+  const origPrev=document.getElementById('nudgePreview');
+  if(origPrev)prev.innerHTML=origPrev.innerHTML;
+}
+
+function copyNudge2(){
+  const sel=document.getElementById('nudgeType2');
+  if(sel){const orig=document.getElementById('nudgeType');if(orig)orig.value=sel.value;}
+  copyNudge();
 }
 
 function exportCSV(){
@@ -6954,7 +7223,7 @@ buildStars();
         <div class="wn-icon" style="background:linear-gradient(135deg,#5a7a2a,#3a5a1a);">&#x1F4CB;</div>
         <div class="wn-feature-body">
           <div class="wn-feature-title">Expanded Activity Catalog</div>
-          <div class="wn-feature-desc">177 youth activities plus 60 Primary activities. New goals include fireside attendance, Stake Camp, EFY, family campout leadership, youth conference, and a youth fireside leader goal. Minute to Win It expanded to 45 daily tasks.</div>
+          <div class="wn-feature-desc">177 youth activities plus 60 Primary activities. New goals include fireside attendance, Stake Camp, FSY, family campout leadership, youth conference, and a youth fireside leader goal. Minute to Win It expanded to 45 daily tasks.</div>
         </div>
       </div>
       <div class="wn-feature">
