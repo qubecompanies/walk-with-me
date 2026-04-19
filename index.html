@@ -5405,8 +5405,14 @@ function renderStreakLeaderboard(){
     }
     return streak;
   }
-  const ranked=allUsers.map(u=>({...u,streak:userStreak(u)}))
-    .filter(u=>u.streak>0).sort((a,b)=>b.streak-a.streak);
+  // For current user: use calcDailyStreak() which checks both Firestore entries
+  // AND MTWI completions stored in userState — gives the authoritative value.
+  // For other users: userStreak() uses only Firestore entries (best we can do
+  // since we cannot access other users' userState/MTWI data).
+  const ranked=allUsers.map(u=>({
+    ...u,
+    streak: u.id===currentUser.id ? calcDailyStreak() : userStreak(u)
+  })).filter(u=>u.streak>0).sort((a,b)=>b.streak-a.streak);
   const max=ranked[0]?.streak||1;
   lbPane.innerHTML=ranked.length?`
     <div class="monthly-lb-note">Longest active daily streak</div>
