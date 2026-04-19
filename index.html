@@ -6010,6 +6010,7 @@ function switchAdminPane(pane, btn){
 // ──────────────────────────────────────────────────────────────────────────────
 let _intelCharts = {};
 let _intelOpen   = {}; // track open sections
+let _intelData   = null; // cached for accordion re-renders
 
 function toggleIntelSection(id){
   const body = document.getElementById('intel-body-'+id);
@@ -6019,7 +6020,12 @@ function toggleIntelSection(id){
   body.classList.toggle('open', !isOpen);
   if(chev) chev.classList.toggle('open', !isOpen);
   _intelOpen[id] = !isOpen;
-  if(!isOpen) setTimeout(()=>renderIntelCharts(), 50);
+  // Re-render charts after accordion opens — canvases now have real dimensions
+  if(!isOpen && _intelData){
+    setTimeout(()=>renderIntelCharts(
+      _intelData.d, _intelData.allActive, _intelData.atRisk, _intelData.top5
+    ), 60);
+  }
 }
 
 function renderLeaderIntel(){
@@ -6291,8 +6297,14 @@ function renderLeaderIntel(){
 
   `;
 
-  // Render charts after DOM settles
+  // Cache data for accordion re-renders, then render charts
+  _intelData = {d, allActive, atRisk, top5};
   setTimeout(()=>renderIntelCharts(d, allActive, atRisk, top5), 80);
+}
+
+function isCanvasVisible(el){
+  // Canvas inside display:none has offsetWidth=0 — skip it
+  return el && el.offsetWidth > 0 && el.offsetHeight > 0;
 }
 
 function renderIntelCharts(d, allActive, atRisk, top5){
@@ -6308,7 +6320,7 @@ function renderIntelCharts(d, allActive, atRisk, top5){
 
   // ── CHART 1: Ward miles per month (bar) ────────────────────────────────────
   const c1el = document.getElementById('intelChart1');
-  if(c1el){
+  if(c1el && isCanvasVisible(c1el)){
     const wardByMonth = months10.map(m=>{
       const total=(d.entries||[]).filter(e=>e.month===m).reduce((s,e)=>s+e.miles,0);
       const count=(allActive||[]).filter(u=>(d.entries||[]).some(e=>e.userId===u.id&&e.month===m)).length||1;
@@ -6334,7 +6346,7 @@ function renderIntelCharts(d, allActive, atRisk, top5){
 
   // ── CHART 2: Daily active members (line) ───────────────────────────────────
   const c2el = document.getElementById('intelChart2');
-  if(c2el){
+  if(c2el && isCanvasVisible(c2el)){
     const actives=Array.from({length:30},(_,i)=>{
       const ds=getDayStampOffset(29-i);
       const startOfDay=new Date(Math.floor(ds/10000),Math.floor((ds%10000)/100)-1,ds%100).getTime();
@@ -6364,7 +6376,7 @@ function renderIntelCharts(d, allActive, atRisk, top5){
   const sparkColors=['#E24B4A','#EF9F27','#854F0B','#633806'];
   (atRisk||[]).slice(0,4).forEach((u,i)=>{
     const el=document.getElementById('intelSpark'+i);
-    if(!el)return;
+    if(!el||!isCanvasVisible(el))return;
     const byMonth=MONTHS.map(m=>(d.entries||[]).filter(e=>e.userId===u.id&&e.month===m).reduce((s,e)=>s+e.miles,0));
     // Build cumulative
     const cum=byMonth.reduce((acc,v)=>[...acc,(acc[acc.length-1]||0)+v],[]);
@@ -6381,7 +6393,7 @@ function renderIntelCharts(d, allActive, atRisk, top5){
 
   // ── CHART 4: Top 5 cumulative (line) ─────────────────────────────────────
   const c4el=document.getElementById('intelChart4');
-  if(c4el){
+  if(c4el && isCanvasVisible(c4el)){
     const colors4=['#e8b050','#5DCAA5','#85B7EB','#F0997B','#AFA9EC'];
     _intelCharts.c4=new Chart(c4el,{
       type:'line',
