@@ -1529,6 +1529,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
         </div>
       </div><!-- /group-view-primary -->
 
+    </div><!-- /tab-group -->
 
     <!-- LEADERBOARD -->
     <div id="tab-leaderboard" class="tab-content">
@@ -2389,6 +2390,8 @@ function logout(){
 async function switchTab(tab){
   document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(el=>el.classList.remove('active'));
+  // Hide all group-map-view panes when leaving group tab
+  if(tab!=='group') document.querySelectorAll('.group-map-view').forEach(el=>el.classList.remove('active'));
   document.getElementById('tab-'+tab).classList.add('active');
   document.querySelectorAll('.nav-tab').forEach(el=>{
     const t=el.textContent.toLowerCase();
@@ -2400,7 +2403,12 @@ async function switchTab(tab){
   if(tab==='history'){renderHistory();}
   if(tab==='planner')renderPlanner();
   if(tab==='history')renderHistory();
-  if(tab==='group'){renderGroup();checkForNewShoutouts();}
+  if(tab==='group'){
+    renderGroup();checkForNewShoutouts();
+    // Restore the active group map pane
+    const ap=document.getElementById('group-view-'+(_groupMapActive||'youth'));
+    if(ap) ap.classList.add('active');
+  }
   if(tab==='leaderboard')renderLeaderboard();
   if(tab==='admin')renderAdmin();
 }
