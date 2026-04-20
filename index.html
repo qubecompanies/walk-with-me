@@ -1057,6 +1057,150 @@ textarea.form-input{min-height:72px;resize:vertical;}
 </div>
 
 <!-- LOGIN -->
+<!-- TUTORIAL MODAL -->
+<div id="tutorialModal" onclick="closeTutorialModalBackdrop(event)">
+  <div class="tut-modal-card">
+    <div class="tut-modal-handle"></div>
+    <div class="tut-modal-header">
+      <button class="tut-modal-close" onclick="closeTutorialModal()">&#x2715;</button>
+      <div class="tut-modal-eyebrow">&#x2726; Level Creek Ward &middot; 2026</div>
+      <div class="tut-modal-title">How Walk With Me works</div>
+      <div class="tut-modal-sub">600 miles, Egypt to Jerusalem &mdash; your quick guide</div>
+    </div>
+    <div class="tut-modal-body">
+      <div class="tut-step">
+        <div class="tut-step-icon">&#x270D;</div>
+        <div>
+          <div class="tut-step-title">Create your account</div>
+          <div class="tut-step-desc">Tap &ldquo;Create your account,&rdquo; enter your name, choose your group, and pick a 4-digit PIN. No email needed.</div>
+        </div>
+      </div>
+      <div class="tut-step">
+        <div class="tut-step-icon">&#x26A1;</div>
+        <div>
+          <div class="tut-step-title">Log miles by doing real things</div>
+          <div class="tut-step-desc">Browse 150+ activities across Spiritual, Physical, Intellectual, and Social. Tap any activity to log it. Goal: 60 miles per month.</div>
+        </div>
+      </div>
+      <div class="tut-step">
+        <div class="tut-step-icon">&#x1F3AF;</div>
+        <div>
+          <div class="tut-step-title">Complete monthly challenges</div>
+          <div class="tut-step-desc">Each month (April&ndash;November) has a special 30-mile featured challenge. Complete all 8 to earn the Monthly Champion badge and +100 bonus miles.</div>
+        </div>
+      </div>
+      <div class="tut-step">
+        <div class="tut-step-icon">&#x1F5FA;</div>
+        <div>
+          <div class="tut-step-title">Watch the ward walk together</div>
+          <div class="tut-step-desc">The Group Map shows your whole ward advancing from Egypt toward Jerusalem in real time. Check the Leaderboard for YM vs YW, Youth vs Leaders, and monthly rankings.</div>
+        </div>
+      </div>
+      <div class="tut-step">
+        <div class="tut-step-icon">&#x2728;</div>
+        <div>
+          <div class="tut-step-title">Arrive in Jerusalem</div>
+          <div class="tut-step-desc">Hit 600 miles and the app throws a fireworks celebration plus a printable certificate. Every milestone unlocks a badge along the way.</div>
+        </div>
+      </div>
+    </div>
+    <div class="tut-modal-footer">
+      <a href="https://qubecompanies.github.io/walk-with-me/tutorial.html" target="_blank" class="tut-full-btn">&#x1F4D6; Open Full Interactive Tutorial &rarr;</a>
+      <button class="tut-dismiss-btn" onclick="closeTutorialModal()">Got it</button>
+    </div>
+  </div>
+</div>
+
+<!-- WAYPOINT CELEBRATION OVERLAY --><!-- STREAK CELEBRATION OVERLAY -->
+<!-- PARTNER CHALLENGE MODAL -->
+<div id="partnerModal" onclick="closePartnerModal(event)">
+  <div class="partner-modal-card">
+    <div class="partner-modal-header">
+      <div class="partner-modal-title" id="partnerModalTitle">&#x1F91D; Partner with</div>
+      <div class="partner-modal-sub">Choose an activity &mdash; both complete it within 7 days</div>
+    </div>
+    <div class="partner-modal-body">
+      <div class="partner-target">
+        <div style="flex:1;">
+          <div class="partner-target-name" id="partnerTargetName">&mdash;</div>
+          <div class="partner-target-group" id="partnerTargetGroup">&mdash;</div>
+        </div>
+        <div style="font-size:1.5rem;">&#x1F91D;</div>
+      </div>
+      <div style="font-family:'Inter',sans-serif;font-size:.7rem;color:var(--ink-soft);margin-bottom:.5rem;">Pick an activity you will both complete:</div>
+      <div class="partner-activity-list" id="partnerActivityList"></div>
+      <div style="background:var(--sand);border-radius:6px;padding:.6rem .75rem;font-family:'Crimson Pro',serif;font-size:.82rem;color:var(--ink-soft);margin-bottom:.5rem;">
+        &#x2726; Both earn <strong style="color:var(--navy);">+5 bonus miles</strong> and a permanent <strong style="color:var(--teal);">&#x1F91D; Partnership Badge</strong> when you both complete it within 7 days.
+      </div>
+    </div>
+    <div class="partner-modal-footer">
+      <button class="partner-send-btn" onclick="sendPartnerChallenge()" id="partnerSendBtn" disabled style="opacity:.5;">Select an activity first</button>
+      <button style="background:none;border:none;font-family:'Inter',sans-serif;font-size:.75rem;color:var(--ink-soft);cursor:pointer;padding:.5rem;" onclick="closePartnerModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- RETURN TO ZION UNLOCK OVERLAY -->
+<div id="zionUnlockOverlay">
+  <canvas id="zionFireworkCanvas" style="position:absolute;inset:0;pointer-events:none;"></canvas>
+  <div class="zion-unlock-eyebrow">&#x2726; Jerusalem Completed &#x2726;</div>
+  <div class="zion-unlock-icon">&#x1F3D4;</div>
+  <div class="zion-unlock-title">Forward to Zion</div>
+  <div class="zion-unlock-sub">Jerusalem is not the end &mdash; it is an invitation. Walk now in the footsteps of Enoch: build a people of one heart and one mind, consecrate all you have, and press toward a city worthy of translation.</div>
+  <button class="btn btn-gold" onclick="closeZionUnlock()" style="width:auto;padding:.75rem 2rem;">Begin the Return &#x2192;</button>
+</div>
+
+<!-- WHAT'S NEW v3.0 MODAL -->
+<div id="whatsNewModal">
+  <div class="wn-card">
+    <div class="wn-header">
+      <div class="wn-badge">&#x2726; Version 3.2 &mdash; What&rsquo;s New</div>
+      <div class="wn-title">Walk With Me</div>
+      <div class="wn-sub">Primary, more activities, smarter leaders &mdash; here&rsquo;s everything new</div>
+    </div>
+    <div class="wn-body">
+      <div class="wn-feature">
+        <div class="wn-icon" style="background:linear-gradient(135deg,#7a4a20,#5a3010);">&#x1F54A;</div>
+        <div class="wn-feature-body">
+          <div class="wn-feature-title">Primary Profile &mdash; Ages 4&ndash;11</div>
+          <div class="wn-feature-desc">Primary children now have their own profile type with 60 age-appropriate activities, a dedicated Group Map, a Primary leaderboard tab, a &ldquo;First Steps&rdquo; starter badge at 10 miles, and a special &#x1F54A; Little Pilgrim badge for monthly challenge completions.</div>
+        </div>
+      </div>
+      <div class="wn-feature">
+        <div class="wn-icon" style="background:linear-gradient(135deg,#1a3a5c,#0f2540);">&#x1F5FA;</div>
+        <div class="wn-feature-body">
+          <div class="wn-feature-title">Three Group Maps</div>
+          <div class="wn-feature-desc">The Group Map now has sub-tabs for Youth, Adults, and Primary &mdash; each group has its own progress bar and waypoint map. Leaders can set separate divisors for each group in Admin to keep the journey fair across different group sizes.</div>
+        </div>
+      </div>
+      <div class="wn-feature">
+        <div class="wn-icon" style="background:linear-gradient(135deg,#2a7a6e,#1a5a4e);">&#x1F91D;</div>
+        <div class="wn-feature-body">
+          <div class="wn-feature-title">Partner With &mdash; Updated</div>
+          <div class="wn-feature-desc">The partner system now uses warmer, cooperative language. Tap &ldquo;Partner with [Name]&rdquo; on the Leaderboard to start a shared activity. Both complete it within 7 days and earn bonus miles together.</div>
+        </div>
+      </div>
+      <div class="wn-feature">
+        <div class="wn-icon" style="background:linear-gradient(135deg,#5a7a2a,#3a5a1a);">&#x1F4CB;</div>
+        <div class="wn-feature-body">
+          <div class="wn-feature-title">Expanded Activity Catalog</div>
+          <div class="wn-feature-desc">177 youth activities plus 60 Primary activities. New goals include fireside attendance, Stake Camp, FSY, family campout leadership, youth conference, and a youth fireside leader goal. Minute to Win It expanded to 45 daily tasks.</div>
+        </div>
+      </div>
+      <div class="wn-feature">
+        <div class="wn-icon" style="background:linear-gradient(135deg,#0f2540,#1a3a5c);">&#x1F9E0;</div>
+        <div class="wn-feature-body">
+          <div class="wn-feature-title">Leader Intelligence &mdash; Enhanced</div>
+          <div class="wn-feature-desc">The Intelligence tab now has Youth / Adults / All filters, a &ldquo;never used&rdquo; and &ldquo;zero this month&rdquo; exclusion toggle, four live charts including all-ward sparklines with top members highlighted, and a most-improved trend line.</div>
+        </div>
+      </div>
+    </div>
+    <div class="wn-footer">
+      <button class="wn-cta" onclick="closeWhatsNew()">Let&rsquo;s go! &#x2192;</button>
+      <button class="wn-dismiss" onclick="closeWhatsNew()">Dismiss</button>
+    </div>
+  </div>
+</div>
 <div id="loginScreen" class="screen active">
   <div class="login-stars" id="loginStars"></div>
   <div class="login-card">
@@ -1351,7 +1495,10 @@ textarea.form-input{min-height:72px;resize:vertical;}
           <div class="group-stat-pill"><div class="group-stat-num" id="adultsPct">0%</div><div class="group-stat-lbl">journey</div></div>
         </div>
         <div class="card journey-map" style="margin-bottom:1rem;padding:1.25rem 1rem;min-height:90px;position:relative;">
-          <div id="adultsWaypointsContainer" style="display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:1.5rem;position:relative;"></div>
+          <div id="adultsWaypointsContainer" style="display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:1.8rem;position:relative;">
+            <div id="adultsJourneyLine" style="position:absolute;bottom:.8rem;left:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:2px;width:0%;transition:width .9s;"></div>
+            <div id="adultsTraveler" style="position:absolute;bottom:.45rem;transform:translateX(-50%);left:0;transition:left .9s;z-index:2;"></div>
+          </div>
         </div>
         <div id="adultsMapExtras"></div>
       </div><!-- /group-view-adults -->
@@ -1370,7 +1517,10 @@ textarea.form-input{min-height:72px;resize:vertical;}
           <div class="group-stat-pill"><div class="group-stat-num" id="primaryPct">0%</div><div class="group-stat-lbl">journey</div></div>
         </div>
         <div class="card journey-map" style="margin-bottom:1rem;padding:1.25rem 1rem;min-height:90px;position:relative;">
-          <div id="primaryWaypointsContainer" style="display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:1.5rem;position:relative;"></div>
+          <div id="primaryWaypointsContainer" style="display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:1.8rem;position:relative;">
+            <div id="primaryJourneyLine" style="position:absolute;bottom:.8rem;left:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:2px;width:0%;transition:width .9s;"></div>
+            <div id="primaryTraveler" style="position:absolute;bottom:.45rem;transform:translateX(-50%);left:0;transition:left .9s;z-index:2;"></div>
+          </div>
         </div>
         <div class="card neutral" style="padding:.75rem 1rem;margin-bottom:1rem;text-align:center;">
           <div style="font-family:'Crimson Pro',serif;font-style:italic;font-size:.88rem;color:var(--ink-soft);">
@@ -2200,7 +2350,7 @@ function enterApp(){
   if(currentUser.isLeader){
     document.getElementById('adminTab').style.display='block';
   }
-  buildMonthSelector();buildPlannerMonthSelector();buildActivityList();buildPlannerActivityList();buildGroupWaypoints();buildMiniMap();
+  buildMonthSelector();buildPlannerMonthSelector();buildActivityList();buildPlannerActivityList();buildGroupWaypoints();buildAdultsGroupWaypoints();buildPrimaryGroupWaypoints();buildMiniMap();
   switchTab('dashboard');
   initHomeScreenPrompt();
   // Poll for new shoutouts every 30 seconds while app is open
@@ -6852,7 +7002,7 @@ function renderGroupMaps(){
   const apb=document.getElementById('adultsProgressBar'); if(apb) apb.style.width=Math.min(100,aPct)+'%';
   const as=document.getElementById('adultsGroupSub');
   if(as){const nw=WAYPOINTS.find(w=>aTotal<w.miles);as.textContent=nw?'Next: '+nw.label.replace('\n',' ')+' at '+nw.miles+' miles':'Jerusalem reached!';}
-  buildGroupWaypointBar('adultsWaypointsContainer', aPct);
+  setTimeout(()=>updateTravelerForContainer('adultsWaypointsContainer','adultsTraveler','adultsJourneyLine',aTotal),120);
   renderAdultMapExtras();
 
   // ── PRIMARY MAP ───────────────────────────────────────────────────────────
@@ -6871,7 +7021,7 @@ function renderGroupMaps(){
   const ppb=document.getElementById('primaryProgressBar'); if(ppb) ppb.style.width=Math.min(100,pPct)+'%';
   const ps=document.getElementById('primaryGroupSub');
   if(ps){const nw=WAYPOINTS.find(w=>pTotal<w.miles);ps.textContent=nw?'Next: '+nw.label.replace('\n',' ')+' at '+nw.miles+' miles':'Jerusalem reached!';}
-  buildGroupWaypointBar('primaryWaypointsContainer', pPct);
+  setTimeout(()=>updateTravelerForContainer('primaryWaypointsContainer','primaryTraveler','primaryJourneyLine',pTotal),120);
 }
 
 
@@ -7116,6 +7266,47 @@ function copyNudge2(){
   copyNudge();
 }
 
+
+// ══ GROUP MAP BUILDERS — Adults & Primary (same system as Youth) ══
+function buildGroupWaypointsForContainer(containerId){
+  const container = document.getElementById(containerId);
+  if(!container) return;
+  // Remove any existing .waypoint children (allow re-build)
+  Array.from(container.querySelectorAll('.waypoint')).forEach(el=>el.remove());
+  WAYPOINTS.forEach((wp,i)=>{
+    const div = document.createElement('div');
+    div.className = 'waypoint';
+    div.id = containerId+'-wp-'+i;
+    div.innerHTML = '<div class="waypoint-icon-svg">'+(WAYPOINT_ICONS[i]||'📍')+'</div>'
+      + '<div class="waypoint-dot"></div>'
+      + '<div class="waypoint-label">'+wp.label.replace('\n','<br>')+'</div>'
+      + '<div class="waypoint-miles">'+(wp.miles>0?wp.miles+' mi':'Start')+'</div>';
+    container.appendChild(div);
+  });
+}
+
+function updateTravelerForContainer(containerId, travelerId, lineId, total){
+  const container = document.getElementById(containerId);
+  const traveler  = document.getElementById(travelerId);
+  const line      = document.getElementById(lineId);
+  if(!container || !traveler) return;
+  if(!traveler.innerHTML) traveler.innerHTML = getGroupTravelerSVG();
+  const pct = Math.min(100, total/600*100);
+  const w   = container.offsetWidth || 300;
+  const leftPx = (pct/100) * (w - 24) + 12;
+  traveler.style.left = leftPx + 'px';
+  // Update waypoint dots
+  WAYPOINTS.forEach((wp,i)=>{
+    const el = document.getElementById(containerId+'-wp-'+i);
+    if(el){ if(total>=wp.miles) el.classList.add('reached'); else el.classList.remove('reached'); }
+  });
+  // Update line
+  if(line) line.style.width = (pct/100*(w-32)) + 'px';
+}
+
+function buildAdultsGroupWaypoints(){ buildGroupWaypointsForContainer('adultsWaypointsContainer'); }
+function buildPrimaryGroupWaypoints(){ buildGroupWaypointsForContainer('primaryWaypointsContainer'); }
+
 function exportCSV(){
   const d=db();const headers=['Name','Group','Category','Description','Miles','Month','Date','Custom'];
   const rows=d.entries.map(e=>{const u=d.users.find(u=>u.id===e.userId)||{};return[u.name||e.userName,u.group||'',e.cat,'"'+e.desc.replace(/"/g,'""')+'"',e.miles,e.month,new Date(e.ts).toLocaleDateString(),e.custom?'Yes':'No'].join(',');});
@@ -7144,150 +7335,6 @@ function buildStars(){const c=document.getElementById('loginStars');for(let i=0;
 buildStars();
 </script>
 
-<!-- TUTORIAL MODAL -->
-<div id="tutorialModal" onclick="closeTutorialModalBackdrop(event)">
-  <div class="tut-modal-card">
-    <div class="tut-modal-handle"></div>
-    <div class="tut-modal-header">
-      <button class="tut-modal-close" onclick="closeTutorialModal()">&#x2715;</button>
-      <div class="tut-modal-eyebrow">&#x2726; Level Creek Ward &middot; 2026</div>
-      <div class="tut-modal-title">How Walk With Me works</div>
-      <div class="tut-modal-sub">600 miles, Egypt to Jerusalem &mdash; your quick guide</div>
-    </div>
-    <div class="tut-modal-body">
-      <div class="tut-step">
-        <div class="tut-step-icon">&#x270D;</div>
-        <div>
-          <div class="tut-step-title">Create your account</div>
-          <div class="tut-step-desc">Tap &ldquo;Create your account,&rdquo; enter your name, choose your group, and pick a 4-digit PIN. No email needed.</div>
-        </div>
-      </div>
-      <div class="tut-step">
-        <div class="tut-step-icon">&#x26A1;</div>
-        <div>
-          <div class="tut-step-title">Log miles by doing real things</div>
-          <div class="tut-step-desc">Browse 150+ activities across Spiritual, Physical, Intellectual, and Social. Tap any activity to log it. Goal: 60 miles per month.</div>
-        </div>
-      </div>
-      <div class="tut-step">
-        <div class="tut-step-icon">&#x1F3AF;</div>
-        <div>
-          <div class="tut-step-title">Complete monthly challenges</div>
-          <div class="tut-step-desc">Each month (April&ndash;November) has a special 30-mile featured challenge. Complete all 8 to earn the Monthly Champion badge and +100 bonus miles.</div>
-        </div>
-      </div>
-      <div class="tut-step">
-        <div class="tut-step-icon">&#x1F5FA;</div>
-        <div>
-          <div class="tut-step-title">Watch the ward walk together</div>
-          <div class="tut-step-desc">The Group Map shows your whole ward advancing from Egypt toward Jerusalem in real time. Check the Leaderboard for YM vs YW, Youth vs Leaders, and monthly rankings.</div>
-        </div>
-      </div>
-      <div class="tut-step">
-        <div class="tut-step-icon">&#x2728;</div>
-        <div>
-          <div class="tut-step-title">Arrive in Jerusalem</div>
-          <div class="tut-step-desc">Hit 600 miles and the app throws a fireworks celebration plus a printable certificate. Every milestone unlocks a badge along the way.</div>
-        </div>
-      </div>
-    </div>
-    <div class="tut-modal-footer">
-      <a href="https://qubecompanies.github.io/walk-with-me/tutorial.html" target="_blank" class="tut-full-btn">&#x1F4D6; Open Full Interactive Tutorial &rarr;</a>
-      <button class="tut-dismiss-btn" onclick="closeTutorialModal()">Got it</button>
-    </div>
-  </div>
-</div>
-
-<!-- WAYPOINT CELEBRATION OVERLAY --><!-- STREAK CELEBRATION OVERLAY -->
-<!-- PARTNER CHALLENGE MODAL -->
-<div id="partnerModal" onclick="closePartnerModal(event)">
-  <div class="partner-modal-card">
-    <div class="partner-modal-header">
-      <div class="partner-modal-title" id="partnerModalTitle">&#x1F91D; Partner with</div>
-      <div class="partner-modal-sub">Choose an activity &mdash; both complete it within 7 days</div>
-    </div>
-    <div class="partner-modal-body">
-      <div class="partner-target">
-        <div style="flex:1;">
-          <div class="partner-target-name" id="partnerTargetName">&mdash;</div>
-          <div class="partner-target-group" id="partnerTargetGroup">&mdash;</div>
-        </div>
-        <div style="font-size:1.5rem;">&#x1F91D;</div>
-      </div>
-      <div style="font-family:'Inter',sans-serif;font-size:.7rem;color:var(--ink-soft);margin-bottom:.5rem;">Pick an activity you will both complete:</div>
-      <div class="partner-activity-list" id="partnerActivityList"></div>
-      <div style="background:var(--sand);border-radius:6px;padding:.6rem .75rem;font-family:'Crimson Pro',serif;font-size:.82rem;color:var(--ink-soft);margin-bottom:.5rem;">
-        &#x2726; Both earn <strong style="color:var(--navy);">+5 bonus miles</strong> and a permanent <strong style="color:var(--teal);">&#x1F91D; Partnership Badge</strong> when you both complete it within 7 days.
-      </div>
-    </div>
-    <div class="partner-modal-footer">
-      <button class="partner-send-btn" onclick="sendPartnerChallenge()" id="partnerSendBtn" disabled style="opacity:.5;">Select an activity first</button>
-      <button style="background:none;border:none;font-family:'Inter',sans-serif;font-size:.75rem;color:var(--ink-soft);cursor:pointer;padding:.5rem;" onclick="closePartnerModal()">Cancel</button>
-    </div>
-  </div>
-</div>
-
-<!-- RETURN TO ZION UNLOCK OVERLAY -->
-<div id="zionUnlockOverlay">
-  <canvas id="zionFireworkCanvas" style="position:absolute;inset:0;pointer-events:none;"></canvas>
-  <div class="zion-unlock-eyebrow">&#x2726; Jerusalem Completed &#x2726;</div>
-  <div class="zion-unlock-icon">&#x1F3D4;</div>
-  <div class="zion-unlock-title">Forward to Zion</div>
-  <div class="zion-unlock-sub">Jerusalem is not the end &mdash; it is an invitation. Walk now in the footsteps of Enoch: build a people of one heart and one mind, consecrate all you have, and press toward a city worthy of translation.</div>
-  <button class="btn btn-gold" onclick="closeZionUnlock()" style="width:auto;padding:.75rem 2rem;">Begin the Return &#x2192;</button>
-</div>
-
-<!-- WHAT'S NEW v3.0 MODAL -->
-<div id="whatsNewModal">
-  <div class="wn-card">
-    <div class="wn-header">
-      <div class="wn-badge">&#x2726; Version 3.2 &mdash; What&rsquo;s New</div>
-      <div class="wn-title">Walk With Me</div>
-      <div class="wn-sub">Primary, more activities, smarter leaders &mdash; here&rsquo;s everything new</div>
-    </div>
-    <div class="wn-body">
-      <div class="wn-feature">
-        <div class="wn-icon" style="background:linear-gradient(135deg,#7a4a20,#5a3010);">&#x1F54A;</div>
-        <div class="wn-feature-body">
-          <div class="wn-feature-title">Primary Profile &mdash; Ages 4&ndash;11</div>
-          <div class="wn-feature-desc">Primary children now have their own profile type with 60 age-appropriate activities, a dedicated Group Map, a Primary leaderboard tab, a &ldquo;First Steps&rdquo; starter badge at 10 miles, and a special &#x1F54A; Little Pilgrim badge for monthly challenge completions.</div>
-        </div>
-      </div>
-      <div class="wn-feature">
-        <div class="wn-icon" style="background:linear-gradient(135deg,#1a3a5c,#0f2540);">&#x1F5FA;</div>
-        <div class="wn-feature-body">
-          <div class="wn-feature-title">Three Group Maps</div>
-          <div class="wn-feature-desc">The Group Map now has sub-tabs for Youth, Adults, and Primary &mdash; each group has its own progress bar and waypoint map. Leaders can set separate divisors for each group in Admin to keep the journey fair across different group sizes.</div>
-        </div>
-      </div>
-      <div class="wn-feature">
-        <div class="wn-icon" style="background:linear-gradient(135deg,#2a7a6e,#1a5a4e);">&#x1F91D;</div>
-        <div class="wn-feature-body">
-          <div class="wn-feature-title">Partner With &mdash; Updated</div>
-          <div class="wn-feature-desc">The partner system now uses warmer, cooperative language. Tap &ldquo;Partner with [Name]&rdquo; on the Leaderboard to start a shared activity. Both complete it within 7 days and earn bonus miles together.</div>
-        </div>
-      </div>
-      <div class="wn-feature">
-        <div class="wn-icon" style="background:linear-gradient(135deg,#5a7a2a,#3a5a1a);">&#x1F4CB;</div>
-        <div class="wn-feature-body">
-          <div class="wn-feature-title">Expanded Activity Catalog</div>
-          <div class="wn-feature-desc">177 youth activities plus 60 Primary activities. New goals include fireside attendance, Stake Camp, FSY, family campout leadership, youth conference, and a youth fireside leader goal. Minute to Win It expanded to 45 daily tasks.</div>
-        </div>
-      </div>
-      <div class="wn-feature">
-        <div class="wn-icon" style="background:linear-gradient(135deg,#0f2540,#1a3a5c);">&#x1F9E0;</div>
-        <div class="wn-feature-body">
-          <div class="wn-feature-title">Leader Intelligence &mdash; Enhanced</div>
-          <div class="wn-feature-desc">The Intelligence tab now has Youth / Adults / All filters, a &ldquo;never used&rdquo; and &ldquo;zero this month&rdquo; exclusion toggle, four live charts including all-ward sparklines with top members highlighted, and a most-improved trend line.</div>
-        </div>
-      </div>
-    </div>
-    <div class="wn-footer">
-      <button class="wn-cta" onclick="closeWhatsNew()">Let&rsquo;s go! &#x2192;</button>
-      <button class="wn-dismiss" onclick="closeWhatsNew()">Dismiss</button>
-    </div>
-  </div>
-</div>
 
 <!-- UNIVERSAL CELEBRATION OVERLAY -->
 <div id="universalCelebrationOverlay">
