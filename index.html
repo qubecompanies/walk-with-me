@@ -6073,9 +6073,12 @@ function showWardMilestoneCelebration(ms,wardTotal){
   announceAchievement('Level Creek Ward',ms.icon,'The ward has reached '+ms.label+' with '+wardTotal+' collective miles! \u{1F3BA}');
 }
 
-function renderWardMilestoneBanner(){
+function renderWardMilestoneBanner(group){
   const el=document.getElementById('wardMilestoneBanner');if(!el)return;
-  const total=getWardTotal();
+  // Use per-group total so each tab shows its own milestone
+  const g=group||_groupMapActive||'youth';
+  const total=g==='youth'?getWardTotal():getGroupTotal(g);
+  const groupLabel={youth:'Ward',adults:'Adults',primary:'Primary'}[g]||'Ward';
   const reached=WARD_MILESTONES.filter(m=>total>=m.miles);
   const latest=reached[reached.length-1];
   const next=WARD_MILESTONES.find(m=>total<m.miles);
@@ -6084,16 +6087,17 @@ function renderWardMilestoneBanner(){
   el.innerHTML=`<div class="ward-milestone-banner">
     <div class="ward-milestone-icon">${latest.icon}</div>
     <div class="ward-milestone-body">
-      <div class="ward-milestone-eyebrow">&#x2726; Ward Milestone Reached</div>
+      <div class="ward-milestone-eyebrow">&#x2726; ${groupLabel} Milestone Reached</div>
       <div class="ward-milestone-title">${latest.label} \u2014 ${total} collective miles</div>
       ${next?`<div class="ward-milestone-miles">${toNext} miles to ${next.label}</div>`:'<div class="ward-milestone-miles">Jerusalem achieved! \u2728</div>'}
     </div>
-    ${currentUser?.isLeader?`<button class="ward-milestone-btn" onclick="triggerWardCelebration()">&#x1F389; Celebrate</button>`:''}
+    ${currentUser?.isLeader?`<button class="ward-milestone-btn" onclick="triggerWardCelebration('${g}')">&#x1F389; Celebrate</button>`:''}
   </div>`;
 }
 
-async function triggerWardCelebration(){
-  const total=getWardTotal();
+async function triggerWardCelebration(group){
+  const g=group||_groupMapActive||'youth';
+  const total=g==='youth'?getWardTotal():getGroupTotal(g);
   const reached=WARD_MILESTONES.filter(m=>total>=m.miles);
   const latest=reached[reached.length-1];
   if(!latest){showToast('No ward milestone reached yet!');return;}
@@ -6924,6 +6928,7 @@ function switchGroupMap(pane, btn){
   const view = document.getElementById('group-view-'+pane);
   if(view) view.classList.add('active');
   renderGroupMaps();
+  renderWardMilestoneBanner(pane);
   setTimeout(checkWardMilestones, 500);
 }
 
@@ -7022,6 +7027,8 @@ function renderGroupMaps(){
   const ps=document.getElementById('primaryGroupSub');
   if(ps){const nw=WAYPOINTS.find(w=>pTotal<w.miles);ps.textContent=nw?'Next: '+nw.label.replace('\n',' ')+' at '+nw.miles+' miles':'Jerusalem reached!';}
   setTimeout(()=>updateTravelerForContainer('primaryWaypointsContainer','primaryTraveler','primaryJourneyLine',pTotal),120);
+  // Refresh milestone banner for whichever group is active
+  setTimeout(()=>renderWardMilestoneBanner(_groupMapActive||'youth'),150);
 }
 
 
