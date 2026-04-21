@@ -1042,6 +1042,17 @@ textarea.form-input{min-height:72px;resize:vertical;}
 #versionUpdateBanner{display:none;position:fixed;top:0;left:0;right:0;z-index:99999;background:#1a3a5c;color:white;padding:.65rem 1rem;align-items:center;justify-content:space-between;gap:.75rem;font-family:'Inter',sans-serif;font-size:.78rem;}
 #versionUpdateBanner button{background:var(--gold);border:none;color:#1a2a0a;padding:.35rem .85rem;border-radius:20px;font-size:.72rem;font-weight:600;cursor:pointer;flex-shrink:0;white-space:nowrap;}
 #versionUpdateBanner .vub-dismiss{background:transparent;color:rgba(255,255,255,.55);font-size:.68rem;padding:.2rem .5rem;}
+.primary-act-badge{font-size:.75rem;margin-left:.4rem;opacity:.7;vertical-align:middle;}
+.activity-item.done .primary-act-badge{opacity:.4;}
+
+/* ══ PRIMARY WORD SEARCH ══ */
+.ws-row{display:flex;gap:3px;margin-bottom:3px;}
+.ws-cell{width:30px;height:30px;border:1.5px solid var(--sand-dark);border-radius:4px;display:flex;
+  align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:.8rem;color:var(--navy);
+  cursor:pointer;background:white;transition:all .15s;font-weight:600;user-select:none;}
+.ws-cell:hover{border-color:var(--teal);background:rgba(42,122,110,.08);}
+.ws-cell.selected{background:rgba(42,122,110,.2);border-color:var(--teal);color:var(--teal);}
+.ws-cell.found{background:#9FE1CB;border-color:#1D9E75;color:#085041;}
 </style>
 </head>
 <body>
@@ -1534,11 +1545,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
             <div id="primaryTraveler" style="position:absolute;bottom:.45rem;transform:translateX(-50%);left:0;transition:left .9s;z-index:2;"></div>
           </div>
         </div>
-        <div class="card neutral" style="padding:.75rem 1rem;margin-bottom:1rem;text-align:center;">
-          <div style="font-family:'Crimson Pro',serif;font-style:italic;font-size:.88rem;color:var(--ink-soft);">
-            &#x201C;Let the little children come unto me.&#x201D; &#x2014; Matthew 19:14
-          </div>
-        </div>
+        <div id="primaryMapExtras"></div>
       </div><!-- /group-view-primary -->
 
 
@@ -2129,7 +2136,7 @@ const ACTIVITIES={
     {text:"Mentor a younger child for four weeks — help them with homework, a skill, a hobby, or reading. Show up consistently every week.",miles:40},
     {text:"Plan and host or co-lead a ward youth activity. Handle the setup, the activity, and the clean-up.",miles:30},
     {text:"Do a full digital fast — no social media for one complete week. Journal each day about how it felt, what you noticed, and what you did instead of scrolling.",miles:30},
-    {text:"Attend all three hours of church every Sunday for one full month. Be fully present — no phone, no wandering, no excuses.",miles:30},
+    {text:"Attend church every Sunday for one full month and stay for the full two hours. Be fully present — no phone, no wandering, no excuses.",miles:30},
     {text:"Write a personal letter to a missionary from our ward. Send one per month for two consecutive months.",miles:20},
     {text:"Do something genuinely kind for five different people — anonymously. Leave a note, a gift, or help without anyone knowing it was you.",miles:20},
     {text:"Start and run a collection drive from scratch — food, clothing, books, or school supplies. Promote it, collect for two weeks, and personally deliver the items to a local charity or family in need.",miles:35},
@@ -2412,7 +2419,12 @@ async function switchTab(tab){
   });
   try{await refreshData();}catch(e){/* show cached */}
   if(tab==='dashboard'){renderDashboard();refreshActivityDoneStates();}
-  if(tab==='log'){renderActiveChallengePinned();renderFeaturedLogSection();}
+  if(tab==='log'){
+    // Reset search bar so activityList is never hidden on tab entry
+    const srch=document.getElementById('activitySearch');
+    if(srch&&srch.value){srch.value='';filterActivities('');}
+    renderActiveChallengePinned();renderFeaturedLogSection();
+  }
   if(tab==='history'){renderHistory();}
   if(tab==='planner')renderPlanner();
   if(tab==='history')renderHistory();
@@ -2447,10 +2459,6 @@ function refreshActivityDoneStates(){
 }
 
 function toggleAccordion(el){el.classList.toggle('open');}
-function filterActivities(cat,btn){
-  document.querySelectorAll('#tab-log .filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
-  document.querySelectorAll('#activityList .accordion').forEach(acc=>{if(cat==='all'||acc.dataset.cat===cat){acc.style.display='block';if(cat!=='all')acc.classList.add('open');}else acc.style.display='none';});
-}
 
 async function logActivity(cat,act,idx,el){
   const id=makeActId(cat,idx);
@@ -2488,6 +2496,7 @@ function buildPlannerMonthSelector(){
 
 function buildPlannerActivityList(){
   const container=document.getElementById('plannerActivityList');container.innerHTML='';
+  const actSrc=currentUser&&currentUser.isPrimary?PRIMARY_ACTIVITIES:ACTIVITIES;
   ['spiritual','physical','intellectual','social'].forEach(cat=>{
     const section=document.createElement('div');section.className='accordion';section.dataset.cat=cat;
     section.innerHTML=`<div class="accordion-header" onclick="this.parentElement.classList.toggle('open')"><h3><span class="cat-dot dot-${cat}"></span> ${cap(cat)}</h3><svg class="accordion-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="accordion-body" id="planBody-${cat}"></div>`;
@@ -3724,9 +3733,10 @@ function buildActivityList(){
     </div><div class="accordion-body" id="actBody-${cat}"></div>`;
     container.appendChild(section);
     const body=section.querySelector('.accordion-body');
-    ACTIVITIES[cat].forEach((act,i)=>{
+    actSrc[cat].forEach((act,i)=>{
       const id=makeActId(cat,i);const item=document.createElement('div');item.className='activity-item';item.id='logAct-'+id;
-      item.innerHTML=`<div class="activity-miles">${act.miles}<span>miles</span><div class="diff-stars">${diffStars(act.miles)}</div></div><div class="activity-text">${act.text}</div>`;
+      const isPrimUser=currentUser&&currentUser.isPrimary;
+      item.innerHTML=`<div class="activity-miles">${act.miles}<span>miles</span><div class="diff-stars">${diffStars(act.miles)}</div></div><div class="activity-text">${act.text}${isPrimUser?'<span class="primary-act-badge">🕊</span>':''}</div>`;
       item.onclick=()=>logActivity(cat,act,i,item);body.appendChild(item);
     });
   });
@@ -6965,6 +6975,7 @@ function switchGroupMap(pane, btn){
   if(view) view.classList.add('active');
   renderGroupMaps();
   renderWardMilestoneBanner(pane);
+  if(pane==='primary') setTimeout(renderPrimaryMapExtras, 200);
   setTimeout(checkWardMilestones, 500);
 }
 
@@ -7065,6 +7076,7 @@ function renderGroupMaps(){
   setTimeout(()=>updateTravelerForContainer('primaryWaypointsContainer','primaryTraveler','primaryJourneyLine',pTotal),120);
   // Refresh milestone banner for whichever group is active
   setTimeout(()=>renderWardMilestoneBanner(_groupMapActive||'youth'),150);
+  if(_groupMapActive==='primary') renderPrimaryMapExtras();
 }
 
 
@@ -7391,6 +7403,170 @@ async function pushVersionRefresh(){
     showToast('\u2728 Update notification pushed to all members!');
   }catch(err){showToast('Error: '+err.message);}
 }
+
+// ══ PRIMARY GROUP MAP EXTRAS ══
+const PRIMARY_SONGS = [
+  "I Am a Child of God","Jesus Wants Me for a Sunbeam","Families Can Be Together Forever",
+  "I Love to See the Temple","Book of Mormon Stories","Follow the Prophet",
+  "The Church of Jesus Christ","A Child's Prayer","Search, Ponder, and Pray",
+  "Head, Shoulders, Knees and Toes (Primary version)","When He Comes Again",
+  "I'll Walk with You"
+];
+
+const PRIMARY_WORD_SEARCHES = [
+  {word:"FAITH",   grid:["ABCFX","DFAIT","FHXYZ","AIYQW","THNKL"], row:1,col:1,dir:'h', verse:"Faith is things hoped for. — Ether 12:6"},
+  {word:"PRAYER",  grid:["PQWER","RXAYZ","ABCDT","YERPW","ERRSA"], row:0,col:0,dir:'h', verse:"Pray always. — 2 Nephi 32:9"},
+  {word:"LOVE",    grid:["XLOVE","ABCQZ","OPRMN","VSQXY","EWPLA"], row:0,col:1,dir:'h', verse:"God is love. — 1 John 4:8"},
+  {word:"HOPE",    grid:["AHOPB","BCQZX","OPRMN","PEQXY","EWPLA"], row:0,col:1,dir:'h', verse:"Be of good cheer. — John 16:33"},
+  {word:"TRUTH",   grid:["TXYZA","RABCQ","UXYZB","TMNOP","HRSTU"], row:0,col:0,dir:'h', verse:"The truth shall make you free. — John 8:32"},
+  {word:"LIGHT",   grid:["XLIGH","TBCQZ","OIRMN","GSQXY","HTPLA"], row:0,col:1,dir:'h', verse:"I am the light of the world. — John 8:12"},
+  {word:"SERVE",   grid:["XSERV","EABCQ","OPRMN","VEQXY","EWPLA"], row:0,col:1,dir:'h', verse:"When ye are in the service of your fellow beings ye are only in the service of your God. — Mosiah 2:17"},
+  {word:"PEACE",   grid:["PEACE","XBCQZ","OPRMN","CEQXY","EWPLA"], row:0,col:0,dir:'h', verse:"My peace I give unto you. — John 14:27"},
+  {word:"JOY",     grid:["XJOYB","ABCQZ","OPRMN","YOQXY","EWPLA"], row:0,col:1,dir:'h', verse:"Men are that they might have joy. — 2 Nephi 2:25"},
+  {word:"COURAGE", grid:["COURAX","OUGBCD","UQXZYW","RAGXYZ","AQWERT","GEQWRR"], row:0,col:0,dir:'h', verse:"Be strong and of good courage. — Joshua 1:9"},
+  {word:"KIND",    grid:["XKIND","ABCQZ","OPRMN","DNIQX","EWPLA"], row:0,col:1,dir:'h', verse:"Be ye kind one to another. — Ephesians 4:32"},
+  {word:"HOLY",    grid:["XHOLB","YABCQ","ORMNO","LYQXY","EWPLA"], row:0,col:1,dir:'h', verse:"Be ye holy; for I am holy. — 1 Peter 1:16"},
+];
+
+function getTodaysPrimaryWordSearch(){
+  const day = Math.floor(Date.now()/86400000);
+  return PRIMARY_WORD_SEARCHES[day % PRIMARY_WORD_SEARCHES.length];
+}
+
+function getTodaysPrimarySong(){
+  const day = Math.floor(Date.now()/86400000);
+  return PRIMARY_SONGS[day % PRIMARY_SONGS.length];
+}
+
+function hasCompletedWordSearch(){
+  const day = Math.floor(Date.now()/86400000);
+  return hasUF('primaryWS_'+day);
+}
+
+function claimWordSearch(){
+  if(!currentUser||!currentUser.isPrimary) return;
+  const day = Math.floor(Date.now()/86400000);
+  if(hasUF('primaryWS_'+day)){showToast('Already completed today!');return;}
+  setUF('primaryWS_'+day,'1');
+  fbAdd('entries',{userId:currentUser.id,userName:currentUser.name,cat:'spiritual',
+    desc:'🕊 Daily Scripture Word Search',miles:1,month:getCurrentMonth(),ts:Date.now(),custom:true});
+  fireConfetti();
+  showToast('🕊 +1 mile! Great job finding the word!');
+  renderPrimaryMapExtras();
+}
+
+let _wsSelected = [];
+
+function selectWSLetter(row, col, ws){
+  // Simple approach: user marks start position, letters auto-highlight the word
+  if(!_wsSelected) _wsSelected=[];
+  const key=row+','+col;
+  if(_wsSelected.includes(key)){
+    _wsSelected=_wsSelected.filter(k=>k!==key);
+  } else {
+    _wsSelected.push(key);
+  }
+  // Check if the selected cells spell the word in order
+  checkWordFound(ws);
+  renderWordSearchGrid(ws);
+}
+
+function checkWordFound(ws){
+  if(_wsSelected.length!==ws.word.length) return;
+  // Verify cells are in correct position for the word
+  const sorted = [..._wsSelected].sort();
+  const expected = [];
+  for(let i=0;i<ws.word.length;i++){
+    if(ws.dir==='h') expected.push(ws.row+','+(ws.col+i));
+    else expected.push((ws.row+i)+','+ws.col);
+  }
+  const allMatch = expected.every(e=>_wsSelected.includes(e));
+  if(allMatch){
+    document.querySelectorAll('.ws-cell.selected').forEach(el=>{
+      el.classList.add('found');
+    });
+    setTimeout(()=>{
+      const btn=document.getElementById('wsClaimBtn');
+      if(btn){btn.style.display='block';}
+    },400);
+  }
+}
+
+function renderWordSearchGrid(ws){
+  const el=document.getElementById('wsGrid');
+  if(!el||!ws) return;
+  el.innerHTML=ws.grid.map((row,r)=>
+    '<div class="ws-row">'+row.split('').map((ch,c)=>{
+      const key=r+','+c;
+      const isSel=_wsSelected.includes(key);
+      const isFound=isSel&&document.querySelector('.ws-cell.found');
+      return '<div class="ws-cell'+(isSel?' selected':'')+(hasCompletedWordSearch()?' found':'')+'"'
+        +' onclick="selectWSLetter('+r+','+c+',getTodaysPrimaryWordSearch())">'
+        +ch+'</div>';
+    }).join('')+'</div>'
+  ).join('');
+}
+
+function renderPrimaryMapExtras(){
+  const el=document.getElementById('primaryMapExtras');
+  if(!el) return;
+  const d=db();
+  const ws=getTodaysPrimaryWordSearch();
+  const song=getTodaysPrimarySong();
+  const primUsers=(d.users||[]).filter(u=>u.isPrimary);
+  const score=u=>(d.entries||[]).filter(e=>e.userId===u.id).reduce((s,e)=>s+e.miles,0);
+  const byMiles=primUsers.map(u=>({...u,total:score(u)})).sort((a,b)=>b.total-a.total);
+  const topChild=byMiles[0];
+  const activeWeek=primUsers.filter(u=>(d.entries||[]).some(e=>e.userId===u.id&&e.ts>Date.now()-7*24*60*60*1000));
+  const completed=hasCompletedWordSearch();
+  _wsSelected=[];
+
+  el.innerHTML=`
+    <!-- Little Pilgrims Stats -->
+    <div class="card neutral" style="margin-bottom:.75rem;">
+      <div style="font-family:'Cinzel',serif;font-size:.82rem;color:var(--navy);margin-bottom:.75rem;">&#x1F54A; Little Pilgrims — This Week</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.75rem;">
+        <div style="background:var(--sand);border-radius:8px;padding:.75rem;text-align:center;">
+          <div style="font-family:'Cinzel',serif;font-size:1.3rem;color:var(--navy);">${activeWeek.length}</div>
+          <div style="font-family:'Inter',sans-serif;font-size:.6rem;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em;margin-top:.2rem;">Active This Week</div>
+        </div>
+        <div style="background:var(--sand);border-radius:8px;padding:.75rem;text-align:center;">
+          <div style="font-family:'Cinzel',serif;font-size:1.1rem;color:var(--navy);">${topChild?topChild.total:0}</div>
+          <div style="font-family:'Inter',sans-serif;font-size:.6rem;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em;margin-top:.2rem;">Top Miles</div>
+          ${topChild?`<div style="font-family:'Crimson Pro',serif;font-size:.78rem;color:var(--ink-soft);">${topChild.name.split(' ')[0]}</div>`:''}
+        </div>
+      </div>
+      <!-- Song of the Day -->
+      <div style="background:linear-gradient(135deg,rgba(42,122,110,.1),rgba(42,122,110,.04));border-radius:6px;padding:.65rem .85rem;border-left:3px solid var(--teal);">
+        <div style="font-family:'Inter',sans-serif;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:.2rem;">&#x266A; Today's Primary Song</div>
+        <div style="font-family:'Cinzel',serif;font-size:.82rem;color:var(--navy);">${song}</div>
+      </div>
+    </div>
+
+    <!-- Daily Scripture Word Search -->
+    <div class="card neutral" style="margin-bottom:.75rem;">
+      <div style="font-family:'Cinzel',serif;font-size:.82rem;color:var(--navy);margin-bottom:.2rem;">&#x1F4D6; Daily Scripture Word Search ${completed?'&#x2713;':''}</div>
+      <div style="font-family:'Crimson Pro',serif;font-style:italic;font-size:.82rem;color:var(--ink-soft);margin-bottom:.75rem;">Find the hidden word — tap each letter!</div>
+      <div id="wsGrid" style="display:inline-block;margin-bottom:.75rem;"></div>
+      <div style="font-family:'Cinzel',serif;font-size:.72rem;color:var(--gold);letter-spacing:.05em;margin-bottom:.5rem;">Find: "${ws.word}"</div>
+      ${completed
+        ? `<div style="font-family:'Crimson Pro',serif;font-style:italic;font-size:.88rem;color:var(--teal);">&#x2713; Completed today! +1 mile earned.</div>`
+        : `<button id="wsClaimBtn" class="btn btn-teal btn-sm" onclick="claimWordSearch()" style="display:none;margin-bottom:.5rem;">&#x1F54A; I found it! Claim +1 mile</button>`
+      }
+      <div style="font-family:'Crimson Pro',serif;font-style:italic;font-size:.8rem;color:var(--ink-soft);border-top:1px solid var(--sand-dark);padding-top:.6rem;margin-top:.3rem;line-height:1.5;">&ldquo;${ws.verse}&rdquo;</div>
+    </div>
+
+    <!-- Scripture quote -->
+    <div class="card neutral" style="text-align:center;padding:.75rem 1rem;">
+      <div style="font-family:'Crimson Pro',serif;font-style:italic;font-size:.88rem;color:var(--ink-soft);">
+        &ldquo;Let the little children come unto me.&rdquo; &mdash; Matthew 19:14
+      </div>
+    </div>
+  `;
+  // Render grid
+  renderWordSearchGrid(ws);
+}
+
 function exportCSV(){
   const d=db();const headers=['Name','Group','Category','Description','Miles','Month','Date','Custom'];
   const rows=d.entries.map(e=>{const u=d.users.find(u=>u.id===e.userId)||{};return[u.name||e.userName,u.group||'',e.cat,'"'+e.desc.replace(/"/g,'""')+'"',e.miles,e.month,new Date(e.ts).toLocaleDateString(),e.custom?'Yes':'No'].join(',');});
