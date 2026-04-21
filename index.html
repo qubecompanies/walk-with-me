@@ -7100,8 +7100,15 @@ function filterActivities(query){
     resultEl.innerHTML='<p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);padding:.5rem 0;">No activities match that search.</p>';
     return;
   }
+  resultEl.innerHTML=''; // clear previous results before appending
   var done=getCompletedIds();
-  var rows=matches.map(function(m){
+  // Add header
+  var hdr=document.createElement('div');
+  hdr.style.cssText='font-family:Inter,sans-serif;font-size:.65rem;color:var(--ink-soft);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.5rem;';
+  hdr.textContent=matches.length+' result'+(matches.length>1?'s':'')+' — tap any to log';
+  resultEl.appendChild(hdr);
+  // Use appendChild so onclick handlers survive (outerHTML strips them)
+  matches.forEach(function(m){
     var id=makeActId(m.cat,m.i);
     var isDone=done.has(id);
     var el=document.createElement('div');
@@ -7111,11 +7118,8 @@ function filterActivities(query){
       +'<div class="activity-text">'+m.act.text
       +'<span style="font-family:Inter,sans-serif;font-size:.6rem;color:var(--ink-soft);margin-left:.5rem;text-transform:uppercase;">'+cap(m.cat)+'</span></div>';
     el.onclick=function(){logActivity(m.cat,m.act,m.i,el);};
-    return el.outerHTML;
-  }).join('');
-  resultEl.style.display='block';
-  resultEl.innerHTML='<div style="font-family:Inter,sans-serif;font-size:.65rem;color:var(--ink-soft);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.5rem;">'
-    +matches.length+' result'+(matches.length>1?'s':'')+' — click any to log</div>'+rows;
+    resultEl.appendChild(el);
+  });
 }
 
 
