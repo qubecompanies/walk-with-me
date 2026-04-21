@@ -1037,9 +1037,21 @@ textarea.form-input{min-height:72px;resize:vertical;}
 .versus-top-label{font-family:'Inter',sans-serif;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:.35rem;}
 .versus-top-name{font-family:'Cinzel',serif;font-size:.9rem;color:var(--navy);margin-bottom:.15rem;}
 .versus-top-miles{font-family:'Inter',sans-serif;font-size:.7rem;color:var(--gold);}
+
+/* ══ VERSION UPDATE BANNER ══ */
+#versionUpdateBanner{display:none;position:fixed;top:0;left:0;right:0;z-index:99999;background:#1a3a5c;color:white;padding:.65rem 1rem;align-items:center;justify-content:space-between;gap:.75rem;font-family:'Inter',sans-serif;font-size:.78rem;}
+#versionUpdateBanner button{background:var(--gold);border:none;color:#1a2a0a;padding:.35rem .85rem;border-radius:20px;font-size:.72rem;font-weight:600;cursor:pointer;flex-shrink:0;white-space:nowrap;}
+#versionUpdateBanner .vub-dismiss{background:transparent;color:rgba(255,255,255,.55);font-size:.68rem;padding:.2rem .5rem;}
 </style>
 </head>
 <body>
+<div id="versionUpdateBanner">
+  <span>&#x2728; A new version of Walk With Me is available.</span>
+  <div style="display:flex;gap:.5rem;align-items:center;">
+    <button onclick="forceAppRefresh()">Update now</button>
+    <button class="vub-dismiss" onclick="dismissVersionBanner()">Later</button>
+  </div>
+</div>
 
 <!-- SHOUTOUT BANNER -->
 <div id="shoutoutBanner">
@@ -1699,6 +1711,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
         <p style="font-size:.85rem;color:var(--ink-soft);margin-bottom:.75rem;">Award any milestone, monthly challenge, or waypoint badges that were earned before the badge system was added.</p>
         <button class="btn btn-teal btn-sm" onclick="recalcAllBadges()">Run Badge Recalculation for All Users</button>
         <button class="btn btn-gold btn-sm" onclick="triggerWardCelebration()" style="margin-top:.5rem;">&#x1F389; Trigger Ward Celebration</button>
+        <button class="btn btn-teal btn-sm" onclick="pushVersionRefresh()" style="margin-top:.5rem;">&#x1F504; Push Update to All Members</button>
         <button class="btn btn-ghost btn-sm" onclick="previewYearEnd()" style="margin-top:.5rem;">&#x1F4C5; Preview Year Summary</button>
         <div id="recalcStatus" style="font-size:.8rem;color:var(--teal);margin-top:.5rem;font-style:italic;"></div>
       </div>
@@ -2343,6 +2356,7 @@ async function handleRegister(){
 
 function enterApp(){
   overlay(false);
+  checkAppVersion();
   // Load user state from Firestore into memory
   loadUserState().then(()=>{
     renderDashboard();
@@ -2479,7 +2493,7 @@ function buildPlannerActivityList(){
     section.innerHTML=`<div class="accordion-header" onclick="this.parentElement.classList.toggle('open')"><h3><span class="cat-dot dot-${cat}"></span> ${cap(cat)}</h3><svg class="accordion-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="accordion-body" id="planBody-${cat}"></div>`;
     container.appendChild(section);
     const body=section.querySelector('.accordion-body');
-    ACTIVITIES[cat].forEach((act,i)=>{
+    actSrc[cat].forEach((act,i)=>{
       const id=makeActId(cat,i);const item=document.createElement('div');item.className='planner-item';item.id='planAct-'+id;
       item.innerHTML=`<div class="planner-check" id="planCheck-${id}"></div><div class="planner-text">${act.text}</div><div class="planner-miles-tag">${act.miles}mi</div>`;
       item.onclick=()=>togglePlanned(id,act,cat);body.appendChild(item);
@@ -3862,7 +3876,8 @@ function renderLeaderboard(){
 
   if(_lbActivePane==='streaks'){renderStreakLeaderboard();return;}
   if(_lbActivePane==='primary'){
-    const primUsers=allUsers.filter(u=>u.isPrimary).map(u=>({...u,miles:score(u)})).sort((a,b)=>b.miles-a.miles);
+    // Must use d.users directly — allUsers excludes Primary
+    const primUsers=(d.users||[]).filter(u=>u.isPrimary).map(u=>({...u,miles:score(u)})).sort((a,b)=>b.miles-a.miles);
     const maxP=primUsers[0]?.miles||1;
     document.getElementById('leaderboardPrimary').innerHTML=primUsers.length
       ?'<div class="monthly-lb-note">Primary pilgrims — ages 4-11</div>'+primUsers.map((u,i)=>lbCardHTML(u,i+1,maxP,false)).join('')
@@ -4972,9 +4987,9 @@ function setMonthView(view, btn){
 
 function getAdminUsers(view){
   const d = db();
-  if(view==='youth')  return d.users.filter(u=>!u.isLeader);
-  if(view==='adults') return d.users.filter(u=>u.isLeader);
-  return d.users;
+  if(view==='youth')  return d.users.filter(u=>!u.isLeader&&!u.isVisitor&&!u.isPrimary);
+  if(view==='adults') return d.users.filter(u=>u.isLeader||u.group==='Adult');
+  return d.users.filter(u=>!u.isVisitor); // All = everyone except visitors
 }
 
 
@@ -7335,6 +7350,47 @@ function updateTravelerForContainer(containerId, travelerId, lineId, total){
 function buildAdultsGroupWaypoints(){ buildGroupWaypointsForContainer('adultsWaypointsContainer'); }
 function buildPrimaryGroupWaypoints(){ buildGroupWaypointsForContainer('primaryWaypointsContainer'); }
 
+
+// ══ FORCE REFRESH CHECK ══
+// If a cached version doesn't match CURRENT_VERSION, show a refresh banner
+function checkAppVersion(){
+  const stored = localStorage.getItem('wwm_app_version');
+  if(stored && stored !== CURRENT_VERSION){
+    showVersionBanner();
+  }
+  localStorage.setItem('wwm_app_version', CURRENT_VERSION);
+  // Also check Firestore push flag
+  const cfg = CACHE.appConfig||{};
+  const pushedVer = cfg.forceRefreshVersion;
+  const pushedTs  = cfg.forceRefreshTs||0;
+  const lastSeen  = parseInt(localStorage.getItem('wwm_last_refresh_ts')||'0');
+  if(pushedVer && pushedVer !== CURRENT_VERSION && pushedTs > lastSeen){
+    localStorage.setItem('wwm_last_refresh_ts', pushedTs);
+    showVersionBanner();
+  }
+}
+function showVersionBanner(){
+  const b = document.getElementById('versionUpdateBanner');
+  if(b) b.style.display = 'flex';
+}
+function dismissVersionBanner(){
+  const b = document.getElementById('versionUpdateBanner');
+  if(b) b.style.display = 'none';
+}
+function forceAppRefresh(){
+  localStorage.setItem('wwm_app_version', CURRENT_VERSION);
+  window.location.reload(true);
+}
+
+async function pushVersionRefresh(){
+  try{
+    await _db().collection('appConfig').doc('settings').update({
+      forceRefreshVersion: CURRENT_VERSION,
+      forceRefreshTs: Date.now()
+    });
+    showToast('\u2728 Update notification pushed to all members!');
+  }catch(err){showToast('Error: '+err.message);}
+}
 function exportCSV(){
   const d=db();const headers=['Name','Group','Category','Description','Miles','Month','Date','Custom'];
   const rows=d.entries.map(e=>{const u=d.users.find(u=>u.id===e.userId)||{};return[u.name||e.userName,u.group||'',e.cat,'"'+e.desc.replace(/"/g,'""')+'"',e.miles,e.month,new Date(e.ts).toLocaleDateString(),e.custom?'Yes':'No'].join(',');});
