@@ -7100,7 +7100,8 @@ function filterActivities(query){
     resultEl.innerHTML='<p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);padding:.5rem 0;">No activities match that search.</p>';
     return;
   }
-  resultEl.innerHTML=''; // clear previous results before appending
+  resultEl.innerHTML='';
+  resultEl.style.display='block'; // must show before appending children
   var done=getCompletedIds();
   // Add header
   var hdr=document.createElement('div');
