@@ -1053,6 +1053,18 @@ textarea.form-input{min-height:72px;resize:vertical;}
 .ws-cell:hover{border-color:var(--teal);background:rgba(42,122,110,.08);}
 .ws-cell.selected{background:rgba(42,122,110,.2);border-color:var(--teal);color:var(--teal);}
 .ws-cell.found{background:#9FE1CB;border-color:#1D9E75;color:#085041;}
+
+/* ══ STARFIELD CELEBRATION ══ */
+@keyframes twinkle{0%,100%{opacity:.2;transform:scale(.7);}50%{opacity:1;transform:scale(1.1);}}
+@keyframes shootingStar{0%{transform:translateX(0) translateY(0) rotate(30deg);opacity:1;}100%{transform:translateX(200px) translateY(-80px) rotate(30deg);opacity:0;}}
+.star-particle{position:absolute;background:white;border-radius:50%;animation:twinkle var(--dur,2s) ease-in-out infinite;}
+.shooting-star{position:absolute;width:80px;height:2px;background:linear-gradient(90deg,rgba(255,255,255,0),white);border-radius:2px;animation:shootingStar 1.8s linear infinite;}
+#celebStarCanvas{position:absolute;inset:0;pointer-events:none;z-index:0;}
+
+/* ══ ZION BADGE STYLING ══ */
+.zion-badge.earned{background:linear-gradient(135deg,#0a1a05,#1a3a10);border-color:rgba(200,146,42,.4);}
+.zion-badge.earned .badge-icon{filter:drop-shadow(0 0 6px rgba(232,176,80,.6));}
+.badge-section-divider{width:100%;text-align:center;font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);opacity:.7;padding:.5rem 0 .25rem;flex-basis:100%;}
 </style>
 </head>
 <body>
@@ -2382,7 +2394,7 @@ function enterApp(){
     badge.textContent=currentUser.group==='Adult'?'Adult':currentUser.group==='Leader'?'Leader':'Leader';
     badge.style.display='inline';
   }
-  if(currentUser.isLeader){
+  if(currentUser.group==='Leader'){
     document.getElementById('adminTab').style.display='block';
   }
   buildMonthSelector();buildPlannerMonthSelector();buildActivityList();buildPlannerActivityList();buildGroupWaypoints();buildAdultsGroupWaypoints();buildPrimaryGroupWaypoints();buildMiniMap();
@@ -2604,6 +2616,24 @@ function renderBadges(total){
       +'<div class="badge-miles">'+b.sub+'</div>'
       +'</div>';
   }).join('');
+  // Append Zion badges after Jerusalem if user has passed 600 miles
+  if(total>=600){
+    const zionMiles=total-600;
+    const zionHtml=ZION_BADGES.map(b=>{
+      const earned=zionMiles>=b.bonus;
+      const left=b.bonus-zionMiles;
+      const click=earned
+        ?'onclick="replayZionBadge(\''+b.id+'\','+zionMiles+')"'
+        :'onclick="showLockedTip(event,\''+left+' more Zion miles\')'+'"';
+      return '<div class="badge zion-badge '+(earned?'earned':'locked')+'" '+click+'>'
+        +'<div class="badge-icon">'+b.icon+'</div>'
+        +'<div class="badge-name">'+b.name+'</div>'
+        +'<div class="badge-miles">'+(earned?'Earned':b.bonus+'mi ahead')+'</div>'
+        +'</div>';
+    }).join('');
+    document.getElementById('badgesRow').innerHTML+=
+      '<div class="badge-section-divider">&#x2726; Forward to Zion</div>'+zionHtml;
+  }
 }
 
 function checkBadges(){
@@ -3851,7 +3881,7 @@ function renderLeaderboard(){
   const allUsers = (d.users||[]).filter(u=>!u.isVisitor&&!u.isPrimary);
   const ym  = allUsers.filter(u=>!u.isLeader&&u.group==='Young Men').map(u=>({...u,miles:score(u)})).sort((a,b)=>b.miles-a.miles);
   const yw  = allUsers.filter(u=>!u.isLeader&&u.group==='Young Women').map(u=>({...u,miles:score(u)})).sort((a,b)=>b.miles-a.miles);
-  const ldr = allUsers.filter(u=>u.isLeader).map(u=>({...u,miles:score(u)})).sort((a,b)=>b.miles-a.miles);
+  const ldr = allUsers.filter(u=>u.isLeader||u.group==='Adult').map(u=>({...u,miles:score(u)})).sort((a,b)=>b.miles-a.miles);
   const youth = [...ym,...yw].sort((a,b)=>b.miles-a.miles);
   const none = '<p style="padding:1rem 1rem .5rem;font-style:italic;font-size:.9rem;color:var(--ink-soft);">No one registered in this group yet.</p>';
 
@@ -3906,8 +3936,8 @@ function renderLeaderboard(){
     const cur=getCurrentMonth();
     const lbMonthLabel=document.getElementById('lbMonthLabel');
     if(lbMonthLabel)lbMonthLabel.textContent=cur;
-    const allYouth=allUsers.filter(u=>!u.isLeader).map(u=>({...u,miles:monthScore(u,cur)})).sort((a,b)=>b.miles-a.miles);
-    const allLdr=allUsers.filter(u=>u.isLeader).map(u=>({...u,miles:monthScore(u,cur)})).sort((a,b)=>b.miles-a.miles);
+    const allYouth=allUsers.filter(u=>u.group==='Young Men'||u.group==='Young Women').map(u=>({...u,miles:monthScore(u,cur)})).sort((a,b)=>b.miles-a.miles);
+    const allLdr=allUsers.filter(u=>u.isLeader||u.group==='Adult').map(u=>({...u,miles:monthScore(u,cur)})).sort((a,b)=>b.miles-a.miles);
     const maxM=Math.max(allYouth[0]?.miles||0, allLdr[0]?.miles||0)||1;
     document.getElementById('leaderboardMonthly').innerHTML =
       (allYouth.length||allLdr.length)
@@ -5629,11 +5659,12 @@ function showUniversalCelebration(cfg){
 
   // Set background color based on theme
   const themes={
-    gold:   'linear-gradient(160deg,#1a2a00 0%,#1a3a00 40%,#2a1a00 100%)',
-    navy:   'linear-gradient(160deg,#0a1525 0%,#1a3a5c 55%,#0a1520 100%)',
-    teal:   'linear-gradient(160deg,#001a18 0%,#0a3530 55%,#001a10 100%)',
-    purple: 'linear-gradient(160deg,#1a0a2a 0%,#2a1a5c 55%,#1a0a2a 100%)',
-    green:  'linear-gradient(160deg,#0a1a05 0%,#1a3a10 55%,#0a1a05 100%)',
+    gold:      'linear-gradient(160deg,#1a2a00 0%,#1a3a00 40%,#2a1a00 100%)',
+    navy:      'linear-gradient(160deg,#0a1525 0%,#1a3a5c 55%,#0a1520 100%)',
+    teal:      'linear-gradient(160deg,#001a18 0%,#0a3530 55%,#001a10 100%)',
+    purple:    'linear-gradient(160deg,#1a0a2a 0%,#2a1a5c 55%,#1a0a2a 100%)',
+    green:     'linear-gradient(160deg,#0a1a05 0%,#1a3a10 55%,#0a1a05 100%)',
+    starfield: 'linear-gradient(160deg,#000510 0%,#020820 50%,#000510 100%)',
   };
   overlay.style.background = themes[cfg.theme||'navy']||themes.navy;
 
@@ -5667,7 +5698,11 @@ function showUniversalCelebration(cfg){
 
   overlay.classList.add('show');
   document.body.style.overflow='hidden';
-  startDualFireworks('celebFireworkCanvas','universalCelebrationOverlay');
+  if(cfg.theme==='starfield'){
+    spawnStarfield('universalCelebrationOverlay');
+  } else {
+    startDualFireworks('celebFireworkCanvas','universalCelebrationOverlay');
+  }
 }
 
 function closeUniversalCelebration(){
@@ -5727,7 +5762,7 @@ function showZionUnlock(){
     stats:[{value:'600',label:'Miles Done'},{value:'+600',label:'Zion Miles'},{value:'8',label:'New Levels'}],
     scripture:MILESTONE_SCRIPTURES.zion_unlock,
     titleBadge:TITLE_BADGES.find(b=>b.id==='zion1')||null,
-    theme:'green',
+    theme:'starfield',
   });
   announceAchievement(currentUser?currentUser.name:'A ward member','\u{1F3D4}',
     (currentUser?currentUser.name:'Someone')+' completed the Walk to Jerusalem and unlocked Forward to Zion \u2014 Enoch\'s City awaits!');
@@ -5791,7 +5826,7 @@ function showZionWaypointCelebration(badge, zionMiles){
     stats:[{value:zionMiles,label:'Zion Miles'},{value:badge.bonus,label:'Milestone'},{value:Math.round(zionMiles/600*100)+'%',label:'To Zion'}],
     scripture:MILESTONE_SCRIPTURES[scriptureKeys[badge.id]]||MILESTONE_SCRIPTURES.zion_unlock,
     titleBadge:newTitleBadge,
-    theme:'green',
+    theme:'starfield',
   });
 }
 
@@ -6067,7 +6102,7 @@ function getWardTotal(){
 function getGroupTotal(group){
   const d=db();
   const users=(d.users||[]).filter(u=>{
-    if(group==='youth') return !u.isLeader&&!u.isVisitor&&!u.isPrimary;
+    if(group==='youth') return (u.group==='Young Men'||u.group==='Young Women')&&!u.isVisitor;
     if(group==='adults') return !u.isVisitor&&!u.isPrimary&&(u.isLeader||u.group==='Adult');
     if(group==='primary') return !!u.isPrimary;
     return false;
@@ -7010,7 +7045,7 @@ function renderGroupMaps(){
   const score = u => entries.filter(e=>e.userId===u.id).reduce((s,e)=>s+e.miles,0);
 
   // ── YOUTH MAP (existing logic, refreshed) ─────────────────────────────────
-  const youthUsers = (d.users||[]).filter(u=>!u.isLeader&&!u.isVisitor&&!u.isPrimary);
+  const youthUsers = (d.users||[]).filter(u=>(u.group==='Young Men'||u.group==='Young Women')&&!u.isVisitor);
   const yDiv = parseInt(CACHE.appConfig?.groupDivisor||'35');
   const yRaw = entries.filter(e=>youthUsers.find(u=>u.id===e.userId)).reduce((s,e)=>s+e.miles,0);
   const gMiles = (d.groupMiles||[]).reduce((s,e)=>s+e.miles,0);
@@ -7572,6 +7607,60 @@ function renderPrimaryMapExtras(){
   renderWordSearchGrid(ws);
 }
 
+
+// ══ STARFIELD CELEBRATION EFFECT ══
+function spawnStarfield(containerId){
+  const overlay=document.getElementById(containerId);
+  if(!overlay) return;
+  // Remove old stars
+  overlay.querySelectorAll('.star-particle,.shooting-star').forEach(el=>el.remove());
+  const w=overlay.offsetWidth||window.innerWidth;
+  const h2=overlay.offsetHeight||window.innerHeight;
+  // Static twinkling stars
+  for(let i=0;i<90;i++){
+    const s=document.createElement('div');
+    s.className='star-particle';
+    const sz=Math.random()*3+1;
+    s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;`
+      +`--dur:${1.2+Math.random()*2.5}s;animation-delay:${Math.random()*2}s;z-index:1;`
+      +`background:${Math.random()>.7?'#e8c88a':Math.random()>.4?'#c8e8ff':'white'};`;
+    overlay.appendChild(s);
+  }
+  // Shooting stars
+  for(let i=0;i<5;i++){
+    const ss=document.createElement('div');
+    ss.className='shooting-star';
+    ss.style.cssText=`left:${Math.random()*60}%;top:${20+Math.random()*50}%;`
+      +`animation-delay:${i*0.6}s;z-index:1;opacity:.8;`;
+    overlay.appendChild(ss);
+  }
+  // Gold particle burst from center
+  fireConfetti();
+}
+
+
+function replayZionBadge(badgeId, zionMiles){
+  const badge=ZION_BADGES.find(b=>b.id===badgeId);
+  if(!badge) return;
+  const wp=ZION_WAYPOINTS.find(w=>w.bonus===badge.bonus);
+  const scripture=MILESTONE_SCRIPTURES[badgeId]||MILESTONE_SCRIPTURES.zion_unlock;
+  const newTitle=TITLE_BADGES.find(b=>b.miles===(600+badge.bonus))||null;
+  showUniversalCelebration({
+    icon:badge.icon,
+    eyebrow:'\u2726 Forward to Zion \u2014 '+badge.name,
+    title:badge.name,
+    subtitle:wp?wp.desc:'Walking with God toward the Translated City.',
+    subtitleColor:'rgba(220,200,255,.85)',
+    stats:[
+      {value:zionMiles,label:'Zion Miles'},
+      {value:badge.icon,label:badge.name},
+      {value:600+badge.bonus,label:'Total Miles'}
+    ],
+    scripture:scripture,
+    titleBadge:newTitle,
+    theme:'starfield'
+  });
+}
 function exportCSV(){
   const d=db();const headers=['Name','Group','Category','Description','Miles','Month','Date','Custom'];
   const rows=d.entries.map(e=>{const u=d.users.find(u=>u.id===e.userId)||{};return[u.name||e.userName,u.group||'',e.cat,'"'+e.desc.replace(/"/g,'""')+'"',e.miles,e.month,new Date(e.ts).toLocaleDateString(),e.custom?'Yes':'No'].join(',');});
