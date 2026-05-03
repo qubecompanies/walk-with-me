@@ -1963,7 +1963,6 @@ const ACTIVITIES={
     {text:"Study the Young Women's or Young Men's theme; journal about your insights.",miles:15},
     {text:"Prepare 10 names to take to the temple.",miles:20},
     {text:"Pray morning and night for two weeks.",miles:30},
-    {text:"Read the For the Strength of Youth booklet. Choose one way to improve and implement it for one month.",miles:40},
     {text:"Memorize 2 scriptures (longer than 'Jesus wept.') and recite them to someone.",miles:20},
     {text:"Lead your family in studying Come Follow Me. Do this five times.",miles:30},
     {text:"Teach a lesson with the Missionaries.",miles:40},
@@ -2013,7 +2012,14 @@ const ACTIVITIES={
     {text:"Contact each of your assigned ministering families this month — by visit, call, or text. Record how it went.",miles:20},
     {text:"Learn something meaningful about each family you minister to. Find one specific way to serve them this month based on what you learn.",miles:25},
     {text:"Fast and pray specifically for one of your assigned families. Act on any impression you receive.",miles:20},
-    {text:"Help with setup or cleanup for a baptism, confirmation, or other ordinance service.",miles:10}
+    {text:"Help with setup or cleanup for a baptism, confirmation, or other ordinance service.",miles:10},
+    {text:"FSY Read-a-Thon Part 1 — Read chapters 1–4 of the new For the Strength of Youth guide (May). Write one thing that stood out from each chapter.",miles:20},
+    {text:"FSY Read-a-Thon Part 2 — Read chapters 5–8 of the FSY guide (June/July). Share one insight with a parent or leader.",miles:20},
+    {text:"FSY Read-a-Thon Part 3 — Read chapters 9–12 of the FSY guide (August). You finished the whole guide before September!",miles:20},
+    {text:"Read the entire For the Strength of Youth guide in one focused week. Underline or mark one principle in every chapter.",miles:60},
+    {text:"Attend the worldwide FSY discussion day on August 30 with your ward youth. Participate in the local discussion — do not just sit there.",miles:20},
+    {text:"Choose one principle from the FSY guide and apply it every day for two weeks. At the end, journal how it changed your choices.",miles:25},
+    {text:"After September 6, attend the first four FSY-based Sunday classes. Come prepared — read the chapter, bring your guide, and participate in discussion.",miles:20}
   ],
   physical:[
     {text:"Set an earlier bedtime. Stick to it for two weeks.",miles:45},
@@ -2103,7 +2109,9 @@ const ACTIVITIES={
     {text:"Study the fundamentals of photography — composition, lighting, rule of thirds, and leading lines. Take and edit at least 20 intentional photos applying what you learned. Curate your 10 best into a simple portfolio to share.",miles:30},
     {text:"Prepare and deliver a three to five minute speech or presentation to a real audience outside your family — a class, a club, a community group, or anywhere other than a church talk.",miles:30},
     {text:"Learn American Sign Language basics. Master at least 50 signs and hold a two-minute basic conversation using only ASL with a friend or family member.",miles:25},
-    {text:"Plan, record, and produce a short documentary or podcast episode — at least five minutes long — on any topic that matters to you. Share it with at least one other person when done.",miles:40}
+    {text:"Plan, record, and produce a short documentary or podcast episode — at least five minutes long — on any topic that matters to you. Share it with at least one other person when done.",miles:40},
+    {text:"Subscribe to the For the Strength of Youth magazine (free) at magazines.ChurchofJesusChrist.org. Show a parent or leader the confirmation.",miles:10},
+    {text:"Download the Gospel Library app and use the FSY study plan to track your reading. Complete at least one week with in-app notifications on.",miles:10}
   ],
   social:[
     {text:"Set up a game night or fun get-together with your friends.",miles:15},
@@ -2174,7 +2182,11 @@ const ACTIVITIES={
     {text:"Help set up, clean up, or serve at a ward service project or community volunteer event.",miles:15},
     {text:"Help prepare, serve, or clean up a meal for a ward family in need — a new baby, illness, or hard week.",miles:15},
     {text:"Help set up or take down chairs, tables, or equipment for a church meeting, fireside, or special event. Show up before it starts and stay until it is done.",miles:10},
-    {text:"Volunteer to help at a stake event — conference, youth activity, or community fair. Serve for the full event.",miles:20}
+    {text:"Volunteer to help at a stake event — conference, youth activity, or community fair. Serve for the full event.",miles:20},
+    {text:"Follow @forstrengthofyouth on Instagram and engage with at least one weekly reading post. Share it to your story or send it to a friend.",miles:10},
+    {text:"Teach someone — a sibling, parent, or friend — one principle from the FSY guide. Have a real conversation about it, not just a summary.",miles:15},
+    {text:"Bring a friend to the August 30 worldwide FSY discussion day who has never come to a youth activity. Invite them, sit with them, and introduce them around.",miles:15},
+    {text:"Choose one principle from the FSY guide and set a specific goal to work on for one full month. Tell a friend or parent your goal so they can hold you accountable.",miles:30}
   ]
 };
 
@@ -4591,7 +4603,36 @@ const MTWI_CHALLENGES = [
   {cat:'intellectual',text:'Watch or read one news story and form your own opinion about it.'},
   {cat:'spiritual',   text:'Write a short prayer of gratitude today: not asking for anything, just thanking.'},
   {cat:'intellectual',text:'Do something today you have been putting off. Even just start it.'},
-  {cat:'spiritual',   text:'Before bed, read one talk from the last General Conference.'}
+  {cat:'spiritual',   text:'Before bed, read one talk from the last General Conference.'},
+  {cat:'spiritual',   text:'Open the Gospel Library right now. Read the scripture of the day and sit with it for two full minutes before moving on.'},
+  {cat:'spiritual',   text:'Name five things God has given you that you did not earn. Write them down and thank Him specifically for each one.'},
+  {cat:'spiritual',   text:'Read the Beatitudes slowly — Matthew 5:3 through 12. Pick one. Try to live it before the day ends.'},
+  {cat:'spiritual',   text:'Think of one person who needs encouragement today. Send them a message, a note, or tell them in person before you go to bed.'},
+  {cat:'spiritual',   text:'Read one chapter of a standard work you have never read before. Any chapter. Just open it and read.'},
+  {cat:'spiritual',   text:'Write down one question you have about the gospel. Then search for an answer in the scriptures, a conference talk, or from a trusted person.'},
+  {cat:'spiritual',   text:'Hum or sing a hymn while doing something ordinary today — dishes, a commute, or a walk. Let it be your soundtrack for five minutes.'},
+  {cat:'physical',    text:'Do 3 sets of 10 push-ups right now. Rest between sets. All 30 before you move on.'},
+  {cat:'physical',    text:'Walk outside for exactly 10 minutes. No phone. Just walk and notice what is around you.'},
+  {cat:'physical',    text:'Stretch every major muscle group for 30 seconds each — head to toe. Take the full five minutes.'},
+  {cat:'physical',    text:'Eat breakfast today if you normally skip it. Fruit and water count. Just do not start the day on empty.'},
+  {cat:'physical',    text:'Go to bed 30 minutes earlier than usual tonight. Tomorrow morning, notice the difference.'},
+  {cat:'physical',    text:'Do not sit for more than 45 minutes in a row today. Set a timer. Stand, stretch, or walk every time it goes off.'},
+  {cat:'physical',    text:'Drink half your body weight in ounces of water today. Calculate it. Start now with a full glass.'},
+  {cat:'intellectual',text:'Write down three things you learned this week that you did not know last week.'},
+  {cat:'intellectual',text:'Read one article about something happening in the world today. Then ask yourself: what would the Savior think of this situation?'},
+  {cat:'intellectual',text:'Memorize one new fact, date, or scripture today. Say it out loud three times so it sticks.'},
+  {cat:'intellectual',text:'Write a one-paragraph letter to your future self. Seal it. Do not open it for one year.'},
+  {cat:'intellectual',text:'Turn off all screens for one hour starting right now. Read, write, draw, or create something instead.'},
+  {cat:'intellectual',text:'Learn to do something you have always relied on someone else for — a simple recipe, a basic repair, or how to budget.'},
+  {cat:'intellectual',text:'Ask someone older than you one question about their life that you have never asked before. Listen all the way through without interrupting.'},
+  {cat:'intellectual',text:'Take five minutes right now to review your goals for this month. Are you on track? Adjust at least one.'},
+  {cat:'social',      text:'Text or call someone you have been meaning to reach out to but have not yet. No big reason needed. Just check in.'},
+  {cat:'social',      text:'Say thank you to at least three people today and really mean it. Tell each one specifically what you appreciate about them.'},
+  {cat:'social',      text:'Apologize to someone you owe an apology to. Say it in person or by voice — not just by text.'},
+  {cat:'social',      text:'Put your phone completely away during the next conversation you have with a family member. No checking, no glancing.'},
+  {cat:'social',      text:'Compliment someone today on something that has nothing to do with their appearance — their character, their effort, or their kindness.'},
+  {cat:'social',      text:'Do one thing today to make someone else\'s job a little easier — clear your own dishes, hold a door, or take out the trash without being asked.'},
+  {cat:'social',      text:'Write down the name of one person you want to get to know better. Then do one concrete thing today to make that happen.'}
 ];
 
 const RECAP_MESSAGES = [
