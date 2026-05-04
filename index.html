@@ -4648,7 +4648,7 @@ const RECAP_MESSAGES = [
 function renderDailySpark(){
   const el = document.getElementById('dailySparkCard');
   if(!el) return;
-  const day = Math.floor(Date.now()/86400000);
+  const day = getLocalDayNumber();
   const spark = DAILY_SPARKS[day % DAILY_SPARKS.length];
   el.innerHTML = `<div class="daily-spark">
     <div class="spark-icon">${spark.icon}</div>
@@ -4663,10 +4663,22 @@ function renderDailySpark(){
 // ══════════════════════════════════════════════════
 //  MINUTE TO WIN IT
 // ══════════════════════════════════════════════════
-function getMtwiKey(){ return 'mtwi_'+currentUser.id+'_'+Math.floor(Date.now()/86400000); }
+
+// ══ LOCAL DAY STAMP — uses local midnight not UTC ══
+function getLocalDayStamp(){
+  const d=new Date();
+  return d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate();
+}
+// Local day NUMBER (sequential, for rotation modulo) — days since 2026-01-01 local
+function getLocalDayNumber(){
+  const d=new Date();
+  const start=new Date(2026,0,1);
+  return Math.floor((d-start)/86400000);
+}
+function getMtwiKey(){ return 'mtwi_'+currentUser.id+'_'+getLocalDayStamp(); }
 
 function getTodaysMtwi(){
-  const day = Math.floor(Date.now()/86400000);
+  const day = getLocalDayNumber();
   return MTWI_CHALLENGES[day % MTWI_CHALLENGES.length];
 }
 
@@ -7510,25 +7522,23 @@ const PRIMARY_WORD_SEARCHES = [
 ];
 
 function getTodaysPrimaryWordSearch(){
-  const day = Math.floor(Date.now()/86400000);
+  const day = getLocalDayNumber();
   return PRIMARY_WORD_SEARCHES[day % PRIMARY_WORD_SEARCHES.length];
 }
 
 function getTodaysPrimarySong(){
-  const day = Math.floor(Date.now()/86400000);
+  const day = getLocalDayNumber();
   return PRIMARY_SONGS[day % PRIMARY_SONGS.length];
 }
 
 function hasCompletedWordSearch(){
-  const day = Math.floor(Date.now()/86400000);
-  return hasUF('primaryWS_'+day);
+  return hasUF('primaryWS_'+getLocalDayStamp());
 }
 
 function claimWordSearch(){
   if(!currentUser||!currentUser.isPrimary) return;
-  const day = Math.floor(Date.now()/86400000);
-  if(hasUF('primaryWS_'+day)){showToast('Already completed today!');return;}
-  setUF('primaryWS_'+day,'1');
+  if(hasUF('primaryWS_'+getLocalDayStamp())){showToast('Already completed today!');return;}
+  setUF('primaryWS_'+getLocalDayStamp(),'1');
   fbAdd('entries',{userId:currentUser.id,userName:currentUser.name,cat:'spiritual',
     desc:'🕊 Daily Scripture Word Search',miles:1,month:getCurrentMonth(),ts:Date.now(),custom:true});
   fireConfetti();
