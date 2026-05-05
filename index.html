@@ -1062,8 +1062,10 @@ textarea.form-input{min-height:72px;resize:vertical;}
 #celebStarCanvas{position:absolute;inset:0;pointer-events:none;z-index:0;}
 
 /* ══ ZION BADGE STYLING ══ */
-.zion-badge.earned{background:linear-gradient(135deg,#0a1a05,#1a3a10);border-color:rgba(200,146,42,.4);}
-.zion-badge.earned .badge-icon{filter:drop-shadow(0 0 6px rgba(232,176,80,.6));}
+.zion-badge.earned{border-color:var(--gold);background:linear-gradient(135deg,#eaf3e8,#f5faf4);box-shadow:0 2px 8px rgba(26,90,30,.15);}
+.zion-badge.earned .badge-icon{filter:drop-shadow(0 0 4px rgba(42,122,110,.35));}
+.zion-badge.earned .badge-name{color:var(--navy);}
+.zion-badge.earned .badge-miles{color:var(--teal);}
 .badge-section-divider{width:100%;text-align:center;font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);opacity:.7;padding:.5rem 0 .25rem;flex-basis:100%;}
 
 /* ══ PLANNER COMPLETION ══ */
@@ -1248,7 +1250,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
         <div class="wn-icon" style="background:linear-gradient(135deg,#2a7a6e,#1a5a4e);">&#x2728;</div>
         <div class="wn-feature-body">
           <div class="wn-feature-title">Also New in This Update</div>
-          <div class="wn-feature-desc">Mark planned activities complete directly from the Planner tab &bull; FSY Read-a-Thon goals added &bull; 74 Minute to Win It daily tasks &bull; Zion journey badges in your badge row &bull; Daily timezone fix so MTWI resets at local midnight &bull; Correct grouping on all leaderboards.</div>
+          <div class="wn-feature-desc">Mark planned activities complete directly from the Planner tab &bull; FSY Read-a-Thon goals added &bull; 74 Minute to Win It daily tasks &bull; Zion journey badges in your badge row &bull; Daily timezone fix so MTWI resets at local midnight &bull; Correct grouping on all leaderboards &bull; <strong>Ghost completions fixed</strong> &mdash; activity completion now tracked by activity name so adding new goals can never cause someone else&rsquo;s completion to appear on your account.</div>
         </div>
       </div>
     </div>
@@ -1904,7 +1906,7 @@ async function loadAll() {
   try {
     const [u,e,g,s,fc,ba,us,ac] = await Promise.all([
       COL.users().get(),
-      COL.entries().get(),
+      (currentUser?COL.entries().where('userId','==',currentUser.id).get():COL.entries().get()),
       COL.groupMiles().get(),
       COL.shoutouts().get(),
       _db().collection('featuredChallenges').get(),
@@ -1931,7 +1933,7 @@ async function refreshData() {
   setSyncState('syncing');
   try {
     const [e,g,s,fc,ba] = await Promise.all([
-      COL.entries().get(),
+      (currentUser?COL.entries().where('userId','==',currentUser.id).get():COL.entries().get()),
       COL.groupMiles().get(),
       COL.shoutouts().get(),
       _db().collection('featuredChallenges').get(),
@@ -2487,8 +2489,21 @@ async function switchTab(tab){
 // ════════════════════════════════════════════════════
 //  COMPLETED ACTIVITIES
 // ════════════════════════════════════════════════════
-function getCompletedIds(){return new Set(CACHE.entries.filter(e=>e.userId===currentUser.id&&e.actId!==undefined).map(e=>e.actId));}
-function makeActId(cat,idx){return cat+'_'+idx;}
+function getCompletedIds(){
+  // CACHE.entries already filtered to current user by Firestore query
+  return new Set(CACHE.entries.filter(e=>e.actId!==undefined).map(e=>e.actId));
+}
+function getCompletedDescs(){
+  // Fallback for old index-based entries — match by activity description text
+  return new Set(CACHE.entries.filter(e=>e.desc).map(e=>e.desc));
+}
+function makeActId(cat,idx,text){
+  if(text){
+    const slug=text.toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_+|_+$/g,'').slice(0,50);
+    return cat+'_'+slug;
+  }
+  return cat+'_'+idx; // legacy index fallback
+}
 
 // ════════════════════════════════════════════════════
 //  LOG MILES
@@ -2501,14 +2516,24 @@ function buildMonthSelector(){
 
 function refreshActivityDoneStates(){
   const done=getCompletedIds();
+  const descs=getCompletedDescs();
+  // Mark by new text-based actId
   done.forEach(id=>{const el=document.getElementById('logAct-'+id);if(el){el.classList.add('done');if(!el.querySelector('.done-stamp')){const s=document.createElement('div');s.className='done-stamp';s.textContent='Completed';el.appendChild(s);}}});
+  // Also mark by desc text for backward compat with old index-based entries
+  document.querySelectorAll('.activity-item[data-desc]').forEach(el=>{
+    if(descs.has(el.dataset.desc)&&!el.classList.contains('done')){
+      el.classList.add('done');
+      if(!el.querySelector('.done-stamp')){const s=document.createElement('div');s.className='done-stamp';s.textContent='Completed';el.appendChild(s);}
+    }
+  });
 }
 
 function toggleAccordion(el){el.classList.toggle('open');}
 
 async function logActivity(cat,act,idx,el){
-  const id=makeActId(cat,idx);
-  if(getCompletedIds().has(id)){showToast("You've already completed this activity!");return;}
+  const id=makeActId(cat,idx,act.text);
+  const completedDescs=getCompletedDescs();
+  if(getCompletedIds().has(id)||completedDescs.has(act.text)){showToast("You've already completed this activity!");return;}
   el.style.opacity='.5';el.style.pointerEvents='none';
   try{
     await fbAdd('entries',{userId:currentUser.id,userName:currentUser.name,cat,desc:act.text,miles:act.miles,month:currentLogMonth,ts:Date.now(),custom:false,actId:id});
@@ -2549,7 +2574,7 @@ function buildPlannerActivityList(){
     container.appendChild(section);
     const body=section.querySelector('.accordion-body');
     actSrc[cat].forEach((act,i)=>{
-      const id=makeActId(cat,i);const item=document.createElement('div');item.className='planner-item';item.id='planAct-'+id;
+      const id=makeActId(cat,i,act.text);const item=document.createElement('div');item.className='planner-item';item.id='planAct-'+id;
       item.innerHTML=`<div class="planner-check" id="planCheck-${id}"></div><div class="planner-text">${act.text}</div><div class="planner-miles-tag">${act.miles}mi</div>`;
       item.onclick=()=>togglePlanned(id,{...act,_idx:i},cat);body.appendChild(item);
     });
@@ -3817,7 +3842,7 @@ function buildActivityList(){
     container.appendChild(section);
     const body=section.querySelector('.accordion-body');
     actSrc[cat].forEach((act,i)=>{
-      const id=makeActId(cat,i);const item=document.createElement('div');item.className='activity-item';item.id='logAct-'+id;
+      const id=makeActId(cat,i,act.text);const item=document.createElement('div');item.className='activity-item';item.id='logAct-'+id;item.dataset.desc=act.text;
       const isPrimUser=currentUser&&currentUser.isPrimary;
       item.innerHTML=`<div class="activity-miles">${act.miles}<span>miles</span><div class="diff-stars">${diffStars(act.miles)}</div></div><div class="activity-text">${act.text}${isPrimUser?'<span class="primary-act-badge">🕊</span>':''}</div>`;
       item.onclick=()=>logActivity(cat,act,i,item);body.appendChild(item);
@@ -4317,7 +4342,8 @@ function renderTodaysChallenge(){
   if(!acts.length){el.innerHTML='';return;}
   // Avoid already-completed ones
   const done = getCompletedIds();
-  const available = acts.filter((_,i)=>!done.has(makeActId(targetCat,i)));
+  const descsForAvail=getCompletedDescs();
+  const available = acts.filter((act,i)=>!done.has(makeActId(targetCat,i,act.text))&&!descsForAvail.has(act.text));
   if(!available.length){el.innerHTML='';return;}
   const pick = available[Math.floor(Math.random()*available.length)];
   const pickIdx = acts.indexOf(pick);
@@ -7239,8 +7265,8 @@ function filterActivities(query){
   resultEl.appendChild(hdr);
   // Use appendChild so onclick handlers survive (outerHTML strips them)
   matches.forEach(function(m){
-    var id=makeActId(m.cat,m.i);
-    var isDone=done.has(id);
+    var id=makeActId(m.cat,m.i,m.act.text);
+    var isDone=done.has(id)||getCompletedDescs().has(m.act.text);
     var el=document.createElement('div');
     el.className='activity-item'+(isDone?' completed':'');
     el.style.opacity=isDone?'0.6':'1';
