@@ -1065,6 +1065,35 @@ textarea.form-input{min-height:72px;resize:vertical;}
 .zion-badge.earned{background:linear-gradient(135deg,#0a1a05,#1a3a10);border-color:rgba(200,146,42,.4);}
 .zion-badge.earned .badge-icon{filter:drop-shadow(0 0 6px rgba(232,176,80,.6));}
 .badge-section-divider{width:100%;text-align:center;font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);opacity:.7;padding:.5rem 0 .25rem;flex-basis:100%;}
+
+/* ══ PLANNER COMPLETION ══ */
+.planner-item.future-month{opacity:.45;cursor:default;}
+.planner-item.future-month .planner-check{cursor:default;border-color:var(--sand-dark)!important;background:transparent!important;}
+.planner-item.current-month .planner-check{cursor:pointer;}
+.planner-item.current-month .planner-check:hover:not(.is-done){background:rgba(42,122,110,.12);border-color:var(--teal);}
+
+/* Planner confirm modal */
+#plannerConfirmModal{position:fixed;inset:0;z-index:9996;display:flex;align-items:center;justify-content:center;
+  background:rgba(10,20,35,.7);opacity:0;pointer-events:none;transition:opacity .2s;}
+#plannerConfirmModal.open{opacity:1;pointer-events:all;}
+.planner-confirm-card{background:var(--parchment);border-radius:10px;max-width:380px;width:90%;
+  padding:1.5rem 1.5rem 1.25rem;box-shadow:0 8px 40px rgba(0,0,0,.35);
+  transform:translateY(16px);transition:transform .25s cubic-bezier(.4,0,.2,1);}
+#plannerConfirmModal.open .planner-confirm-card{transform:translateY(0);}
+.planner-confirm-eyebrow{font-family:'Inter',sans-serif;font-size:.6rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--gold);margin-bottom:.5rem;}
+.planner-confirm-title{font-family:'Cinzel',serif;font-size:1rem;color:var(--navy);margin-bottom:.4rem;}
+.planner-confirm-activity{font-family:'Crimson Pro',serif;font-style:italic;font-size:.9rem;
+  color:var(--ink-soft);line-height:1.45;margin-bottom:1rem;padding:.65rem .85rem;
+  background:rgba(42,122,110,.06);border-left:3px solid var(--teal);border-radius:0 4px 4px 0;}
+.planner-confirm-miles{font-family:'Cinzel',serif;font-size:.75rem;color:var(--teal);margin-bottom:1.1rem;}
+.planner-confirm-btns{display:flex;gap:.6rem;}
+.planner-confirm-yes{flex:1;background:var(--teal);color:white;border:none;border-radius:6px;
+  padding:.6rem 1rem;font-family:'Cinzel',serif;font-size:.75rem;cursor:pointer;letter-spacing:.04em;}
+.planner-confirm-yes:hover{opacity:.88;}
+.planner-confirm-no{flex:0 0 auto;background:transparent;color:var(--ink-soft);border:1.5px solid var(--sand-dark);
+  border-radius:6px;padding:.6rem 1rem;font-family:'Inter',sans-serif;font-size:.75rem;cursor:pointer;}
+.planner-confirm-no:hover{border-color:var(--ink-soft);}
 </style>
 </head>
 <body>
@@ -2529,7 +2558,7 @@ function buildPlannerActivityList(){
     actSrc[cat].forEach((act,i)=>{
       const id=makeActId(cat,i);const item=document.createElement('div');item.className='planner-item';item.id='planAct-'+id;
       item.innerHTML=`<div class="planner-check" id="planCheck-${id}"></div><div class="planner-text">${act.text}</div><div class="planner-miles-tag">${act.miles}mi</div>`;
-      item.onclick=()=>togglePlanned(id,act,cat);body.appendChild(item);
+      item.onclick=()=>togglePlanned(id,{...act,_idx:i},cat);body.appendChild(item);
     });
   });
 }
@@ -2542,7 +2571,7 @@ function filterPlannerActs(cat,btn){
 function togglePlanned(id,act,cat){
   if(getCompletedIds().has(id)){showToast("Already completed — it's logged!");return;}
   let plan=getPlanner();const exists=plan.find(p=>p.id===id);
-  if(exists)plan=plan.filter(p=>p.id!==id);else plan.push({id,text:act.text,miles:act.miles,cat});
+  if(exists)plan=plan.filter(p=>p.id!==id);else plan.push({id,text:act.text,miles:act.miles,cat,actIdx:act._idx||0,month:currentPlanMonth});
   savePlanner(plan);renderPlanner();refreshPlannerActStyles();
 }
 
@@ -2558,7 +2587,24 @@ function renderPlanner(){
   document.getElementById('plannerMilesPreview').textContent=plan.length?`${totalPlanned} miles planned — ${totalPlanned>=60?'✓ on track!':'need '+(60-totalPlanned)+' more'}`:'';
   const planned=document.getElementById('plannerPlanned');
   if(!plan.length){planned.innerHTML='<p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);padding:.5rem 0;">No activities planned yet — tap activities below to add them.</p>';return;}
-  planned.innerHTML=plan.map(p=>{const isDone=done.has(p.id)||p.done;return`<div class="planner-item ${isDone?'planned-done':'planned'}"><div class="planner-check">${isDone?'<svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>':''}</div><div><span class="tag tag-${p.cat}" style="margin-bottom:.25rem;display:inline-block;">${cap(p.cat)}</span><div class="planner-text">${p.text}</div></div><div class="planner-miles-tag">${p.miles}mi</div></div>`;}).join('');
+  const curMon=getCurrentMonth();
+  planned.innerHTML=plan.map(p=>{
+    const isDone=done.has(p.id)||p.done;
+    const isCurrent=p.month===curMon;
+    const canComplete=isCurrent&&!isDone;
+    const monthClass=isDone?'planned-done':isCurrent?'planned current-month':'planned future-month';
+    const checkClick=canComplete?`onclick="openPlannerConfirm('${p.cat}',${p.actIdx},'${p.month}')"`:'';
+    const checkSvg=isDone
+      ?'<svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>'
+      :isCurrent?'':'<svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="3.5" stroke="rgba(0,0,0,.2)" stroke-width="1" fill="none"/></svg>';
+    return`<div class="planner-item ${monthClass}">`
+      +`<div class="planner-check ${isDone?'is-done':''}" ${checkClick}>${checkSvg}</div>`
+      +`<div style="flex:1;"><span class="tag tag-${p.cat}" style="margin-bottom:.25rem;display:inline-block;">${cap(p.cat)}</span>`
+      +`${!isCurrent&&!isDone?'<span style="font-family:\'Inter\',sans-serif;font-size:.58rem;color:var(--ink-soft);margin-left:.4rem;">'+p.month+'</span>':''}`
+      +`<div class="planner-text">${p.text}</div></div>`
+      +`<div class="planner-miles-tag">${p.miles}mi</div></div>`;
+  }).join('');
+
   refreshPlannerActStyles();
 }
 
@@ -7712,6 +7758,49 @@ function replayZionBadge(badgeId, zionMiles){
     theme:'starfield'
   });
 }
+
+// ══ PLANNER COMPLETION FROM PLANNER TAB ══
+let _plannerConfirmItem = null; // {cat, act, idx, planMonth}
+
+function openPlannerConfirm(cat, actIdx, planMonth){
+  const actSrc = currentUser&&currentUser.isPrimary ? PRIMARY_ACTIVITIES : ACTIVITIES;
+  const act = (actSrc[cat]||[])[actIdx];
+  if(!act) return;
+  _plannerConfirmItem = {cat, act, idx:actIdx, planMonth};
+  const modal = document.getElementById('plannerConfirmModal');
+  document.getElementById('plannerConfirmActivity').textContent = act.text;
+  document.getElementById('plannerConfirmMiles').textContent = '+' + act.miles + ' miles toward Jerusalem';
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePlannerConfirm(e){
+  if(e && e.target !== document.getElementById('plannerConfirmModal')) return;
+  closePlannerConfirmBtn();
+}
+
+function closePlannerConfirmBtn(){
+  document.getElementById('plannerConfirmModal').classList.remove('open');
+  document.body.style.overflow = '';
+  _plannerConfirmItem = null;
+}
+
+async function confirmPlannerComplete(){
+  if(!_plannerConfirmItem) return;
+  const {cat, act, idx, planMonth} = _plannerConfirmItem;
+  closePlannerConfirmBtn();
+  // Log the activity using the existing logActivity path
+  // We need a temporary element for the done-stamp visual
+  const tempEl = document.createElement('div');
+  await logActivity(cat, act, idx, tempEl);
+  // Re-render planner to show updated done state
+  setTimeout(renderPlanner, 400);
+}
+
+function isPlanItemCurrentMonth(planMonth){
+  return planMonth === getCurrentMonth();
+}
+
 function exportCSV(){
   const d=db();const headers=['Name','Group','Category','Description','Miles','Month','Date','Custom'];
   const rows=d.entries.map(e=>{const u=d.users.find(u=>u.id===e.userId)||{};return[u.name||e.userName,u.group||'',e.cat,'"'+e.desc.replace(/"/g,'""')+'"',e.miles,e.month,new Date(e.ts).toLocaleDateString(),e.custom?'Yes':'No'].join(',');});
@@ -7765,6 +7854,20 @@ buildStars();
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
+<!-- PLANNER CONFIRM MODAL -->
+<div id="plannerConfirmModal" onclick="closePlannerConfirm(event)">
+  <div class="planner-confirm-card">
+    <div class="planner-confirm-eyebrow">&#x2726; Planner &mdash; Mark Complete</div>
+    <div class="planner-confirm-title">Confirm Completion</div>
+    <div class="planner-confirm-activity" id="plannerConfirmActivity"></div>
+    <div class="planner-confirm-miles" id="plannerConfirmMiles"></div>
+    <div class="planner-confirm-btns">
+      <button class="planner-confirm-yes" onclick="confirmPlannerComplete()">&#x2713; Log it &mdash; I did this!</button>
+      <button class="planner-confirm-no" onclick="closePlannerConfirmBtn()">Not yet</button>
+    </div>
+  </div>
+</div>
 <div id="mobileBadgeTooltip"></div>
 </body>
 </html>
