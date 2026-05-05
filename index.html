@@ -2444,10 +2444,27 @@ function enterApp(){
   buildMonthSelector();buildPlannerMonthSelector();buildActivityList();buildPlannerActivityList();buildGroupWaypoints();buildAdultsGroupWaypoints();buildPrimaryGroupWaypoints();buildMiniMap();
   switchTab('dashboard');
   initHomeScreenPrompt();
-  // Poll for new shoutouts every 30 seconds while app is open
-  setInterval(async()=>{
-    try{await refreshData();checkForNewShoutouts();}catch(e){}
-  },30000);
+  // Poll every 30s — paused when tab is hidden, fires immediately on return
+  let _refreshTimer = null;
+  function startRefreshTimer(){
+    if(_refreshTimer) return;
+    _refreshTimer = setInterval(async()=>{
+      try{await refreshData();checkForNewShoutouts();}catch(e){}
+    },30000);
+  }
+  function stopRefreshTimer(){
+    if(_refreshTimer){clearInterval(_refreshTimer);_refreshTimer=null;}
+  }
+  startRefreshTimer();
+  // Pause when user leaves tab, resume + immediate refresh when they return
+  document.addEventListener('visibilitychange',async()=>{
+    if(document.hidden){
+      stopRefreshTimer();
+    } else {
+      try{await refreshData();checkForNewShoutouts();}catch(e){}
+      startRefreshTimer();
+    }
+  });
 }
 
 function logout(){
@@ -2674,7 +2691,7 @@ function renderDashboard(){
   const recent=[...my].sort((a,b)=>b.ts-a.ts).slice(0,5);
   const rEl=document.getElementById('recentActivity');
   if(!recent.length){rEl.innerHTML='<p style="font-style:italic;color:var(--ink-soft);font-size:.9rem;">No entries yet — log your first miles!</p>';return;}
-  rEl.innerHTML=recent.map(e=>`<div class="history-entry"><div><div>${e.desc.length>70?e.desc.slice(0,70)+'…':e.desc}</div><div class="history-meta">${e.month} · <span class="tag tag-${e.cat}">${cap(e.cat)}</span>${e.custom?' · custom':''}</div></div><div class="history-miles">${e.miles}</div><div style="font-size:.7rem;color:var(--sand-dark);font-family:'Inter',sans-serif;">mi</div></div>`).join('');
+  rEl.innerHTML=recent.map(e=>`<div class="history-entry"><div><div>${e.desc&&e.desc.length>70?safe(e.desc).slice(0,70)+'…':safe(e.desc||'')}</div><div class="history-meta">${e.month} · <span class="tag tag-${e.cat}">${cap(e.cat)}</span>${e.custom?' · custom':''}</div></div><div class="history-miles">${e.miles}</div><div style="font-size:.7rem;color:var(--sand-dark);font-family:'Inter',sans-serif;">mi</div></div>`).join('');
 }
 
 function calcStreak(entries){let s=0;for(let i=0;i<MONTHS.length;i++){const miles=entries.filter(e=>e.month===MONTHS[i]).reduce((t,e)=>t+e.miles,0);if(miles>=60)s++;else if(MONTHS[i]!==getCurrentMonth())break;}return s;}
@@ -2927,7 +2944,7 @@ function renderAdminRoster(d, score){
   const rosterMore=allSorted.length>rosterLimit;
   rosterEl.innerHTML=(rosterVisible.length?rosterVisible.map(u=>
     '<div class="admin-user-row">'
-    +'<div class="admin-user-name">'+u.name+'</div>'
+    +'<div class="admin-user-name">'+safe(u.name)+'</div>'
     +'<select class="role-select" onchange="updateUserRole(\''+u.id+'\',this.value)">'
     +'<option value="Young Men" '+(u.group==='Young Men'?'selected':'')+'>Young Men</option>'
     +'<option value="Young Women" '+(u.group==='Young Women'?'selected':'')+'>Young Women</option>'
@@ -3037,7 +3054,8 @@ async function addGroupMiles(){
 }
 
 async function postShoutout(){
-  const text=document.getElementById('shoutoutText').value.trim();if(!text){showToast('Please write a message.');return;}
+  const raw=document.getElementById('shoutoutText').value.trim();if(!raw){showToast('Please write a message.');return;}
+  const text=raw.slice(0,300); // max 300 chars
   try{await fbAdd('shoutouts',{from:currentUser.name,text,ts:Date.now()});document.getElementById('shoutoutText').value='';showToast('📣 Shoutout posted!');}catch(err){showToast('Error: '+err.message);}
 }
 
@@ -3737,10 +3755,10 @@ function renderShoutouts(){
   feed.innerHTML=visible.length?visible.map(s=>`
     <div class="shoutout">
       <div class="shoutout-header">
-        <span class="shoutout-from">${s.from}</span>
+        <span class="shoutout-from">${safe(s.from)}</span>
         <span class="shoutout-time">${timeAgo(s.ts)}</span>
       </div>
-      <div class="shoutout-text">"${s.text}"</div>
+      <div class="shoutout-text">"${safe(s.text)}"</div>
       ${reactionBar('shoutouts',s)}
     </div>`).join('')
     :'<p style="padding:1rem;font-style:italic;font-size:.9rem;color:var(--ink-soft);">No shoutouts yet — check back soon!</p>';
@@ -3781,8 +3799,8 @@ function renderBadgeAnnouncements(){
     <div class="badge-announce">
       <div class="badge-announce-icon">${a.icon||'🏅'}</div>
       <div class="badge-announce-body">
-        <div class="badge-announce-who">${a.userName}</div>
-        <div class="badge-announce-text">${a.text}</div>
+        <div class="badge-announce-who">${safe(a.userName)}</div>
+        <div class="badge-announce-text">${safe(a.text)}</div>
         <div class="badge-announce-time">${timeAgo(a.ts)}</div>
         ${reactionBar('badgeAnnouncements',a)}
       </div>
@@ -7863,6 +7881,18 @@ async function clearBadgeAnnouncements(){
   CACHE.badgeAnnouncements = [];
   showToast('🗑️ Cleared '+count+' badge announcements.');
   renderGroup();
+}
+
+// ══ HTML SANITIZATION ══
+// Escapes user-generated content before innerHTML injection
+function safe(str){
+  if(str==null) return '';
+  return String(str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#39;');
 }
 function exportCSV(){
   const d=db();const headers=['Name','Group','Category','Description','Miles','Month','Date','Custom'];
