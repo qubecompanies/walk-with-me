@@ -1906,7 +1906,7 @@ async function loadAll() {
   try {
     const [u,e,g,s,fc,ba,us,ac] = await Promise.all([
       COL.users().get(),
-      (currentUser?COL.entries().where('userId','==',currentUser.id).get():COL.entries().get()),
+      COL.entries().get(),
       COL.groupMiles().get(),
       COL.shoutouts().get(),
       _db().collection('featuredChallenges').get(),
@@ -1933,7 +1933,7 @@ async function refreshData() {
   setSyncState('syncing');
   try {
     const [e,g,s,fc,ba] = await Promise.all([
-      (currentUser?COL.entries().where('userId','==',currentUser.id).get():COL.entries().get()),
+      COL.entries().get(),
       COL.groupMiles().get(),
       COL.shoutouts().get(),
       _db().collection('featuredChallenges').get(),
@@ -2490,12 +2490,12 @@ async function switchTab(tab){
 //  COMPLETED ACTIVITIES
 // ════════════════════════════════════════════════════
 function getCompletedIds(){
-  // CACHE.entries already filtered to current user by Firestore query
-  return new Set(CACHE.entries.filter(e=>e.actId!==undefined).map(e=>e.actId));
+  // Filter client-side by userId — CACHE.entries contains ALL users
+  return new Set(CACHE.entries.filter(e=>e.userId===currentUser.id&&e.actId!==undefined).map(e=>e.actId));
 }
 function getCompletedDescs(){
-  // Fallback for old index-based entries — match by activity description text
-  return new Set(CACHE.entries.filter(e=>e.desc).map(e=>e.desc));
+  // Filter by userId — fallback for old index-based entries
+  return new Set(CACHE.entries.filter(e=>e.userId===currentUser.id&&e.desc).map(e=>e.desc));
 }
 function makeActId(cat,idx,text){
   if(text){
