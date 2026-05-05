@@ -1217,51 +1217,44 @@ textarea.form-input{min-height:72px;resize:vertical;}
 <!-- WHAT'S NEW v3.0 MODAL -->
 <div id="whatsNewModal">
   <div class="wn-card">
-    <div class="wn-header">
-      <div class="wn-badge">&#x2726; Version 3.2 &mdash; What&rsquo;s New</div>
-      <div class="wn-title">Walk With Me</div>
-      <div class="wn-sub">Primary, more activities, smarter leaders &mdash; here&rsquo;s everything new</div>
+    <div class="wn-header" style="background:linear-gradient(135deg,#5a1a00,#3a0a00);">
+      <div class="wn-badge" style="color:#ffb366;">&#x26A0; Important Update &mdash; Version 3.3</div>
+      <div class="wn-title">Heads Up from Your Leader</div>
+      <div class="wn-sub">A bug was fixed &mdash; one small thing needs your attention</div>
     </div>
     <div class="wn-body">
       <div class="wn-feature">
-        <div class="wn-icon" style="background:linear-gradient(135deg,#7a4a20,#5a3010);">&#x1F54A;</div>
+        <div class="wn-icon" style="background:linear-gradient(135deg,#5a1a00,#3a0a00);">&#x1F6A7;</div>
         <div class="wn-feature-body">
-          <div class="wn-feature-title">Primary Profile &mdash; Ages 4&ndash;11</div>
-          <div class="wn-feature-desc">Primary children now have their own profile type with 60 age-appropriate activities, a dedicated Group Map, a Primary leaderboard tab, a &ldquo;First Steps&rdquo; starter badge at 10 miles, and a special &#x1F54A; Little Pilgrim badge for monthly challenge completions.</div>
+          <div class="wn-feature-title">Planner Bug Fixed &mdash; Action Required</div>
+          <div class="wn-feature-desc">We discovered that the Monthly Goal Planner was storing plans in a way that could mix up activities between different users on the same device. This has been fully fixed &mdash; your plan is now private to your account only.</div>
         </div>
       </div>
       <div class="wn-feature">
-        <div class="wn-icon" style="background:linear-gradient(135deg,#1a3a5c,#0f2540);">&#x1F5FA;</div>
+        <div class="wn-icon" style="background:linear-gradient(135deg,#1a3a5c,#0f2540);">&#x1F4CB;</div>
         <div class="wn-feature-body">
-          <div class="wn-feature-title">Three Group Maps</div>
-          <div class="wn-feature-desc">The Group Map now has sub-tabs for Youth, Adults, and Primary &mdash; each group has its own progress bar and waypoint map. Leaders can set separate divisors for each group in Admin to keep the journey fair across different group sizes.</div>
+          <div class="wn-feature-title">Please Re-Add Your Planner Items</div>
+          <div class="wn-feature-desc">Because of the fix, your previously planned activities for this month may have been cleared. Head to the <strong>Planner tab</strong> and re-select the activities you are working on this month. We&rsquo;re sorry for the inconvenience &mdash; this protects everyone&rsquo;s data going forward.</div>
         </div>
       </div>
       <div class="wn-feature">
-        <div class="wn-icon" style="background:linear-gradient(135deg,#2a7a6e,#1a5a4e);">&#x1F91D;</div>
+        <div class="wn-icon" style="background:linear-gradient(135deg,#1a3a10,#0a2a00);">&#x2714;</div>
         <div class="wn-feature-body">
-          <div class="wn-feature-title">Partner With &mdash; Updated</div>
-          <div class="wn-feature-desc">The partner system now uses warmer, cooperative language. Tap &ldquo;Partner with [Name]&rdquo; on the Leaderboard to start a shared activity. Both complete it within 7 days and earn bonus miles together.</div>
+          <div class="wn-feature-title">Your Miles and Badges Are Safe</div>
+          <div class="wn-feature-desc">All your logged miles, earned badges, streaks, and history are completely unaffected. Only the planned item list in the Planner tab needs to be refreshed. Everything else is exactly as you left it.</div>
         </div>
       </div>
       <div class="wn-feature">
-        <div class="wn-icon" style="background:linear-gradient(135deg,#5a7a2a,#3a5a1a);">&#x1F4CB;</div>
+        <div class="wn-icon" style="background:linear-gradient(135deg,#2a7a6e,#1a5a4e);">&#x2728;</div>
         <div class="wn-feature-body">
-          <div class="wn-feature-title">Expanded Activity Catalog</div>
-          <div class="wn-feature-desc">177 youth activities plus 60 Primary activities. New goals include fireside attendance, Stake Camp, FSY, family campout leadership, youth conference, and a youth fireside leader goal. Minute to Win It expanded to 45 daily tasks.</div>
-        </div>
-      </div>
-      <div class="wn-feature">
-        <div class="wn-icon" style="background:linear-gradient(135deg,#0f2540,#1a3a5c);">&#x1F9E0;</div>
-        <div class="wn-feature-body">
-          <div class="wn-feature-title">Leader Intelligence &mdash; Enhanced</div>
-          <div class="wn-feature-desc">The Intelligence tab now has Youth / Adults / All filters, a &ldquo;never used&rdquo; and &ldquo;zero this month&rdquo; exclusion toggle, four live charts including all-ward sparklines with top members highlighted, and a most-improved trend line.</div>
+          <div class="wn-feature-title">Also New in This Update</div>
+          <div class="wn-feature-desc">Mark planned activities complete directly from the Planner tab &bull; FSY Read-a-Thon goals added &bull; 74 Minute to Win It daily tasks &bull; Zion journey badges in your badge row &bull; Daily timezone fix so MTWI resets at local midnight &bull; Correct grouping on all leaderboards.</div>
         </div>
       </div>
     </div>
     <div class="wn-footer">
-      <button class="wn-cta" onclick="closeWhatsNew()">Let&rsquo;s go! &#x2192;</button>
-      <button class="wn-dismiss" onclick="closeWhatsNew()">Dismiss</button>
+      <button class="wn-cta" onclick="closeWhatsNew();switchTab('planner')">Go to Planner &#x2192;</button>
+      <button class="wn-dismiss" onclick="closeWhatsNew()">Got it</button>
     </div>
   </div>
 </div>
@@ -2576,7 +2569,8 @@ function togglePlanned(id,act,cat){
 }
 
 function markPlannerDone(actId){
-  MONTHS.forEach(m=>{const key='planner_'+currentUser.id+'_'+m;try{const plan=JSON.parse(localStorage.getItem(key)||'[]');let changed=false;plan.forEach(p=>{if(p.id===actId){p.done=true;changed=true;}});if(changed)localStorage.setItem(key,JSON.stringify(plan));}catch{}});
+  // No-op: completion state now comes from Firestore entries via getCompletedIds()
+  // p.done flag removed to prevent ghost completions from shared localStorage keys
 }
 
 function renderPlanner(){
@@ -2589,18 +2583,19 @@ function renderPlanner(){
   if(!plan.length){planned.innerHTML='<p style="font-style:italic;font-size:.9rem;color:var(--ink-soft);padding:.5rem 0;">No activities planned yet — tap activities below to add them.</p>';return;}
   const curMon=getCurrentMonth();
   planned.innerHTML=plan.map(p=>{
-    const isDone=done.has(p.id)||p.done;
-    const isCurrent=p.month===curMon;
+    const isDone=done.has(p.id); // p.done removed — rely solely on Firestore entries
+    const pMonth=p.month||currentPlanMonth; // default missing month for old plan items
+    const isCurrent=pMonth===curMon;
     const canComplete=isCurrent&&!isDone;
     const monthClass=isDone?'planned-done':isCurrent?'planned current-month':'planned future-month';
-    const checkClick=canComplete?`onclick="openPlannerConfirm('${p.cat}',${p.actIdx},'${p.month}')"`:'';
+    const checkClick=canComplete?`onclick="openPlannerConfirm('${p.cat}',${p.actIdx},'${pMonth}')"`:'';
     const checkSvg=isDone
       ?'<svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>'
       :isCurrent?'':'<svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="3.5" stroke="rgba(0,0,0,.2)" stroke-width="1" fill="none"/></svg>';
     return`<div class="planner-item ${monthClass}">`
       +`<div class="planner-check ${isDone?'is-done':''}" ${checkClick}>${checkSvg}</div>`
       +`<div style="flex:1;"><span class="tag tag-${p.cat}" style="margin-bottom:.25rem;display:inline-block;">${cap(p.cat)}</span>`
-      +`${!isCurrent&&!isDone?'<span style="font-family:\'Inter\',sans-serif;font-size:.58rem;color:var(--ink-soft);margin-left:.4rem;">'+p.month+'</span>':''}`
+      +`${!isCurrent&&!isDone?'<span style="font-family:\'Inter\',sans-serif;font-size:.58rem;color:var(--ink-soft);margin-left:.4rem;">'+pMonth+'</span>':''}`
       +`<div class="planner-text">${p.text}</div></div>`
       +`<div class="planner-miles-tag">${p.miles}mi</div></div>`;
   }).join('');
@@ -4502,7 +4497,7 @@ async function flushUserState(){
 // ══════════════════════════════════════════════════
 //  PLANNER — Firestore-backed
 // ══════════════════════════════════════════════════
-function getPlannerKey(){ return 'planner_'+currentPlanMonth; }
+function getPlannerKey(){ return 'planner_'+(currentUser?currentUser.id+'_':'')  +currentPlanMonth; }
 
 function getPlanner(){
   const key = getPlannerKey();
@@ -5558,7 +5553,7 @@ function checkZionWaypointBadges(totalMiles){
 
 
 // ══ WHAT'S NEW v3.2 MODAL ══
-const CURRENT_VERSION = 'v3.2';
+const CURRENT_VERSION = 'v3.3';
 
 function checkWhatsNew(){
   // Show once per user per version — stored in Firestore userState
@@ -7764,7 +7759,14 @@ let _plannerConfirmItem = null; // {cat, act, idx, planMonth}
 
 function openPlannerConfirm(cat, actIdx, planMonth){
   const actSrc = currentUser&&currentUser.isPrimary ? PRIMARY_ACTIVITIES : ACTIVITIES;
-  const act = (actSrc[cat]||[])[actIdx];
+  // actIdx may be undefined for old plan items — find by text match
+  let act = (actSrc[cat]||[])[actIdx];
+  if(!act){
+    // Fallback: find by matching text in the plan
+    const plan = getPlanner();
+    const planItem = plan.find(p=>p.cat===cat&&(p.actIdx===actIdx||actIdx===undefined));
+    if(planItem) act = {text:planItem.text, miles:planItem.miles};
+  }
   if(!act) return;
   _plannerConfirmItem = {cat, act, idx:actIdx, planMonth};
   const modal = document.getElementById('plannerConfirmModal');
@@ -7789,11 +7791,15 @@ async function confirmPlannerComplete(){
   if(!_plannerConfirmItem) return;
   const {cat, act, idx, planMonth} = _plannerConfirmItem;
   closePlannerConfirmBtn();
-  // Log the activity using the existing logActivity path
-  // We need a temporary element for the done-stamp visual
+  // Find real index if missing (old plan items)
+  const actSrc = currentUser&&currentUser.isPrimary ? PRIMARY_ACTIVITIES : ACTIVITIES;
+  let realIdx = idx;
+  if(realIdx === undefined || realIdx === null){
+    realIdx = (actSrc[cat]||[]).findIndex(a=>a.text===act.text);
+    if(realIdx < 0) realIdx = 0;
+  }
   const tempEl = document.createElement('div');
-  await logActivity(cat, act, idx, tempEl);
-  // Re-render planner to show updated done state
+  await logActivity(cat, act, realIdx, tempEl);
   setTimeout(renderPlanner, 400);
 }
 
