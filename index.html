@@ -1755,6 +1755,7 @@ textarea.form-input{min-height:72px;resize:vertical;}
         <button class="btn btn-teal btn-sm" onclick="recalcAllBadges()">Run Badge Recalculation for All Users</button>
         <button class="btn btn-gold btn-sm" onclick="triggerWardCelebration()" style="margin-top:.5rem;">&#x1F389; Trigger Ward Celebration</button>
         <button class="btn btn-teal btn-sm" onclick="pushVersionRefresh()" style="margin-top:.5rem;">&#x1F504; Push Update to All Members</button>
+        <button class="btn btn-ghost btn-sm" onclick="clearBadgeAnnouncements()" style="margin-top:.5rem;color:var(--ink-soft);">&#x1F5D1; Clear Badge Feed</button>
         <button class="btn btn-ghost btn-sm" onclick="previewYearEnd()" style="margin-top:.5rem;">&#x1F4C5; Preview Year Summary</button>
         <div id="recalcStatus" style="font-size:.8rem;color:var(--teal);margin-top:.5rem;font-style:italic;"></div>
       </div>
@@ -2357,8 +2358,8 @@ const MONTH_TROPHY_COLORS = {
 
 const CHAMPION_BADGE = {icon:"🏆", name:"Monthly Champion", color:"var(--gold)"};
 const OVERALL_CHAMPION_BADGE = {icon:"👑", name:"Journey Champion", color:"var(--gold)"};
-const WAYPOINTS=[{label:"Egypt",miles:0,icon:"🏺"},{label:"Red Sea",miles:60,icon:"🌊"},{label:"Mt. Sinai",miles:180,icon:"⛰️"},{label:"Wilderness\nof Paran",miles:300,icon:"🌵"},{label:"Jordan\nRiver",miles:480,icon:"🏞️"},{label:"Jerusalem",miles:600,icon:"✨"}];
-const BADGES=[{id:"egypt",name:"Egypt",sub:"Departed",miles:1,icon:"🏺"},{id:"redsea",name:"Red Sea",sub:"60 miles",miles:60,icon:"🌊"},{id:"sinai",name:"Mt. Sinai",sub:"180 miles",miles:180,icon:"⛰️"},{id:"paran",name:"Paran",sub:"300 miles",miles:300,icon:"🌵"},{id:"jordan",name:"Jordan",sub:"480 miles",miles:480,icon:"🏞️"},{id:"jerusalem",name:"Jerusalem",sub:"600 miles",miles:600,icon:"✨"}];
+const WAYPOINTS=[{label:"Egypt",miles:0,icon:"🏺"},{label:"Red Sea",miles:60,icon:"🌊"},{label:"Mt. Sinai",miles:180,icon:"🏔️"},{label:"Wilderness\nof Paran",miles:300,icon:"🌵"},{label:"Jordan\nRiver",miles:480,icon:"🏞️"},{label:"Jerusalem",miles:600,icon:"✨"}];
+const BADGES=[{id:"egypt",name:"Egypt",sub:"Departed",miles:1,icon:"🏺"},{id:"redsea",name:"Red Sea",sub:"60 miles",miles:60,icon:"🌊"},{id:"sinai",name:"Mt. Sinai",sub:"180 miles",miles:180,icon:"🏔️"},{id:"paran",name:"Paran",sub:"300 miles",miles:300,icon:"🌵"},{id:"jordan",name:"Jordan",sub:"480 miles",miles:480,icon:"🏞️"},{id:"jerusalem",name:"Jerusalem",sub:"600 miles",miles:600,icon:"✨"}];
 
 let currentUser=null;
 let currentLogMonth=getCurrentMonth();
@@ -3509,23 +3510,31 @@ function renderMonthlyTrophyRow(){
 
 async function checkAndAwardMonthlyTrophies(){
   // Awards monthly top-miles trophy — called after any miles are logged
+  // Uses Firestore userState (hasUF/setUF) for dedup so hard refresh / new device
+  // never re-triggers old announcements. Also checks existing badgeAnnouncements
+  // to avoid posting a duplicate within the last 48 hours.
   const d=db();
   const youth=d.users.filter(u=>!u.isLeader&&!u.isVisitor&&!u.isPrimary);
-  const leaders=d.users.filter(u=>u.isLeader);
+  const leaders=d.users.filter(u=>u.isLeader||u.group==='Adult');
   const score=(uid,month)=>d.entries.filter(e=>e.userId===uid&&e.month===month).reduce((s,e)=>s+e.miles,0);
+  const cutoff=Date.now()-48*60*60*1000; // 48 hours
+  const recentAnn=(d.badgeAnnouncements||[]).filter(a=>a.ts>cutoff).map(a=>a.text||'');
+  const alreadyAnnounced=(text)=>recentAnn.some(t=>t===text);
   MONTHS.forEach(month=>{
     // Youth trophy
     const yScored=youth.map(u=>({...u,s:score(u.id,month)})).sort((a,b)=>b.s-a.s);
     const yWinner=yScored[0];
     if(yWinner&&yWinner.s>0){
-      const key='trophy_'+month+'_youth';
-      const prev=localStorage.getItem(key);
-      if(prev!==yWinner.id){
-        localStorage.setItem(key,yWinner.id);
-        if(yWinner.id===currentUser.id&&prev!==yWinner.id&&prev!==null){
-          showToast('🏆 You are now leading '+month+' — Top Youth!');
-          announceAchievement(yWinner.name,'🏆',yWinner.name+' is leading the '+month+' youth leaderboard with '+yWinner.s+' miles!');
-          fireConfetti();
+      const ufKey='trophy_'+month+'_youth_'+yWinner.id;
+      if(!hasUF(ufKey)){
+        setUF(ufKey,'1');
+        if(yWinner.id===currentUser.id){
+          const msg=yWinner.name+' is leading the '+month+' youth leaderboard with '+yWinner.s+' miles!';
+          if(!alreadyAnnounced(msg)){
+            showToast('🏆 You are leading '+month+' — Top Youth!');
+            announceAchievement(yWinner.name,'🏆',msg);
+            fireConfetti();
+          }
         }
       }
     }
@@ -3533,14 +3542,16 @@ async function checkAndAwardMonthlyTrophies(){
     const lScored=leaders.map(u=>({...u,s:score(u.id,month)})).sort((a,b)=>b.s-a.s);
     const lWinner=lScored[0];
     if(lWinner&&lWinner.s>0){
-      const key='trophy_'+month+'_adult';
-      const prev=localStorage.getItem(key);
-      if(prev!==lWinner.id){
-        localStorage.setItem(key,lWinner.id);
-        if(lWinner.id===currentUser.id&&prev!==null){
-          showToast('🏆 You are leading '+month+' — Top Leader/Adult!');
-          announceAchievement(lWinner.name,'🏆',lWinner.name+' is leading the '+month+' leader/adult leaderboard with '+lWinner.s+' miles!');
-          fireConfetti();
+      const ufKey='trophy_'+month+'_adult_'+lWinner.id;
+      if(!hasUF(ufKey)){
+        setUF(ufKey,'1');
+        if(lWinner.id===currentUser.id){
+          const msg=lWinner.name+' is leading the '+month+' leader/adult leaderboard with '+lWinner.s+' miles!';
+          if(!alreadyAnnounced(msg)){
+            showToast('🏆 You are leading '+month+' — Top Leader/Adult!');
+            announceAchievement(lWinner.name,'🏆',msg);
+            fireConfetti();
+          }
         }
       }
     }
@@ -3906,7 +3917,7 @@ function setPlannerCat(cat, el){
 // ══════════════════════════════════════════════════
 //  GROUP MAP — ILLUSTRATED WAYPOINT ICONS
 // ══════════════════════════════════════════════════
-const WAYPOINT_ICONS = ['🏺','🌊','⛰️','🌵','🏞️','✨'];
+const WAYPOINT_ICONS = ['🏺','🌊','🏔️','🌵','🏞️','✨'];
 
 // Override buildGroupWaypoints to use emoji icons
 const _origBuildGroupWaypoints = buildGroupWaypoints;
@@ -4291,7 +4302,7 @@ const DAILY_QUOTES = [
 const WAYPOINT_FACTS = {
   "Egypt":    {fact:"Ancient Egypt was one of the world's first great civilizations. The Israelites lived here for 430 years before the Exodus.", emoji:"🏺"},
   "Red Sea":  {fact:"The parting of the Red Sea remains one of history's greatest miracles. Modern scholars estimate the crossing may have been near the Gulf of Suez.", emoji:"🌊"},
-  "Mt. Sinai":{fact:"Mt. Sinai — where Moses received the Ten Commandments — is believed to be in the southern Sinai Peninsula, rising 7,497 feet above sea level.", emoji:"⛰️"},
+  "Mt. Sinai":{fact:"Mt. Sinai — where Moses received the Ten Commandments — is believed to be in the southern Sinai Peninsula, rising 7,497 feet above sea level.", emoji:"🏔️"},
   "Paran":    {fact:"The Wilderness of Paran was a vast, harsh desert. The Israelites spent many years wandering here, learning faith and reliance on God.", emoji:"🌵"},
   "Jordan River":{fact:"The Jordan River stretches 156 miles. The Israelites crossed it miraculously — the waters parted just as the Red Sea had, forty years earlier.", emoji:"🏞️"},
   "Jerusalem":{fact:"Jerusalem has been continuously inhabited for over 5,000 years and is considered holy by three of the world's major religions.", emoji:"✨"},
@@ -7833,6 +7844,19 @@ function isPlanItemCurrentMonth(planMonth){
   return planMonth === getCurrentMonth();
 }
 
+
+async function clearBadgeAnnouncements(){
+  if(!confirm('Clear all badge announcements from the feed? This cannot be undone.')) return;
+  const d = db();
+  const ann = d.badgeAnnouncements||[];
+  let count = 0;
+  for(const a of ann){
+    try{ await _db().collection('badgeAnnouncements').doc(a.id).delete(); count++; }catch(e){}
+  }
+  CACHE.badgeAnnouncements = [];
+  showToast('🗑️ Cleared '+count+' badge announcements.');
+  renderGroup();
+}
 function exportCSV(){
   const d=db();const headers=['Name','Group','Category','Description','Miles','Month','Date','Custom'];
   const rows=d.entries.map(e=>{const u=d.users.find(u=>u.id===e.userId)||{};return[u.name||e.userName,u.group||'',e.cat,'"'+e.desc.replace(/"/g,'""')+'"',e.miles,e.month,new Date(e.ts).toLocaleDateString(),e.custom?'Yes':'No'].join(',');});
