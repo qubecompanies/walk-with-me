@@ -2420,6 +2420,9 @@ async function handleRegister(){
 function enterApp(){
   overlay(false);
   checkAppVersion();
+  // Self-heal: strip any future-month badges that got in via cross-user contamination bug
+  setTimeout(purgeFutureMonthBadges, 2000);
+
   // Load user state from Firestore into memory
   loadUserState().then(()=>{
     renderDashboard();
@@ -2800,7 +2803,10 @@ function renderMonthlyBadges(){
   MONTHS.forEach(month=>{
     const challenge=MONTHLY_CHALLENGES[month];
     if(!challenge)return;
-    const isEarned=earned.includes(month);
+    const mIdx=MONTHS.indexOf(month);
+    const nowIdx=new Date().getMonth()-1;
+    const isFuture=mIdx>nowIdx;
+    const isEarned=earned.includes(month)&&!isFuture; // never show future months as earned
     const b=challenge.badge;
     const mbClick=isEarned
       ?'onclick="replayMonthlyBadge(\''+month+'\')"'
@@ -4465,15 +4471,24 @@ function recalcBadgesForUser(user){
       setWpCelebrated(wp.miles);
     }
   });
-  // Monthly challenge badges
-  const earned = getEarnedMonthlyBadges ? getEarnedMonthlyBadges() : [];
-  Object.entries(MONTHLY_CHALLENGES).forEach(([month,challenge])=>{
-    const monthMiles=d.entries.filter(e=>e.userId===user.id&&e.month===month&&e.cat===challenge.cat).reduce((s,e)=>s+e.miles,0);
-    const hasFeatured=d.entries.some(e=>e.userId===user.id&&e.month===month&&e.isFeaturedChallenge);
-    if((monthMiles>=challenge.miles||hasFeatured)&&!earned.includes(month)){
-      if(typeof earnMonthlyBadge==='function') earnMonthlyBadge(month);
-    }
-  });
+  // Monthly challenge badges — ONLY recalc for currentUser
+  // Recalcing for other users would write badges into currentUser's account (cross-user contamination)
+  if(currentUser && user.id === currentUser.id){
+    const earned = getEarnedMonthlyBadges ? getEarnedMonthlyBadges() : [];
+    const nowMonthIdx = new Date().getMonth() - 1; // MONTHS is Feb=0
+    const eligibleMonths = Object.keys(MONTHLY_CHALLENGES).filter(m=>{
+      const mIdx = MONTHS.indexOf(m);
+      return mIdx >= 0 && mIdx <= nowMonthIdx; // only past + current months
+    });
+    eligibleMonths.forEach(month=>{
+      const challenge = MONTHLY_CHALLENGES[month];
+      const monthMiles=d.entries.filter(e=>e.userId===user.id&&e.month===month&&e.cat===challenge.cat).reduce((s,e)=>s+e.miles,0);
+      const hasFeatured=d.entries.some(e=>e.userId===user.id&&e.month===month&&e.isFeaturedChallenge);
+      if((monthMiles>=challenge.miles||hasFeatured)&&!earned.includes(month)){
+        if(typeof earnMonthlyBadge==='function') earnMonthlyBadge(month);
+      }
+    });
+  }
 }
 
 async function recalcAllBadges(){
@@ -4591,6 +4606,11 @@ function getEarnedMonthlyBadges(){
 }
 
 function earnMonthlyBadge(month){
+  if(!currentUser) return false;
+  // Hard guard: never award a future month's badge
+  const mIdx = MONTHS.indexOf(month);
+  const nowIdx = new Date().getMonth() - 1; // MONTHS is Feb-based (Feb=0)
+  if(mIdx > nowIdx) return false; // month hasn't arrived yet
   const earned = getEarnedMonthlyBadges();
   if(!earned.includes(month)){
     earned.push(month);
@@ -7893,6 +7913,23 @@ function safe(str){
     .replace(/>/g,'&gt;')
     .replace(/"/g,'&quot;')
     .replace(/'/g,'&#39;');
+}
+
+// ══ SELF-HEALING: remove future month badges ══
+function purgeFutureMonthBadges(){
+  if(!currentUser) return;
+  const earned = getEarnedMonthlyBadges();
+  if(!earned.length) return;
+  const nowIdx = new Date().getMonth()-1;
+  const cleaned = earned.filter(m=>{
+    const idx = MONTHS.indexOf(m);
+    return idx>=0 && idx<=nowIdx;
+  });
+  if(cleaned.length < earned.length){
+    setUF('monthlyBadges_'+currentUser.id, cleaned);
+    console.log('[Walk With Me] Removed '+(earned.length-cleaned.length)+' future-month badge(s) from '+currentUser.name);
+    renderDashboard(); // refresh badge row
+  }
 }
 function exportCSV(){
   const d=db();const headers=['Name','Group','Category','Description','Miles','Month','Date','Custom'];
