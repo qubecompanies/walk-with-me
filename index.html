@@ -3000,11 +3000,18 @@ function renderAdmin(){
   const d=db();const score=u=>d.entries.filter(e=>e.userId===u.id).reduce((s,e)=>s+e.miles,0);
   const overviewGroup = getAdminUsers(_adminView||'youth');
   const monthGroup = getAdminUsers(_monthView||'youth');
-  const youth=d.users.filter(u=>!u.isLeader&&!u.isVisitor&&!u.isPrimary); // keep for other sections
+  const youth=d.users.filter(u=>(u.group==='Young Men'||u.group==='Young Women')&&!u.isVisitor); // keep for other sections
   const totalYouth=overviewGroup.length;const participating=overviewGroup.filter(u=>d.entries.some(e=>e.userId===u.id)).length;
   const onTrack=overviewGroup.filter(u=>d.entries.filter(e=>e.userId===u.id&&e.month===getCurrentMonth()).reduce((s,e)=>s+e.miles,0)>=60).length;
   const completions=overviewGroup.filter(u=>score(u)>=600).length;const allMiles=d.entries.filter(e=>overviewGroup.find(u=>u.id===e.userId)).reduce((s,e)=>s+e.miles,0);
-  document.getElementById('leaderStatGrid').innerHTML=`<div class="stat-card"><div class="stat-number">${totalYouth}</div><div class="stat-label">Total Youth</div></div><div class="stat-card"><div class="stat-number">${participating}</div><div class="stat-label">Participating</div></div><div class="stat-card"><div class="stat-number">${onTrack}</div><div class="stat-label">On Track This Month</div></div><div class="stat-card"><div class="stat-number">${completions}</div><div class="stat-label">Completions</div></div><div class="stat-card"><div class="stat-number">${allMiles}</div><div class="stat-label">Total Ward Miles</div></div><div class="stat-card"><div class="stat-number">${Math.round(allMiles/(totalYouth||1))}</div><div class="stat-label">Avg Miles/Youth</div></div>`;
+  const _av=_adminView||'youth';
+  const _memberLabel=_av==='youth'?'Total Youth':_av==='adults'?'Total Adults':'Total Members';
+  const _avgLabel=_av==='youth'?'Avg Miles/Youth':_av==='adults'?'Avg Miles/Adult':'Avg Miles/Member';
+  const _milesLabel=_av==='all'?'Total Ward Miles':_av==='adults'?'Total Adult Miles':'Total Youth Miles';
+  document.getElementById('leaderStatGrid').innerHTML=`<div class="stat-card"><div class="stat-number">${totalYouth}</div><div class="stat-label">${_memberLabel}</div></div><div class="stat-card"><div class="stat-number">${participating}</div><div class="stat-label">Participating</div></div><div class="stat-card"><div class="stat-number">${onTrack}</div><div class="stat-label">On Track This Month</div></div><div class="stat-card"><div class="stat-number">${completions}</div><div class="stat-label">Completions</div></div><div class="stat-card"><div class="stat-number">${allMiles}</div><div class="stat-label">${_milesLabel}</div></div><div class="stat-card"><div class="stat-number">${Math.round(allMiles/(totalYouth||1))}</div><div class="stat-label">${_avgLabel}</div></div>`;
+  // Update category heading label
+  const _catLbl=document.getElementById('leaderCatLabel');
+  if(_catLbl)_catLbl.textContent=`MILES BY CATEGORY (${(_adminView||'youth')==='youth'?'ALL YOUTH':(_adminView==='adults'?'ALL ADULTS':'ALL MEMBERS')})`;
   const catMiles={spiritual:0,physical:0,intellectual:0,social:0};d.entries.filter(e=>overviewGroup.find(u=>u.id===e.userId)).forEach(e=>{if(catMiles[e.cat]!==undefined)catMiles[e.cat]+=e.miles;});
   const maxCat=Math.max(...Object.values(catMiles),1);const catColors={spiritual:'var(--spiritual)',physical:'var(--physical)',intellectual:'var(--intellectual)',social:'var(--social)'};
   document.getElementById('leaderCatBars').innerHTML=Object.entries(catMiles).map(([cat,m])=>`<div class="cat-bar-row"><div class="cat-bar-label">${cap(cat)}</div><div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:${Math.round(m/maxCat*100)}%;background:${catColors[cat]};"></div></div><div class="cat-bar-miles">${m}</div></div>`).join('');
@@ -3114,8 +3121,8 @@ async function saveFeaturedChallenge(){
 // ── PRINT ROSTER ──
 function printRoster(){
   const d=db();
-  const youth=d.users.filter(u=>!u.isLeader).sort((a,b)=>a.name.localeCompare(b.name));
-  const adults=d.users.filter(u=>u.isLeader).sort((a,b)=>a.name.localeCompare(b.name));
+  const youth=d.users.filter(u=>u.group==='Young Men'||u.group==='Young Women').sort((a,b)=>a.name.localeCompare(b.name));
+  const adults=d.users.filter(u=>u.isLeader||u.group==='Adult').sort((a,b)=>a.name.localeCompare(b.name));
   const score=u=>d.entries.filter(e=>e.userId===u.id).reduce((s,e)=>s+e.miles,0);
   const cur=getCurrentMonth();
   const win=window.open('','_blank');
@@ -3545,7 +3552,7 @@ async function checkAndAwardMonthlyTrophies(){
   // never re-triggers old announcements. Also checks existing badgeAnnouncements
   // to avoid posting a duplicate within the last 48 hours.
   const d=db();
-  const youth=d.users.filter(u=>!u.isLeader&&!u.isVisitor&&!u.isPrimary);
+  const youth=d.users.filter(u=>(u.group==='Young Men'||u.group==='Young Women')&&!u.isVisitor);
   const leaders=d.users.filter(u=>u.isLeader||u.group==='Adult');
   const score=(uid,month)=>d.entries.filter(e=>e.userId===uid&&e.month===month).reduce((s,e)=>s+e.miles,0);
   const cutoff=Date.now()-48*60*60*1000; // 48 hours
@@ -6724,8 +6731,8 @@ function setIntelZeroFilter(val){
 }
 function applyIntelFilters(users, scoreF, monthScoreF, curMonth){
   let f=[...users];
-  if(_intelGroupFilter==='youth')   f=f.filter(u=>!u.isLeader);
-  else if(_intelGroupFilter==='leaders') f=f.filter(u=>u.isLeader);
+  if(_intelGroupFilter==='youth')   f=f.filter(u=>u.group==='Young Men'||u.group==='Young Women');
+  else if(_intelGroupFilter==='leaders') f=f.filter(u=>u.isLeader||u.group==='Adult');
   if(_intelZeroFilter==='never')  f=f.filter(u=>scoreF(u)>0);
   else if(_intelZeroFilter==='month') f=f.filter(u=>monthScoreF(u,curMonth)>0);
   return f;
@@ -6744,11 +6751,11 @@ function renderLeaderIntel(){
   const monthScore = (u,m)=>(d.entries||[]).filter(e=>e.userId===u.id&&e.month===m).reduce((s,e)=>s+e.miles,0);
   const lastTs     = u=>{const ents=(d.entries||[]).filter(e=>e.userId===u.id&&e.ts);return ents.length?Math.max(...ents.map(e=>e.ts)):0;};
   // Base pools — always unfiltered for ward-total calculation
-  const wardYouth  = (d.users||[]).filter(u=>!u.isLeader&&!u.isVisitor);
+  const wardYouth  = (d.users||[]).filter(u=>(u.group==='Young Men'||u.group==='Young Women')&&!u.isVisitor);
   const baseActive = (d.users||[]).filter(u=>!u.isVisitor);
   // Apply group + zero-use filters to analytics pools
   const allActive  = applyIntelFilters(baseActive, score, monthScore, curMonth);
-  const youth      = allActive.filter(u=>!u.isLeader);
+  const youth      = allActive.filter(u=>u.group==='Young Men'||u.group==='Young Women');
 
   // Ward total (scaled)
   const wardTotal=(()=>{
@@ -7629,24 +7636,71 @@ const PRIMARY_SONGS = [
   "I'll Walk with You"
 ];
 
+
+// ══ PRIMARY FILL-IN-THE-BLANK (10 rotating) ══
+const PRIMARY_FIB = [
+  {before:"For God so",after:"the world.",blank:"loved",choices:["loved","watched","created"],ref:"John 3:16"},
+  {before:"Ask, and ye shall",after:".",blank:"receive",choices:["receive","find","understand"],ref:"Matthew 7:7"},
+  {before:"I can do all things through",after:"which strengtheneth me.",blank:"Christ",choices:["Christ","faith","prayer"],ref:"Philippians 4:13"},
+  {before:"Blessed are the",after:"in heart, for they shall see God.",blank:"pure",choices:["pure","meek","kind"],ref:"Matthew 5:8"},
+  {before:"Let your light so",after:"before men.",blank:"shine",choices:["shine","glow","speak"],ref:"Matthew 5:16"},
+  {before:"Be still, and",after:"that I am God.",blank:"know",choices:["know","feel","trust"],ref:"Psalm 46:10"},
+  {before:"Love one another as I have",after:"you.",blank:"loved",choices:["loved","taught","helped"],ref:"John 15:12"},
+  {before:"Honour thy",after:"and thy mother.",blank:"father",choices:["father","neighbor","teacher"],ref:"Exodus 20:12"},
+  {before:"Men are that they might have",after:".",blank:"joy",choices:["joy","life","peace"],ref:"2 Nephi 2:25"},
+  {before:"Pray always and I will pour out my",after:"upon you.",blank:"Spirit",choices:["Spirit","blessings","love"],ref:"D&C 19:38"},
+];
+
+// ══ PRIMARY EMOJI SCRIPTURE PUZZLE (10 rotating) ══
+const PRIMARY_EMOJI = [
+  {emojis:"👶🌟🐑",answer:"The Birth of Jesus",hint:"A baby was born in a stable with a bright star above."},
+  {emojis:"🌊⚡🏔️",answer:"Moses and the Red Sea",hint:"God parted the water so the people could cross safely."},
+  {emojis:"🐠🌊😮",answer:"Jonah and the Whale",hint:"A prophet was swallowed by a great fish for three days."},
+  {emojis:"🍞🐟✨",answer:"Feeding the 5000",hint:"Jesus fed a huge crowd with just five loaves and two fish."},
+  {emojis:"🦁😴👨",answer:"Daniel in the Lions' Den",hint:"A righteous man spent the night safe among hungry lions."},
+  {emojis:"🌈🌧️⛵",answer:"Noah and the Ark",hint:"A man built a giant boat to save animals from a great flood."},
+  {emojis:"🔥🌿👴",answer:"Moses and the Burning Bush",hint:"God spoke to a prophet through a bush that burned but wasn't destroyed."},
+  {emojis:"⬅️🏃💛",answer:"The Prodigal Son",hint:"A lost son came home and his father ran to meet him with joy."},
+  {emojis:"🪨🏹💪",answer:"David and Goliath",hint:"A young shepherd boy defeated a giant with a single stone."},
+  {emojis:"🏡🙏💰",answer:"The Widow's Mite",hint:"A poor woman gave everything she had as an offering."},
+];
+
 const PRIMARY_WORD_SEARCHES = [
-  {word:"FAITH",   grid:["ABCFX","DFAIT","FHXYZ","AIYQW","THNKL"], row:1,col:1,dir:'h', verse:"Faith is things hoped for. — Ether 12:6"},
-  {word:"PRAYER",  grid:["PQWER","RXAYZ","ABCDT","YERPW","ERRSA"], row:0,col:0,dir:'h', verse:"Pray always. — 2 Nephi 32:9"},
-  {word:"LOVE",    grid:["XLOVE","ABCQZ","OPRMN","VSQXY","EWPLA"], row:0,col:1,dir:'h', verse:"God is love. — 1 John 4:8"},
-  {word:"HOPE",    grid:["AHOPB","BCQZX","OPRMN","PEQXY","EWPLA"], row:0,col:1,dir:'h', verse:"Be of good cheer. — John 16:33"},
-  {word:"TRUTH",   grid:["TXYZA","RABCQ","UXYZB","TMNOP","HRSTU"], row:0,col:0,dir:'h', verse:"The truth shall make you free. — John 8:32"},
-  {word:"LIGHT",   grid:["XLIGH","TBCQZ","OIRMN","GSQXY","HTPLA"], row:0,col:1,dir:'h', verse:"I am the light of the world. — John 8:12"},
-  {word:"SERVE",   grid:["XSERV","EABCQ","OPRMN","VEQXY","EWPLA"], row:0,col:1,dir:'h', verse:"When ye are in the service of your fellow beings ye are only in the service of your God. — Mosiah 2:17"},
-  {word:"PEACE",   grid:["PEACE","XBCQZ","OPRMN","CEQXY","EWPLA"], row:0,col:0,dir:'h', verse:"My peace I give unto you. — John 14:27"},
-  {word:"JOY",     grid:["XJOYB","ABCQZ","OPRMN","YOQXY","EWPLA"], row:0,col:1,dir:'h', verse:"Men are that they might have joy. — 2 Nephi 2:25"},
-  {word:"COURAGE", grid:["COURAX","OUGBCD","UQXZYW","RAGXYZ","AQWERT","GEQWRR"], row:0,col:0,dir:'h', verse:"Be strong and of good courage. — Joshua 1:9"},
-  {word:"KIND",    grid:["XKIND","ABCQZ","OPRMN","DNIQX","EWPLA"], row:0,col:1,dir:'h', verse:"Be ye kind one to another. — Ephesians 4:32"},
-  {word:"HOLY",    grid:["XHOLB","YABCQ","ORMNO","LYQXY","EWPLA"], row:0,col:1,dir:'h', verse:"Be ye holy; for I am holy. — 1 Peter 1:16"},
+  {word:"FAITH",   grid:["FAITHX","BQRMZP","LXKCWN","PVYGDA","HSZJOE"], row:0,col:0,dir:'h', verse:"Faith is things hoped for. — Ether 12:6"},
+  {word:"PRAYER",  grid:["PRAYER","BXMTZQ","NKSDWL","VCFPYH","GZJAOB"], row:0,col:0,dir:'h', verse:"Pray always. — 2 Nephi 32:9"},
+  {word:"LOVE",    grid:["LOVEXZ","BQRMYP","LXKCWN","PVYGDA","HSZJOF"], row:0,col:0,dir:'h', verse:"God is love. — 1 John 4:8"},
+  {word:"HOPE",    grid:["HOPEXZ","BQRMYP","LXKCWN","PVYGDA","HSZJOF"], row:0,col:0,dir:'h', verse:"Be of good cheer. — John 16:33"},
+  {word:"TRUTH",   grid:["TRUTHX","BQRMZP","LXKCWN","PVYGDA","HSZJOE"], row:0,col:0,dir:'h', verse:"The truth shall make you free. — John 8:32"},
+  {word:"LIGHT",   grid:["LIGHTX","BQRMZP","LXKCWN","PVYGDA","HSZJOE"], row:0,col:0,dir:'h', verse:"I am the light of the world. — John 8:12"},
+  {word:"SERVE",   grid:["SERVEX","BQRMZP","LXKCWN","PVYGDA","HSZJOE"], row:0,col:0,dir:'h', verse:"When ye are in the service of your fellow beings ye are only in the service of your God. — Mosiah 2:17"},
+  {word:"PEACE",   grid:["PEACEX","BQRMZP","LXKCWN","PVYGDA","HSZJOE"], row:0,col:0,dir:'h', verse:"My peace I give unto you. — John 14:27"},
+  {word:"JOY",     grid:["JOYXZB","BQRMYP","LXKCWN","PVYGDA","HSZJOF"], row:0,col:0,dir:'h', verse:"Men are that they might have joy. — 2 Nephi 2:25"},
+  {word:"COURAGE", grid:["COURAGE","BXMTZQK","NKSDWLP","VCFPYHM","GZJAOBR"], row:0,col:0,dir:'h', verse:"Be strong and of good courage. — Joshua 1:9"},
+  {word:"KIND",    grid:["KINDXZ","BQRMYP","LXKCWN","PVYGDA","HSZJOF"], row:0,col:0,dir:'h', verse:"Be ye kind one to another. — Ephesians 4:32"},
+  {word:"HOLY",    grid:["HOLYXZ","BQRMYP","LXKCWN","PVYGDA","HSZJOF"], row:0,col:0,dir:'h', verse:"Be ye holy; for I am holy. — 1 Peter 1:16"},
 ];
 
 function getTodaysPrimaryWordSearch(){
   const day = getLocalDayNumber();
   return PRIMARY_WORD_SEARCHES[day % PRIMARY_WORD_SEARCHES.length];
+}
+function getTodaysFIB(){
+  const day = getLocalDayNumber();
+  return PRIMARY_FIB[day % PRIMARY_FIB.length];
+}
+function getTodaysEmojiPuzzle(){
+  const day = getLocalDayNumber();
+  return PRIMARY_EMOJI[day % PRIMARY_EMOJI.length];
+}
+function getTodaysGameType(){
+  // Alternate: 0=word search, 1=fill-in-blank, 2=emoji puzzle
+  return getLocalDayNumber() % 3;
+}
+function hasCompletedFIB(){
+  return hasUF('primaryFIB_'+getLocalDayStamp());
+}
+function hasCompletedEmoji(){
+  return hasUF('primaryEmoji_'+getLocalDayStamp());
 }
 
 function getTodaysPrimarySong(){
@@ -7670,51 +7724,55 @@ function claimWordSearch(){
 }
 
 let _wsSelected = [];
+let _wsFound = false; // tracks found state independent of DOM
 
 function selectWSLetter(row, col, ws){
-  // Simple approach: user marks start position, letters auto-highlight the word
+  if(_wsFound) return; // locked after completion
   if(!_wsSelected) _wsSelected=[];
   const key=row+','+col;
+  // Toggle selection
   if(_wsSelected.includes(key)){
     _wsSelected=_wsSelected.filter(k=>k!==key);
   } else {
     _wsSelected.push(key);
   }
-  // Check if the selected cells spell the word in order
   checkWordFound(ws);
   renderWordSearchGrid(ws);
 }
 
 function checkWordFound(ws){
   if(_wsSelected.length!==ws.word.length) return;
-  // Verify cells are in correct position for the word
-  const sorted = [..._wsSelected].sort();
+  // Build expected cell keys in exact order (left-to-right)
   const expected = [];
   for(let i=0;i<ws.word.length;i++){
     if(ws.dir==='h') expected.push(ws.row+','+(ws.col+i));
     else expected.push((ws.row+i)+','+ws.col);
   }
+  // All expected cells must be selected (order-independent — just need all correct cells)
   const allMatch = expected.every(e=>_wsSelected.includes(e));
   if(allMatch){
-    document.querySelectorAll('.ws-cell.selected').forEach(el=>{
-      el.classList.add('found');
-    });
+    _wsFound = true; // set flag BEFORE re-render so renderWordSearchGrid shows gold
+    _wsSelected = [...expected]; // lock to exact correct cells
+    renderWordSearchGrid(ws); // re-render with gold found state
     setTimeout(()=>{
       const btn=document.getElementById('wsClaimBtn');
       if(btn){btn.style.display='block';}
-    },400);
+    },300);
   }
 }
 
 function renderWordSearchGrid(ws){
   const el=document.getElementById('wsGrid');
   if(!el||!ws) return;
+  const completed=hasCompletedWordSearch();
   el.innerHTML=ws.grid.map((row,r)=>
     '<div class="ws-row">'+row.split('').map((ch,c)=>{
       const key=r+','+c;
       const isSel=_wsSelected.includes(key);
-      const isFound=isSel&&document.querySelector('.ws-cell.found');
-      return '<div class="ws-cell'+(isSel?' selected':'')+(hasCompletedWordSearch()?' found':'')+'"'
+      // Use _wsFound flag — never relies on DOM state that gets wiped by innerHTML
+      const isFound=completed||(_wsFound&&isSel);
+      const cls='ws-cell'+(isFound?' found':isSel?' selected':'');
+      return '<div class="'+cls+'"'
         +' onclick="selectWSLetter('+r+','+c+',getTodaysPrimaryWordSearch())">'
         +ch+'</div>';
     }).join('')+'</div>'
@@ -7725,15 +7783,14 @@ function renderPrimaryMapExtras(){
   const el=document.getElementById('primaryMapExtras');
   if(!el) return;
   const d=db();
-  const ws=getTodaysPrimaryWordSearch();
   const song=getTodaysPrimarySong();
   const primUsers=(d.users||[]).filter(u=>u.isPrimary);
   const score=u=>(d.entries||[]).filter(e=>e.userId===u.id).reduce((s,e)=>s+e.miles,0);
   const byMiles=primUsers.map(u=>({...u,total:score(u)})).sort((a,b)=>b.total-a.total);
   const topChild=byMiles[0];
   const activeWeek=primUsers.filter(u=>(d.entries||[]).some(e=>e.userId===u.id&&e.ts>Date.now()-7*24*60*60*1000));
-  const completed=hasCompletedWordSearch();
   _wsSelected=[];
+  _wsFound=false;
 
   el.innerHTML=`
     <!-- Little Pilgrims Stats -->
@@ -7757,19 +7814,7 @@ function renderPrimaryMapExtras(){
       </div>
     </div>
 
-    <!-- Daily Scripture Word Search -->
-    <div class="card neutral" style="margin-bottom:.75rem;">
-      <div style="font-family:'Cinzel',serif;font-size:.82rem;color:var(--navy);margin-bottom:.2rem;">&#x1F4D6; Daily Scripture Word Search ${completed?'&#x2713;':''}</div>
-      <div style="font-family:'Crimson Pro',serif;font-style:italic;font-size:.82rem;color:var(--ink-soft);margin-bottom:.75rem;">Find the hidden word — tap each letter!</div>
-      <div id="wsGrid" style="display:inline-block;margin-bottom:.75rem;"></div>
-      <div style="font-family:'Cinzel',serif;font-size:.72rem;color:var(--gold);letter-spacing:.05em;margin-bottom:.5rem;">Find: "${ws.word}"</div>
-      ${completed
-        ? `<div style="font-family:'Crimson Pro',serif;font-style:italic;font-size:.88rem;color:var(--teal);">&#x2713; Completed today! +1 mile earned.</div>`
-        : `<button id="wsClaimBtn" class="btn btn-teal btn-sm" onclick="claimWordSearch()" style="display:none;margin-bottom:.5rem;">&#x1F54A; I found it! Claim +1 mile</button>`
-      }
-      <div style="font-family:'Crimson Pro',serif;font-style:italic;font-size:.8rem;color:var(--ink-soft);border-top:1px solid var(--sand-dark);padding-top:.6rem;margin-top:.3rem;line-height:1.5;">&ldquo;${ws.verse}&rdquo;</div>
-    </div>
-
+    <div id="primaryGameArea" style="margin-bottom:.75rem;"></div>
     <!-- Scripture quote -->
     <div class="card neutral" style="text-align:center;padding:.75rem 1rem;">
       <div style="font-family:'Crimson Pro',serif;font-style:italic;font-size:.88rem;color:var(--ink-soft);">
@@ -7777,8 +7822,33 @@ function renderPrimaryMapExtras(){
       </div>
     </div>
   `;
-  // Render grid
-  renderWordSearchGrid(ws);
+  // Render the appropriate daily game
+  const gameType = getTodaysGameType();
+  const gameEl = document.getElementById('primaryGameArea');
+  if(gameEl){
+    if(gameType===0){
+      // Word Search
+      const ws = getTodaysPrimaryWordSearch();
+      const completed = hasCompletedWordSearch();
+      gameEl.innerHTML=`
+        <div class="card neutral" style="margin-bottom:.75rem;">
+          <div style="font-family:'Cinzel',serif;font-size:.82rem;color:var(--navy);margin-bottom:.2rem;">&#x1F4D6; Daily Word Search ${completed?'&#x2713;':''}</div>
+          <div style="font-family:'Crimson Pro',serif;font-style:italic;font-size:.82rem;color:var(--ink-soft);margin-bottom:.75rem;">Find the hidden word &#x2014; tap each letter!</div>
+          <div id="wsGrid" style="display:inline-block;margin-bottom:.75rem;"></div>
+          <div style="font-family:'Cinzel',serif;font-size:.72rem;color:var(--gold);letter-spacing:.05em;margin-bottom:.5rem;">Find: &ldquo;${ws.word}&rdquo;</div>
+          ${completed
+            ? '<div style="font-family:\'Crimson Pro\',serif;font-style:italic;font-size:.88rem;color:var(--teal);">&#x2713; Completed today! +1 mile earned.</div>'
+            : '<button id="wsClaimBtn" class="btn btn-teal btn-sm" onclick="claimWordSearch()" style="display:none;margin-bottom:.5rem;">&#x1F54A; I found it! Claim +1 mile</button>'
+          }
+          <div style="font-family:'Crimson Pro',serif;font-style:italic;font-size:.8rem;color:var(--ink-soft);border-top:1px solid var(--sand-dark);padding-top:.6rem;margin-top:.3rem;line-height:1.5;">&ldquo;${ws.verse}&rdquo;</div>
+        </div>`;
+      renderWordSearchGrid(ws);
+    } else if(gameType===1){
+      renderFIBGame(gameEl);
+    } else {
+      renderEmojiGame(gameEl);
+    }
+  }
 }
 
 
@@ -7930,6 +8000,95 @@ function purgeFutureMonthBadges(){
     console.log('[Walk With Me] Removed '+(earned.length-cleaned.length)+' future-month badge(s) from '+currentUser.name);
     renderDashboard(); // refresh badge row
   }
+}
+
+// ══ PRIMARY FILL-IN-THE-BLANK GAME ══
+function renderFIBGame(el){
+  const fib = getTodaysFIB();
+  const done = hasCompletedFIB();
+  el.innerHTML = `
+    <div class="card neutral" style="margin-bottom:.75rem;">
+      <div style="font-family:'Cinzel',serif;font-size:.82rem;color:var(--navy);margin-bottom:.5rem;">
+        📖 Fill in the Blank ${done?'✓':''}
+      </div>
+      <div style="font-family:'Crimson Pro',serif;font-style:italic;font-size:.82rem;color:var(--ink-soft);margin-bottom:.75rem;">
+        Tap the missing word!
+      </div>
+      <div style="font-family:'Cinzel',serif;font-size:.88rem;color:var(--navy);line-height:1.6;margin-bottom:1rem;text-align:center;">
+        "${fib.before} <span style="background:var(--sand-dark);padding:0 .5rem;border-radius:4px;">${done?fib.blank:'____'}</span> ${fib.after}"
+      </div>
+      ${done
+        ? `<div style="font-family:'Crimson Pro',serif;font-style:italic;font-size:.85rem;color:var(--teal);text-align:center;">✓ Completed! +1 mile earned.<br><span style="font-size:.72rem;color:var(--ink-soft);">${fib.ref}</span></div>`
+        : `<div style="display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;">
+            ${fib.choices.map(c=>`<button class="btn btn-sm" style="background:var(--sand);border:1.5px solid var(--sand-dark);border-radius:8px;padding:.5rem 1rem;font-family:'Cinzel',serif;font-size:.72rem;cursor:pointer;" onclick="answerFIB('${c}','${fib.blank}')">${c}</button>`).join('')}
+           </div>
+           <div style="font-family:'Inter',sans-serif;font-size:.6rem;color:var(--ink-soft);text-align:center;margin-top:.5rem;">${fib.ref}</div>`
+      }
+    </div>`;
+}
+
+async function answerFIB(choice, correct){
+  if(choice === correct){
+    setUF('primaryFIB_'+getLocalDayStamp(),'1');
+    await fbAdd('entries',{userId:currentUser.id,userName:currentUser.name,cat:'spiritual',
+      desc:'📖 Daily Scripture Fill-in-the-Blank',miles:1,month:getCurrentMonth(),ts:Date.now(),custom:true});
+    fireConfetti();
+    showToast('📖 Correct! +1 mile!');
+    renderPrimaryMapExtras();
+  } else {
+    showToast('Not quite — try again! 💪');
+    // Shake the wrong button
+    document.querySelectorAll('.primary-game-area button').forEach(b=>{
+      if(b.textContent===choice) b.style.background='rgba(200,80,60,.15)';
+      setTimeout(()=>b.style.background='',800);
+    });
+  }
+}
+
+// ══ PRIMARY EMOJI SCRIPTURE PUZZLE ══
+let _emojiRevealed = false;
+function renderEmojiGame(el){
+  const puzzle = getTodaysEmojiPuzzle();
+  const done = hasCompletedEmoji();
+  _emojiRevealed = done;
+  el.innerHTML = `
+    <div class="card neutral" style="margin-bottom:.75rem;">
+      <div style="font-family:'Cinzel',serif;font-size:.82rem;color:var(--navy);margin-bottom:.5rem;">
+        🌟 Guess the Scripture Story ${done?'✓':''}
+      </div>
+      <div style="font-family:'Crimson Pro',serif;font-style:italic;font-size:.78rem;color:var(--ink-soft);margin-bottom:.75rem;">
+        What Bible story do these emojis show?
+      </div>
+      <div style="font-size:2rem;text-align:center;letter-spacing:.5rem;margin-bottom:1rem;">${puzzle.emojis}</div>
+      ${done||_emojiRevealed
+        ? `<div style="text-align:center;font-family:'Cinzel',serif;font-size:.9rem;color:var(--navy);margin-bottom:.4rem;">${puzzle.answer}</div>
+           <div style="font-family:'Crimson Pro',serif;font-style:italic;font-size:.8rem;color:var(--ink-soft);text-align:center;margin-bottom:.75rem;">${puzzle.hint}</div>
+           ${done
+             ? `<div style="font-family:'Crimson Pro',serif;font-style:italic;font-size:.82rem;color:var(--teal);text-align:center;">✓ Completed! +1 mile earned.</div>`
+             : `<button class="btn btn-teal btn-sm" onclick="claimEmojiPuzzle()" style="width:100%;margin-top:.25rem;">🌟 Claim +1 mile</button>`
+           }`
+        : `<button class="btn btn-sm" onclick="revealEmojiAnswer()" 
+             style="width:100%;background:var(--sand);border:1.5px solid var(--sand-dark);
+             border-radius:8px;padding:.6rem;font-family:'Cinzel',serif;font-size:.75rem;cursor:pointer;">
+             👁 Reveal the Answer
+           </button>`
+      }
+    </div>`;
+}
+
+function revealEmojiAnswer(){
+  _emojiRevealed = true;
+  const el = document.getElementById('primaryGameArea');
+  if(el) renderEmojiGame(el);
+}
+
+async function claimEmojiPuzzle(){
+  setUF('primaryEmoji_'+getLocalDayStamp(),'1');
+  await fbAdd('entries',{userId:currentUser.id,userName:currentUser.name,cat:'spiritual',
+    desc:'🌟 Daily Emoji Scripture Puzzle',miles:1,month:getCurrentMonth(),ts:Date.now(),custom:true});
+  fireConfetti();
+  showToast('🌟 +1 mile! Great job!');
+  renderPrimaryMapExtras();
 }
 function exportCSV(){
   const d=db();const headers=['Name','Group','Category','Description','Miles','Month','Date','Custom'];
