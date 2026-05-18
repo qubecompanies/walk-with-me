@@ -2240,7 +2240,19 @@ const PRIMARY_ACTIVITIES={
     {text:"Keep a gratitude journal for two weeks — write one thing you are grateful for each day.",miles:15},
     {text:"Watch or listen to a General Conference talk with a parent. Draw a picture about what you learned.",miles:10},
     {text:"Learn what tithing is and why we pay it. Help your parent pay tithing or put some of your own money in the offering.",miles:15},
-    {text:"Read the entire Book of Mormon with a parent — one chapter at a time until you finish.",miles:60}
+    {text:"Read the entire Book of Mormon with a parent — one chapter at a time until you finish.",miles:60},
+    {text:"Sing with the Primary in Sacrament Meeting. Stay in your seat, use your best singing voice, and be reverent.",miles:15},
+    {text:"Participate in the Primary Sacrament Meeting Program. Say your part or sing your song in front of the whole ward.",miles:25},
+    {text:"Bear your testimony in Primary or Fast and Testimony meeting. Stand up and share what you know is true.",miles:20},
+    {text:"Say the opening or closing prayer in Primary. Speak clearly so everyone can hear you.",miles:10},
+    {text:"Attend church every Sunday for one full month. Be reverent and participate.",miles:20},
+    {text:"Help pass the Sacrament trays to your row respectfully. Be still and quiet during the Sacrament.",miles:10},
+    {text:"Read or listen to 10 stories from the Book of Mormon with a parent.",miles:15},
+    {text:"Memorize the Articles of Faith 1 through 4. Recite them to a parent or teacher.",miles:20},
+    {text:"Memorize the Articles of Faith 5 through 8. Recite them to a parent or teacher.",miles:20},
+    {text:"Memorize the Articles of Faith 9 through 13. You know all 13!",miles:25},
+    {text:"Learn the names of all the prophets from Joseph Smith to today.",miles:15},
+    {text:"Read the story of Jesus's birth from Luke 2 with your family.",miles:10}
   ],
   physical:[
     {text:"Do 10 jumping jacks, 10 sit-ups, and run in place for 1 minute, three days in a row.",miles:10},
@@ -2256,7 +2268,12 @@ const PRIMARY_ACTIVITIES={
     {text:"Attend Stake Camp with your family or Primary. Participate in every activity and make a new friend.",miles:30},
     {text:"Try a new sport or physical activity you have never done before with a parent or friend.",miles:10},
     {text:"Do a 30-day healthy habit challenge with a parent. Pick something good and do it together every day.",miles:25},
-    {text:"Help your family prepare a 72-hour emergency kit. Learn what goes in it and why it matters.",miles:20}
+    {text:"Help your family prepare a 72-hour emergency kit. Learn what goes in it and why it matters.",miles:20},
+    {text:"Learn to ride a bike without training wheels. Practice until you can do it.",miles:15},
+    {text:"Go on a family walk or hike. Walk the whole way without complaining.",miles:10},
+    {text:"Do 10 minutes of exercise every morning for one week.",miles:10},
+    {text:"Learn to swim or improve one swimming skill. Practice with a parent.",miles:15},
+    {text:"Try a new healthy food you have never eaten before. Tell your family what it tasted like.",miles:10}
   ],
   intellectual:[
     {text:"Read a picture book or chapter book with a parent. Tell them your favorite part.",miles:10},
@@ -2273,7 +2290,12 @@ const PRIMARY_ACTIVITIES={
     {text:"Write and illustrate your own short story or book. Read it out loud to your family.",miles:15},
     {text:"Learn the names of all 50 US states or all 10 commandments. Say them without any help.",miles:15},
     {text:"Learn a simple magic trick or juggling skill. Practice until you can perform it for an audience.",miles:10},
-    {text:"Read a book about an animal, place, or science topic. Build or draw something based on what you learned.",miles:15}
+    {text:"Read a book about an animal, place, or science topic. Build or draw something based on what you learned.",miles:15},
+    {text:"Read 10 books this month. Keep a list of each one.",miles:20},
+    {text:"Learn to write all 26 letters of the alphabet in cursive. Show a parent.",miles:10},
+    {text:"Complete a puzzle with 100 or more pieces.",miles:10},
+    {text:"Learn to count to 20 in a second language. Teach it to your family.",miles:10},
+    {text:"Learn the 12 months of the year and all 7 days of the week in order. Recite them without looking.",miles:10}
   ],
   social:[
     {text:"Write a thank-you note to someone you love. Draw a picture on it.",miles:10},
@@ -2289,7 +2311,12 @@ const PRIMARY_ACTIVITIES={
     {text:"Make a birthday card for every family member this year. Give it to them on their actual birthday.",miles:15},
     {text:"Visit or call a grandparent or older family member. Ask them to tell you about their childhood.",miles:10},
     {text:"Plan and host a simple playdate or activity for a friend. You choose the game and get it ready yourself.",miles:15},
-    {text:"Be a peacemaker for one whole week. When a disagreement happens near you, try to help fix it with kindness.",miles:15}
+    {text:"Be a peacemaker for one whole week. When a disagreement happens near you, try to help fix it with kindness.",miles:15},
+    {text:"Help prepare a family dinner from start to finish. Set the table, help cook, and help clean up.",miles:15},
+    {text:"Write a letter or draw a picture for a grandparent or relative you don't see often. Mail it.",miles:10},
+    {text:"Do a chore every day for two weeks without being asked.",miles:15},
+    {text:"Teach your family something you learned in Primary this month. Give a little lesson at dinner.",miles:10},
+    {text:"Plan a family night activity, lead it, and clean up after.",miles:15}
   ]
 };
 
@@ -2793,6 +2820,9 @@ function checkMonthlyChallengeBadges(){
   }
 }
 
+// Primary 'Little Pilgrim' monthly badge variant
+const PRIMARY_MONTHLY_BADGE = {icon:'🕊️', name:'Little Pilgrim', color:'#7a4a20'};
+
 function renderMonthlyBadges(){
   const earned=getEarnedMonthlyBadges();
   const hasChamp=hasChampBadge();
@@ -2821,8 +2851,6 @@ function renderMonthlyBadges(){
       +'</div>';
   });
   
-// Primary 'Little Pilgrim' monthly badge variant
-const PRIMARY_MONTHLY_BADGE = {icon:'🕊️', name:'Little Pilgrim', color:'#7a4a20'};
 // Champion badge
   const champClass=hasChamp?'earned champion-badge':'locked champion-badge';
   const cbClick=hasChamp
